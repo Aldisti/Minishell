@@ -54,7 +54,8 @@ char	**ft_parser(char *str)
 			bracket++;
 		else if (str[i] == ')' && dollar)
 			bracket--;
-		dollar = !(!bracket && dollar);
+		if (!bracket && dollar)
+			dollar = 0;
 		if (!ft_isspace(str[i]) && space)
 			space = 0;
 		if ((ft_isspace(str[i]) && !space && !quote && !bracket) || (len && !str[i + 1]))

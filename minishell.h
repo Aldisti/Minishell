@@ -31,10 +31,13 @@ typedef struct s_shell
 //	parser
 char	**ft_parser(char *str);
 //	executor
-int		ft_executor(char **cmd);
+char	**ft_getcmd(char **parsed);
+char	*ft_find_cmd(const char *cmd);
+char	*ft_executor(char **cmd);
 //	Utils
 void	*ft_calloc(size_t num, size_t dim);
 char	*ft_strdup(const char *s1);
+char	**ft_split(char const *s, char c);
 int		ft_isspace(int c);
 size_t	ft_strlen(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);

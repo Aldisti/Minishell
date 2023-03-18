@@ -40,13 +40,12 @@ int	main(void)
 			continue ;
 		}
 		shell->parsed = ft_parser(shell->line);
-		free(shell->line);
 		if (!shell->parsed)
 		{
 			perror("Error\n[parsed] not allocated\n");
 			break ;
 		}
-		// ft_executor(...);
+		ft_executor(ft_getcmd(shell->parsed));
 		i = 0;
 		while (shell->parsed[i])
 		{
@@ -54,6 +53,7 @@ int	main(void)
 			free(shell->parsed[i]);
 			i++;
 		}
+		free(shell->line);
 		free(shell->parsed);
 	}
 	return (0);
