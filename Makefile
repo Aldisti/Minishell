@@ -16,11 +16,8 @@ $(NAME): $(OBJ)
 
 all: $(NAME)
 
-mac: $(OBJ)
-	$(CC) $(UOBJ) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
-
 linux: $(OBJ)
-	$(CC) $(UOBJ) $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)
@@ -30,7 +27,7 @@ fclean: clean
 
 re: fclean all
 
-test: fclean all
+test: fclean linux
 	$(RM) $(OBJ)
 
 .PHONY: all clean fclean re test
