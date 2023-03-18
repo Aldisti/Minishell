@@ -1,7 +1,8 @@
 NAME	= minishell
 
 SRC		= main.c executor.c parser.c
-USRC	= Utils/isspace.c Utils/strdup.c Utils/strlen.c Utils/substr.c
+USRC	= Utils/calloc.c Utils/isspace.c Utils/strdup.c Utils/strlen.c	\
+			Utils/substr.c
 
 OBJ		= $(SRC:%.c=%.o) $(USRC:%.c=%.o)
 

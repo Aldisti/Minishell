@@ -33,6 +33,7 @@ char	**ft_parser(char *str);
 //	executor
 int		ft_executor(char **cmd);
 //	Utils
+void	*ft_calloc(size_t num, size_t dim);
 char	*ft_strdup(const char *s1);
 int		ft_isspace(int c);
 size_t	ft_strlen(const char *str);
