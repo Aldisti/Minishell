@@ -2,7 +2,7 @@ NAME	= minishell
 
 SRC		= main.c executor.c parser.c
 USRC	= Utils/calloc.c Utils/isspace.c Utils/split.c Utils/strdup.c	\
-			Utils/strlen.c Utils/substr.c
+			Utils/strjoin.c Utils/strlen.c Utils/substr.c
 
 OBJ		= $(SRC:%.c=%.o) $(USRC:%.c=%.o)
 
@@ -18,7 +18,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 linux: $(OBJ)
-	$(CC) $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) -g $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)

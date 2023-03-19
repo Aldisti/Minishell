@@ -9,17 +9,23 @@ char	**ft_getcmd(char **parsed)
 {
 	char	**cmd;
 	int		i;
+	int		len;
 
 	if (!parsed)
 		return (0);
-	i = 0;
-	while (parsed[i] && strcmp(parsed[i], "&&") && strcmp(parsed[i], "||"))
-		i++;
-	cmd = (char **) ft_calloc(i, sizeof(char *));
+	len = 0;
+	while (parsed[len] && strcmp(parsed[len], "&&") && strcmp(parsed[len], "||"))
+		len++;
+	cmd = (char **) malloc((len + 1) * sizeof(char *));
+	cmd[len] = 0;
 	if (!cmd)
 		return (0);
-	while (--i >= 0)
+	i = -1;
+	while (++i < len)
 		cmd[i] = parsed[i];
+	i = -1;
+	while (cmd[++i])
+		printf("cmd[%d] = %s\n", i, cmd[i]);
 	return (cmd);
 }
 
@@ -28,29 +34,25 @@ char	**ft_getcmd(char **parsed)
 //	input: takes the name of the command(ls, pwd, grep, ...)
 //	return: on success the pathname of the folder where you can find the
 //	command(/user/bin), otherwise zero is returned
-char	*ft_find_cmd(const char *cmd)
+char	*ft_find_cmd(char *cmd, char **paths)
 {
-	char	**paths;
 	char	*tmp;
 	int		i;
 
-	paths = ft_slpit(getenv("PATH"), ':');
-	if (!paths)
-		return (0);
 	cmd = ft_strjoin("/", cmd);
 	if (!cmd)
-		return (0);
+		exit(write(2, "Error\nfailed to join '/' with [cmd]\n", 36) * 0 + 1);
 	i = -1;
 	while (paths[++i])
 	{
+		// printf("p: %s - cmd: %s\n", paths[i], cmd);
 		tmp = ft_strjoin(paths[i], cmd);
 		if (!tmp)
 			return (0);
 		if (!access(tmp, X_OK))
 		{
-			free(tmp);
 			free(cmd);
-			return (paths[i]);
+			return (tmp);
 		}
 		free(tmp);
 	}
@@ -60,11 +62,39 @@ char	*ft_find_cmd(const char *cmd)
 
 char	*ft_executor(char **cmd)
 {
-	char	*output;
+	char	output[4097];
+	char	*path;
+	char	**env;
+	int		link[2];
 	int		i;
-	int		j;
 
-	i = 0;
+	env = ft_split(getenv("PATH"), ':');
+	if (!env)
+		exit(write(2, "Error\nfailed to split paths in [executor]\n", 41) * 0 + 1);
+	path = ft_find_cmd(cmd[0], env);
+	if (!path)
+		return (0);
+	pipe(link);
+	if (fork() == 0)
+	{
+		dup2(link[1], 1);
+		close(link[0]);
+		close(link[1]);
+		execve(path, cmd, env);
+	}
+	else
+	{
+		close(link[1]);
+		i = read(link[0], output, 4096);
+		if (i < 0)
+			exit(printf("Error\nread function failed\n") * 0 + 1);
+		output[i] = 0;
+	}
 	free(cmd);
-	return (output);
+	// free(path);
+	i = 0;
+	while (env[i])
+		free(env[i++]);
+	free(env);
+	return (ft_strdup(output));
 }

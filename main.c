@@ -45,14 +45,19 @@ int	main(void)
 			perror("Error\n[parsed] not allocated\n");
 			break ;
 		}
-		ft_executor(ft_getcmd(shell->parsed));
+		// i = -1;
+		// while (shell->parsed[++i])
+		// 	printf("parsed[%d]=%s\n", i, shell->parsed[i]);
+		// exit(0);
+		tmp = ft_executor(ft_getcmd(shell->parsed));
+		printf("%s\n", tmp);
 		i = 0;
 		while (shell->parsed[i])
 		{
-			printf("%s\e[30;47m%%\e[0m\n", shell->parsed[i]);
-			free(shell->parsed[i]);
-			i++;
+			// printf("%s\e[30;47m%%\e[0m\n", shell->parsed[i]);
+			free(shell->parsed[i++]);
 		}
+		// free(tmp);
 		free(shell->line);
 		free(shell->parsed);
 	}
