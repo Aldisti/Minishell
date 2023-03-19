@@ -24,7 +24,7 @@ int	main(void)
 	{
 		shell->line = readline("\033[1;36m$> \033[0m");
 		add_history(shell->line);
-		if (!strcmp(shell->line, "exit"))
+		if (!ft_strncmp(shell->line, "exit", ft_strlen("exit")))
 		{
 			printf("exit\n");
 			rl_clear_history();
@@ -32,7 +32,7 @@ int	main(void)
 			free(shell);
 			break ;
 		}
-		else if (!strncmp(shell->line, "getenv", 6))
+		else if (!ft_strncmp(shell->line, "getenv", 6))
 		{
 			tmp = getenv(shell->line + 7);
 			printf("%s\n", tmp);
@@ -45,21 +45,10 @@ int	main(void)
 			perror("Error\n[parsed] not allocated\n");
 			break ;
 		}
-		// i = -1;
-		// while (shell->parsed[++i])
-		// 	printf("parsed[%d]=%s\n", i, shell->parsed[i]);
-		// exit(0);
-		tmp = ft_executor(ft_getcmd(shell->parsed));
-		printf("%s\n", tmp);
-		i = 0;
-		while (shell->parsed[i])
-		{
-			// printf("%s\e[30;47m%%\e[0m\n", shell->parsed[i]);
-			free(shell->parsed[i++]);
-		}
-		// free(tmp);
+		i = ft_executor(shell->parsed);
+		if (!i)
+			return (write(2, "Error\nfailed to execute cmd\n", 28) * 0 + 1);
 		free(shell->line);
-		free(shell->parsed);
 	}
 	return (0);
 }
