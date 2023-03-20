@@ -6,13 +6,16 @@
 /*   By: adi-stef <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/16 16:16:10 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:49:53 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+
+# define METACHR "\ \n\t|&()<>"
+# include "get_next_line_bonus.h"
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
@@ -23,10 +26,16 @@
 typedef struct s_shell
 {
 	char	**parsed;
+	char	**token;
 	char	*line;
 	int		n_cmd;
 	int		*n_pipe;
+	int		infile;
+	int		outfile;
 }	t_shell;
+
+// global var
+int		exit;
 
 //	parser
 char	**ft_parser(char *str);
