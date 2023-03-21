@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/20 16:09:56 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:22:42 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*path_checker(t_pipex *pipex)
 	i = -1;
 	while (pipex->paths[++i] != 0)
 	{
-		if (!access(pipex->paths[i], 0))
+		if (!access(pipex->paths[i], X_OK))
 		{
 			flag = 1;
 			break ;

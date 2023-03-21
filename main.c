@@ -3,21 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/20 21:55:00 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/21 14:55:28 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char *pwd_in_prompt()
+{
+	char	*pwd_prompt;
+	char	*temp1;
+	char	*temp;
+	char	*color_pwd;
+
+	pwd_prompt = pwd();
+	color_pwd = ft_strjoin("\033[1;36m", ft_strrchr(pwd_prompt, '/') + 1);
+	temp1 = ft_strjoin(color_pwd, "\033[0m");
+	temp = ft_strjoin(temp1, "\033[1;32m$> \033[0m");
+	free(pwd_prompt);
+	free(color_pwd);
+	free(temp1);
+	return (temp);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 	char	*tmp;
 	char	*pwd_prompt;
-	char	*pwd_temp;
 	int		i;
 
 	shell = (t_shell *) malloc (sizeof(t_shell));
@@ -25,9 +41,9 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (42)
 	{
-		pwd_temp = pwd();
-		pwd_prompt = ft_strjoin(pwd_temp, "\033[1;36m$> \033[0m");
+		pwd_prompt = pwd_in_prompt();
 		shell->line = readline(pwd_prompt);
+		free(pwd_prompt);
 		add_history(shell->line);
 		if (!strcmp(shell->line, "exit"))
 		{
@@ -65,8 +81,6 @@ int	main(int argc, char **argv, char **envp)
 			free(shell->parsed[i]);
 			i++;
 		}
-		free(pwd_prompt);
-		free(pwd_temp);
 		free(shell->parsed);
 		usleep(1000);
 	}

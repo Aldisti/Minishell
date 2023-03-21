@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/20 21:53:43 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/21 12:18:33 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	child_proc(t_pipex *pipex, char **argv, int child_id)
 {
 	char	**cmd;
 
-	pipex->pid = fork();
-	if (pipex->pid < 0)
+	pipex->pid[child_id] = fork();
+	if (pipex->pid[child_id] < 0)
 		return (-1);
-	if (pipex->pid == 0)
+	if (pipex->pid[child_id] == 0)
 	{
-		if (child_id == 0)
+		if (child_id == 0 && pipex->cmd_count != 1)
 			my_dup(pipex->infile_fd, pipex->pipe[2 * child_id + 1]);
 		else if (child_id == pipex->cmd_count - 1)
 			my_dup(pipex->pipe[2 * child_id - 2], pipex->outfile_fd);
@@ -35,7 +35,7 @@ int	child_proc(t_pipex *pipex, char **argv, int child_id)
 			child_free(pipex, cmd);
 			exit(0);
 		}
-		execve(cmd[0], cmd, NULL);
+		execve(cmd[0], cmd, 0);
 	}
 	return (1);
 }
@@ -46,6 +46,7 @@ int	pipex_init(t_pipex *pipex, int argc, char **argv)
 	pipex->cmd_count = (argc);
 	pipex->pipe_count = 2 * (pipex->cmd_count - 1);
 	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count));
+	pipex->pid = (pid_t *) malloc(sizeof(pid_t) * pipex->cmd_count);
 	if (create_pipes(pipex) == -1)
 		return (-1);
 	// pipex->infile_fd = open(argv[1], O_RDONLY);
@@ -77,9 +78,8 @@ int	pipex(char **argv)
 	{
 		temp = ft_strtrim(argv[i], "\"");
 		free(argv[i]);
-		argv[i] = temp;
+		argv[i] = ft_strdup(temp);
 	}
-		
 	argc = i;
 	i = -1;
 	if (pipex_init(&pipex, argc, argv) == -1)
@@ -90,7 +90,9 @@ int	pipex(char **argv)
 			return (3);
 	}
 	close_pipes(&pipex);
-	waitpid(-1, NULL, 0);
+	i = -1;
+	while (++i < pipex.cmd_count)
+		waitpid(pipex.pid[i], 0, 0);
 	child_free(&pipex, 0);
 	return (0);
 }

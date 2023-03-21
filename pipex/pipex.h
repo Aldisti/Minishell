@@ -6,14 +6,13 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:49 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/20 16:17:32 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:16:14 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "./../minishell.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <errno.h>
@@ -21,6 +20,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include "../minishell.h"
 
 typedef struct e_pipex{
 	int		*pipe;
@@ -29,7 +29,7 @@ typedef struct e_pipex{
 	int		infile_fd;
 	int		outfile_fd;
 	int		original_stdout;
-	int		pid;
+	pid_t	*pid;
 	int		cmd_i;
 	char	**paths;
 
