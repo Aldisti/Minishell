@@ -1,1 +1,42 @@
 ls -a Utils | grep "it's $USERNAME" || pwd | grep '$(whoami)' && cat prova | grep 'a"a' < prova1
+
+----
+ls -a Utils
+|
+grep "it's $USERNAME"
+||
+pwd
+|
+grep '$(whoami)'
+&&
+cat prova
+|
+grep 'a"a' < prova1
+----
+
+"ls -a Utils" "grep "it's adi-stef"
+
+MAIN
+set variables
+	set env
+(while)
+readline
+parser
+executor
+	espansioni
+	redirection
+	pipex
+exit collector
+
+t_shell
+	char	*line
+	char	**parsed
+	t_env	*env
+		t_env	*next;
+		# t_env	*first;
+		char	*name;
+		char	*value;
+	t_pipex	*pipex
+		int		*fd_input
+		int		*fd_output
+		int		*pipes
