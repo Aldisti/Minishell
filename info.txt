@@ -3,7 +3,7 @@ ls -a Utils | grep "it's $USERNAME" || pwd | grep '$(whoami)' && cat prova | gre
 ----
 ls -a Utils
 |
-grep "$USERNAME"
+grep "it's $USERNAME"
 ||
 pwd
 |
@@ -28,6 +28,10 @@ executor
 	pipex
 exit collector
 
+VARIABILE GLOBALE
+int	shell_errno
+
+STRUCT DEFINE
 t_shell
 	char	*line
 	char	**parsed
