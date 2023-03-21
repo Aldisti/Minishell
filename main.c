@@ -82,16 +82,16 @@ int	ft_token_word(char **line, char ***token, int *dim, int *flag)
 	i = 0;
 	while ((*line)[i] && !ft_in((*line)[i], METACHR))
 	{
-		if ((*line)[i] == ''')
+		if ((*line)[i] == '\'')
 		{
-			while ((*line)[i] && (*line)[i] != ''')
+			while ((*line)[i] && (*line)[i] != '\'')
 				i++;
 			if (!(*line)[i])
 				return (1);
 		}
-		else if ((*line)[i] == '"')
+		else if ((*line)[i] == '\"')
 		{
-			while ((*line)[i] && (*line)[i] != '"')
+			while ((*line)[i] && (*line)[i] != '\"')
 				i++;
 			if (!(*line)[i])
 				return (1);
@@ -119,16 +119,16 @@ int	ft_token_metachr(char **line, char ***token, int *dim, int *flag)
 	i = 0;
 	while ((*line)[i] && ft_in((*line)[i], METACHR))
 	{
-		if ((*line)[i] == ''')
+		if ((*line)[i] == '\'')
 		{
-			while ((*line)[i] && (*line)[i] != ''')
+			while ((*line)[i] && (*line)[i] != '\'')
 				i++;
 			if (!(*line)[i])
 				return (1);
 		}
-		else if ((*line)[i] == '"')
+		else if ((*line)[i] == '\"')
 		{
-			while ((*line)[i] && (*line)[i] != '"')
+			while ((*line)[i] && (*line)[i] != '\"')
 				i++;
 			if (!(*line)[i])
 				return (1);
