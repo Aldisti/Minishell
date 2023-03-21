@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c	                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/18 16:40:14 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/21 11:06:33 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 int	main(void)
@@ -40,6 +41,10 @@ int	main(void)
 			continue ;
 		}
 		shell->parsed = ft_parser(shell->line);
+		i = -1;
+		while (shell->parsed[++i])
+			printf("%s\n", shell->parsed[i]);
+		exit(1);
 		if (!shell->parsed)
 		{
 			printf("Error\n[parsed] not allocated\n");

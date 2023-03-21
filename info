@@ -1,0 +1,1 @@
+ls -a Utils | grep "it's $USERNAME" || pwd | grep '$(whoami)' && cat prova | grep 'a"a' < prova1
