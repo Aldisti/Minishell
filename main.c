@@ -42,7 +42,7 @@ int	main(void)
 		shell->parsed = ft_parser(shell->line);
 		if (!shell->parsed)
 		{
-			perror("Error\n[parsed] not allocated\n");
+			printf("Error\n[parsed] not allocated\n");
 			break ;
 		}
 		i = ft_executor(shell->parsed);

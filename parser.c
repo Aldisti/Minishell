@@ -69,7 +69,7 @@ char	**ft_parser(char *str)
 	}
 	if (quote)
 		printf("Error\nmissing closing quote\n");
-	else if (bracket)
+	if (bracket)
 		printf("Error\nmissing bracket\n");
 	return (parsed);
 }
