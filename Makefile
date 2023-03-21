@@ -12,7 +12,7 @@ RDLN_L	= -lreadline
 RM		= rm -f
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
+	$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) libft.a -o $(NAME)
 
 all: $(NAME)
 

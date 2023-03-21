@@ -49,7 +49,7 @@ int	ft_fill(char **str, char **buffer, int fd)
 		i++;
 	if (i)
 	{
-		*str = ft_realloc(*str, buffer[fd], i);
+		*str = ft_realloc_get(*str, buffer[fd], i);
 		if (!(*str))
 			return (1);
 		if (BUFFER_SIZE != 1)

@@ -69,7 +69,7 @@ void	ft_movebuffer(char *buffer, int step)
 	}
 }
 
-char	*ft_realloc(char *str, char *buffer, int step)
+char	*ft_realloc_get(char *str, char *buffer, int step)
 {
 	char	*new;
 	int		i;
@@ -110,7 +110,6 @@ char	*get_next_line(int fd)
 			return (NULL);
 		if (buffer[fd][0] == '\n')
 		{
-			str = ft_realloc(str, buffer[fd], 1);
 			ft_movebuffer(buffer[fd], 1);
 			break ;
 		}
