@@ -3,7 +3,7 @@ ls -a Utils | grep "it's $USERNAME" || pwd | grep '$(whoami)' && cat prova | gre
 ----
 ls -a Utils
 |
-grep "it's $USERNAME"
+grep "$USERNAME"
 ||
 pwd
 |

@@ -1,7 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
+#    Updated: 2023/03/21 18:28:43 by adi-stef         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	= minishell
 
-SRC		= main.c executor.c parser.c exec_utils.c
-USRC	= Utils/calloc.c Utils/isspace.c Utils/split.c Utils/strdup.c	\
+SRC		= executor.c parser.c exec_utils.c
+USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c Utils/strdup.c	\
 			Utils/strjoin.c Utils/strlen.c Utils/strncmp.c Utils/substr.c
 
 OBJ		= $(SRC:%.c=%.o) $(USRC:%.c=%.o)
