@@ -63,7 +63,7 @@ char	*ft_strndup(const char *str, int dim)
 	char	*new_str;
 	int	i;
 
-	new_str = (char *)ft_calloc(sizeof(char) * (dim + 1));
+	new_str = (char *)ft_calloc(sizeof(char), (dim + 1));
 	if (!new_str)
 		return (NULL);
 	i = 0;
@@ -72,6 +72,7 @@ char	*ft_strndup(const char *str, int dim)
 		new_str[i] = str[i];
 		i++;
 	}
+	printf("%s\n", (str));
 	return (new_str);
 }
 
@@ -156,6 +157,8 @@ char	**ft_token(t_shell shell)
 	int		flag;
 //	int		i;
 
+	if (!shell.line)
+		return (NULL);
 	token = (char **)ft_calloc(1, sizeof(char *));
 	if (!token)
 		exit(1); //ft_die();
@@ -214,8 +217,8 @@ int	main(void)
 	{
 		shell.line = ft_readline("\033[1;36m$> \033[0m");
 		add_history(shell.line);
+		shell.token = ft_token(shell);
 		/*
-		shell.token = ft_token(&shell);
 		shell.parsed = ft_parser(&shell);
 		shell.parsed = ft_expansion(&shell);
 		shell.parsed = ft_redirection(&shell);

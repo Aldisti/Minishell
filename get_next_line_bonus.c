@@ -25,7 +25,7 @@ int	ft_check_error(int r, char *str, char *buffer)
 	return (0);
 }
 
-char	*ft_strjoin(char *str, char *buffer, int step)
+char	*ft_strjoin_get(char *str, char *buffer, int step)
 {
 	int		len;
 	char	*new;
@@ -90,7 +90,7 @@ char	*ft_realloc_get(char *str, char *buffer, int step)
 		new[i] = 0;
 	}
 	else
-		new = ft_strjoin(str, buffer, step);
+		new = ft_strjoin_get(str, buffer, step);
 	return (new);
 }
 

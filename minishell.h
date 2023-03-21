@@ -15,6 +15,7 @@
 
 
 # define METACHR "\ \n\t|&()<>"
+# include "libft/libft.h"
 # include "get_next_line_bonus.h"
 # include <stdio.h>
 # include <string.h>
@@ -33,9 +34,6 @@ typedef struct s_shell
 	int		infile;
 	int		outfile;
 }	t_shell;
-
-// global var
-int		exit;
 
 //	parser
 char	**ft_parser(char *str);

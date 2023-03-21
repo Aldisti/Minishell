@@ -20,7 +20,7 @@ int		ft_fill(char **str, char **buffer, int fd);
 int		ft_check_error(int r, char *str, char *buffer);
 int		ft_buffer_al(int fd, char **buffer);
 void	ft_free_buffer(int r, int fd, char **buffer);
-char	*ft_strjoin(char *str, char *buffer, int step);
+char	*ft_strjoin_get(char *str, char *buffer, int step);
 void	ft_movebuffer(char *buffer, int step);
 char	*ft_realloc_get(char *str, char *buffer, int step);
 char	*get_next_line(int fd);
