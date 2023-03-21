@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/16 16:16:10 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/20 21:37:26 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "libft/libft.h"
+# include "pipex/pipex.h"
 
 typedef struct s_shell
 {
@@ -37,6 +39,10 @@ char	*ft_strdup(const char *s1);
 int		ft_isspace(int c);
 size_t	ft_strlen(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+//Commands
+char	*pwd(void);
+void	print_pwd(void);
+void	cd(char **argv, char **envp);
 
 
 #endif
