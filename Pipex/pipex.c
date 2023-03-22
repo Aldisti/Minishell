@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../minishell.h"
+#include "../minishell.h"
 
 void	execute_command(char **cmd)
 {
-	if (!ft_strncmp(cmd[0], "pwd", 3))
-		print_pwd();
+	// if (!ft_strncmp(cmd[0], "pwd", 3))
+	// 	return ;
 	// else if (!ft_strncmp(cmd[0], "cd", 2))
 	// 	cd(cmd[1]);
 	// else if (!ft_strncmp(cmd[0], "export", 6))
@@ -26,11 +26,11 @@ void	execute_command(char **cmd)
 	// 	env();
 	// else if (!ft_strncmp(cmd[0], "echo", 4))
 	// 	echo();
-	else
-	{
-		trim_strs(cmd);
-		execve(cmd[0], cmd, 0);
-	}
+	// else
+	// {
+	trim_strs(cmd);
+	execve(cmd[0], cmd, 0);
+	// }
 }
 
 int	child_proc(t_pipex *pipex, char **argv, int child_id)
@@ -121,18 +121,18 @@ int	pipex(t_shell *shell, char **argv)
 	strs = rm_pipe_n_space(argv);
 	argc = prepare_strs(strs);
 	i = -1;
-	if (pipex_init(&shell->pipex, argc, strs) == -1)
+	if (pipex_init(shell->pipex, argc, strs) == -1)
 		return (1);
-	while (++i < shell->pipex.cmd_count)
+	while (++i < shell->pipex->cmd_count)
 	{
-		if (child_proc(&shell->pipex, strs, i) < 0)
+		if (child_proc(shell->pipex, strs, i) < 0)
 			return (3);
 	}
-	close_pipes(&shell->pipex);
+	close_pipes(shell->pipex);
 	i = -1;
-	while (++i < shell->pipex.cmd_count)
-		waitpid(shell->pipex.pid[i], 0, 0);
-	child_free(&shell->pipex, 0);
+	while (++i < shell->pipex->cmd_count)
+		waitpid(shell->pipex->pid[i], 0, 0);
+	child_free(shell->pipex, 0);
 	ft_free(strs);
 	return (0);
 }

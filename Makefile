@@ -13,9 +13,9 @@
 NAME	= minishell
 
 SRC		= main.c Pipex/command_parser.c Pipex/command.c Pipex/pipex_utils.c	\
-			Pipex/pipex.c Pipex/trim_strs.c	\
+			Pipex/pipex.c Pipex/trim_strs.c
 USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c	\
-			Utils/strdup.c Utils/strrchr.c	\
+			Utils/strdup.c Utils/strrchr.c Utils/strtrim.c \
 			Utils/strjoin.c Utils/strlen.c Utils/strncmp.c Utils/substr.c
 
 OBJ		= $(SRC:%.c=%.o) $(USRC:%.c=%.o)
@@ -32,7 +32,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 linux: $(OBJ)
-	$(CC) -g $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)

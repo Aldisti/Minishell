@@ -37,18 +37,18 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 1)
 		return (0);
 	(void)av;
-	ft_init(&shell, envp);
+	// ft_init(&shell, envp);
 	while (42)
 	{
 		prompt = ft_prompt();
 		shell.line = readline(prompt);
 		free(prompt);
 		add_history(shell.line);
-		shell.parsed = ft_parser(&shell, "|&");
-		shell.parsed = ft_expansion(&shell);
-		shell.parsed = ft_redirection(&shell);
-		shell_errno = ft_executor(&shell);
-		ft_catch_error(&shell);
+		// shell.parsed = ft_parser(&shell, "|&");
+		// shell.parsed = ft_expansion(&shell);
+		// shell.parsed = ft_redirection(&shell);
+		// shell_errno = ft_executor(&shell);
+		// ft_catch_error(&shell);
 	}
 	return (0);
 }
