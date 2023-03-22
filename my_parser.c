@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   my_parser.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/22 08:37:47 by gpanico           #+#    #+#             */
+/*   Updated: 2023/03/22 09:40:47 by gpanico          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	*ft_realloc(void *p, size_t size, int dim, int new_dim)
@@ -35,7 +47,7 @@ int	ft_in(char c, char *set)
 	return (0);
 }
 
-char **ft_extract_word(char **parsed, int *dim, int *i, char **line)
+char	**ft_extract_word(char **parsed, int *dim, int *i, char **line)
 {
 	if (*i)
 	{
@@ -75,10 +87,10 @@ int	ft_quotes_check(char *line, int	*i)
 	return (1);
 }
 
-char	**ft_parser(t_shell shell)
+char	**ft_parser(t_shell shell, char *set)
 {
-	int	dim;
-	int	i;
+	int		dim;
+	int		i;
 	char	**parsed;
 
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
@@ -88,14 +100,14 @@ char	**ft_parser(t_shell shell)
 	i = 0;
 	while (shell.line[i])
 	{
-		while (shell.line[i] && !ft_in(shell.line[i], "|&"))
+		while (shell.line[i] && !ft_in(shell.line[i], set))
 		{
 			if (!ft_quotes_check(shell.line, &i))
 				exit (2); // ft_die() Error: unclosed quotes
 			i++;
 		}
 		if (!i)
-			while (shell.line[i] && ft_in(shell.line[i], "|&"))
+			while (shell.line[i] && ft_in(shell.line[i], set))
 				i++;
 		parsed = ft_extract_word(parsed, &dim, &i, &shell.line);
 		if (!parsed)

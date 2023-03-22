@@ -6,7 +6,7 @@
 /*   By: adi-stef <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/20 12:49:53 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/22 09:41:32 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_shell
 }	t_shell;
 
 //	parser
-char	**ft_parser(char *str);
+char	**ft_parser(t_shell shell, char *set);
 //	executor
 int		ft_executor(char **cmd);
 //	Utils
