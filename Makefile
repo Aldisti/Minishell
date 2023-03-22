@@ -6,7 +6,7 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/21 18:28:43 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/22 16:49:38 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME	= minishell
 
 SRC		= main.c pipex/command_parser.c pipex/command.c pipex/pipex_utils.c	\
 			pipex/pipex.c pipex/trim_strs.c	\
-USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c Utils/strdup.c	\
+USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c	\
+			Utils/strdup.c Utils/strrchr.c	\
 			Utils/strjoin.c Utils/strlen.c Utils/strncmp.c Utils/substr.c
 
 OBJ		= $(SRC:%.c=%.o) $(USRC:%.c=%.o)

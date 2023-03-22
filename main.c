@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/21 11:06:33 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/22 16:48:41 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char *ft_prompt(void)
 	return (temp);
 }
 
-int	main(int ac, void **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 	char	*prompt;
