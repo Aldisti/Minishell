@@ -58,14 +58,14 @@ typedef struct s_shell
 	t_pipex	*pipex;
 }	t_shell;
 
-//	parser
-char	**ft_parser(char *str);
-//	executor
-int		ft_executor(char **parsed);
-//	exec_utils
-char	**ft_getcmd(char **parsed);
-char	*ft_find_cmd(char *cmd, char **paths);
-char	*ft_execute_cmd(char **cmd);
+// funzioni del main (devono essere cosi)
+void	ft_init(t_shell *env, char **envp);
+char	**ft_parser(t_shell *shell, char *set);
+char	**ft_expansion(t_shell *shell);
+char	**ft_redirection(t_shell *shell);
+int		ft_executor(t_shell *shell);
+void	ft_catch_error(t_shell *shell);
+
 //	Utils
 void	*ft_calloc(size_t num, size_t dim);
 int		ft_isspace(int c);
