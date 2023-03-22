@@ -54,6 +54,27 @@ char **ft_extract_word(char **parsed, int *dim, int *i, char **line)
 		return (parsed);
 }
 
+int	ft_quotes_check(char *line, int	*i)
+{
+	if (line[*i] == '\'')
+	{
+		(*i)++;
+		while (line[*i] && line[*i] != '\'')
+			(*i)++;
+		if (!line[*i])
+			return (0); // ft_die(); Error: unclosed quotes
+	}
+	else if (line[*i] == '\"')
+	{
+		(*i)++;
+		while (line[*i] && line[*i] != '\"')
+			(*i)++;
+		if (!line[*i])
+			return (0); // ft_die(); Error: unclosed quotes
+	}
+	return (1);
+}
+
 char	**ft_parser(t_shell shell)
 {
 	int	dim;
@@ -69,29 +90,13 @@ char	**ft_parser(t_shell shell)
 	{
 		while (shell.line[i] && !ft_in(shell.line[i], "|&"))
 		{
-			if (shell.line[i] == '\'')
-			{
-				i++;
-				while (shell.line[i] && shell.line[i] != '\'')
-					i++;
-				if (!shell.line[i])
-					exit(1); // ft_die(); Error: unclosed quotes
-			}
-			else if (shell.line[i] == '\"')
-			{
-				i++;
-				while (shell.line[i] && shell.line[i] != '\"')
-					i++;
-				if (!shell.line[i])
-					exit(1); // ft_die(); Error: unclosed quotes
-			}
+			if (!ft_quotes_check(shell.line, &i))
+				exit (2); // ft_die() Error: unclosed quotes
 			i++;
 		}
-		parsed = ft_extract_word(parsed, &dim, &i, &shell.line);
-		if (!parsed)
-			exit(1); // ft_die(); Error: memory error
-		while (shell.line[i] && ft_in(shell.line[i], "|&"))
-			i++;
+		if (!i)
+			while (shell.line[i] && ft_in(shell.line[i], "|&"))
+				i++;
 		parsed = ft_extract_word(parsed, &dim, &i, &shell.line);
 		if (!parsed)
 			exit(1); // ft_die(); Error: memory error
