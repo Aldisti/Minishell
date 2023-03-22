@@ -2,20 +2,21 @@
 
 int	shell_errno = 0;
 
-char	*ft_resolve_expansion(t_env *env, char *str)
+char	*ft_resolve_expansion(t_env env, char *str)
 {
 	char	*expansion;
-	t_env	*tmp;
 
-	printf("resolve: |%s|\n", str);
 	if (!str || !*str)
 		return (ft_strdup("$"));
 	if (!ft_strncmp(str, "?", ft_strlen(str)))
 		return (ft_itoa(shell_errno));
-	while (tmp && ft_strncmp(tmp->name, str, ft_strlen(str)))
-		tmp = tmp->next;
-	if (tmp)
-		return (free(str), ft_strdup(tmp->value));
+	while (env.next && ft_strncmp(env.name, str, ft_strlen(str)))
+		env = *(env.next);
+	if (!ft_strncmp(env.name, str, ft_strlen(str)))
+	{
+		free(str);
+		return (ft_strdup(env.value));
+	}
 	expansion = getenv(str);
 	free(str);
 	return (expansion);
@@ -32,7 +33,7 @@ int	ft_check_dollar(char *str)
 	return (-1);
 }
 
-char	*ft_expansion(t_env *env, char *str)
+char	*ft_expansion(t_shell *shell, char *str)
 {
 	int		i;
 	char	*left;
@@ -48,25 +49,27 @@ char	*ft_expansion(t_env *env, char *str)
 			i++;
 		left = ft_substr(str, 0, dollar - str);
 		right = ft_substr(dollar, i, ft_strlen(dollar) - i + 1);
-		expansion = ft_resolve_expansion(env, ft_substr(dollar, 1, i - 1));
+		expansion = ft_resolve_expansion(*(shell->env), ft_substr(dollar, 1, i - 1));
 		// free(str);
 		dollar = ft_strjoin(left, expansion);
 		str = ft_strjoin(dollar, right);
 		free(left);
 		free(right);
 		// free(dollar);
-		printf("|%s|\n", str);
+		// printf("|%s|\n", str);
 	}
 	return (str);
 }
 
 int	main(void)
 {
+	t_shell	shell;
 	t_env	env;
 	char	*str;
 
-	env.name = 0;
-	env.value = 0;
+	shell.env = &env;
+	env.name = "HOME";
+	env.value = "CIAO";
 	env.next = 0;
-	printf("%s\n", ft_expansion(&env, "$ HOME $USERNAME$HOME"));
+	printf("\n%s\n", ft_expansion(&shell, "ls -a $ HOME $USERNAME$HOME $? "));
 }
