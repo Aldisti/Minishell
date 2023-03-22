@@ -6,7 +6,11 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2023/03/22 16:50:58 by adi-stef         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/22 16:53:12 by adi-stef         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +18,10 @@
 # define MINISHELL_H
 
 # include <errno.h>
+<<<<<<< Updated upstream
 # include <fcntl.h>
+=======
+>>>>>>> Stashed changes
 # include <stdio.h>
 # include <string.h>
 # include <stdlib.h>
