@@ -17,14 +17,14 @@ grep 'a"a' < prova1
 "ls -a Utils" "grep "it's adi-stef"
 
 MAIN
-set variables
-	set env
+set variables 1
+	set env 2
 (while)
 readline
 parser
+espansioni
+redirection
 executor
-	espansioni
-	redirection
 	pipex
 exit collector
 
@@ -40,6 +40,7 @@ t_shell
 		# t_env	*first;
 		char	*name;
 		char	*value;
+		
 	t_pipex	*pipex
 		int		*fd_input
 		int		*fd_output

@@ -12,18 +12,10 @@ char	*ft_resolve_expansion(t_env *env, char *str)
 		return (ft_strdup(""));
 	if (!ft_strncmp(str, "?", ft_strlen(str)))
 		return (ft_itoa(shell_errno));
-	printf("<OK: %s>\n", str);
 	while (env && env->name && ft_strncmp(env->name, str, ft_strlen(str)))
-	{
-		// printf("%s\n", env->name);
 		env = env->next;
-	}
-	// printf("<OK: %s>\n", str);
 	if (env && env->name && !ft_strncmp(env->name, str, ft_strlen(str)))
-	{
 		expansion = ft_strdup(env->value);
-		printf("env->value: %s\n", expansion);
-	}
 	else
 		expansion = getenv(str);
 	free(str);
@@ -60,9 +52,8 @@ char	*ft_expansion(t_shell *shell, char *str)
 		left = ft_substr(str, 0, dollar - str);
 		right = ft_substr(dollar, i, ft_strlen(dollar) - i + 1);
 		expansion = ft_resolve_expansion(shell->env, ft_substr(dollar, 1, i - 1));
-		// free(str);
+		free(str);
 		dollar = ft_strjoin(left, expansion);
-		printf("left: |%s|\n", left);
 		str = ft_strjoin(dollar, right);
 		if (left)
 			free(left);
@@ -70,7 +61,6 @@ char	*ft_expansion(t_shell *shell, char *str)
 			free(right);
 		if (dollar)
 			free(dollar);
-		printf("|%s|\n", str);
 	}
 	return (str);
 }

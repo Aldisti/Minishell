@@ -13,27 +13,49 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <string.h>
-# include <unistd.h>
 # include <stdlib.h>
-# include <readline/readline.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 # include <readline/history.h>
+# include <readline/readline.h>
+
+int	shell_errno = 0;
 
 typedef struct s_env
 {
 	char			*name;
 	char			*value;
+	int				unset;
 	struct s_env	*next;
+	struct s_env	*level;
 }	t_env;
+
+typedef struct s_pipex
+{
+	int		*pipe;
+	int		pipe_count;
+	int		cmd_count;
+	int		infile_fd;
+	int		outfile_fd;
+	int		original_stdout;
+	pid_t	*pid;
+	int		cmd_i;
+	char	**paths;
+}	t_pipex;
 
 typedef struct s_shell
 {
 	char	**parsed;
 	char	*line;
-	int		n_cmd;
-	int		*n_pipe;
+	int		*fd_input;
+	int		*fd_output;
 	t_env	*env;
+	t_pipex	*pipex;
 }	t_shell;
 
 //	parser
