@@ -19,7 +19,7 @@ char *ft_prompt(void)
 	char	*temp;
 	char	*color_pwd;
 
-	pwd_prompt = pwd();
+	pwd_prompt = getcwd(0, 0);
 	color_pwd = ft_strjoin("\033[1;36m", ft_strrchr(pwd_prompt, '/') + 1);
 	temp1 = ft_strjoin(color_pwd, "\033[0m");
 	temp = ft_strjoin(temp1, "\033[1;32m$> \033[0m");
@@ -41,9 +41,9 @@ int	main(int ac, void **av, char **envp)
 	while (42)
 	{
 		prompt = ft_prompt();
-		shell->line = readline(prompt);
+		shell.line = readline(prompt);
 		free(prompt);
-		add_history(shell->line);
+		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
 		shell.parsed = ft_expansion(&shell);
 		shell.parsed = ft_redirection(&shell);

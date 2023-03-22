@@ -12,7 +12,8 @@
 
 NAME	= minishell
 
-SRC		= executor.c parser.c exec_utils.c
+SRC		= main.c pipex/command_parser.c pipex/command.c pipex/pipex_utils.c	\
+			pipex/pipex.c pipex/trim_strs.c	\
 USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c Utils/strdup.c	\
 			Utils/strjoin.c Utils/strlen.c Utils/strncmp.c Utils/substr.c
 
