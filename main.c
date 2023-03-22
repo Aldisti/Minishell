@@ -12,16 +12,27 @@
 
 #include "minishell.h"
 
-void	ft_init(t_shell *env, char **envp);
-char	**ft_parser(t_shell *shell, char *set);
-char	**ft_expansion(t_shell *shell);
-char	**ft_redirection(t_shell *shell);
-int		ft_executor(t_shell *shell);
-void	ft_catch_error(t_shell *shell);
+char *ft_prompt(void)
+{
+	char	*pwd_prompt;
+	char	*temp1;
+	char	*temp;
+	char	*color_pwd;
+
+	pwd_prompt = pwd();
+	color_pwd = ft_strjoin("\033[1;36m", ft_strrchr(pwd_prompt, '/') + 1);
+	temp1 = ft_strjoin(color_pwd, "\033[0m");
+	temp = ft_strjoin(temp1, "\033[1;32m$> \033[0m");
+	free(pwd_prompt);
+	free(color_pwd);
+	free(temp1);
+	return (temp);
+}
 
 int	main(int ac, void **av, char **envp)
 {
 	t_shell	shell;
+	char	*prompt;
 
 	if (ac != 1)
 		return (0);
@@ -29,7 +40,9 @@ int	main(int ac, void **av, char **envp)
 	ft_init(&shell, envp);
 	while (42)
 	{
-		shell->line = readline("\033[1;36m$> \033[0m");
+		prompt = ft_prompt();
+		shell->line = readline(prompt);
+		free(prompt);
 		add_history(shell->line);
 		shell.parsed = ft_parser(&shell, "|&");
 		shell.parsed = ft_expansion(&shell);
