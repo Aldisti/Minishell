@@ -6,13 +6,13 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/23 16:30:05 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/23 17:45:47 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 
-SRC		= executor.c parser.c exec_utils.c
+SRC		= espansion.c parser.c exec_utils.c
 USRC	= Utils/calloc.c Utils/countn.c Utils/isspace.c Utils/itoa.c	\
 			Utils/joiner.c Utils/split.c Utils/strdup.c Utils/strjoin.c	\
 			Utils/strlen.c Utils/strncmp.c Utils/substr.c
@@ -31,7 +31,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 linux: $(OBJ)
-	$(CC) -g $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) -fsanitize=address $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)
