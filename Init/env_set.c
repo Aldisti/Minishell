@@ -6,28 +6,11 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:48:26 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/23 09:51:26 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/23 10:10:03 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	int				set;
-	int				level;
-	struct s_env	*next;
-}	t_env;
-
-typedef struct s_list
-{
-	t_env			*content;
-	struct s_list	*next;
-}	t_list;
-*/
 
 char	*ft_get_name(const char *str)
 {

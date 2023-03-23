@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 09:55:11 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/23 10:07:38 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,6 @@
 # include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-
-/*
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	int				unset;
-	struct s_env	*next;
-	struct s_env	*level;
-}	t_env;
-*/
 
 typedef struct s_env
 {
