@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strdup.c                                           :+:      :+:    :+:   */
+/*   countn.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 13:00:25 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/21 18:20:52 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/03/23 12:13:10 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/23 14:43:08 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strdup(const char *s1)
+//	return: returns the number of occurences of c in str for n chars
+//	pro tip: if n is -1 it checks all the string
+int	ft_countn(const char *str, const char c, int n)
 {
-	int		i;
-	char	*ptr;
+	int	i;
 
-	ptr = malloc ((ft_strlen(s1) + 1) * sizeof (char));
-	if (!ptr)
-		return (0);
-	i = -1;
-	while (s1[++i])
-		ptr[i] = s1[i];
-	ptr[i] = 0;
-	return (ptr);
+	if (n == -1)
+		n = ft_strlen(str);
+	i = 0;
+	while (str++ && n > 0)
+	{
+		if (*str == c)
+			i++;
+		n--;
+	}
+	return (i);
 }
