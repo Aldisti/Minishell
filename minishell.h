@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 10:07:38 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/23 10:24:55 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_shell
 	int		*fd_input;
 	int		*fd_output;
 	t_env	*env;
-	t_pipex	*pipex;
+	t_pipex	pipex;
 }	t_shell;
 
 // funzioni del main (devono essere cosi)
