@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:39:38 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 16:30:16 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/23 17:58:02 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ char	*ft_joiner(char **tab, int n)
 	while (tab[++i])
 	{
 		tmp = ft_strjoin(out, tab[i]);
-		if (n && out)
+		if (n)
+		{
 			free(out);
+			out = 0;
+		}
 		out = tmp;
 	}
 	return (tmp);

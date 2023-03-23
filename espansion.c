@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   espansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 17:44:37 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/23 17:56:42 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,9 @@ char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 	while (tmp.next && tmp.level != lvl)
 		tmp = *(tmp.next);
 	if (!ft_strncmp(tmp.name, str, ft_strlen(str)) && tmp.level == lvl)
-	{
-		free(str);
 		return (ft_strdup(tmp.value));
-	}
 	else
-	{
-		free(str);
 		ft_strdup("");
-	}
 }
 
 int	ft_ifin(char c, char *set)
@@ -54,17 +48,6 @@ int	ft_ifin(char c, char *set)
 	return (0);
 }
 
-int	ft_check_dollar(char *str)
-{
-	int	i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i + 1] && str[i] == '$' && !ft_ifin(str[i + 1], "$ ()'\""))
-			return (i);
-	return (-1);
-}
-
 char	*ft_check_quote(t_list *list, char *str, int *i)
 {
 	static int	quotes;
@@ -74,7 +57,7 @@ char	*ft_check_quote(t_list *list, char *str, int *i)
 	if (str[*i] == '~' && !quotes)
 	{
 		strs[0] = ft_substr(str, 0, *i);
-		strs[1] = ft_resolve_expansion(list, ft_strdup("HOME"),
+		strs[1] = ft_resolve_expansion(list, "HOME",
 				(ft_countn(str, '(', *i) - ft_countn(str, ')', *i)));
 		strs[2] = ft_substr(str, *i + 1, ft_strlen(str) - *i - 1);
 		free(str);
@@ -93,10 +76,10 @@ char	*ft_check_quote(t_list *list, char *str, int *i)
 char	*ft_expansion(t_shell *shell, char *str)
 {
 	int		index[2];
-	char	*strs[4];
+	char	*strs[5];
 
 	index[0] = -1;
-	strs[3] = 0;
+	strs[4] = 0;
 	while (str[++index[0]])
 	{
 		str = ft_check_quote(shell->list, str, &index[0]);
@@ -107,8 +90,11 @@ char	*ft_expansion(t_shell *shell, char *str)
 		while (str[index[1]] && !ft_ifin(str[index[1]], "$ ()\'\""))
 			index[1]++;
 		strs[2] = ft_substr(str, index[1], ft_strlen(str) - index[1]);
-		strs[1] = ft_resolve_expansion(shell->list, ft_substr(str, index[0] + 1, index[1] - index[0] - 1),
+		strs[3] = ft_substr(str, index[0] + 1, index[1] - index[0] - 1);
+		strs[1] = ft_resolve_expansion(shell->list, strs[3],
 				(ft_countn(str, '(', index[0]) - ft_countn(str, ')', index[0])));
+		free(strs[3]);
+		strs[3] = 0;
 		free(str);
 		str = ft_joiner(strs, 1);
 	}
@@ -142,5 +128,8 @@ int	main(void)
 	shell.list->next = 0;
 	// list2.content = &env2;
 	// list2.next = 0;
-	printf("\n<%s>\n", ft_expansion(&shell, ft_strdup("$HOME((''$HOME'')\"$HOME\")~")));
+	str = ft_expansion(&shell, ft_strdup("$HOME((''$HOME'')\"$HOME\")~"));
+	printf("\n<%s>\n", str);
+	free(str);
+	return (0);
 }
