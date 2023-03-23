@@ -6,19 +6,18 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 17:27:36 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/23 17:43:44 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	shell_errno = 169;
+int	shell_errno = 20022004;
 
 char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 {
 	t_env	tmp;
 
-	printf("resolve: |%s|\n", str);
 	if (!str || !*str)
 		return (ft_strdup(""));
 	if (!ft_strncmp(str, "$", ft_strlen(str)))
@@ -33,9 +32,15 @@ char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 	while (tmp.next && tmp.level != lvl)
 		tmp = *(tmp.next);
 	if (!ft_strncmp(tmp.name, str, ft_strlen(str)) && tmp.level == lvl)
+	{
+		free(str);
 		return (ft_strdup(tmp.value));
+	}
 	else
+	{
+		free(str);
 		ft_strdup("");
+	}
 }
 
 int	ft_ifin(char c, char *set)
@@ -113,10 +118,21 @@ int	ft_check_dollar(char *str)
 // 	return (str);
 // }
 
-void	ft_check_quote(char *str, int *i)
+char	*ft_check_quote(t_list *list, char *str, int *i)
 {
 	static int	quotes;
-	
+	char		*strs[4];
+
+	strs[3] = 0;
+	if (str[*i] == '~' && !quotes)
+	{
+		strs[0] = ft_substr(str, 0, *i);
+		strs[1] = ft_resolve_expansion(list, ft_strdup("HOME"),
+				(ft_countn(str, '(', *i) - ft_countn(str, ')', *i)));
+		strs[2] = ft_substr(str, *i + 1, ft_strlen(str) - *i - 1);
+		free(str);
+		str = ft_joiner(strs, 1);
+	}
 	if (str[*i] == '\"' && !quotes)
 		quotes = 1;
 	else if (str[*i] == '\"' && quotes)
@@ -124,6 +140,7 @@ void	ft_check_quote(char *str, int *i)
 	if (str[*i] == '\'' && !quotes)
 		while (str[++(*i)] != 39)
 			;
+	return (str);
 }
 
 char	*ft_expansion(t_shell *shell, char *str)
@@ -135,7 +152,7 @@ char	*ft_expansion(t_shell *shell, char *str)
 	strs[3] = 0;
 	while (str[++index[0]])
 	{
-		ft_check_quote(str, &index[0]);
+		str = ft_check_quote(shell->list, str, &index[0]);
 		if (str[index[0]] != '$')
 			continue ;
 		strs[0] = ft_substr(str, 0, index[0]);
@@ -144,8 +161,7 @@ char	*ft_expansion(t_shell *shell, char *str)
 			index[1]++;
 		strs[2] = ft_substr(str, index[1], ft_strlen(str) - index[1]);
 		strs[1] = ft_resolve_expansion(shell->list, ft_substr(str, index[0] + 1, index[1] - index[0] - 1),
-				(ft_countn(str, '(', ft_check_dollar(str)) - ft_countn(str, ')',
-				ft_check_dollar(str))));
+				(ft_countn(str, '(', index[0]) - ft_countn(str, ')', index[0])));
 		// free(str);
 		str = ft_joiner(strs, 1);
 	}
@@ -163,7 +179,7 @@ int	main(void)
 	char	*str;
 
 	env.name = "HOME";
-	env.value = "casa";
+	env.value = "/home/adi-stef";
 	env.level = 0;
 	env.next = &env2;
 	env2.name = "HOME";
@@ -179,5 +195,5 @@ int	main(void)
 	shell.list->next = 0;
 	// list2.content = &env2;
 	// list2.next = 0;
-	printf("\n<%s>\n", ft_expansion(&shell, "$HOME((''$HOME'')\"$HOME\")"));
+	printf("\n<%s>\n", ft_expansion(&shell, "$HOME((''$HOME'')\"$HOME\")~"));
 }
