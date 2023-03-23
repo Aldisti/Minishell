@@ -1,20 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isspace.c                                          :+:      :+:    :+:   */
+/*   realloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/23 09:59:10 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/23 10:00:55 by gpanico          ###   ########.fr       */
+/*   Created: 2023/03/23 07:59:09 by gpanico           #+#    #+#             */
+/*   Updated: 2023/03/23 07:59:22 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_isspace(int c)
+void	*ft_realloc(void *p, size_t size, int dim, int new_dim)
 {
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
+	char		*new_p;
+	size_t		i;
+
+	new_p = (char *)malloc(size * new_dim);
+	if (!new_p)
+		return (NULL);
+	i = 0;
+	while (i < size * new_dim)
+	{
+		if (i < size * dim)
+			new_p[i] = ((char *) p)[i];
+		else
+			new_p[i] = 0;
+		i++;
+	}
+	free(p);
+	return ((void *) new_p);
 }

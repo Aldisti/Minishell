@@ -6,13 +6,15 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/22 16:48:41 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/23 09:58:42 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *ft_prompt(void)
+int	g_shell_errno = 0;
+
+char	*ft_prompt(void)
 {
 	char	*pwd_prompt;
 	char	*temp1;
@@ -44,7 +46,7 @@ int	main(int ac, char **av, char **envp)
 		shell.line = readline(prompt);
 		free(prompt);
 		add_history(shell.line);
-		// shell.parsed = ft_parser(&shell, "|&");
+		shell.parsed = ft_parser(&shell, "|&");
 		// shell.parsed = ft_expansion(&shell);
 		// shell.parsed = ft_redirection(&shell);
 		// shell_errno = ft_executor(&shell);

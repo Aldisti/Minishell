@@ -6,9 +6,10 @@
 /*   By: adi-stef <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 10:03:28 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/01/23 10:31:15 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/23 10:00:46 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_strnbr(char const *str, char chr)

@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   lstadd_back.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 12:14:02 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 08:29:05 by gpanico          ###   ########.fr       */
+/*   Created: 2023/03/23 09:47:21 by gpanico           #+#    #+#             */
+/*   Updated: 2023/03/23 09:47:36 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	size_t	i;
-
-	if (!str)
-		return (0);
-	i = -1;
-	while (str[++i])
-		;
-	return (i);
+	if (!lst || !new)
+		return ;
+	if (!(*lst))
+		*lst = new;
+	else
+		ft_lstlast(*lst)->next = new;
 }

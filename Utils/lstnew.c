@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   lstnew.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 12:14:02 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 08:29:05 by gpanico          ###   ########.fr       */
+/*   Created: 2023/03/23 09:46:02 by gpanico           #+#    #+#             */
+/*   Updated: 2023/03/23 09:55:14 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../minishell.h"
 
-size_t	ft_strlen(const char *str)
+t_list	*ft_lstnew(void *content)
 {
-	size_t	i;
+	t_list	*new;
 
-	if (!str)
+	new = (t_list *) malloc(sizeof(t_list));
+	if (!new)
 		return (0);
-	i = -1;
-	while (str[++i])
-		;
-	return (i);
+	new->content = content;
+	new->next = 0;
+	return (new);
 }

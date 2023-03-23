@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/22 17:07:10 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/23 09:55:11 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-# ifndef shell_errno
-int	shell_errno = 0;
-# endif
-
+/*
 typedef struct s_env
 {
 	char			*name;
@@ -36,6 +33,22 @@ typedef struct s_env
 	struct s_env	*next;
 	struct s_env	*level;
 }	t_env;
+*/
+
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	int				set;
+	int				level;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_list
+{
+	t_env			*content;
+	struct s_list	*next;
+}	t_list;
 
 typedef struct s_pipex
 {
@@ -68,6 +81,18 @@ char	**ft_redirection(t_shell *shell);
 int		ft_executor(t_shell *shell);
 void	ft_catch_error(t_shell *shell);
 
+//	Init
+//	set_env
+t_list	*ft_env_set(char **envp);
+char	*ft_get_name(const char *str);
+char	*ft_get_value(const char *str);
+
+//	Parser
+//	parser
+int		ft_in(char c, char *set);
+int		ft_quotes_check(char *line, int *i);
+char	**ft_extract_word(char **parsed, int *dim, int *i, char **line);
+
 //	Pipex
 // 	pipex
 int		child_proc(t_pipex *pipex, char **argv, int child_id);
@@ -98,6 +123,7 @@ void	trim_strs(char **strs);
 
 //	Utils
 void	*ft_calloc(size_t num, size_t dim);
+void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
 int		ft_isspace(int c);
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);
@@ -108,5 +134,8 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strrchr(const char *str, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstlast(t_list *lst);
+t_list	*ft_lstnew(void *content);
 
 #endif
