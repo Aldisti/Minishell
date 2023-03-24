@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/03/23 16:06:51 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:51:09 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,20 @@ void	trim_strs(char **strs)
 	i = -1;
 	while (strs[++i])
 	{
-		temp = ft_strtrim(strs[i], "\"\'");
-		free(strs[i]);
-		strs[i] = ft_strdup(temp);
-		free(temp);
+		if (strs[i][0] == '\"')
+		{
+			temp = ft_strtrim(strs[i], "\"");
+			free(strs[i]);
+			strs[i] = ft_strdup(temp);
+			free(temp);
+		}
+		else if (strs[i][0] == '\'')
+		{
+			temp = ft_strtrim(strs[i], "\'");
+			free(strs[i]);
+			strs[i] = ft_strdup(temp);
+			free(temp);
+		}
 	}
 }
 
