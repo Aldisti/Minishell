@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 11:50:05 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:05:45 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,27 @@ char	**ft_extract_word(char **parsed, int *dim, int *i, char **line);
 //	parser2
 char	**ft_parser(t_shell *shell, char *set);
 
+
+
 //	espansion
 int		ft_ifin(char c, char *set);
+char	**ft_espand_all(t_shell *shell);
 char	*ft_expansion(t_shell *shell, char *str);
 char	*ft_check_quote(t_list *list, char *str, int *i);
 char	*ft_resolve_expansion(t_list *list, char *str, int lvl);
+
+
+
+//	Commands
+//	cd
+int		get_oldpwd_i(char **envp);
+void	cd(char **argv, char **envp);
+int		update_oldpwd(char **envp, char *str);
+//	pwd
+char	*pwd(void);
+void	print_pwd(void);
+
+
 
 //	Pipex
 //	pipex
@@ -98,10 +114,6 @@ void	execute_command(char **cmd);
 int		pipex(t_shell *shell, char **argv);
 int		pipex_init(t_pipex *pipex, int argc, char **argv);
 int		child_proc(t_pipex *pipex, char **argv, int child_id);
-//	commands
-char	*pwd(void);
-void	print_pwd(void);
-void	cd(char **argv, char **envp);
 //	pipex_utils
 void	trim_strs(char **strs);
 int		prepare_strs(char **strs);
@@ -122,10 +134,13 @@ char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line);
 void	ft_free(char **strs);
 void	child_free(t_pipex *pipex, char **cmd);
 
+
+
 //	Utils
 void	*ft_calloc(size_t num, size_t dim);
 int		ft_countn(const char *str, const char c, int n);
 int		ft_isspace(int c);
+void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char	*ft_itoa(int n);
 char	*ft_joiner(char **tab, int n);
 char	**ft_split(char const *s, char c);
@@ -133,6 +148,8 @@ char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strrchr(const char *str, int c);
+char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 11:42:26 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:04:22 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int ac, char **av, char **envp)
 		shell.parsed = ft_parser(&shell, "|&");
 		// for (int i = 0; shell.parsed[i]; i++)
 		// 	printf("%s\n", shell.parsed[i]);
-		shell.parsed = ft_expansion(&shell);
+		shell.parsed = ft_espand_all(&shell);
 		// shell.parsed = ft_redirection(&shell);
 		// shell_errno = ft_executor(&shell);
 		// ft_catch_error(&shell);
