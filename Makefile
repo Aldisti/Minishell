@@ -6,7 +6,7 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/24 12:26:59 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/24 12:36:26 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 linux: $(OBJ)
-	$(CC) $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) -fsanitize=address $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)

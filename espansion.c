@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:20:47 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:55:06 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_check_quote(t_list *list, char *str, int *i)
 	else if (str[*i] == '\"' && quotes)
 		quotes = 0;
 	if (str[*i] == '\'' && !quotes)
-		while (str[++(*i)] != 39)
+		while (str[++(*i)] != '\'')
 			;
 	return (str);
 }
@@ -108,7 +108,6 @@ char	**ft_espand_all(t_shell *shell)
 	while (shell->parsed[++i])
 	{
 		tmp = ft_expansion(shell, shell->parsed[i]);
-		free(shell->parsed[i]);
 		shell->parsed[i] = tmp;
 	}
 	return (shell->parsed);

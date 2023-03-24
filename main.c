@@ -6,13 +6,21 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:26:03 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:42:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_shell_errno = 0;
+
+void	ft_print(char **tab)
+{
+	if (!tab)
+		return ;
+	for (int i = 0; tab[i]; i++)
+		printf("%s\n", tab[i]);
+}
 
 char	*ft_prompt(void)
 {
@@ -48,22 +56,23 @@ int	main(int ac, char **av, char **envp)
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
+		// ft_print(shell.parsed);
 		// for (int i = 0; shell.parsed[i]; i++)
 		// 	printf("%s\n", shell.parsed[i]);
 		shell.parsed = ft_espand_all(&shell);
+		// ft_print(shell.parsed);
 		if (!ft_strncmp(shell.parsed[0], "cd", 2))
 			cd(shell.parsed, envp);
+		else if (!ft_strncmp(shell.parsed[0], "exit", 2))
+		{
+			rl_clear_history();
+			ft_free(shell.parsed);
+			exit(1);
+		}
 		else
 			pipex(&shell, shell.parsed);
 		// ft_executor(...);
-		i = 0;
-		while (shell.parsed[i])
-		{
-			//printf("%s\e[30;47m%%\e[0m\n", shell->parsed[i]);
-			free(shell.parsed[i]);
-			i++;
-		}
-		free(shell.parsed);
+		ft_free(shell.parsed);
 		// shell.parsed = ft_redirection(&shell);
 		// shell_errno = ft_executor(&shell);
 		// ft_catch_error(&shell);
