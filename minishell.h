@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 09:55:11 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/24 16:01:08 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct s_shell
 {
 	char	**parsed;
 	char	*line;
+	char	*word;
+	char	*exit_code;
 	int		*fd_input;
 	int		*fd_output;
 	t_env	*env;
@@ -120,6 +122,8 @@ char	**command_parser(char *str, char *set);
 int		ft_in_command(char c, char *set);
 //	trim_strs
 void	trim_strs(char **strs);
+//	get_path
+char	*get_path(char **env);
 
 //	Utils
 void	*ft_calloc(size_t num, size_t dim);

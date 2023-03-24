@@ -6,7 +6,7 @@
 #    By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/24 11:11:19 by afraccal         ###   ########.fr        #
+#    Updated: 2023/03/24 14:44:37 by afraccal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,5 +59,8 @@ test: fclean linux
 
 leaks: all
 	@leaks --atExit -- ./$(NAME)
+
+var: all
+	@valgrind --leak-check=full ./$(NAME)
 
 .PHONY: all clean fclean re test

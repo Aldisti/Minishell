@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/22 16:18:32 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/24 10:35:56 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	**rm_pipe_n_space(char **strs)
 int	pipex(t_shell *shell, char **argv)
 {
 	char	**strs;
-	char	*temp;
+	//char	*temp;
 	int		argc;
 	int		i;
 
