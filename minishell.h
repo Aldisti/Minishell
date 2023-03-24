@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:05:45 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:09:10 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,15 @@ typedef struct s_shell
 // int		ft_executor(t_shell *shell);
 // void	ft_catch_error(t_shell *shell);
 
+
+
 //	Init
 //	env_set
 t_list	*ft_env_set(char **envp);
 char	*ft_get_name(const char *str);
 char	*ft_get_value(const char *str);
+
+
 
 //	Parser
 //	parser
@@ -128,7 +132,6 @@ void	get_cmd_loop(t_pipex *pipex, char *temp, char **command);
 int		ft_in_command(char c, char *set);
 char	**command_parser(char *str, char *set);
 int		ft_quotes_check_command(char *line, int	*i);
-void	*mft_realloc(void *p, size_t size, int dim, int new_dim);
 char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line);
 //	free
 void	ft_free(char **strs);

@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_parser.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:36:09 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/22 15:58:20 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:07:08 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
-
-void	*mft_realloc(void *p, size_t size, int dim, int new_dim)
-{
-	char		*new_p;
-	size_t		i;
-
-	new_p = (char *)malloc(size * new_dim);
-	if (!new_p)
-		return (NULL);
-	i = 0;
-	while (i < size * new_dim)
-	{
-		if (i < size * dim)
-			new_p[i] = ((char *) p)[i];
-		else
-			new_p[i] = 0;
-		i++;
-	}
-	free(p);
-	return ((void *) new_p);
-}
 
 int	ft_in_command(char c, char *set)
 {
@@ -51,7 +30,7 @@ char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line)
 {
 	if (*i)
 	{
-		parsed = (char **)mft_realloc(parsed, sizeof(char *), *dim, *(dim) + 1);
+		parsed = (char **)ft_realloc(parsed, sizeof(char *), *dim, *(dim) + 1);
 		if (!parsed)
 			return (NULL); // ft_die(); Error: memory error
 		*(dim) = *(dim) + 1;
