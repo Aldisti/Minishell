@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 15:44:01 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 16:10:10 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ t_list	*ft_lstnew(void *content);
 char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *str);
 char	*ft_joiner(char **tab, int n);
+char	*ft_strchr(const char *s, int c);
 char	**ft_split(char const *s, char c);
 void	*ft_calloc(size_t num, size_t dim);
 char	*ft_strrchr(const char *str, int c);
@@ -156,6 +157,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 int		ft_countn(const char *str, const char c, int n);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 t_env	*ft_search_in_list(t_list *list, char *name, int lvl);
 void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
