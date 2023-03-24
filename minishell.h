@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:15:55 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:22:14 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	child_free(t_pipex *pipex, char **cmd);
 
 //	Utils
 void	*ft_calloc(size_t num, size_t dim);
+int		ft_countn(const char *str, const char c, int n);
 int		ft_countn(const char *str, const char c, int n);
 int		ft_isspace(int c);
 void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
