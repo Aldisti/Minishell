@@ -6,25 +6,11 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:36:09 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/24 12:07:08 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:14:44 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
-
-int	ft_in_command(char c, char *set)
-{
-	int	i;
-
-	i = 0;
-	while (set[i])
-	{
-		if (c == set[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line)
 {
@@ -79,14 +65,14 @@ char	**command_parser(char *str, char *set)
 	i = 0;
 	while (str[i])
 	{
-		while (str[i] && !ft_in_command(str[i], set))
+		while (str[i] && !ft_in(str[i], set))
 		{
 			if (!ft_quotes_check_command(str, &i))
 				exit (2); // ft_die() Error: unclosed quotes
 			i++;
 		}
 		if (!i)
-			while (str[i] && ft_in_command(str[i], set))
+			while (str[i] && ft_in(str[i], set))
 				i++;
 		parsed = ft_extract_word_command(parsed, &dim, &i, &str);
 		if (!parsed)

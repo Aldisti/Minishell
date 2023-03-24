@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:09:10 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:15:55 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ char	**get_cmd(t_pipex *pipex, char *str);
 char	*path_checker(t_pipex *pipex, char *str);
 void	get_cmd_loop(t_pipex *pipex, char *temp, char **command);
 //	command_parser
-int		ft_in_command(char c, char *set);
 char	**command_parser(char *str, char *set);
 int		ft_quotes_check_command(char *line, int	*i);
 char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line);

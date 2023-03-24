@@ -6,11 +6,13 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 11:48:46 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:20:47 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_shell_errno;
 
 char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 {

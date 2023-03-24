@@ -6,13 +6,13 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/24 12:01:42 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/24 12:17:00 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 
-SRC			= main.c Pipex/command_parser.c
+SRC			= main.c espansion.c
 PARSER_SRC	= $(wildcard Parser/*.c)
 PIPEX_SRC	= $(wildcard Pipex/*.c)
 UTILS_SRC	= $(wildcard Utils/*.c)
