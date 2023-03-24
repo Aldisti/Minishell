@@ -6,19 +6,18 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/22 16:49:38 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/24 11:24:27 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 
-SRC		= main.c Pipex/command_parser.c Pipex/command.c Pipex/pipex_utils.c	\
-			Pipex/pipex.c Pipex/trim_strs.c
-USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c	\
-			Utils/strdup.c Utils/strrchr.c Utils/strtrim.c \
-			Utils/strjoin.c Utils/strlen.c Utils/strncmp.c Utils/substr.c
+SRC			= main.c Pipex/command_parser.c
+PARSER_SRC	= $(wildcard Parser/*.c)
+PIPEX_SRC	= $(wildcard Pipex/*.c)
+UTILS_SRC	= $(wildcard Utils/*.c)
 
-OBJ		= $(SRC:%.c=%.o) $(USRC:%.c=%.o)
+OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o) $(UTILS_SRC:%.c=%.o)
 
 CC		= cc
 FLAGS	= -Wall -Wextra -Werror

@@ -6,13 +6,11 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 11:00:14 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:48:46 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	shell_errno = 20022004;
 
 char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 {
@@ -21,7 +19,7 @@ char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 	if (!str || !*str || !ft_strncmp(str, "$", ft_strlen(str)))
 		return (ft_strdup(""));
 	if (!ft_strncmp(str, "?", ft_strlen(str)))
-		return (ft_itoa(shell_errno));
+		return (ft_itoa(g_shell_errno));
 	while (list && ft_strncmp(list->content->name, str, ft_strlen(str)))
 		list = list->next;
 	if (!list)
@@ -99,35 +97,50 @@ char	*ft_expansion(t_shell *shell, char *str)
 	return (str);
 }
 
-int	main(void)
+char	**ft_espand_all(t_shell *shell)
 {
-	t_shell	shell;
-	t_env	env;
-	t_env	env2;
-	t_env	env3;
-	t_list	list;
-	t_list	list2;
-	char	*str;
+	int		i;
+	char	*tmp;
 
-	env.name = "HOME";
-	env.value = "/home/adi-stef";
-	env.level = 0;
-	env.next = &env2;
-	env2.name = "HOME";
-	env2.value = "1";
-	env2.level = 1;
-	env2.next = &env3;
-	env3.name = "HOME";
-	env3.value = "ciccia";
-	env3.level = 2;
-	env3.next = 0;
-	shell.list = &list;
-	list.content = &env;
-	shell.list->next = 0;
-	// list2.content = &env2;
-	// list2.next = 0;
-	str = ft_expansion(&shell, ft_strdup("$HOME((''$HOME'')\"$HOME\")~"));
-	printf("\n<%s>\n", str);
-	free(str);
-	return (0);
+	i = -1;
+	while (shell->parsed[++i])
+	{
+		tmp = ft_expansion(shell, shell->parsed[i]);
+		free(shell->parsed[i]);
+		shell->parsed[i] = tmp;
+	}
+	return (shell->parsed);
 }
+
+// int	main(void)
+// {
+// 	t_shell	shell;
+// 	t_env	env;
+// 	t_env	env2;
+// 	t_env	env3;
+// 	t_list	list;
+// 	t_list	list2;
+// 	char	*str;
+
+// 	env.name = "HOME";
+// 	env.value = "/home/adi-stef";
+// 	env.level = 0;
+// 	env.next = &env2;
+// 	env2.name = "HOME";
+// 	env2.value = "1";
+// 	env2.level = 1;
+// 	env2.next = &env3;
+// 	env3.name = "HOME";
+// 	env3.value = "ciccia";
+// 	env3.level = 2;
+// 	env3.next = 0;
+// 	shell.list = &list;
+// 	list.content = &env;
+// 	shell.list->next = 0;
+// 	// list2.content = &env2;
+// 	// list2.next = 0;
+// 	str = ft_expansion(&shell, ft_strdup("$HOME((''$HOME'')\"$HOME\")~"));
+// 	printf("\n<%s>\n", str);
+// 	free(str);
+// 	return (0);
+// }
