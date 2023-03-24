@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:55:06 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:58:37 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 	if (!ft_strncmp(tmp.name, str, ft_strlen(str)) && tmp.level == lvl)
 		return (ft_strdup(tmp.value));
 	else
-		ft_strdup("");
+		return(ft_strdup(""));
 }
 
 int	ft_ifin(char c, char *set)
