@@ -12,7 +12,7 @@
 
 NAME	= minishell
 
-SRC			= main.c espansion.c
+SRC			= main.c expansion.c
 PARSER_SRC	= $(wildcard Parser/*.c)
 PIPEX_SRC	= $(wildcard Pipex/*.c)
 UTILS_SRC	= $(wildcard Utils/*.c)

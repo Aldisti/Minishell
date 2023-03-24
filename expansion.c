@@ -81,7 +81,7 @@ char	*ft_expansion(t_shell *shell, char *str)
 	return (str);
 }
 
-char	**ft_espand_all(t_shell *shell)
+char	**ft_expand_all(t_shell *shell)
 {
 	int		i;
 	char	*tmp;

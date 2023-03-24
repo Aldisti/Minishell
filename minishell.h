@@ -96,7 +96,7 @@ char	**ft_parser(t_shell *shell, char *set);
 
 
 //	espansion
-char	**ft_espand_all(t_shell *shell);
+char	**ft_expand_all(t_shell *shell);
 char	*ft_expansion(t_shell *shell, char *str);
 char	*ft_check_quote(t_list *list, char *str, int *i);
 char	*ft_resolve_expansion(t_list *list, char *str, int lvl);

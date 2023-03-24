@@ -56,10 +56,9 @@ int	main(int ac, char **av, char **envp)
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
 		// ft_print(shell.parsed);
-		// for (int i = 0; shell.parsed[i]; i++)
-		// 	printf("%s\n", shell.parsed[i]);
-		shell.parsed = ft_espand_all(&shell);
+		shell.parsed = ft_expand_all(&shell);
 		// ft_print(shell.parsed);
+		// printf("%d\n", ft_strncmp(shell.parsed[0], "cd", 2));
 		if (!ft_strncmp(shell.parsed[0], "cd", 2))
 			cd(shell.parsed, envp);
 		else if (!ft_strncmp(shell.parsed[0], "exit", 2))
@@ -70,7 +69,6 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 			pipex(&shell, shell.parsed);
-		// ft_executor(...);
 		ft_free(shell.parsed);
 		// shell.parsed = ft_redirection(&shell);
 		// shell_errno = ft_executor(&shell);
