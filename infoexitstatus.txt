@@ -1,0 +1,47 @@
+In C:
+
+MACROS EXIT_SUCCESS EXIT_FAILURE
+            0               1
+Si puó utilizzare exit passando i valori di sopra
+
+In Shell:
+Lo stato di uscita di un comando eseguito è il valore restituito dalla chiamata di sistema waitpid o dalla funzione 
+equivalente. Gli stati di uscita sono compresi tra 0 e 255, sebbene, come spiegato di seguito, la shell possa utilizzare 
+valori superiori a 125 in particolare. Anche gli stati di uscita dai builtin della shell e dai comandi composti sono
+limitati a questo intervallo.
+
+Per gli scopi della shell, un comando che esce con uno stato di uscita zero ha avuto successo. 
+Uno stato di uscita diverso da zero indica un errore. Viene utilizzato questo schema apparentemente controintuitivo, 
+quindi esiste un modo ben definito per indicare il successo e una varietà di modi per indicare varie modalità di fallimento.
+Quando un comando termina con un segnale fatale il cui numero è N, Bash utilizza il valore 128+N come stato di uscita.
+
+Se un comando non viene trovato, il processo figlio creato per eseguirlo restituisce uno stato di 127. 
+Se un comando viene trovato ma non è eseguibile, lo stato di ritorno è 126.
+
+Se un comando non riesce a causa di un errore durante l'espansione o il reindirizzamento, 
+lo stato di uscita è maggiore di zero.
+
+Tutti i builtin di Bash restituiscono uno stato di uscita pari a zero se hanno successo e uno stato diverso da
+zero in caso di fallimento, quindi possono essere usati dai costrutti condizionali e list. 
+Tutti i builtin restituiscono uno stato di uscita di 2 per indicare un uso errato, opzioni generalmente non valide 
+o argomenti mancanti.
+
+Lo stato di uscita dell'ultimo comando è disponibile nel parametro speciale $?
+
+1	Catchall for general errors
+2	Misuse of shell builtins (according to Bash documentation)
+3   when there was an unexpected exception in a root shell.
+4   when there was an unexpected exception in an exception handler for a root shell.
+5   when there was an unexpected exception in a child shell.
+6   when there was an unexpected exception in an exception handler for a child shell.
+7   when descriptor 0 was not available.
+8   when descriptor 1 was not available.
+9   when descriptor 2 was not available.
+10  when there was an error opening the message catalog.
+11-125  when unsuccessful.
+126	Command invoked cannot execute
+127	Command not found
+128	Invalid argument to exit command
+128+n	Fatal error signal “n”
+130	Bash script terminated by Control-C
+255*	Exit status out of range
