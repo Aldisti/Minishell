@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 08:37:47 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/23 09:57:22 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/24 09:05:45 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,39 @@ int	ft_quotes_check(char *line, int	*i)
 	return (1);
 }
 
-char	**ft_parser(t_shell *shell, char *set)
+int	ft_parenthesis_check(char *line, int *i)
 {
-	int		dim;
-	int		i;
-	char	**parsed;
+	int	par_count;
 
-	parsed = (char **)ft_calloc(sizeof(char *), 1);
-	if (!parsed)
-		exit(1); // ft_die(); Error: memory error
-	dim = 1;
-	i = 0;
-	while (shell->line[i])
+	if (line[*i] == ')')
+		return (0); // ft_die(); Error: unclosed parenthesis
+	else if (line[*i] == '(')
 	{
-		while (shell->line[i] && !ft_in(shell->line[i], set))
+		par_count = 1;
+		(*i)++;
+		while (line[*i] && par_count)
 		{
-			if (!ft_quotes_check(shell->line, &i))
-				exit (2); // ft_die() Error: unclosed quotes
-			i++;
+			if (line[*i] == '(')
+				par_count++;
+			else if (line[*i] == ')')
+				par_count--;
+			if (!ft_quotes_check(line, i))
+				return (0); // ft_die; Error: unclosed quotes
+			(*i)++;
 		}
-		if (!i)
-			while (shell->line[i] && ft_in(shell->line[i], set))
-				i++;
-		parsed = ft_extract_word(parsed, &dim, &i, &shell->line);
-		if (!parsed)
-			exit(1); // ft_die(); Error: memory error
+		if (!line[*i] && par_count)
+			return (0); // ft_die(); Error: unclosed parenthesis
+		(*i)--;
 	}
-	return (parsed);
+	return (1);
+}
+
+int	ft_checks(char *line, int *i)
+{
+	if (!ft_quotes_check(line, i))
+		return (0); // ft_die() Error: unclosed quotes
+	else if (!ft_parenthesis_check(line, i))
+		return (0); // ft_die() Error: unclosed parenthesis
+	(*i)++;
+	return (1);
 }

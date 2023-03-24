@@ -6,15 +6,15 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/23 09:52:29 by gpanico          ###   ########.fr        #
+#    Updated: 2023/03/24 09:15:50 by gpanico          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 
-SRC		= main.c Init/env_set.c Parser/parser.c Pipex/command_parser.c \
-		  Pipex/command.c Pipex/pipex_utils.c Pipex/pipex.c \
-		  Pipex/trim_strs.c
+SRC		= main.c Init/env_set.c Parser/parser.c Parser/parser2.c \
+		  Pipex/command_parser.c Pipex/command.c Pipex/pipex_utils.c \
+		  Pipex/pipex.c Pipex/trim_strs.c
 USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c	\
 			Utils/strdup.c Utils/strrchr.c Utils/strtrim.c \
 			Utils/strjoin.c Utils/strlen.c Utils/strncmp.c Utils/substr.c \

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 09:58:42 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/24 10:54:32 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	main(int ac, char **av, char **envp)
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
+		for (int i = 0; shell.parsed[i]; i++)
+			printf("%s\n", shell.parsed[i]);
 		// shell.parsed = ft_expansion(&shell);
 		// shell.parsed = ft_redirection(&shell);
 		// shell_errno = ft_executor(&shell);
