@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/23 18:03:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:00:14 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 {
 	t_env	tmp;
 
-	if (!str || !*str)
-		return (ft_strdup(""));
-	if (!ft_strncmp(str, "$", ft_strlen(str)))
+	if (!str || !*str || !ft_strncmp(str, "$", ft_strlen(str)))
 		return (ft_strdup(""));
 	if (!ft_strncmp(str, "?", ft_strlen(str)))
 		return (ft_itoa(shell_errno));
