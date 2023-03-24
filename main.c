@@ -55,10 +55,7 @@ int	main(int ac, char **av, char **envp)
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
-		// ft_print(shell.parsed);
 		shell.parsed = ft_expand_all(&shell);
-		// ft_print(shell.parsed);
-		// printf("%d\n", ft_strncmp(shell.parsed[0], "cd", 2));
 		if (!ft_strncmp(shell.parsed[0], "cd", 2))
 			cd(shell.parsed, envp);
 		else if (!ft_strncmp(shell.parsed[0], "exit", 2))
