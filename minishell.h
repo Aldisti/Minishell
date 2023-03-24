@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:22:14 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:23:09 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int		ft_countn(const char *str, const char c, int n);
 int		ft_isspace(int c);
 void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char	*ft_itoa(int n);
+char	*ft_joiner(char **tab, int n);
 char	*ft_joiner(char **tab, int n);
 char	**ft_split(char const *s, char c);
 char	*ft_strdup(const char *s1);

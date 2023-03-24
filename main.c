@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:20:12 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:26:03 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 	char	*prompt;
+	int		i;
 
 	if (ac != 1)
 		return (0);
 	(void)av;
-	// ft_init(&shell, envp);
+	shell.list = ft_env_set(envp);
 	while (42)
 	{
 		prompt = ft_prompt();
@@ -50,6 +51,19 @@ int	main(int ac, char **av, char **envp)
 		// for (int i = 0; shell.parsed[i]; i++)
 		// 	printf("%s\n", shell.parsed[i]);
 		shell.parsed = ft_espand_all(&shell);
+		if (!ft_strncmp(shell.parsed[0], "cd", 2))
+			cd(shell.parsed, envp);
+		else
+			pipex(&shell, shell.parsed);
+		// ft_executor(...);
+		i = 0;
+		while (shell.parsed[i])
+		{
+			//printf("%s\e[30;47m%%\e[0m\n", shell->parsed[i]);
+			free(shell.parsed[i]);
+			i++;
+		}
+		free(shell.parsed);
 		// shell.parsed = ft_redirection(&shell);
 		// shell_errno = ft_executor(&shell);
 		// ft_catch_error(&shell);
