@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 10:35:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:58:37 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:28:55 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,16 @@ extern int	g_shell_errno;
 
 char	*ft_resolve_expansion(t_list *list, char *str, int lvl)
 {
-	t_env	tmp;
+	t_env	*tmp;
 
 	if (!str || !*str || !ft_strncmp(str, "$", ft_strlen(str)))
 		return (ft_strdup(""));
 	if (!ft_strncmp(str, "?", ft_strlen(str)))
 		return (ft_itoa(g_shell_errno));
-	while (list && ft_strncmp(list->content->name, str, ft_strlen(str)))
-		list = list->next;
-	if (!list)
+	tmp = ft_search_in_list(list, str, lvl);
+	if (!tmp)
 		return (ft_strdup(""));
-	tmp = *(list->content);
-	while (tmp.next && tmp.level != lvl)
-		tmp = *(tmp.next);
-	if (!ft_strncmp(tmp.name, str, ft_strlen(str)) && tmp.level == lvl)
-		return (ft_strdup(tmp.value));
-	else
-		return(ft_strdup(""));
-}
-
-int	ft_ifin(char c, char *set)
-{
-	int	i;
-
-	i = -1;
-	while (set[++i])
-		if (c == set[i])
-			return (1);
-	return (0);
+	return (ft_strdup(tmp->value));
 }
 
 char	*ft_check_quote(t_list *list, char *str, int *i)
@@ -85,7 +67,7 @@ char	*ft_expansion(t_shell *shell, char *str)
 			continue ;
 		strs[0] = ft_substr(str, 0, index[0]);
 		index[1] = index[0] + 1;
-		while (str[index[1]] && !ft_ifin(str[index[1]], "$ ()\'\""))
+		while (str[index[1]] && !ft_in(str[index[1]], "$ ()\'\""))
 			index[1]++;
 		strs[2] = ft_substr(str, index[1], ft_strlen(str) - index[1]);
 		strs[3] = ft_substr(str, index[0] + 1, index[1] - index[0] - 1);

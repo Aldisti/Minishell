@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:30:41 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:44:01 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # include <sys/types.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+
+# ifndef METACHARS
+#  define METACHARS " \n\t|&<>()"
+# endif
 
 typedef struct s_env
 {
@@ -92,7 +96,6 @@ char	**ft_parser(t_shell *shell, char *set);
 
 
 //	espansion
-int		ft_ifin(char c, char *set);
 char	**ft_espand_all(t_shell *shell);
 char	*ft_expansion(t_shell *shell, char *str);
 char	*ft_check_quote(t_list *list, char *str, int *i);
@@ -106,8 +109,8 @@ int		get_oldpwd_i(char **envp);
 void	cd(char **argv, char **envp);
 int		update_oldpwd(char **envp, char *str);
 //	pwd
-char	*pwd(void);
 void	print_pwd(void);
+char	*pwd(void);
 
 
 
@@ -119,19 +122,19 @@ int		pipex(t_shell *shell, char **argv);
 int		pipex_init(t_pipex *pipex, int argc, char **argv);
 int		child_proc(t_pipex *pipex, char **argv, int child_id);
 //	pipex_utils
-void	trim_strs(char **strs);
-int		prepare_strs(char **strs);
-void	close_pipes(t_pipex *pipex);
-int		create_pipes(t_pipex *pipex);
 void	my_dup(t_pipex *pipex, int id, int mode);
+int		create_pipes(t_pipex *pipex);
+void	close_pipes(t_pipex *pipex);
+int		prepare_strs(char **strs);
+void	trim_strs(char **strs);
 //	command
 char	**get_cmd(t_pipex *pipex, char *str);
 char	*path_checker(t_pipex *pipex, char *str);
 void	get_cmd_loop(t_pipex *pipex, char *temp, char **command);
 //	command_parser
-char	**command_parser(char *str, char *set);
-int		ft_quotes_check_command(char *line, int	*i);
 char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line);
+int		ft_quotes_check_command(char *line, int	*i);
+char	**command_parser(char *str, char *set);
 //	free
 void	ft_free(char **strs);
 void	child_free(t_pipex *pipex, char **cmd);
@@ -139,24 +142,23 @@ void	child_free(t_pipex *pipex, char **cmd);
 
 
 //	Utils
-void	*ft_calloc(size_t num, size_t dim);
-int		ft_countn(const char *str, const char c, int n);
-int		ft_countn(const char *str, const char c, int n);
-int		ft_isspace(int c);
-void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char	*ft_itoa(int n);
-char	*ft_joiner(char **tab, int n);
-char	*ft_joiner(char **tab, int n);
-char	**ft_split(char const *s, char c);
-char	*ft_strdup(const char *s1);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *str);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strrchr(const char *str, int c);
-char	*ft_strtrim(char const *s1, char const *set);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+int		ft_isspace(int c);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *str);
+char	*ft_joiner(char **tab, int n);
+char	**ft_split(char const *s, char c);
+void	*ft_calloc(size_t num, size_t dim);
+char	*ft_strrchr(const char *str, int c);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strtrim(char const *s1, char const *set);
+int		ft_countn(const char *str, const char c, int n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+t_env	*ft_search_in_list(t_list *list, char *name, int lvl);
+void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif
