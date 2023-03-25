@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:44:03 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:48:34 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ char	*ft_expand_dollar(t_shell *shell, char *str, int i)
 		strs[1] = ft_strdup("");
 	else
 		strs[1] = ft_strdup(env->value);
-	// if (!strs[1] && env)
-	// 	exit(1); // ft_die(shell)
+	if (!strs[1] && env)
+		exit(1); // ft_die(shell)
 	strs[0] = ft_substr(str, 0, i);
 	if (!strs[0] && i > 0)
 		exit(1); // ft_die(shell)
 	strs[2] = ft_substr(str, i + ft_strlen(tmp) + 1, ft_strlen(str));
-	if (!strs[2] && (ft_strlen(str) - i - 1))
+	if (!strs[2] && (ft_strlen(str) - i - ft_strlen(tmp) - 1))
 		exit(1); // ft_die(shell)
 	free(tmp);
 	tmp = ft_joiner(strs, 1);
