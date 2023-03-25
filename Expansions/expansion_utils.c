@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:10:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 17:29:08 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:04:23 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*ft_getname(char *str, int i)
 	j = i + 1;
 	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 		j++;
+	if (str[j])
+		j--;
 	name = ft_substr(str, i + 1, j - i);
 	return (name);
 }
@@ -67,13 +69,13 @@ int	ft_getquotes(char *str, int i)
 	quotes = 0;
 	while (++j < i)
 	{
-		if (str[i] == '\'' && !quotes)
+		if (str[j] == '\'' && !quotes)
 			quotes = 1;
-		else if (str[i] == '\"' && !quotes)
+		else if (str[j] == '\"' && !quotes)
 			quotes = 2;
-		else if (str[i] == '\'' && quotes == 1)
+		else if (str[j] == '\'' && quotes == 1)
 			quotes = 0;
-		else if (str[i] == '\"' && quotes == 2)
+		else if (str[j] == '\"' && quotes == 2)
 			quotes = 0;
 	}
 	return (quotes);

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 17:27:11 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:05:37 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,29 @@ char	*ft_expand_dollar(t_shell *shell, char *str, int i)
 	// 	return (ft_expand_special(shell, str, i));
 	strs[3] = 0;
 	tmp = ft_getname(str, i);
+	// printf("|%s|\n", tmp);
 	if (!tmp)
 		exit(1); // ft_die(shell)
-	
+	env = ft_search_in_list(shell->list, tmp, ft_getlvl(str, i));
+	if (!env)
+		return (str);
+	strs[0] = ft_substr(str, 0, i);
+	if (!strs[0] && i > 0)
+		exit(1); // ft_die(shell)
+	strs[2] = ft_substr(str, i + ft_strlen(tmp) + 1, ft_strlen(str));
+	// printf("right: |%s|\n", &str[ft_strlen(tmp) + i - 1]);
+	if (!strs[1] && ft_strlen(env->value))
+		exit(1); // ft_die(shell)
+	strs[1] = ft_strdup(env->value);
+	if (!strs[1] && ft_strlen(env->value))
+		exit(1); // ft_die(shell)
+	// printf("ciao\n");
+	free(tmp);
+	tmp = ft_joiner(strs, 1);
+	free(str);
+	// printf("|%s|\n", tmp);
+	// exit(1);
+	return (tmp);
 }
 
 char	*ft_expansion(t_shell *shell, char *str)
