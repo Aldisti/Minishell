@@ -25,16 +25,15 @@ char	*ft_joiner(char **tab, int n)
 	while (tab[++i])
 	{
 		tmp = ft_strjoin(out, tab[i]);
-		if (n)
+		if (n && out)
 		{
-			if (tab[i])
-				free(tab[i]);
-			if (out)
-				free(out);
-			tab[i] = 0;
+			free(out);
 			out = 0;
 		}
+		if (!tmp)
+			break ;
 		out = tmp;
 	}
+	ft_free(tab);
 	return (tmp);
 }

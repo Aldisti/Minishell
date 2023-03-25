@@ -12,14 +12,17 @@
 
 NAME	= minishell
 
-SRC			= main.c expansion.c
+SRC			= main.c
 PARSER_SRC	= $(wildcard Parser/*.c)
 PIPEX_SRC	= $(wildcard Pipex/*.c)
 UTILS_SRC	= $(wildcard Utils/*.c)
 INIT_SRC	= $(wildcard Init/*.c)
+EXP_SRC		= $(wildcard Expansions/*.c)
 COMM_SRC	= $(wildcard Commands/*.c)
 
-OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o) $(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)
+OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
+			$(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)	\
+			$(EXP_SRC:%.c=%.o)
 
 CC		= cc
 FLAGS	= -Wall -Wextra -Werror

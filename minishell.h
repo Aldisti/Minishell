@@ -95,13 +95,14 @@ char	**ft_parser(t_shell *shell, char *set);
 
 
 
-//	espansion
-char	**ft_expand_all(t_shell *shell);
+//	Expansions
+//	expansion
+char	*ft_expand_tilde(t_shell *shell, char *str, int i);
 char	*ft_expansion(t_shell *shell, char *str);
-char	*ft_check_quote(t_list *list, char *str, int *i);
-char	*ft_resolve_expansion(t_list *list, char *str, int lvl);
-
-
+char	**ft_expand_all(t_shell *shell);
+//	expansion_utils
+int		ft_getquotes(char *str, int i);
+int		ft_getlvl(char *str, int i);
 
 //	Commands
 //	cd
