@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 16:10:10 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/25 17:25:32 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	*ft_expansion(t_shell *shell, char *str);
 char	**ft_expand_all(t_shell *shell);
 //	expansion_utils
 int		ft_getquotes(char *str, int i);
+char	*ft_getname(char *str, int i);
 int		ft_getlvl(char *str, int i);
 
 //	Commands
@@ -144,6 +145,9 @@ void	child_free(t_pipex *pipex, char **cmd);
 
 //	Utils
 char	*ft_itoa(int n);
+int		ft_isalnum(int n);
+int		ft_isalpha(int n);
+int		ft_isdigit(int n);
 int		ft_isspace(int c);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content);

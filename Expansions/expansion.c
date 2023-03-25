@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 12:58:14 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/25 17:27:11 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_shell_errno;
+
 //	echo (~) da discutere
 char	*ft_expand_tilde(t_shell *shell, char *str, int i)
 {
@@ -43,6 +46,18 @@ char	*ft_expand_tilde(t_shell *shell, char *str, int i)
 
 char	*ft_expand_dollar(t_shell *shell, char *str, int i)
 {
+	char	*strs[4];
+	char	*tmp;
+	t_env	*env;
+
+	if (ft_getquotes(str, i) == 1)
+		return (str);
+	// if (str[i + 1] && (str[i + 1] == '?' || str[i + 1] == '$'))
+	// 	return (ft_expand_special(shell, str, i));
+	strs[3] = 0;
+	tmp = ft_getname(str, i);
+	if (!tmp)
+		exit(1); // ft_die(shell)
 	
 }
 
