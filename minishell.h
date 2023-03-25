@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 17:33:16 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:29:35 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ char	**ft_split(char const *s, char c);
 void	*ft_calloc(size_t num, size_t dim);
 char	*ft_strrchr(const char *str, int c);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 int		ft_countn(const char *str, const char c, int n);

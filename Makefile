@@ -6,7 +6,7 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/24 15:19:50 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/25 18:43:13 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ RM		= rm -f
 
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
-	@echo "MINISHELL  CREATED  SUCCESSUFULLY\n\033[0;0m"
+	@echo "MINISHELL  CREATED  SUCCESSUFULLY\033[0;0m"
 
 all: $(NAME)
 
@@ -44,14 +44,14 @@ linux: $(OBJ)
 	$(CC) -fsanitize=address $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
-	@printf "\033[0;31m\nRemoving Object files...\n\n\033[0;0m"
+	@printf "\033[0;31mRemoving Object files...\n\033[0;0m"
 	@$(RM) $(OBJ)
-	@echo "\033[0;31m\nObject files removed\n\033[0;0m"
+	@echo "\033[0;31mObject files removed\n\033[0;0m"
 	
 fclean: clean
-	@printf "\033[0;31m\nRemoving program executable...\n\n\033[0;0m"
+	@printf "\033[0;31mRemoving program executable...\n\033[0;0m"
 	@$(RM) $(NAME)
-	@echo "\033[0;31m\nMINISHELL REMOVED\n\033[0;0m"
+	@echo "\033[0;31mMINISHELL REMOVED\n\033[0;0m"
 	
 re: fclean all
 

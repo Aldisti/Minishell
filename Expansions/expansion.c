@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:18:34 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:34:33 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,25 +77,22 @@ char	*ft_expand_dollar(t_shell *shell, char *str, int i)
 	char	*tmp;
 	t_env	*env;
 
-	if (ft_getquotes(str, i) == 1)
-		return (str);
-	if (str[i + 1] && (str[i + 1] == '?' || str[i + 1] == '$'))
-		return (ft_expand_special(shell, str, i));
 	strs[3] = 0;
 	tmp = ft_getname(str, i);
 	if (!tmp)
 		exit(1); // ft_die(shell)
 	env = ft_search_in_list(shell->list, tmp, ft_getlvl(str, i));
 	if (!env)
-		return (str);
+		strs[1] = ft_strdup("");
+	else
+		strs[1] = ft_strdup(env->value);
+	if (!strs[1] && env)
+		exit(1); // ft_die(shell)
 	strs[0] = ft_substr(str, 0, i);
 	if (!strs[0] && i > 0)
 		exit(1); // ft_die(shell)
 	strs[2] = ft_substr(str, i + ft_strlen(tmp) + 1, ft_strlen(str));
-	if (!strs[1] && ft_strlen(env->value))
-		exit(1); // ft_die(shell)
-	strs[1] = ft_strdup(env->value);
-	if (!strs[1] && ft_strlen(env->value))
+	if (!strs[2] && (ft_strlen(str) - i - 1))
 		exit(1); // ft_die(shell)
 	free(tmp);
 	tmp = ft_joiner(strs, 1);
@@ -105,15 +102,19 @@ char	*ft_expand_dollar(t_shell *shell, char *str, int i)
 
 char	*ft_expansion(t_shell *shell, char *str)
 {
-	int	i;
-	int	quotes;
+	int		i;
+	int		quotes;
+	char	*strs[4];
 
 	i = -1;
 	quotes = 0;
+	strs[3] = 0;
 	while (str[++i])
 	{
 		if (str[i] == '~' && !ft_getquotes(str, i))
 			str = ft_expand_tilde(shell, str, i);
+		else if (str[i] == '$' && (!str[i + 1] || str[i + 1] == '?' || str[i + 1] == '$'))
+			str = ft_expand_special(shell, str, i);
 		else if (str[i] == '$' && ft_getquotes(str, i) != 1)
 			str = ft_expand_dollar(shell, str, i);
 	}
