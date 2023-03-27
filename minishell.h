@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:25 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/03/27 22:57:16 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	env(t_shell	*shell);
 //	Pipex
 //	pipex
 char	**line_filter(char **strs);
-void	execute_command(char **cmd);
+void	execute_command(t_pipex *pipex, char **cmd);
 int		pipex(t_shell *shell, char **argv);
 int		pipex_init(t_pipex *pipex, int argc, char **argv);
 int		child_proc(t_pipex *pipex, char **argv, int child_id);
@@ -131,6 +131,9 @@ int		create_pipes(t_pipex *pipex);
 void	close_pipes(t_pipex *pipex);
 int		prepare_strs(char **strs);
 void	trim_strs(char **strs);
+void	cat_here_doc(t_pipex *pipex, char *limiter);
+int		here_doc(t_pipex *pipex, char *limiter);
+char	*get_next_line(int fd);
 //	command
 char	**get_cmd(t_pipex *pipex, char *str);
 char	*path_checker(t_pipex *pipex, char *str);

@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/27 09:22:36 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/27 22:55:17 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
+
+int	is_built_in(char *cmd)
+{
+	if (!ft_strncmp(cmd, "<<", 2) && ft_strlen(cmd) == 2)
+		return (1);
+	return (0);
+}
 
 /*
 char	*path_checker(t_pipex *pipex)
@@ -38,7 +45,7 @@ char	*path_checker(t_pipex *pipex, char *str)
 	}
 	if (!flag)
 	{
-		if (!access(str, X_OK))
+		if (!access(str, X_OK) || is_built_in(str))
 			return (ft_strdup(str));
 		dup2(pipex->original_stdout, 1);
 		printf("%s: comando non trovato\n",
