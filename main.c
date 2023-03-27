@@ -6,13 +6,21 @@
 /*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 15:34:03 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/03/27 11:59:25 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_shell_errno = 0;
+
+void	ft_print(char **tab)
+{
+	if (!tab)
+		return ;
+	for (int i = 0; tab[i]; i++)
+		printf("%s\n", tab[i]);
+}
 
 char	*ft_prompt(void)
 {
@@ -31,7 +39,7 @@ char	*ft_prompt(void)
 	return (temp);
 }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
 	t_shell	shell;
 	char	*prompt;
@@ -39,7 +47,7 @@ int	main(int ac, char **av)
 	if (ac != 1)
 		return (0);
 	(void)av;
-	// ft_init(&shell, envp);
+	shell.list = ft_env_set(envp);
 	while (42)
 	{
 		prompt = ft_prompt();
@@ -47,8 +55,21 @@ int	main(int ac, char **av)
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
-		shell.exit_code = ft_strdup("0");
-		// shell.parsed = ft_expansion(&shell);
+		ft_parser_checks(&shell);
+		shell.parsed = ft_expand_all(&shell);
+		if (!ft_strncmp(shell.parsed[0], "cd", 2))
+			cd(shell.parsed, envp);
+		if (!ft_strncmp(shell.parsed[0], "env", 3))
+			env(&shell);
+		else if (!ft_strncmp(shell.parsed[0], "exit", 2))
+		{
+			rl_clear_history();
+			ft_free_mat((void ***) &shell.parsed);
+			exit(1);
+		}
+		else
+			pipex(&shell, shell.parsed);
+		ft_free_mat((void ***) &shell.parsed);
 		// shell.parsed = ft_redirection(&shell);
 		// shell_errno = ft_executor(&shell);
 		// ft_catch_error(&shell);

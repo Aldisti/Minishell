@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strrchr.c                                          :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 14:09:30 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 11:58:39 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/01/16 12:28:40 by mpaterno          #+#    #+#             */
+/*   Updated: 2023/03/24 16:03:40 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strrchr(const char *str, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	int	i;
 
-	if (!str)
-		return (0);
-	i = ft_strlen(str);
-	while (--i >= 0)
-		if (str[i] == (char)c)
-			return ((char *)(str + i));
+	i = -1;
+	while (s[++i])
+	{
+		if (s[i] == (unsigned char) c)
+			return ((char *) s + i);
+	}
+	if (s[i] == (unsigned char)c)
+		return ((char *) s + i);
 	return (0);
 }

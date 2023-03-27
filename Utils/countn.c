@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strrchr.c                                          :+:      :+:    :+:   */
+/*   countn.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 14:09:30 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 11:58:39 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/03/23 12:13:10 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/23 14:43:08 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strrchr(const char *str, int c)
+//	return: returns the number of occurences of c in str for n chars
+//	pro tip: if n is -1 it checks all the string
+int	ft_countn(const char *str, const char c, int n)
 {
 	int	i;
 
-	if (!str)
-		return (0);
-	i = ft_strlen(str);
-	while (--i >= 0)
-		if (str[i] == (char)c)
-			return ((char *)(str + i));
-	return (0);
+	if (n == -1)
+		n = ft_strlen(str);
+	i = 0;
+	while (str++ && n > 0)
+	{
+		if (*str == c)
+			i++;
+		n--;
+	}
+	return (i);
 }

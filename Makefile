@@ -3,25 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+         #
+#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/24 14:44:37 by afraccal         ###   ########.fr        #
+#    Updated: 2023/03/24 15:19:50 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 
-SRC		= main.c Init/env_set.c Parser/parser.c Pipex/command_parser.c \
-		  Pipex/command.c Pipex/pipex_utils.c Pipex/pipex.c \
-		  Pipex/trim_strs.c
-USRC	= Utils/calloc.c Utils/isspace.c Utils/itoa.c Utils/split.c	\
-			Utils/strdup.c Utils/strrchr.c Utils/strtrim.c \
-			Utils/strjoin.c Utils/strlen.c Utils/strncmp.c Utils/substr.c \
-			Utils/realloc.c Utils/lstnew.c Utils/lstlast.c \
-			Utils/lstadd_back.c
+SRC			= main.c expansion.c
+PARSER_SRC	= $(wildcard Parser/*.c)
+PIPEX_SRC	= $(wildcard Pipex/*.c)
+UTILS_SRC	= $(wildcard Utils/*.c)
+INIT_SRC	= $(wildcard Init/*.c)
+COMM_SRC	= $(wildcard Commands/*.c)
 
-OBJ		= $(SRC:%.c=%.o) $(USRC:%.c=%.o)
+OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o) $(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)
 
 CC		= cc
 FLAGS	= -Wall -Wextra -Werror
@@ -30,7 +28,7 @@ RDLN_L	= -lreadline
 RM		= rm -f
 
 %.o : %.c
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAG) -c $< -o $@
 	@printf "\033[0;32mCompiling... %-33.33s\r" $@
 
 $(NAME): $(OBJ)
@@ -40,7 +38,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 linux: $(OBJ)
-	$(CC) $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) -fsanitize=address $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
 	@printf "\033[0;31m\nRemoving Object files...\n\n\033[0;0m"
@@ -54,13 +52,9 @@ fclean: clean
 	
 re: fclean all
 
-test: fclean linux
-	$(RM) $(OBJ)
+test: fclean linux clean
 
 leaks: all
-	@leaks --atExit -- ./$(NAME)
-
-var: all
-	@valgrind --leak-check=full ./$(NAME)
+	@valgrind ./$(NAME)
 
 .PHONY: all clean fclean re test

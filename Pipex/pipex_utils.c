@@ -3,44 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/03/22 15:50:42 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:51:09 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "./../minishell.h"
 
-void	ft_free(char **strs)
+/*
+int	prepare_strs(char **strs)
+char	**strs: already properly setted variable that contain the complete
+				command retrived from the shell formatted as follow
+				{"path/command", "other option or flag", ...}
+
+this function loop trought all the string contained in strs and trim
+the starting and trailing blank space
+*/
+
+int	prepare_strs(char **strs)
 {
-	int	i;
+	int		i;
+	char	*temp;
 
 	i = -1;
 	while (strs[++i])
+	{
+		temp = ft_strtrim(strs[i], " ");
 		free(strs[i]);
-	free(strs);
-	strs = 0;
+		strs[i] = ft_strdup(temp);
+		free(temp);
+	}
+	return (i);
 }
 
-void	child_free(t_pipex *pipex, char **cmd)
+/*
+int	prepare_strs(char **strs)
+char	**strs: already properly setted variable that contain the complete
+				command retrived from the shell formatted as follow
+				{"path/command", "other option or flag", ...}
+
+this function loop trought all the string contained in strs and trim
+the starting and trailing ["] or [']
+*/
+
+void	trim_strs(char **strs)
+{
+	char	*temp;
+	int		i;
+
+	i = -1;
+	while (strs[++i])
+	{
+		if (strs[i][0] == '\"')
+		{
+			temp = ft_strtrim(strs[i], "\"");
+			free(strs[i]);
+			strs[i] = ft_strdup(temp);
+			free(temp);
+		}
+		else if (strs[i][0] == '\'')
+		{
+			temp = ft_strtrim(strs[i], "\'");
+			free(strs[i]);
+			strs[i] = ft_strdup(temp);
+			free(temp);
+		}
+	}
+}
+
+/*
+SELF EXPLANATORY
+*/
+
+void	close_pipes(t_pipex *pipex)
 {
 	int	i;
 
 	i = -1;
-	close(pipex->infile_fd);
-	close(pipex->outfile_fd);
-	while (cmd && cmd[++i])
-		free(cmd[i]);
-	if (cmd)
-		free(cmd);
-	free(pipex->pipe);
-	free(pipex->pid);
-	pipex->pipe = 0;
-	pipex->pid = 0;
-	cmd = 0;
-	close(pipex->original_stdout);
+	while (++i < pipex->pipe_count)
+		close(pipex->pipe[i]);
 }
+
+/*
+SELF EXPLANATORY
+*/
+
+void	my_dup(t_pipex *pipex, int id, int mode)
+{
+	if (mode == 0)
+	{
+		dup2(pipex->infile_fd, 0);
+		dup2(pipex->pipe[2 * id + 1], 1);
+	}
+	else if (mode == 1)
+	{
+		dup2(pipex->pipe[2 * id - 2], 0);
+		dup2(pipex->outfile_fd, 1);
+	}
+	else if (mode == 2)
+	{
+		dup2(pipex->pipe[2 * id - 2], 0);
+		dup2(pipex->pipe[2 * id + 1], 1);
+	}
+}
+
+/*
+SELF EXPLANATORY
+*/
 
 int	create_pipes(t_pipex *pipex)
 {
@@ -53,19 +124,4 @@ int	create_pipes(t_pipex *pipex)
 			return (-1);
 	}
 	return (1);
-}
-
-void	close_pipes(t_pipex *pipex)
-{
-	int	i;
-
-	i = -1;
-	while (++i < pipex->pipe_count)
-		close(pipex->pipe[i]);
-}
-
-void	my_dup(int first, int second)
-{
-	dup2(first, 0);
-	dup2(second, 1);
 }

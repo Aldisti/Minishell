@@ -6,7 +6,7 @@
 /*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 16:01:08 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/03/27 11:12:25 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,9 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-/*
-typedef struct s_env
-{
-	char			*name;
-	char			*value;
-	int				unset;
-	struct s_env	*next;
-	struct s_env	*level;
-}	t_env;
-*/
+# ifndef METACHARS
+#  define METACHARS " \n\t|&<>()"
+# endif
 
 typedef struct s_env
 {
@@ -67,79 +60,112 @@ typedef struct s_shell
 {
 	char	**parsed;
 	char	*line;
-	char	*word;
-	char	*exit_code;
 	int		*fd_input;
 	int		*fd_output;
-	t_env	*env;
-	t_pipex	*pipex;
+	t_list	*list;
+	t_pipex	pipex;
 }	t_shell;
 
 // funzioni del main (devono essere cosi)
-void	ft_init(t_shell *env, char **envp);
-char	**ft_parser(t_shell *shell, char *set);
-char	**ft_expansion(t_shell *shell);
-char	**ft_redirection(t_shell *shell);
-int		ft_executor(t_shell *shell);
-void	ft_catch_error(t_shell *shell);
+// void	ft_init(t_shell *env, char **envp);
+// char	**ft_parser(t_shell *shell, char *set);
+// char	**ft_redirection(t_shell *shell);
+// int		ft_executor(t_shell *shell);
+// void	ft_catch_error(t_shell *shell);
+
+
 
 //	Init
-//	set_env
+//	env_set
 t_list	*ft_env_set(char **envp);
 char	*ft_get_name(const char *str);
 char	*ft_get_value(const char *str);
 
+
+
 //	Parser
 //	parser
 int		ft_in(char c, char *set);
+int		ft_checks(char *line, int *i);
 int		ft_quotes_check(char *line, int *i);
+int		ft_parenthesis_check(char *line, int *i);
 char	**ft_extract_word(char **parsed, int *dim, int *i, char **line);
+//	parser2
+char	**ft_parser(t_shell *shell, char *set);
+int		ft_delete_spaces(t_shell *shell);
+int		ft_check_multi_par(char *line);
+void	ft_parser_checks(t_shell *shell);
+
+
+//	espansion
+char	**ft_expand_all(t_shell *shell);
+char	*ft_expansion(t_shell *shell, char *str);
+char	*ft_check_quote(t_list *list, char *str, int *i);
+char	*ft_resolve_expansion(t_list *list, char *str, int lvl);
+
+
+
+//	Commands
+//	cd
+int		get_oldpwd_i(char **envp);
+void	cd(char **argv, char **envp);
+int		update_oldpwd(char **envp, char *str);
+//	pwd
+void	print_pwd(void);
+char	*pwd(void);
+// env
+void	env(t_shell	*shell);
+
+
 
 //	Pipex
-// 	pipex
-int		child_proc(t_pipex *pipex, char **argv, int child_id);
-int		pipex_init(t_pipex *pipex, int argc, char **argv);
-int		pipex(t_shell *shell, char **argv);
-char	**rm_pipe_n_space(char **strs);
+//	pipex
+char	**line_filter(char **strs);
 void	execute_command(char **cmd);
+int		pipex(t_shell *shell, char **argv);
+int		pipex_init(t_pipex *pipex, int argc, char **argv);
+int		child_proc(t_pipex *pipex, char **argv, int child_id);
 //	pipex_utils
-void	ft_free(char **strs);
-void	child_free(t_pipex *pipex, char **cmd);
+void	my_dup(t_pipex *pipex, int id, int mode);
 int		create_pipes(t_pipex *pipex);
 void	close_pipes(t_pipex *pipex);
-void	my_dup(int first, int second);
-//	command
-char	**path_n_command(t_pipex *pipex, char **argv, int el);
-char	**get_cmd(t_pipex *pipex, char **argv, int child_id);
-void	command_not_found(t_pipex *pipex);
-char	*path_checker(t_pipex *pipex);
 int		prepare_strs(char **strs);
-// command_parser
+void	trim_strs(char **strs);
+//	command
+char	**get_cmd(t_pipex *pipex, char *str);
+char	*path_checker(t_pipex *pipex, char *str);
+void	get_cmd_loop(t_pipex *pipex, char *temp, char **command);
+//	command_parser
 char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line);
-void	*mft_realloc(void *p, size_t size, int dim, int new_dim);
 int		ft_quotes_check_command(char *line, int	*i);
 char	**command_parser(char *str, char *set);
-int		ft_in_command(char c, char *set);
-//	trim_strs
-void	trim_strs(char **strs);
-//	get_path
-char	*get_path(char **env);
+//	free
+void	ft_free(void **strs);
+void	ft_free_mat(void ***mat_addr);
+void	child_free(t_pipex *pipex, char **cmd);
+
+
 
 //	Utils
-void	*ft_calloc(size_t num, size_t dim);
-void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
-int		ft_isspace(int c);
 char	*ft_itoa(int n);
-char	**ft_split(char const *s, char c);
-char	*ft_strdup(const char *s1);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *str);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	*ft_strrchr(const char *str, int c);
-char	*ft_strtrim(char const *s1, char const *set);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	ft_lstadd_back(t_list **lst, t_list *new);
+int		ft_isspace(int c);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content);
+char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *str);
+char	*ft_joiner(char **tab, int n);
+char	*ft_strchr(const char *s, int c);
+char	**ft_split(char const *s, char c);
+void	*ft_calloc(size_t num, size_t dim);
+char	*ft_strrchr(const char *str, int c);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strtrim(char const *s1, char const *set);
+int		ft_countn(const char *str, const char c, int n);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+t_env	*ft_search_in_list(t_list *list, char *name, int lvl);
+void	*ft_realloc(void *p, size_t size, int dim, int new_dim);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif

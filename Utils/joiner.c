@@ -1,26 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strrchr.c                                          :+:      :+:    :+:   */
+/*   joiner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 14:09:30 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 11:58:39 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/03/23 15:39:38 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/24 10:57:51 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strrchr(const char *str, int c)
+//	description: it's like strjoin but works for n strings
+//	input: tab is an array of strings and n if it's not 0 does the free of tab
+char	*ft_joiner(char **tab, int n)
 {
-	int	i;
+	int		i;
+	char	*out;
+	char	*tmp;
 
-	if (!str)
-		return (0);
-	i = ft_strlen(str);
-	while (--i >= 0)
-		if (str[i] == (char)c)
-			return ((char *)(str + i));
-	return (0);
+	i = -1;
+	out = 0;
+	while (tab[++i])
+	{
+		tmp = ft_strjoin(out, tab[i]);
+		if (n)
+		{
+			if (tab[i])
+				free(tab[i]);
+			if (out)
+				free(out);
+			tab[i] = 0;
+			out = 0;
+		}
+		out = tmp;
+	}
+	return (tmp);
 }

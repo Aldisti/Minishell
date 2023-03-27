@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   trim_strs.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 16:03:36 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/22 16:05:37 by mpaterno         ###   ########.fr       */
+/*   Created: 2023/01/17 10:17:43 by mpaterno          #+#    #+#             */
+/*   Updated: 2023/03/24 16:03:37 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	trim_strs(char **strs)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	char	*temp;
-	int		i;
+	size_t	i;
 
-	i = -1;
-	while (strs[++i])
+	i = 0;
+	if (!src || !dst || size == 0)
+		return (ft_strlen(src));
+	while (src[i] && i < size - 1)
 	{
-		temp = ft_strtrim(strs[i], "\"\'");
-		free(strs[i]);
-		strs[i] = ft_strdup(temp);
-		free(temp);
+		dst[i] = src[i];
+		i++;
 	}
+	dst[i] = 0;
+	return (ft_strlen(src));
 }
