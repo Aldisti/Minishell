@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:48:34 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/27 15:40:38 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 extern int	g_shell_errno;
 
-//	echo (~) da discutere
 char	*ft_expand_tilde(t_shell *shell, char *str, int i)
 {
 	char	*strs[4];

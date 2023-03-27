@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:29:35 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:51:14 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ char	**ft_parser(t_shell *shell, char *set);
 
 //	Expansions
 //	expansion
+char	*ft_expand_special(t_shell *shell, char *str, int i);
 char	*ft_expand_dollar(t_shell *shell, char *str, int i);
 char	*ft_expand_tilde(t_shell *shell, char *str, int i);
 char	*ft_expansion(t_shell *shell, char *str);
