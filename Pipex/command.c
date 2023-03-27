@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/23 16:21:45 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/27 09:22:36 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*path_checker(t_pipex *pipex, char *str)
 		dup2(pipex->original_stdout, 1);
 		printf("%s: comando non trovato\n",
 			ft_strrchr(pipex->paths[0], '/') + 1);
-		ft_free(pipex->paths);
+		ft_free_mat((void ***) &pipex->paths);
 		child_free(pipex, 0);
 		exit(1);
 	}
@@ -92,6 +92,6 @@ char	**get_cmd(t_pipex *pipex, char *str)
 		command[0] = ft_strdup(temp);
 		free(temp);
 	}
-	ft_free(pipex->paths);
+	ft_free_mat((void ***) &pipex->paths);
 	return (command);
 }

@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 16:10:10 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/27 09:37:31 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ int		ft_parenthesis_check(char *line, int *i);
 char	**ft_extract_word(char **parsed, int *dim, int *i, char **line);
 //	parser2
 char	**ft_parser(t_shell *shell, char *set);
-
+int		ft_delete_spaces(t_shell *shell);
+int		ft_check_multi_par(char *line);
+void	ft_parser_checks(t_shell *shell);
 
 
 //	espansion
@@ -136,7 +138,8 @@ char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line);
 int		ft_quotes_check_command(char *line, int	*i);
 char	**command_parser(char *str, char *set);
 //	free
-void	ft_free(char **strs);
+void	ft_free(void **strs);
+void	ft_free_mat(void ***mat_addr);
 void	child_free(t_pipex *pipex, char **cmd);
 
 

@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 09:43:03 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/23 16:27:36 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/27 09:19:21 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	**strs: doppio puntatore del quale bisogna fare il free
 
 effetua il free di un doppio puntatore a carattere e lo setta a 0
 */
+/*
 void	ft_free(char **strs)
 {
 	int	i;
@@ -28,6 +29,7 @@ void	ft_free(char **strs)
 	free(strs);
 	strs = 0;
 }
+*/
 
 /*
 void	child_free(t_pipex *pipex, char **cmd)

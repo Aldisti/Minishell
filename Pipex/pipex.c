@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/24 11:49:13 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/27 09:20:29 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,6 @@ int	pipex(t_shell *shell, char **argv)
 	while (++i < shell->pipex.cmd_count)
 		waitpid(shell->pipex.pid[i], 0, 0);
 	child_free(&shell->pipex, 0);
-	ft_free(strs);
+	ft_free_mat((void ***) &strs);
 	return (0);
 }
