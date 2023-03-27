@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/27 09:37:31 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/27 11:12:25 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ int		update_oldpwd(char **envp, char *str);
 //	pwd
 void	print_pwd(void);
 char	*pwd(void);
+// env
+void	env(t_shell	*shell);
 
 
 

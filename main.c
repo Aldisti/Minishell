@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/27 09:44:39 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/27 11:59:25 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	main(int ac, char **av, char **envp)
 		shell.parsed = ft_expand_all(&shell);
 		if (!ft_strncmp(shell.parsed[0], "cd", 2))
 			cd(shell.parsed, envp);
+		if (!ft_strncmp(shell.parsed[0], "env", 3))
+			env(&shell);
 		else if (!ft_strncmp(shell.parsed[0], "exit", 2))
 		{
 			rl_clear_history();
