@@ -6,7 +6,7 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/25 18:43:13 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/27 16:39:13 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 linux: $(OBJ)
-	$(CC) -fsanitize=address $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
 	@printf "\033[0;31mRemoving Object files...\n\033[0;0m"

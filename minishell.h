@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:51:14 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/28 11:26:10 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <string.h>
+# include <signal.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include <sys/wait.h>
 # include <sys/types.h>
@@ -60,8 +61,6 @@ typedef struct s_shell
 {
 	char	**parsed;
 	char	*line;
-	int		*fd_input;
-	int		*fd_output;
 	t_list	*list;
 	t_pipex	pipex;
 }	t_shell;

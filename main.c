@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/27 15:52:14 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/28 12:11:24 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,35 @@ char	*ft_prompt(void)
 	return (temp);
 }
 
+void	ft_handler(int signum, siginfo_t *info, void *p)
+{
+	char	*prompt;
+
+	if (signum == 2)
+	{
+		prompt = ft_prompt();
+		rl_replace_line(prompt, 0);
+		free(prompt);
+	}
+	else
+		write(1, "SIGQUIT\n", 8);
+}
+
 int	main(int ac, char **av, char **envp)
 {
-	t_shell	shell;
-	char	*prompt;
+	t_shell				shell;
+	char				*prompt;
+	struct sigaction	action;
 
 	if (ac != 1)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
+	action.sa_sigaction = ft_handler;
+	action.sa_flags = SA_SIGINFO | SA_RESTART;
+	sigaction(SIGINT, &action, 0);
+	sigaction(SIGQUIT, &action, 0);
+	sigaction(EOF, &action, 0);
 	while (42)
 	{
 		prompt = ft_prompt();
