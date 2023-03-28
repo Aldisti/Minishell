@@ -46,7 +46,7 @@ void	ft_handler(int signum, siginfo_t *info, void *p)
 	if (signum == 2)
 	{
 		prompt = ft_prompt();
-		rl_replace_line(prompt, 0);
+		rL_replace();
 		free(prompt);
 	}
 	else
