@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/27 09:40:39 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/28 08:30:10 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,34 @@ int	ft_check_multi_par(char *line)
 	return (0);
 }
 
+int	ft_valid_operators(char **parsed)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (parsed[i])
+	{
+		j = 0;
+		while (parsed[i][j])
+		{
+			ft_quotes_check(&parsed[i][j], &j);
+			if (ft_in(parsed[i][j], "|&"))
+			{
+				if (ft_strlen_until(&parsed[i][j], " \n\t<>()") > 2)
+					return (0);
+				if (ft_strncmp(&parsed[i][j], "|", 1) &&
+					ft_strncmp(&parsed[i][j], "||", 2) &&
+					ft_strncmp(&parsed[i][j], "&&", 2))
+					return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
 void	ft_parser_checks(t_shell *shell)
 {
 	int	i;
@@ -95,6 +123,8 @@ void	ft_parser_checks(t_shell *shell)
 		exit(1); // ft_die(); Error: memory error
 	if (ft_in(shell->parsed[0][0], "&|"))
 		exit(4); // ft_die(); Error: invalid command
+	if (!ft_valid_operators(shell->parsed))
+		exit(5); // ft_die(); Error: invalid operator
 	i = 0;
 	while (shell->parsed[i])
 	{

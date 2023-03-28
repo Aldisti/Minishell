@@ -6,7 +6,7 @@
 /*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:25 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/03/28 08:29:46 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char	**ft_parser(t_shell *shell, char *set);
 int		ft_delete_spaces(t_shell *shell);
 int		ft_check_multi_par(char *line);
 void	ft_parser_checks(t_shell *shell);
+int		ft_valid_operators(char **parsed);
 
 
 //	espansion
@@ -158,6 +159,7 @@ char	*ft_strchr(const char *s, int c);
 char	**ft_split(char const *s, char c);
 void	*ft_calloc(size_t num, size_t dim);
 char	*ft_strrchr(const char *str, int c);
+int		ft_strlen_until(char *str, char *set);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
