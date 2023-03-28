@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/27 22:55:17 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/28 15:33:57 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,19 @@
 
 int	is_built_in(char *cmd)
 {
-	if (!ft_strncmp(cmd, "<<", 2) && ft_strlen(cmd) == 2)
+	if (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
+		return (1);
+	else if (!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
+		return (1);
+	else if (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
+		return (1);
+	else if (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
+		return (1);
+	else if (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
+		return (1);
+	else if (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
+		return (1);
+	else if (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)
 		return (1);
 	return (0);
 }
@@ -45,7 +57,7 @@ char	*path_checker(t_pipex *pipex, char *str)
 	}
 	if (!flag)
 	{
-		if (!access(str, X_OK) || is_built_in(str))
+		if (!access(str, X_OK))
 			return (ft_strdup(str));
 		dup2(pipex->original_stdout, 1);
 		printf("%s: comando non trovato\n",
@@ -88,17 +100,20 @@ char	**get_cmd(t_pipex *pipex, char *str)
 	pipex->cmd_i = -1;
 	pipex->paths = ft_split(getenv("PATH"), ':');
 	command = line_filter(command_parser(str, " "));
-	while (pipex->paths[++pipex->cmd_i])
-		get_cmd_loop(pipex, temp, command);
-	temp = path_checker(pipex, command[0]);
-	free(command[0]);
-	if (!temp)
-		command[0] = 0;
-	else
+	if (is_built_in(command[0]) == 0)
 	{
-		command[0] = ft_strdup(temp);
-		free(temp);
+		while (pipex->paths[++pipex->cmd_i])
+			get_cmd_loop(pipex, temp, command);
+		temp = path_checker(pipex, command[0]);
+		free(command[0]);
+		if (!temp)
+			command[0] = 0;
+		else
+		{
+			command[0] = ft_strdup(temp);
+			free(temp);
+		}
+		ft_free_mat((void ***) &pipex->paths);
 	}
-	ft_free_mat((void ***) &pipex->paths);
 	return (command);
 }

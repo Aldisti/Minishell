@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 22:49:01 by marco             #+#    #+#             */
-/*   Updated: 2023/03/27 22:49:17 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/28 10:26:44 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,7 @@ void	cat_here_doc(t_pipex *pipex, char *limiter)
 	char	*temp;
 
 	i = here_doc(pipex, limiter);
-	temp = get_next_line(i);
-	while (temp)
-	{
-		write(1, temp, ft_strlen(temp));
-		free(temp);
-		temp = get_next_line(i);
-	}
-	free(temp);
+	dup2(0, i);
 	close(i);
-	unlink(".here_doc");
+	//unlink(".here_doc");
 }
