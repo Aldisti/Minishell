@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 15:14:36 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:55:25 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,14 @@ void	env(t_shell	*shell);
 //	Pipex
 //	pipex
 char	**line_filter(char **strs);
-void	execute_command(t_shell *shell, char **cmd, int lvl);
+void	execute_cmd(t_shell *shell, char **argv, int child_id);
 int		pipex(t_shell *shell, char **argv);
 int		pipex_init(t_pipex *pipex, int argc, char **argv);
 int		child_proc(t_shell *shell, char **argv, int child_id);
 char	**list_convert(t_list *list);
 //	pipex_utils
 void	my_dup(t_pipex *pipex, int id, int mode);
+void	execute_built_in(t_shell *shell, char **cmd, int lvl);
 int		is_built_in(char *cmd);
 int		create_pipes(t_pipex *pipex);
 void	close_pipes(t_pipex *pipex);

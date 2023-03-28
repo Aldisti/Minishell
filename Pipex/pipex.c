@@ -6,51 +6,20 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/28 16:24:12 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:54:56 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
 /*
-void	execute_command(char **cmd)
-char	**cmd: already properly setted variable that contain the complete
-				command retrived from the shell formatted as follow
-				{"path/command", "other option or flag", ...}
-this function compare the path/command string to different command and 
-based on the result execute our own command or senti it to exevec
+int	check_built_in(t_shell *shell, char *str)
+char	*str: string that contain the command to execute
+
+this func controll the passed string and check if the
+command is a built in, if so it execute before the creation
+of the forked porcess
 */
-
-void	execute_built_in(t_shell *shell, char **cmd, int lvl)
-{
-	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
-		print_pwd();
-	// else if (!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
-	// 	return (1);
-	else if (!ft_strncmp(cmd[0], "cd", 2) && ft_strlen(cmd[0]) == 2)
-		cd(shell, cmd, lvl);
-	// else if (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
-	// 	return (1);
-	// else if (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
-	// 	return (1);
-	// else if (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
-	// 	return (1);
-	// else if (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)
-	// 	return (1);
-	// else
-	// {
-	// 	trim_strs(cmd);
-	// 	execve(cmd[0], cmd, shell->envp);
-	// }
-}
-
-void	my_wait(int child_id, t_pipex *pipex)
-{
-	if (child_id > 0)
-	{
-		waitpid(pipex->pid[child_id - 1], 0, 0);
-	}
-}
 
 int	check_built_in(t_shell *shell, char *str)
 {
@@ -82,8 +51,6 @@ the stdin and stdout is modyfied as well with dup2 func
 
 int	child_proc(t_shell *shell, char **argv, int child_id)
 {
-	char	**cmd;
-
 	if (check_built_in(shell, argv[child_id]) == 1)
 		return (0);
 	shell->pipex.pid[child_id] = fork();
@@ -91,7 +58,8 @@ int	child_proc(t_shell *shell, char **argv, int child_id)
 		return (-1);
 	if (shell->pipex.pid[child_id] == 0)
 	{
-		my_wait(child_id, &shell->pipex);
+		if (child_id > 0)
+			waitpid(shell->pipex.pid[child_id - 1], 0, 0);
 		if (child_id == 0 && shell->pipex.cmd_count != 1)
 			my_dup(&shell->pipex, child_id, 0);
 		else if (child_id == shell->pipex.cmd_count - 1)
@@ -99,14 +67,7 @@ int	child_proc(t_shell *shell, char **argv, int child_id)
 		else
 			my_dup(&shell->pipex, child_id, 2);
 		close_pipes(&shell->pipex);
-		cmd = get_cmd(&shell->pipex, argv[child_id]);
-		if (!cmd[0])
-		{
-			child_free(&shell->pipex, cmd);
-			exit(0);
-		}
-		trim_strs(cmd);
-		execve(cmd[0], cmd, shell->envp);
+		execute_cmd(shell, argv, child_id);
 	}
 	return (1);
 }
@@ -206,8 +167,6 @@ int	pipex(t_shell *shell, char **argv)
 	i = -1;
 	if (pipex_init(&shell->pipex, argc, strs) == -1)
 		return (1);
-	// if (check_built_in(shell, strs[0]) == 1)
-	// 	return (0);
 	while (++i < shell->pipex.cmd_count)
 	{
 		if (child_proc(shell, strs, i) < 0)

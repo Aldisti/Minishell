@@ -6,30 +6,11 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/28 15:33:57 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:53:55 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
-
-int	is_built_in(char *cmd)
-{
-	if (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
-		return (1);
-	else if (!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
-		return (1);
-	else if (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
-		return (1);
-	else if (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
-		return (1);
-	else if (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
-		return (1);
-	else if (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
-		return (1);
-	else if (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)
-		return (1);
-	return (0);
-}
 
 /*
 char	*path_checker(t_pipex *pipex)
@@ -68,6 +49,10 @@ char	*path_checker(t_pipex *pipex, char *str)
 	}
 	return (ft_strdup(pipex->paths[i]));
 }
+
+/*
+simple extension for get_cmd()
+*/
 
 void	get_cmd_loop(t_pipex *pipex, char *temp, char **command)
 {
@@ -116,4 +101,18 @@ char	**get_cmd(t_pipex *pipex, char *str)
 		ft_free_mat((void ***) &pipex->paths);
 	}
 	return (command);
+}
+
+void	execute_cmd(t_shell *shell, char **argv, int child_id)
+{
+	char	**cmd;
+
+	cmd = get_cmd(&shell->pipex, argv[child_id]);
+	if (!cmd[0])
+	{
+		child_free(&shell->pipex, cmd);
+		exit(0);
+	}
+	trim_strs(cmd);
+	execve(cmd[0], cmd, shell->envp);
 }
