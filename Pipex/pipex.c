@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/28 16:54:56 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/28 20:43:05 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	check_built_in(t_shell *shell, char *str)
 	char	**temp;
 
 	temp = ft_split(str, ' ');
+	if (!temp)
+		exit(6);//ft_die
 	if (is_built_in(temp[0]))
 		execute_built_in(shell, temp, 0);
 	else
@@ -131,14 +133,16 @@ char	**line_filter(char **strs)
 	if (!ret)
 		return (0);
 	i = -1;
-	j = 0;
+	j = -1;
 	while (strs[++i])
 	{
 		if (!ft_strncmp(strs[i], "|", 1) || (!ft_strncmp(strs[i], " ", 1)))
 			continue ;
-		ret[j++] = ft_strdup(strs[i]);
+		ret[++j] = ft_strdup(strs[i]);
+		if (!ret[j])
+			return (0);
 	}
-	ret[j] = 0;
+	ret[++j] = 0;
 	return (ret);
 }
 
@@ -163,10 +167,12 @@ int	pipex(t_shell *shell, char **argv)
 
 	prepare_strs(argv);
 	strs = line_filter(argv);
+	if (!strs)
+		return (1);
 	argc = prepare_strs(strs);
 	i = -1;
 	if (pipex_init(&shell->pipex, argc, strs) == -1)
-		return (1);
+		return (2);
 	while (++i < shell->pipex.cmd_count)
 	{
 		if (child_proc(shell, strs, i) < 0)

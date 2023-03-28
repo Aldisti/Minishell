@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/28 16:53:55 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/28 21:19:17 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,21 @@ simple extension for get_cmd()
 void	get_cmd_loop(t_pipex *pipex, char *temp, char **command)
 {
 	temp = ft_strdup(pipex->paths[pipex->cmd_i]);
-	free(pipex->paths[pipex->cmd_i]);
+	if (!temp)
+		exit(10);//ft_die
+	ft_free((void **) &pipex->paths[pipex->cmd_i]);
 	pipex->paths[pipex->cmd_i] = ft_strjoin(temp, "/");
-	free(temp);
+	if (!pipex->paths[pipex->cmd_i])
+		exit(11);//ft_die
+	ft_free((void **) &temp);
 	temp = ft_strdup(pipex->paths[pipex->cmd_i]);
-	free(pipex->paths[pipex->cmd_i]);
+	if (!temp)
+		exit(12);//ft_die
+	ft_free((void **) &pipex->paths[pipex->cmd_i]);
 	pipex->paths[pipex->cmd_i] = ft_strjoin(temp, command[0]);
-	free(temp);
+	if (!pipex->paths[pipex->cmd_i])
+		exit(13);//ft_die
+	ft_free((void **) &temp);
 }
 
 /*
@@ -90,13 +98,15 @@ char	**get_cmd(t_pipex *pipex, char *str)
 		while (pipex->paths[++pipex->cmd_i])
 			get_cmd_loop(pipex, temp, command);
 		temp = path_checker(pipex, command[0]);
-		free(command[0]);
+		ft_free((void **) &command[0]);
 		if (!temp)
 			command[0] = 0;
 		else
 		{
 			command[0] = ft_strdup(temp);
-			free(temp);
+			if (!command[0])
+				return (0);
+			ft_free((void **) &temp);
 		}
 		ft_free_mat((void ***) &pipex->paths);
 	}
@@ -108,11 +118,14 @@ void	execute_cmd(t_shell *shell, char **argv, int child_id)
 	char	**cmd;
 
 	cmd = get_cmd(&shell->pipex, argv[child_id]);
+	if (!cmd)
+		exit(15);//ft_die
 	if (!cmd[0])
 	{
 		child_free(&shell->pipex, cmd);
-		exit(0);
+		exit(9);
 	}
-	trim_strs(cmd);
+	trim_strs(cmd, "\'");
+	trim_strs(cmd, "\"");
 	execve(cmd[0], cmd, shell->envp);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/28 16:40:37 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/28 20:54:11 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_built_in(char *cmd)
 	if (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
 		return (1);
 	else if (!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
-		return (1);
+		return (0);
 	else if (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
 		return (1);
 	else if (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)

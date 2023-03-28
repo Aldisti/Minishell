@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 16:55:25 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/28 20:53:04 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int		is_built_in(char *cmd);
 int		create_pipes(t_pipex *pipex);
 void	close_pipes(t_pipex *pipex);
 int		prepare_strs(char **strs);
-void	trim_strs(char **strs);
+void	trim_strs(char **strs, const char *str);
 void	cat_here_doc(t_pipex *pipex, char *limiter);
 int		here_doc(t_pipex *pipex, char *limiter);
 char	*get_next_line(int fd);
