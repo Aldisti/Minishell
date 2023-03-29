@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strncmp.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 10:16:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/28 09:47:50 by mpaterno         ###   ########.fr       */
+/*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
+/*   Updated: 2023/03/27 11:12:30 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	env(t_shell	*shell)
 {
-	size_t	i;
-
-	if (!n)
-		return (0);
-	i = 0;
-	while (i < n - 1)
+	while (shell->list)
 	{
-		if (s1[i] != s2[i] || !s1[i])
-			break ;
-		i++;
+		printf("%s", shell->list->content->name);
+		printf("%s\n", shell->list->content->value);
+		shell->list=shell->list->next;
 	}
-	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }

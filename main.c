@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
 /*   Updated: 2023/03/29 11:55:00 by adi-stef         ###   ########.fr       */
@@ -16,6 +16,14 @@ int	g_shell_errno = 0;
 
 // extern void	rl_replace_line(char *, int);
 // extern void	rl_clear_history(void);
+
+void	my_print(char **strs)
+{
+	int i = -1;
+
+	while(strs[++i])
+		printf("%s\n", strs[i]);
+}
 
 void	ft_print(char **tab)
 {
@@ -75,33 +83,32 @@ int	main(int ac, char **av, char **envp)
 	action.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &action, 0);
 	sigaction(SIGQUIT, &action, 0);
-	// signal(SIGINT, &ft_handler);
-	// signal(SIGQUIT, &ft_handler);
+	shell.envp = list_convert(shell.list);
+	shell.line = NULL;
 	while (42)
 	{
 		prompt = ft_prompt();
 		shell.line = readline(prompt);
 		if (!shell.line)
 			exit(169);
-		printf("%s\n", shell.line);
+		if (!shell.line[0])
+			continue ;
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
+		ft_parser_checks(&shell);
 		shell.parsed = ft_expand_all(&shell);
-		if (!ft_strncmp(shell.parsed[0], "cd", 2))
-			cd(shell.parsed, envp);
-		else if (!ft_strcmp(shell.parsed[0], "exit"))
+		if (!ft_strncmp(shell.parsed[0], "exit", 4))
 		{
-			rl_clear_history();
-			ft_free(shell.parsed);
+			clear_history();
+			ft_free_mat((void ***) &shell.parsed);
 			exit(1);
 		}
 		else
 			pipex(&shell, shell.parsed);
-		ft_free(shell.parsed);
-		// shell.parsed = ft_redirection(&shell);
-		// shell_errno = ft_executor(&shell);
-		// ft_catch_error(&shell);
+		//ft_free_mat((void ***) &shell.parsed);
+		//shell_errno = ft_executor(&shell);
+		//ft_catch_error(&shell);
 	}
 	return (0);
 }

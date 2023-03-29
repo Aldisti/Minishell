@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strncmp.c                                          :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 10:16:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/28 09:47:50 by mpaterno         ###   ########.fr       */
+/*   Created: 2023/03/23 10:26:02 by gpanico           #+#    #+#             */
+/*   Updated: 2023/03/27 09:15:08 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	ft_free(void **ptr_addr)
 {
-	size_t	i;
-
-	if (!n)
-		return (0);
-	i = 0;
-	while (i < n - 1)
-	{
-		if (s1[i] != s2[i] || !s1[i])
-			break ;
-		i++;
-	}
-	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+	if (!ptr_addr)
+		return ;
+	free(*ptr_addr);
+	*ptr_addr = NULL;
 }

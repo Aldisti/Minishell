@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   pipex_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/03/23 16:06:51 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/29 10:26:00 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,13 @@ int	prepare_strs(char **strs)
 	while (strs[++i])
 	{
 		temp = ft_strtrim(strs[i], " ");
-		free(strs[i]);
+		if (!temp)
+			exit(1);//ft_die
+		ft_free((void **) &strs[i]);
 		strs[i] = ft_strdup(temp);
-		free(temp);
+		if (!strs[i])
+			exit(1);//ft_die
+		ft_free((void **) &temp);
 	}
 	return (i);
 }
@@ -48,7 +52,7 @@ this function loop trought all the string contained in strs and trim
 the starting and trailing ["] or [']
 */
 
-void	trim_strs(char **strs)
+void	trim_strs(char **strs, const char *set)
 {
 	char	*temp;
 	int		i;
@@ -56,10 +60,17 @@ void	trim_strs(char **strs)
 	i = -1;
 	while (strs[++i])
 	{
-		temp = ft_strtrim(strs[i], "\"\'");
-		free(strs[i]);
-		strs[i] = ft_strdup(temp);
-		free(temp);
+		if (!ft_strncmp(strs[i], set, 1))
+		{
+			temp = ft_strtrim(strs[i], set);
+			if (!temp)
+				exit(7);//ft_die
+			ft_free((void **) &strs[i]);
+			strs[i] = ft_strdup(temp);
+			if (!strs[i])
+				exit(8);//ft_die
+			ft_free((void **) &temp);
+		}
 	}
 }
 
@@ -87,7 +98,7 @@ void	my_dup(t_pipex *pipex, int id, int mode)
 		dup2(pipex->infile_fd, 0);
 		dup2(pipex->pipe[2 * id + 1], 1);
 	}
-	else if (mode == 1)
+	else if (mode == 1 && id > 0)
 	{
 		dup2(pipex->pipe[2 * id - 2], 0);
 		dup2(pipex->outfile_fd, 1);
