@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/24 11:49:13 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:23:16 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ linking them with pipe then wait all the created process e finish execution
 int	pipex(t_shell *shell, char **argv)
 {
 	char	**strs;
-	char	*temp;
+
 	int		argc;
 	int		i;
 

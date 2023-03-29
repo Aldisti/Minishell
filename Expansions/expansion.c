@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/27 15:40:38 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:24:37 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	*ft_expand_special(t_shell *shell, char *str, int i)
 		str[i + 1] = 0;
 		return (str);
 	}
+	(void)shell;
 	strs[3] = 0;
 	strs[0] = ft_substr(str, 0, i);
 	if (!strs[0] && i > 0)

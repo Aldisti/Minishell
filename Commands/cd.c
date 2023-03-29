@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/03/24 11:53:52 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:23:44 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	get_oldpwd_i(char **envp)
 int	update_oldpwd(char **envp, char *str)
 {
 	int		i;
-	char	*temp;
 
 	i = get_oldpwd_i(envp);
 	envp[i] = ft_strjoin("OLDPWD=", str);
@@ -37,7 +36,6 @@ void	cd(char **argv, char **envp)
 	char	*str;
 	char	*user;
 	char	*oldpwd;
-	int		envp_id;
 	char	**cmd;
 
 	oldpwd = pwd();

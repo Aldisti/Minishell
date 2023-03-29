@@ -6,13 +6,16 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:12:05 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:36:23 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_shell_errno = 0;
+
+extern void	rl_replace_line(char *, int);
+extern void	rl_clear_history(void);
 
 void	ft_print(char **tab)
 {
@@ -41,8 +44,6 @@ char	*ft_prompt(void)
 
 void	ft_handler(int signum)
 {
-	char	*prompt;
-
 	if (signum == SIGINT)
 	{
 		// prompt = ft_prompt();

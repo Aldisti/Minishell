@@ -6,7 +6,7 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/27 16:39:13 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/29 11:22:17 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ RDLN_L	= -lreadline
 RM		= rm -f
 
 %.o : %.c
-	@$(CC) $(FLAG) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 	@printf "\033[0;32mCompiling... %-33.33s\r" $@
 
 $(NAME): $(OBJ)

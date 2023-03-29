@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:10:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:04:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:26:32 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_getname(char *str, int i)
 	int		j;
 	char	*name;
 
-	if (!str || i < 0 || i >= ft_strlen(str))
+	if (!str || i < 0 || i >= (int)ft_strlen(str))
 		return (0);
 	j = i + 1;
 	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
@@ -39,9 +39,10 @@ int	ft_getlvl(char *str, int i)
 	int	j;
 	int	brackets;
 
-	if (!str || i < 0 || i > ft_strlen(str))
+	if (!str || i < 0 || i > (int)ft_strlen(str))
 		return (0);
 	j = -1;
+	brackets = 0;
 	while (++j < i)
 	{
 		if (!ft_getquotes(str, j) && str[j] == '(')
@@ -63,7 +64,7 @@ int	ft_getquotes(char *str, int i)
 	int	quotes;
 	int	j;
 
-	if (!str || i < 0 || i > ft_strlen(str))
+	if (!str || i < 0 || i > (int)ft_strlen(str))
 		return (0);
 	j = -1;
 	quotes = 0;

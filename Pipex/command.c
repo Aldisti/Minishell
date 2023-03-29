@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/23 16:21:45 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:22:51 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char	**get_cmd(t_pipex *pipex, char *str)
 	char	*temp;
 	char	**command;
 
+	temp = 0;
 	pipex->cmd_i = -1;
 	pipex->paths = ft_split(getenv("PATH"), ':');
 	command = line_filter(command_parser(str, " "));
