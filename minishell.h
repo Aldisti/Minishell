@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:30:35 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/29 15:56:25 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <termios.h>
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <readline/history.h>
@@ -28,6 +29,9 @@
 # ifndef METACHARS
 #  define METACHARS " \n\t|&<>()"
 # endif
+
+// extern void	rl_replace_line(char *, int);
+// extern void	rl_clear_history(void);
 
 typedef struct s_env
 {
@@ -59,14 +63,18 @@ typedef struct s_pipex
 
 typedef struct s_shell
 {
-	char	**parsed;
-	char	**envp;
-	char	*line;
-	int		*fd_input;
-	int		*fd_output;
-	int		*lvls;
-	t_list	*list;
-	t_pipex	pipex;
+	struct sigaction	action_nothing;
+	struct sigaction	action_int;
+	struct sigaction	action_quit;
+	struct termios		tty_attrs;
+	char				**parsed;
+	char				**envp;
+	char				*line;
+	int					*fd_input;
+	int					*fd_output;
+	int					*lvls;
+	t_list				*list;
+	t_pipex				pipex;
 }	t_shell;
 
 // funzioni del main (devono essere cosi)
@@ -83,6 +91,10 @@ typedef struct s_shell
 t_list	*ft_env_set(char **envp);
 char	*ft_get_name(const char *str);
 char	*ft_get_value(const char *str);
+//	signals_set
+void	ft_signals_set(t_shell *shell);
+
+
 
 //	Parser
 //	parser
@@ -97,6 +109,7 @@ int		ft_delete_spaces(t_shell *shell);
 int		ft_check_multi_par(char *line);
 void	ft_parser_checks(t_shell *shell);
 int		ft_valid_operators(char **parsed);
+
 
 
 //	Expansions
@@ -122,6 +135,13 @@ char	*pwd(void);
 // env
 void	env(t_shell	*shell);
 
+
+
+//	Signals
+//	signals
+void	ft_does_nothing(int signum);
+void	ft_handle_quit(int signum);
+void	ft_handle_int(int signum);
 
 
 //	Pipex

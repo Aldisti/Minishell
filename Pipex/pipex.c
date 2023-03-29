@@ -23,11 +23,12 @@ this function do fork for each command setting the pipe array alowing
 the comunication between process.
 the stdin and stdout is modyfied as well with dup2 func
 */
-
 int	child_proc(t_shell *shell, char **argv, int child_id)
 {
 	if (check_built_in(shell, argv[child_id], child_id) == 1)
 		return (0);
+	sigaction(SIGINT, &shell->action_nothing, 0);
+	sigaction(SIGQUIT, &shell->action_nothing, 0);
 	shell->pipex.pid[child_id] = fork();
 	if (shell->pipex.pid[child_id] < 0)
 		return (-1);
@@ -56,7 +57,6 @@ char **argv:	double pointer that rapresent the preparsed line coming from shell
 
 init all variables in pipex struct
 */
-
 int	pipex_init(t_pipex *pipex, int argc, char **argv)
 {
 	pipex->original_stdout = dup(1);
@@ -90,7 +90,6 @@ char **strs:	double pointer that rapresent the preparsed line coming from shell
 this function return a new allocated null terminated array that is a copy of strs
 but without '|' or ' ' as single string
 */
-
 char	**line_filter(char **strs)
 {
 	char	**ret;
@@ -130,11 +129,9 @@ the function basically first prepare the input then set the pipex
 struct and call as many child process as commands given by the shell
 linking them with pipe then wait all the created process e finish execution
 */
-
 int	pipex(t_shell *shell, char **argv)
 {
 	char	**strs;
-
 	int		argc;
 	int		i;
 
@@ -147,12 +144,12 @@ int	pipex(t_shell *shell, char **argv)
 	if (pipex_init(&shell->pipex, argc, strs) == -1)
 		return (2);
 	while (++i < shell->pipex.cmd_count)
-	{
 		if (child_proc(shell, strs, i) < 0)
 			return (3);
-	}
 	close_pipes(&shell->pipex);
 	waitpid(shell->pipex.pid[shell->pipex.cmd_count - 1], 0, 0);
+	sigaction(SIGINT, &shell->action_int, 0);
+	sigaction(SIGQUIT, &shell->action_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
 	return (0);
