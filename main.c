@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 16:49:12 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:12:05 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,18 @@ void	ft_handler(int signum)
 
 	if (signum == SIGINT)
 	{
-		prompt = ft_prompt();
-		printf("%s\n", prompt);
-		free(prompt);
+		// prompt = ft_prompt();
+		rl_redisplay();
+		write(1, "\033[K\r", 2);
+		// free(prompt);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
 	}
 	else
 	{
-		printf("ciao\n");
+		rl_redisplay();
 	}
 }
 
@@ -69,6 +74,7 @@ int	main(int ac, char **av, char **envp)
 	// action.sa_flags = SA_SIGINFO | SA_RESTART;
 	// sigaction(SIGINT, &action, 0);
 	// sigaction(SIGQUIT, &action, 0);
+	signal(SIGINT, &ft_handler);
 	signal(SIGQUIT, &ft_handler);
 	while (42)
 	{
@@ -76,6 +82,7 @@ int	main(int ac, char **av, char **envp)
 		shell.line = readline(prompt);
 		if (!shell.line)
 			exit(169);
+		printf("%s\n", shell.line);
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
