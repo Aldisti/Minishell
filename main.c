@@ -57,20 +57,20 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	shell.list = ft_env_set(envp);
 	shell.envp = list_convert(shell.list);
+	shell.line = NULL;
 	while (42)
 	{
 		prompt = ft_prompt();
 		shell.line = readline(prompt);
+		if (!shell.line[0])
+			continue ;
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
 		ft_parser_checks(&shell);
 		shell.parsed = ft_expand_all(&shell);
-		// if (!ft_strncmp(shell.parsed[0], "cd", 2))
-		// 	cd(&shell, 1);
-		// else if (!ft_strncmp(shell.parsed[0], "env", 3))
-		// 	env(&shell);
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
+
 		{
 			clear_history();
 			ft_free_mat((void ***) &shell.parsed);
@@ -78,10 +78,9 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 			pipex(&shell, shell.parsed);
-		ft_free_mat((void ***) &shell.parsed);
-		// shell.parsed = ft_redirection(&shell);
-		// shell_errno = ft_executor(&shell);
-		// ft_catch_error(&shell);
+		//ft_free_mat((void ***) &shell.parsed);
+		//shell_errno = ft_executor(&shell);
+		//ft_catch_error(&shell);
 	}
 	return (0);
 }
