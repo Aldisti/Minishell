@@ -6,7 +6,7 @@
 /*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 08:29:46 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/29 11:30:35 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_shell
 	char	*line;
 	int		*fd_input;
 	int		*fd_output;
+	int		*lvls;
 	t_list	*list;
 	t_pipex	pipex;
 }	t_shell;
@@ -80,8 +81,6 @@ typedef struct s_shell
 t_list	*ft_env_set(char **envp);
 char	*ft_get_name(const char *str);
 char	*ft_get_value(const char *str);
-
-
 
 //	Parser
 //	parser

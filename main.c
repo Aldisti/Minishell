@@ -6,7 +6,7 @@
 /*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 08:30:35 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/29 11:30:25 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,13 @@ int	main(int ac, char **av, char **envp)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
+	shell.line = NULL;
 	while (42)
 	{
 		prompt = ft_prompt();
 		shell.line = readline(prompt);
+		if (!shell.line[0])
+			continue ;
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
@@ -61,7 +64,7 @@ int	main(int ac, char **av, char **envp)
 			cd(shell.parsed, envp);
 		if (!ft_strncmp(shell.parsed[0], "env", 3))
 			env(&shell);
-		else if (!ft_strncmp(shell.parsed[0], "exit", 2))
+		else if (!ft_strncmp(shell.parsed[0], "exit", 4))
 		{
 			rl_clear_history();
 			ft_free_mat((void ***) &shell.parsed);
@@ -69,10 +72,9 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 			pipex(&shell, shell.parsed);
-		ft_free_mat((void ***) &shell.parsed);
-		// shell.parsed = ft_redirection(&shell);
-		// shell_errno = ft_executor(&shell);
-		// ft_catch_error(&shell);
+		//ft_free_mat((void ***) &shell.parsed);
+		//shell_errno = ft_executor(&shell);
+		//ft_catch_error(&shell);
 	}
 	return (0);
 }

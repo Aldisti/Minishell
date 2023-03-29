@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/28 08:30:10 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/29 11:32:06 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_valid_operators(char **parsed)
 		j = 0;
 		while (parsed[i][j])
 		{
-			ft_quotes_check(&parsed[i][j], &j);
+			ft_quotes_check(parsed[i], &j);
 			if (ft_in(parsed[i][j], "|&"))
 			{
 				if (ft_strlen_until(&parsed[i][j], " \n\t<>()") > 2)
