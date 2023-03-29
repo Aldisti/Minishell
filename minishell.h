@@ -6,7 +6,7 @@
 /*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:25 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/03/28 17:00:23 by afraccal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ char	*ft_resolve_expansion(t_list *list, char *str, int lvl);
 
 
 //	Commands
+//	echo
+void	echo(char **argv);
 //	cd
 int		get_oldpwd_i(char **envp);
 void	cd(char **argv, char **envp);
@@ -115,6 +117,9 @@ void	print_pwd(void);
 char	*pwd(void);
 // env
 void	env(t_shell	*shell);
+// export
+void	add_env(t_shell *shell, char *name, char *value);
+void	ft_export(t_shell *shell, char **argv);
 
 
 
