@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 12:33:43 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:03:04 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_shell_errno = 0;
-
-// extern void	rl_replace_line(char *, int);
-// extern void	rl_clear_history(void);
 
 void	my_print(char **strs)
 {
@@ -50,39 +47,18 @@ char	*ft_prompt(void)
 	return (temp);
 }
 
-void	ft_handler(int signum)
-{
-	if (signum == SIGINT)
-	{
-		// prompt = ft_prompt();
-		rl_redisplay();
-		write(1, "\033[K\r", 2);
-		// free(prompt);
-		write(1, "\n", 1);
-		rl_on_new_line();
-		//rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	else
-	{
-		rl_redisplay();
-	}
-}
-
 int	main(int ac, char **av, char **envp)
 {
-	struct sigaction	action;
-	char				*prompt;
-	t_shell				shell;
+	char			*prompt;
+	t_shell			shell;
 
 	if (ac != 1)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
-	action.sa_handler = ft_handler;
-	action.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &action, 0);
-	sigaction(SIGQUIT, &action, 0);
+	ft_signals_set(&shell);
+	sigaction(SIGINT, &shell.action_int, 0);
+	sigaction(SIGQUIT, &shell.action_quit, 0);
 	shell.envp = list_convert(shell.list);
 	shell.line = NULL;
 	while (42)
