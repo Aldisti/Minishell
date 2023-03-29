@@ -16,8 +16,9 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
-# include <string.h>
+# include <signal.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include <sys/wait.h>
 # include <sys/types.h>
@@ -98,13 +99,17 @@ void	ft_parser_checks(t_shell *shell);
 int		ft_valid_operators(char **parsed);
 
 
-//	espansion
-char	**ft_expand_all(t_shell *shell);
+//	Expansions
+//	expansion
+char	*ft_expand_special(t_shell *shell, char *str, int i);
+char	*ft_expand_dollar(t_shell *shell, char *str, int i);
+char	*ft_expand_tilde(t_shell *shell, char *str, int i);
 char	*ft_expansion(t_shell *shell, char *str);
-char	*ft_check_quote(t_list *list, char *str, int *i);
-char	*ft_resolve_expansion(t_list *list, char *str, int lvl);
-
-
+char	**ft_expand_all(t_shell *shell);
+//	expansion_utils
+int		ft_getquotes(char *str, int i);
+char	*ft_getname(char *str, int i);
+int		ft_getlvl(char *str, int i);
 
 //	Commands
 //	cd
@@ -156,6 +161,9 @@ void	child_free(t_pipex *pipex, char **cmd);
 
 //	Utils
 char	*ft_itoa(int n);
+int		ft_isalnum(int n);
+int		ft_isalpha(int n);
+int		ft_isdigit(int n);
 int		ft_isspace(int c);
 t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstnew(void *content);
@@ -168,6 +176,7 @@ void	*ft_calloc(size_t num, size_t dim);
 char	*ft_strrchr(const char *str, int c);
 int		ft_strlen_until(char *str, char *set);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 int		ft_countn(const char *str, const char c, int n);

@@ -134,7 +134,7 @@ linking them with pipe then wait all the created process e finish execution
 int	pipex(t_shell *shell, char **argv)
 {
 	char	**strs;
-	char	*temp;
+
 	int		argc;
 	int		i;
 

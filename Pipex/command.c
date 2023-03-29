@@ -90,6 +90,7 @@ char	**get_cmd(t_pipex *pipex, char *str)
 	char	*temp;
 	char	**command;
 
+	temp = 0;
 	pipex->cmd_i = -1;
 	pipex->paths = ft_split(getenv("PATH"), ':');
 	command = line_filter(command_parser(str, " "));

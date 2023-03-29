@@ -6,13 +6,16 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 15:29:01 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:55:00 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_shell_errno = 0;
+
+// extern void	rl_replace_line(char *, int);
+// extern void	rl_clear_history(void);
 
 void	my_print(char **strs)
 {
@@ -47,21 +50,47 @@ char	*ft_prompt(void)
 	return (temp);
 }
 
+void	ft_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		// prompt = ft_prompt();
+		rl_redisplay();
+		write(1, "\033[K\r", 2);
+		// free(prompt);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
+	else
+	{
+		rl_redisplay();
+	}
+}
+
 int	main(int ac, char **av, char **envp)
 {
-	t_shell	shell;
-	char	*prompt;
+	struct sigaction	action;
+	char				*prompt;
+	t_shell				shell;
 
 	if (ac != 1)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
+	action.sa_handler = ft_handler;
+	action.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &action, 0);
+	sigaction(SIGQUIT, &action, 0);
 	shell.envp = list_convert(shell.list);
 	shell.line = NULL;
 	while (42)
 	{
 		prompt = ft_prompt();
 		shell.line = readline(prompt);
+		if (!shell.line)
+			exit(169);
 		if (!shell.line[0])
 			continue ;
 		free(prompt);
@@ -70,7 +99,6 @@ int	main(int ac, char **av, char **envp)
 		ft_parser_checks(&shell);
 		shell.parsed = ft_expand_all(&shell);
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
-
 		{
 			clear_history();
 			ft_free_mat((void ***) &shell.parsed);

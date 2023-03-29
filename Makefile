@@ -12,14 +12,17 @@
 
 NAME	= minishell
 
-SRC			= main.c expansion.c
+SRC			= main.c
 PARSER_SRC	= $(wildcard Parser/*.c)
 PIPEX_SRC	= $(wildcard Pipex/*.c)
 UTILS_SRC	= $(wildcard Utils/*.c)
 INIT_SRC	= $(wildcard Init/*.c)
+EXP_SRC		= $(wildcard Expansions/*.c)
 COMM_SRC	= $(wildcard Commands/*.c)
 
-OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o) $(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)
+OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
+			$(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)	\
+			$(EXP_SRC:%.c=%.o)
 
 CC		= cc
 FLAGS	= -Wall -Wextra -Werror
@@ -28,27 +31,27 @@ RDLN_L	= -lreadline
 RM		= rm -f
 
 %.o : %.c
-	@$(CC) $(FLAG) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 	@printf "\033[0;32mCompiling... %-33.33s\r" $@
 
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
-	@echo "MINISHELL  CREATED  SUCCESSUFULLY\n\033[0;0m"
+	@echo "MINISHELL  CREATED  SUCCESSUFULLY\033[0;0m"
 
 all: $(NAME)
 
 linux: $(OBJ)
-	$(CC) -fsanitize=address $(OBJ) $(RDLN_L) -o $(NAME)
+	$(CC) $(OBJ) $(RDLN_L) -o $(NAME)
 
 clean:
-	@printf "\033[0;31m\nRemoving Object files...\n\n\033[0;0m"
+	@printf "\033[0;31mRemoving Object files...\n\033[0;0m"
 	@$(RM) $(OBJ)
-	@echo "\033[0;31m\nObject files removed\n\033[0;0m"
+	@echo "\033[0;31mObject files removed\n\033[0;0m"
 	
 fclean: clean
-	@printf "\033[0;31m\nRemoving program executable...\n\n\033[0;0m"
+	@printf "\033[0;31mRemoving program executable...\n\033[0;0m"
 	@$(RM) $(NAME)
-	@echo "\033[0;31m\nMINISHELL REMOVED\n\033[0;0m"
+	@echo "\033[0;31mMINISHELL REMOVED\n\033[0;0m"
 	
 re: fclean all
 
