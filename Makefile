@@ -6,7 +6,7 @@
 #    By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/29 11:02:35 by afraccal         ###   ########.fr        #
+#    Updated: 2023/03/29 11:22:51 by afraccal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ BLUE	= \033[1;34m
 RESET	= \033[0;0m
 
 %.o : %.c
-	@$(CC) $(FLAG) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 	@printf "$(GREEN)Compiling... %-33.33s\r" $@
 
 $(NAME): $(OBJ)
