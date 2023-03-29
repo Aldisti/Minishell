@@ -47,25 +47,6 @@ char	*ft_prompt(void)
 	return (temp);
 }
 
-// void	ft_handler(int signum)
-// {
-// 	if (signum == SIGINT)
-// 	{
-// 		// prompt = ft_prompt();
-// 		rl_redisplay();
-// 		write(1, "\033[K\r", 2);
-// 		// free(prompt);
-// 		write(1, "\n", 1);
-// 		rl_on_new_line();
-// 		rl_replace_line("", 1);
-// 		rl_redisplay();
-// 	}
-// 	else
-// 	{
-// 		rl_redisplay();
-// 	}
-// }
-
 int	main(int ac, char **av, char **envp)
 {
 	char			*prompt;

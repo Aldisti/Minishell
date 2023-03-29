@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
+#    By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
 #    Updated: 2023/03/29 15:00:35 by adi-stef         ###   ########.fr        #

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_in_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:48:15 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:42:09 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:35:16 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_env	*ft_search_in_list(t_list *list, char *name, int lvl)
 
 	if (!list || !list->content)
 		return (0);
-	while (list->next && ft_strcmp(list->content->name, name))
+	while (list->next && ft_strncmp(list->content->name, name, ft_strlen(name)))
 		list = list->next;
-	if (ft_strcmp(list->content->name, name) || !list)
+	if (ft_strncmp(list->content->name, name, ft_strlen(name)))
 		return (0);
 	tmp = list->content;
 	while (tmp && tmp->next && tmp->level != lvl)
