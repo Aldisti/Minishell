@@ -3,41 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/28 20:43:05 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/29 11:49:23 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
-
-/*
-int	check_built_in(t_shell *shell, char *str)
-char	*str: string that contain the command to execute
-
-this func controll the passed string and check if the
-command is a built in, if so it execute before the creation
-of the forked porcess
-*/
-
-int	check_built_in(t_shell *shell, char *str)
-{
-	char	**temp;
-
-	temp = ft_split(str, ' ');
-	if (!temp)
-		exit(6);//ft_die
-	if (is_built_in(temp[0]))
-		execute_built_in(shell, temp, 0);
-	else
-	{
-		ft_free_mat((void ***)&temp);
-		return (0);
-	}
-	ft_free_mat((void ***)&temp);
-	return (1);
-}
 
 /*
 int	child_proc(t_pipex *pipex, char **argv, int child_id)
@@ -53,7 +26,7 @@ the stdin and stdout is modyfied as well with dup2 func
 
 int	child_proc(t_shell *shell, char **argv, int child_id)
 {
-	if (check_built_in(shell, argv[child_id]) == 1)
+	if (check_built_in(shell, argv[child_id], child_id) == 1)
 		return (0);
 	shell->pipex.pid[child_id] = fork();
 	if (shell->pipex.pid[child_id] < 0)
@@ -89,7 +62,7 @@ int	pipex_init(t_pipex *pipex, int argc, char **argv)
 	pipex->original_stdout = dup(1);
 	pipex->cmd_count = (argc);
 	pipex->pipe_count = 2 * (pipex->cmd_count - 1);
-	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count));
+	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count + 2));
 	if (!pipex->pipe)
 		return (0);
 	pipex->pid = (pid_t *) malloc(sizeof(pid_t) * pipex->cmd_count + 2);

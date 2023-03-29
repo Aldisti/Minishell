@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/03/28 21:15:45 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/29 10:26:00 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	my_dup(t_pipex *pipex, int id, int mode)
 		dup2(pipex->infile_fd, 0);
 		dup2(pipex->pipe[2 * id + 1], 1);
 	}
-	else if (mode == 1)
+	else if (mode == 1 && id > 0)
 	{
 		dup2(pipex->pipe[2 * id - 2], 0);
 		dup2(pipex->outfile_fd, 1);

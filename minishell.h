@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 20:53:04 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/29 11:50:29 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ char	*get_next_line(int fd);
 //	command
 char	**get_cmd(t_pipex *pipex, char *str);
 char	*path_checker(t_pipex *pipex, char *str);
+int		check_built_in(t_shell *shell, char *str, int child_id);
 void	get_cmd_loop(t_pipex *pipex, char *temp, char **command);
 //	command_parser
 char	**ft_extract_word_command(char **parsed, int *dim, int *i, char **line);
