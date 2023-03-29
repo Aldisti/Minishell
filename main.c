@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:51:11 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:55:00 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int ac, char **av, char **envp)
 	shell.list = ft_env_set(envp);
 	action.sa_handler = ft_handler;
 	action.sa_flags = SA_RESTART;
-	sigaction(SIGINT, 0, 0);
+	sigaction(SIGINT, &action, 0);
 	sigaction(SIGQUIT, &action, 0);
 	// signal(SIGINT, &ft_handler);
 	// signal(SIGQUIT, &ft_handler);

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:24:37 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:53:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,8 @@ char	*ft_expand_dollar(t_shell *shell, char *str, int i)
 char	*ft_expansion(t_shell *shell, char *str)
 {
 	int		i;
-	int		quotes;
-	char	*strs[4];
 
 	i = -1;
-	quotes = 0;
-	strs[3] = 0;
 	while (str[++i])
 	{
 		if (str[i] == '~' && !ft_getquotes(str, i))
