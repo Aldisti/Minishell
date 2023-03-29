@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 16:00:53 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:03:04 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,6 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 1)
 		return (0);
 	(void)av;
-	tcgetattr(STDIN_FILENO, &shell.tty_attrs);
-	shell.tty_attrs.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSANOW, &shell.tty_attrs);
 	shell.list = ft_env_set(envp);
 	ft_signals_set(&shell);
 	sigaction(SIGINT, &shell.action_int, 0);
