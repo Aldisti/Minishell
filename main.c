@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:30:25 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:29:01 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_shell_errno = 0;
+
+void	my_print(char **strs)
+{
+	int i = -1;
+
+	while(strs[++i])
+		printf("%s\n", strs[i]);
+}
 
 void	ft_print(char **tab)
 {
@@ -48,6 +56,7 @@ int	main(int ac, char **av, char **envp)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
+	shell.envp = list_convert(shell.list);
 	shell.line = NULL;
 	while (42)
 	{
@@ -60,13 +69,10 @@ int	main(int ac, char **av, char **envp)
 		shell.parsed = ft_parser(&shell, "|&");
 		ft_parser_checks(&shell);
 		shell.parsed = ft_expand_all(&shell);
-		if (!ft_strncmp(shell.parsed[0], "cd", 2))
-			cd(shell.parsed, envp);
-		if (!ft_strncmp(shell.parsed[0], "env", 3))
-			env(&shell);
-		else if (!ft_strncmp(shell.parsed[0], "exit", 4))
+		if (!ft_strncmp(shell.parsed[0], "exit", 4))
+
 		{
-			rl_clear_history();
+			clear_history();
 			ft_free_mat((void ***) &shell.parsed);
 			exit(1);
 		}
