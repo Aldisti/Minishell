@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 15:56:25 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:59:28 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ void	print_pwd(void);
 char	*pwd(void);
 // env
 void	env(t_shell	*shell);
-
+//	echo
+void	echo(char **argv);
 
 
 //	Signals

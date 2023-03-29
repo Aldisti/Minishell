@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+         #
+#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/29 15:00:35 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/03/29 16:58:23 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,13 +37,18 @@ YELLOW	= \033[1;33m
 BLUE	= \033[1;34m
 RESET	= \033[0;0m
 
+SRC_COUNT_TOT = $(shell expr $(shell echo -n $(SRC) $(PARSER_SRC) $(PIPEX_SRC) $(UTILS_SRC) $(COMM_SRC) $(INIT_SRC) | wc -w))
+SRC_COUNT = 0
+SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
+
 %.o : %.c
 	@$(CC) $(FLAG) -c $< -o $@
-	@printf "$(GREEN)Compiling... %-33.33s\r" $@
+	@$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
+	@printf "$(GREEN)\r%100s\r[%d/%d (%d%%)] $(GREEN)$<" "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
 
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
-	@echo "MINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
+	@echo "\rMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
 	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 	@echo "███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██      "
 	@echo "████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██      "
