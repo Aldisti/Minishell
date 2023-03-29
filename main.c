@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:36:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 11:51:11 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	g_shell_errno = 0;
 
-extern void	rl_replace_line(char *, int);
-extern void	rl_clear_history(void);
+// extern void	rl_replace_line(char *, int);
+// extern void	rl_clear_history(void);
 
 void	ft_print(char **tab)
 {
@@ -63,20 +63,20 @@ void	ft_handler(int signum)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell				shell;
+	struct sigaction	action;
 	char				*prompt;
-	// struct sigaction	action;
+	t_shell				shell;
 
 	if (ac != 1)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
-	// action.sa_sigaction = ft_handler;
-	// action.sa_flags = SA_SIGINFO | SA_RESTART;
-	// sigaction(SIGINT, &action, 0);
-	// sigaction(SIGQUIT, &action, 0);
-	signal(SIGINT, &ft_handler);
-	signal(SIGQUIT, &ft_handler);
+	action.sa_handler = ft_handler;
+	action.sa_flags = SA_RESTART;
+	sigaction(SIGINT, 0, 0);
+	sigaction(SIGQUIT, &action, 0);
+	// signal(SIGINT, &ft_handler);
+	// signal(SIGQUIT, &ft_handler);
 	while (42)
 	{
 		prompt = ft_prompt();
