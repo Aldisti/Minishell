@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
+#    By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/27 16:14:54 by gpanico          ###   ########.fr        #
+#    Updated: 2023/03/29 12:22:20 by mpaterno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ RDLN_L	= -lreadline
 RM		= rm -f
 
 %.o : %.c
-	@$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAG) -c $< -o $@
 	@printf "\033[0;32mCompiling... %-33.33s\r" $@
 
 $(NAME): $(OBJ)

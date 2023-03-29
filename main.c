@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:55:00 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:33:43 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_handler(int signum)
 		// free(prompt);
 		write(1, "\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 1);
+		//rl_replace_line("", 1);
 		rl_redisplay();
 	}
 	else
