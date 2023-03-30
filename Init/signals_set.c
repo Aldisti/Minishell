@@ -18,9 +18,12 @@ void	ft_signals_set(t_shell *shell)
 	shell->tty_attrs.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell->tty_attrs);
 	shell->action_nothing.sa_handler = ft_does_nothing;
+	sigemptyset(&(shell->action_nothing.sa_mask));
 	shell->action_nothing.sa_flags = SA_RESTART;
+	sigemptyset(&(shell->action_int.sa_mask));
 	shell->action_int.sa_handler = ft_handle_int;
 	shell->action_int.sa_flags = SA_RESTART;
+	sigemptyset(&(shell->action_quit.sa_mask));
 	shell->action_quit.sa_handler = ft_handle_quit;
 	shell->action_quit.sa_flags = SA_RESTART;
 }
