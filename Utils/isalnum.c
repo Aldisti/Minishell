@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   isalnum.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:30 by afraccal         ###   ########.fr       */
+/*   Created: 2023/01/16 11:37:50 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/25 17:19:37 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	env(t_shell	*shell)
+int	ft_isalnum(int n)
 {
-	while (shell->list)
-	{
-		printf("%s", shell->list->content->name);
-		printf("%s\n", shell->list->content->value);
-		shell->list=shell->list->next;
-	}
+	if (ft_isalpha(n) || ft_isdigit(n))
+		return (1);
+	return (0);
 }

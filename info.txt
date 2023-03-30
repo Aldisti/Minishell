@@ -30,6 +30,9 @@ VARIABILE GLOBALE
 	int	shell_errno
 
 
+ls -a | (cat | grep .c) | (ls | echo)
+
+
 gestire variabili env/exp nelle builtin 
 	se il value == 0 la var non sta nell'env, ma nell'exp si
 	se il value == ""(stringa vuota) la var sta in entrambi

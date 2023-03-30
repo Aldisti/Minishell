@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   strlen_until.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:30 by afraccal         ###   ########.fr       */
+/*   Created: 2023/03/28 08:27:15 by gpanico           #+#    #+#             */
+/*   Updated: 2023/03/28 08:28:09 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	env(t_shell	*shell)
+int	ft_strlen_until(char *str, char *set)
 {
-	while (shell->list)
-	{
-		printf("%s", shell->list->content->name);
-		printf("%s\n", shell->list->content->value);
-		shell->list=shell->list->next;
-	}
+	int	i;
+
+	i = 0;
+	while (str[i] && !ft_in(str[i], set))
+			i++;
+	return (i);
 }

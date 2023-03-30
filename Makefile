@@ -3,23 +3,27 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+         #
+#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/03/29 15:16:49 by afraccal         ###   ########.fr        #
+#    Updated: 2023/03/29 16:58:23 by adi-stef         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 
-SRC			= main.c expansion.c
+SRC			= main.c
+EXP_SRC		= $(wildcard Expansions/*.c)
+COMM_SRC	= $(wildcard Commands/*.c)
+SIGN_SRC	= $(wildcard Signals/*.c)
 PARSER_SRC	= $(wildcard Parser/*.c)
 PIPEX_SRC	= $(wildcard Pipex/*.c)
 UTILS_SRC	= $(wildcard Utils/*.c)
 INIT_SRC	= $(wildcard Init/*.c)
-COMM_SRC	= $(wildcard Commands/*.c)
 
-OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o) $(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)
+OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
+			$(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)	\
+			$(EXP_SRC:%.c=%.o) $(SIGN_SRC:%.c=%.o)
 
 CC		= cc
 FLAGS	= -Wall -Wextra -Werror

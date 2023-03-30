@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/27 09:20:29 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/03/29 11:49:23 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
-
-/*
-void	execute_command(char **cmd)
-char	**cmd: already properly setted variable that contain the complete
-				command retrived from the shell formatted as follow
-				{"path/command", "other option or flag", ...}
-this function compare the path/command string to different command and 
-based on the result execute our own command or senti it to exevec
-*/
-
-void	execute_command(char **cmd)
-{
-	if (!ft_strncmp(cmd[0], "pwd", 3))
-		print_pwd();
-	// else if (!ft_strncmp(cmd[0], "cd", 2))
-	// 	cd(cmd[1]);
-	// else if (!ft_strncmp(cmd[0], "export", 6))
-	// 	export();
-	// else if (!ft_strncmp(cmd[0], "unset", 5))
-	// 	unset();
-	// else if (!ft_strncmp(cmd[0], "env", 3))
-	// 	env();
-	// else if (!ft_strncmp(cmd[0], "echo", 4))
-	// 	echo();
-	else
-	{
-		trim_strs(cmd);
-		execve(cmd[0], cmd, 0);
-	}
-}
 
 /*
 int	child_proc(t_pipex *pipex, char **argv, int child_id)
@@ -53,30 +23,27 @@ this function do fork for each command setting the pipe array alowing
 the comunication between process.
 the stdin and stdout is modyfied as well with dup2 func
 */
-
-int	child_proc(t_pipex *pipex, char **argv, int child_id)
+int	child_proc(t_shell *shell, char **argv, int child_id)
 {
-	char	**cmd;
-
-	pipex->pid[child_id] = fork();
-	if (pipex->pid[child_id] < 0)
+	if (check_built_in(shell, argv[child_id], child_id) == 1)
+		return (0);
+	sigaction(SIGINT, &shell->action_nothing, 0);
+	sigaction(SIGQUIT, &shell->action_nothing, 0);
+	shell->pipex.pid[child_id] = fork();
+	if (shell->pipex.pid[child_id] < 0)
 		return (-1);
-	if (pipex->pid[child_id] == 0)
+	if (shell->pipex.pid[child_id] == 0)
 	{
-		if (child_id == 0 && pipex->cmd_count != 1)
-			my_dup(pipex, child_id, 0);
-		else if (child_id == pipex->cmd_count - 1)
-			my_dup(pipex, child_id, 1);
+		if (child_id > 0)
+			waitpid(shell->pipex.pid[child_id - 1], 0, 0);
+		if (child_id == 0 && shell->pipex.cmd_count != 1)
+			my_dup(&shell->pipex, child_id, 0);
+		else if (child_id == shell->pipex.cmd_count - 1)
+			my_dup(&shell->pipex, child_id, 1);
 		else
-			my_dup(pipex, child_id, 2);
-		close_pipes(pipex);
-		cmd = get_cmd(pipex, argv[child_id]);
-		if (!cmd[0])
-		{
-			child_free(pipex, cmd);
-			exit(0);
-		}
-		execute_command(cmd);
+			my_dup(&shell->pipex, child_id, 2);
+		close_pipes(&shell->pipex);
+		execute_cmd(shell, argv, child_id);
 	}
 	return (1);
 }
@@ -90,13 +57,12 @@ char **argv:	double pointer that rapresent the preparsed line coming from shell
 
 init all variables in pipex struct
 */
-
 int	pipex_init(t_pipex *pipex, int argc, char **argv)
 {
 	pipex->original_stdout = dup(1);
 	pipex->cmd_count = (argc);
 	pipex->pipe_count = 2 * (pipex->cmd_count - 1);
-	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count));
+	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count + 2));
 	if (!pipex->pipe)
 		return (0);
 	pipex->pid = (pid_t *) malloc(sizeof(pid_t) * pipex->cmd_count + 2);
@@ -124,7 +90,6 @@ char **strs:	double pointer that rapresent the preparsed line coming from shell
 this function return a new allocated null terminated array that is a copy of strs
 but without '|' or ' ' as single string
 */
-
 char	**line_filter(char **strs)
 {
 	char	**ret;
@@ -140,14 +105,16 @@ char	**line_filter(char **strs)
 	if (!ret)
 		return (0);
 	i = -1;
-	j = 0;
+	j = -1;
 	while (strs[++i])
 	{
 		if (!ft_strncmp(strs[i], "|", 1) || (!ft_strncmp(strs[i], " ", 1)))
 			continue ;
-		ret[j++] = ft_strdup(strs[i]);
+		ret[++j] = ft_strdup(strs[i]);
+		if (!ret[j])
+			return (0);
 	}
-	ret[j] = 0;
+	ret[++j] = 0;
 	return (ret);
 }
 
@@ -162,29 +129,27 @@ the function basically first prepare the input then set the pipex
 struct and call as many child process as commands given by the shell
 linking them with pipe then wait all the created process e finish execution
 */
-
 int	pipex(t_shell *shell, char **argv)
 {
 	char	**strs;
-	char	*temp;
 	int		argc;
 	int		i;
 
 	prepare_strs(argv);
 	strs = line_filter(argv);
+	if (!strs)
+		return (1);
 	argc = prepare_strs(strs);
 	i = -1;
 	if (pipex_init(&shell->pipex, argc, strs) == -1)
-		return (1);
+		return (2);
 	while (++i < shell->pipex.cmd_count)
-	{
-		if (child_proc(&shell->pipex, strs, i) < 0)
+		if (child_proc(shell, strs, i) < 0)
 			return (3);
-	}
 	close_pipes(&shell->pipex);
-	i = -1;
-	while (++i < shell->pipex.cmd_count)
-		waitpid(shell->pipex.pid[i], 0, 0);
+	waitpid(shell->pipex.pid[shell->pipex.cmd_count - 1], 0, 0);
+	sigaction(SIGINT, &shell->action_int, 0);
+	sigaction(SIGQUIT, &shell->action_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
 	return (0);

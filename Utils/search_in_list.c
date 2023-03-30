@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   search_in_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:48:15 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/24 15:35:11 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:35:16 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-//	name: is the name of the variable you want to search
-//	lvl: is the number of the subshell where you want to search the variable
-//	return: returns the pointer to the node of the variable at the level lvl,
+//	NAME: is the name of the variable you want to search
+//	LVL: is the number of the subshell where you want to search the variable
+//	RETURN: returns the pointer to the node of the variable at the level lvl,
 //		if there's not the level you are searching for it will return the
 //		closest smaller level to lvl. If the name is not in the list,
 //		return will be 0

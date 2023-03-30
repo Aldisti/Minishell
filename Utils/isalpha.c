@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   isalpha.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:30 by afraccal         ###   ########.fr       */
+/*   Created: 2023/01/16 11:26:14 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/25 17:19:57 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	env(t_shell	*shell)
+int	ft_isalpha(int n)
 {
-	while (shell->list)
-	{
-		printf("%s", shell->list->content->name);
-		printf("%s\n", shell->list->content->value);
-		shell->list=shell->list->next;
-	}
+	if (n < 65 || (n > 90 && n < 97) || n > 122)
+		return (0);
+	return (1);
 }

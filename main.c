@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:43:31 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/03/29 16:03:04 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_shell_errno = 0;
+
+void	my_print(char **strs)
+{
+	int i = -1;
+
+	while(strs[++i])
+		printf("%s\n", strs[i]);
+}
 
 void	ft_print(char **tab)
 {
@@ -41,43 +49,42 @@ char	*ft_prompt(void)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_shell	shell;
-	char	*prompt;
+	char			*prompt;
+	t_shell			shell;
 
 	if (ac != 1)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
+	ft_signals_set(&shell);
+	sigaction(SIGINT, &shell.action_int, 0);
+	sigaction(SIGQUIT, &shell.action_quit, 0);
+	shell.envp = list_convert(shell.list);
+	shell.line = NULL;
 	while (42)
 	{
-		shell.list = ft_env_set(envp);
 		prompt = ft_prompt();
 		shell.line = readline(prompt);
+		if (!shell.line)
+			exit(169);
+		if (!shell.line[0])
+			continue ;
 		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
 		ft_parser_checks(&shell);
 		shell.parsed = ft_expand_all(&shell);
-		if (!ft_strncmp(shell.parsed[0], "echo", 4))
-			echo(shell.parsed);
-		if (!ft_strncmp(shell.parsed[0], "cd", 2))
-			cd(shell.parsed, envp);
-		if (!ft_strncmp(shell.parsed[0], "env", 3))
-			env(&shell);
-		if (!ft_strncmp(shell.parsed[0], "export", 6))
-			ft_export(&shell, shell.parsed);
-		else if (!ft_strncmp(shell.parsed[0], "exit", 4))
+		if (!ft_strncmp(shell.parsed[0], "exit", 4))
 		{
-			rl_clear_history();
+			clear_history();
 			ft_free_mat((void ***) &shell.parsed);
 			exit(1);
 		}
 		else
 			pipex(&shell, shell.parsed);
-		ft_free_mat((void ***) &shell.parsed);
-		// shell.parsed = ft_redirection(&shell);
-		// shell_errno = ft_executor(&shell);
-		// ft_catch_error(&shell);
+		//ft_free_mat((void ***) &shell.parsed);
+		//shell_errno = ft_executor(&shell);
+		//ft_catch_error(&shell);
 	}
 	return (0);
 }
