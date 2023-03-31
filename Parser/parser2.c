@@ -17,24 +17,28 @@ char	**ft_parser(t_shell *shell, char *set)
 	int		dim;
 	int		i;
 	char	**parsed;
+	char	*line;
 
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
-		exit(1); // ft_die(); Error: memory error
+		exit(1); // return (ft_die(shell)); Error: memory error
 	dim = 1;
 	i = 0;
+	line = &shell->line[0];
 	while (shell->line[i])
 	{
 		while (shell->line[i] && !ft_in(shell->line[i], set))
 			if (!ft_checks(shell->line, &i))
-				exit (2); // ft_die() Error: unclosed quotes/parenthesis
+				exit (2); // return (ft_die(shell)); Error: unclosed quotes/parenthesis
 		if (!i)
 			while (shell->line[i] && ft_in(shell->line[i], set))
 				i++;
 		parsed = ft_extract_word(parsed, &dim, &i, &shell->line);
+		printf("\nparser>%s<\n", shell->line);
 		if (!parsed)
-			exit(1); // ft_die(); Error: memory error
+			exit(1); // return (ft_die(shell)); Error: memory error
 	}
+	shell->line = line;
 	return (parsed);
 }
 
@@ -118,18 +122,18 @@ void	ft_parser_checks(t_shell *shell)
 	int	i;
 
 	if (ft_delete_spaces(shell))
-		exit(1); // ft_die; Error: memory error
+		exit(1); // return (ft_die(shell)); Error: memory error
 	if (!shell->parsed)
-		exit(1); // ft_die(); Error: memory error
+		exit(1); // return (ft_die(shell));; Error: memory error
 	if (ft_in(shell->parsed[0][0], "&|"))
-		exit(4); // ft_die(); Error: invalid command
+		exit(4); // return (ft_die(shell));; Error: invalid command
 	if (!ft_valid_operators(shell->parsed))
-		exit(5); // ft_die(); Error: invalid operator
+		exit(5); // return (ft_die(shell));; Error: invalid operator
 	i = 0;
 	while (shell->parsed[i])
 	{
 		if (ft_check_multi_par(shell->parsed[i]))
-			exit(4); // ft_die(); Error: invalid command
+			exit(4); // return (ft_die(shell));; Error: invalid command
 		i++;
 	}
 }
