@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/29 11:49:23 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/03/31 20:04:55 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
+
+void	kill_zombie(void)
+{
+	struct sigaction	sa;
+
+	memset(&sa, 0, sizeof(sigaction));
+	sa.sa_handler = SIG_DFL;
+	sa.sa_flags = SA_NOCLDWAIT;
+	sigaction(SIGCHLD, &sa, 0);
+}
 
 /*
 int	child_proc(t_pipex *pipex, char **argv, int child_id)
@@ -26,6 +36,7 @@ the stdin and stdout is modyfied as well with dup2 func
 
 int	child_proc(t_shell *shell, char **argv, int child_id)
 {
+	kill_zombie();
 	if (check_built_in(shell, argv[child_id], child_id) == 1)
 		return (0);
 	shell->pipex.pid[child_id] = fork();
