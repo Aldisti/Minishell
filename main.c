@@ -33,18 +33,16 @@ void	ft_print(char **tab)
 char	*ft_prompt(void)
 {
 	char	*pwd_prompt;
-	char	*temp1;
-	char	*temp;
-	char	*color_pwd;
+	char	*strs[4];
 
+	strs[3] = 0;
 	pwd_prompt = getcwd(0, 0);
-	color_pwd = ft_strjoin("\033[1;36m", ft_strrchr(pwd_prompt, '/') + 1);
-	temp1 = ft_strjoin(color_pwd, "\033[0m");
-	temp = ft_strjoin(temp1, "\033[1;32m$> \033[0m");
+	strs[0] = "\033[1;36m";
+	strs[1] = ft_strrchr(pwd_prompt, '/') + 1;
+	strs[2] = "\033[0m\033[1;32m$> \033[0m";
+	strs[3] = ft_joiner(strs, 0);
 	free(pwd_prompt);
-	free(color_pwd);
-	free(temp1);
-	return (temp);
+	return (strs[3]);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -56,34 +54,31 @@ int	main(int ac, char **av, char **envp)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
-	ft_signals_set(&shell);
-	sigaction(SIGINT, &shell.action_int, 0);
-	sigaction(SIGQUIT, &shell.action_quit, 0);
-	shell.envp = list_convert(shell.list);
-	shell.line = NULL;
+	ft_shell_set(&shell);
 	while (42)
 	{
 		prompt = ft_prompt();
 		shell.line = readline(prompt);
+		ft_free((void **)&prompt);
 		if (!shell.line)
 			exit(169);
 		if (!shell.line[0])
 			continue ;
-		free(prompt);
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, "|&");
 		ft_parser_checks(&shell);
-		shell.parsed = ft_expand_all(&shell);
+		ft_expand_all(&shell);
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
 		{
 			clear_history();
-			ft_free_mat((void ***) &shell.parsed);
+			ft_die(&shell, 0, 0);
 			exit(1);
 		}
 		else
 			pipex(&shell, shell.parsed);
-		//ft_free_mat((void ***) &shell.parsed);
-		//shell_errno = ft_executor(&shell);
+		// ft_die(&shell, 0, 0);
+		ft_free_mat((void ***) &shell.parsed);
+		//shell_errno = ft_executor(&shell); 
 		//ft_catch_error(&shell);
 	}
 	return (0);
