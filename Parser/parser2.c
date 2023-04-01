@@ -34,7 +34,6 @@ char	**ft_parser(t_shell *shell, char *set)
 			while (shell->line[i] && ft_in(shell->line[i], set))
 				i++;
 		parsed = ft_extract_word(parsed, &dim, &i, &shell->line);
-		printf("\nparser>%s<\n", shell->line);
 		if (!parsed)
 			exit(1); // return (ft_die(shell)); Error: memory error
 	}

@@ -26,4 +26,6 @@ void	ft_signals_set(t_shell *shell)
 	sigemptyset(&(shell->action_quit.sa_mask));
 	shell->action_quit.sa_handler = ft_handle_quit;
 	shell->action_quit.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &shell->action_int, 0);
+	sigaction(SIGQUIT, &shell->action_quit, 0);
 }

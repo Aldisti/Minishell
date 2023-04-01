@@ -75,7 +75,7 @@ re: fclean all
 
 test: fclean linux clean
 
-leaks: all
-	@valgrind ./$(NAME)
+leaks: re
+	@valgrind --leak-check=full ./$(NAME)
 
 .PHONY: all clean fclean re test

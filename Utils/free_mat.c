@@ -16,6 +16,8 @@ void	ft_free_mat(void ***mat_addr)
 {
 	int	i;
 
+	if (!(*mat_addr))
+		return ;
 	i = 0;
 	while ((*mat_addr)[i])
 	{

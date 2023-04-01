@@ -17,11 +17,14 @@ char	*ft_strdup(const char *s1)
 	int		i;
 	char	*ptr;
 
-	if (!s1)
-		return (0);
 	ptr = malloc ((ft_strlen(s1) + 1) * sizeof (char));
 	if (!ptr)
 		return (0);
+	if (!s1)
+	{
+		ptr[0] = 0;
+		return (ptr);
+	}
 	i = -1;
 	while (s1[++i])
 		ptr[i] = s1[i];
