@@ -63,9 +63,9 @@ typedef struct s_pipex
 
 typedef struct s_shell
 {
-	struct sigaction	action_nothing;
-	struct sigaction	action_int;
-	struct sigaction	action_quit;
+	struct sigaction	a_nothing;
+	struct sigaction	a_int;
+	struct sigaction	a_quit;
 	struct termios		tty_attrs;
 	char				**parsed;
 	char				**envp;
