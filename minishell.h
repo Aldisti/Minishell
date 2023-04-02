@@ -33,6 +33,19 @@
 // extern void	rl_replace_line(char *, int);
 // extern void	rl_clear_history(void);
 
+#define OPEN_MODE  S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
+#define OPEN_FLAGS  O_CREAT | O_WRONLY | O_TRUNC
+
+typedef struct s_red
+{
+	char	**infiles;
+	char	**outfiles;
+	char	**afiles;
+	int		*fdin;
+	int		*fdout;
+	int		*fda;
+}	t_red;
+
 typedef struct s_env
 {
 	char			*name;
@@ -74,6 +87,7 @@ typedef struct s_shell
 	int					*fd_output;
 	int					*lvls;
 	int					n_cmds;
+	t_red				red;
 	t_list				*list;
 	t_pipex				pipex;
 }	t_shell;
@@ -86,6 +100,9 @@ typedef struct s_shell
 // void	ft_catch_error(t_shell *shell);
 
 int	ft_lvls(t_shell *shell);
+void	ft_redirection(t_shell *shell);
+int	ft_atoi(const char *str);
+
 
 //	Init
 //	env_set
