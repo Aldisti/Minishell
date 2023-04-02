@@ -1,40 +1,48 @@
 
 #include "../minishell.h"
 
-void	ft_free_env(t_env *env)
+/*
+DESCRIPTION
+this function does the free of a list and it's content
+in this case the content is another list with some variables
+inside it
+UPGRADES
+(si potrebbe richiedere come argomento della funzione il puntatore
+ad una funzione che faccia il free del content, così da rendere questa
+funzione utilizzabile anche con altre liste, mi sa che abbiamo già fatto
+una cosa del genere in Libft)
+*/
+void	ft_free_list(t_list **list)
 {
-	t_env	*tmp;
+	t_list	*tmp_list;
+	t_env	*tmp_env;
 
-	tmp = 0;
-	while (env)
+	tmp_list = 0;
+	while (*list)
 	{
-		tmp = env->next;
-		if (env->name)
-			ft_free((void **)&(env->name));
-		if (env->value)
-			ft_free((void **)&(env->value));
-		if (env)
-			ft_free((void **)&env);
-		env = tmp;
+		tmp_env = 0;
+		tmp_list = (*list)->next;
+		while ((*list)->content)
+		{
+			tmp_env = (*list)->content->next;
+			ft_free((void **)&((*list)->content->name));
+			ft_free((void **)&((*list)->content->value));
+			ft_free((void **)&(*list)->content);
+			(*list)->content = tmp_env;
+		}
+		ft_free((void **)&(*list));
+		(*list) = tmp_list;
 	}
 }
 
-void	ft_free_list(t_list *list)
-{
-	t_list	*tmp;
-
-	tmp = 0;
-	while (list)
-	{
-		tmp = list->next;
-		if (list->content)
-			ft_free_env(list->content);
-		if (list)
-			ft_free((void **)&list);
-		list = tmp;
-	}
-}
-
+/*
+DESCRIPTION
+this function does the free of all the variables in the struct [shell]
+also the structs inside the [shell] like [pipex] and so on
+UPGRADES
+(si potrebbe aggiungere un parametro [n] ed in base a quello fare i free
+di alcune variabili e lasciare intoccate le altre)
+*/
 void	ft_free_shell(t_shell *shell)
 {
 	if (shell->line)
@@ -49,11 +57,10 @@ void	ft_free_shell(t_shell *shell)
 		ft_free_mat((void ***)&shell->parsed);
 	if (shell->pipex.pipe)
 		ft_free((void **)&(shell->pipex.pipe));
+	if (shell->envp)
+		ft_free_mat((void ***)&(shell->envp));
 	if (shell->list)
-	{
-		ft_free_list(shell->list);
-		shell->list = 0;
-	}
+		ft_free_list(&shell->list);
 }
 
 /*
@@ -64,6 +71,7 @@ todo esce dal programma o ritorna un numero*
 int	ft_die(t_shell *shell, int todo, int code)
 {
 	ft_free_shell(shell);
+	rl_clear_history();
 	if (todo == 1)
 		exit(code);
 	else
