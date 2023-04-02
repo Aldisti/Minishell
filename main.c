@@ -16,18 +16,13 @@ int	g_shell_errno = 0;
 
 void	my_print(char **strs)
 {
-	int i = -1;
+	int	i;
 
-	while(strs[++i])
-		printf("%s\n", strs[i]);
-}
-
-void	ft_print(char **tab)
-{
-	if (!tab)
+	if (!strs)
 		return ;
-	for (int i = 0; tab[i]; i++)
-		printf("%s\n", tab[i]);
+	i = 0;
+	while(strs[i])
+		printf("%s\n", strs[i++]);
 }
 
 char	*ft_prompt(void)
@@ -41,7 +36,7 @@ char	*ft_prompt(void)
 	strs[1] = ft_strrchr(pwd_prompt, '/') + 1;
 	strs[2] = "\033[0m\033[1;32m$> \033[0m";
 	strs[3] = ft_joiner(strs, 0);
-	free(pwd_prompt);
+	ft_free((void **)&pwd_prompt);
 	return (strs[3]);
 }
 
@@ -69,11 +64,7 @@ int	main(int ac, char **av, char **envp)
 		ft_parser_checks(&shell);
 		ft_expand_all(&shell);
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
-		{
-			clear_history();
-			ft_die(&shell, 0, 0);
-			exit(1);
-		}
+			return(ft_die(&shell, 0, 0));
 		else
 			pipex(&shell, shell.parsed);
 		// ft_die(&shell, 0, 0);
