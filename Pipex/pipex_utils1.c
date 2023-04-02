@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/03/29 10:26:00 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/02 18:30:30 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,21 @@ void	close_pipes(t_pipex *pipex)
 SELF EXPLANATORY
 */
 
-void	my_dup(t_pipex *pipex, int id, int mode)
+void	my_dup(t_pipex *pipex, int id)
 {
-	if (mode == 0)
+	if (id == 0 && pipex->cmd_count != 1)
 	{
 		dup2(pipex->infile_fd, 0);
 		dup2(pipex->pipe[2 * id + 1], 1);
 	}
-	else if (mode == 1 && id > 0)
+	else if ((id == pipex->cmd_count - 1) && id > 0)
 	{
 		dup2(pipex->pipe[2 * id - 2], 0);
 		dup2(pipex->outfile_fd, 1);
 	}
-	else if (mode == 2)
+	else if ((id == pipex->cmd_count - 1) && id == 0)
+		;
+	else
 	{
 		dup2(pipex->pipe[2 * id - 2], 0);
 		dup2(pipex->pipe[2 * id + 1], 1);

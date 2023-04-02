@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/31 20:04:55 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/02 18:29:19 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,7 @@ int	child_proc(t_shell *shell, char **argv, int child_id)
 	{
 		if (child_id > 0)
 			waitpid(shell->pipex.pid[child_id - 1], 0, 0);
-		if (child_id == 0 && shell->pipex.cmd_count != 1)
-			my_dup(&shell->pipex, child_id, 0);
-		else if (child_id == shell->pipex.cmd_count - 1)
-			my_dup(&shell->pipex, child_id, 1);
-		else
-			my_dup(&shell->pipex, child_id, 2);
+		my_dup(&shell->pipex, child_id);
 		close_pipes(&shell->pipex);
 		execute_cmd(shell, argv, child_id);
 	}
