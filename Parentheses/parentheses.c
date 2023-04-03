@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parentheses.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:54:04 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 07:54:05 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/03 15:34:24 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ int	ft_lvls(t_shell *shell)
 {
 	char	*line;
 
-	// tmp
-	shell->lvls = NULL;
 	ft_free((void **) &shell->lvls);
-	// tmp
 	line = ft_joiner(shell->parsed, 0);
 	if (!line)
 		return (1); // ft_die(); Error: memory error

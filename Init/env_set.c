@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:48:26 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 14:42:42 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/03 15:32:35 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_get_value(const char *str, const char *name)
 	while (str[i] != '=')
 		i++;
 	value = ft_substr(str, i + 1, ft_strlen(str));
-	if (!ft_strncmp(name, "SHLVL", 6))
+	if (!ft_strncmp(name, "SHLVL=", 7))
 	{
 		tmp = value;
 		value = ft_itoa(ft_atoi(value) + 1);
