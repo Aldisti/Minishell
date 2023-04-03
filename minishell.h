@@ -89,13 +89,6 @@ typedef struct s_shell
 	t_pipex				pipex;
 }	t_shell;
 
-// funzioni del main (devono essere cosi)
-// void	ft_init(t_shell *env, char **envp);
-// char	**ft_parser(t_shell *shell, char *set);
-// char	**ft_redirection(t_shell *shell);
-// int		ft_executor(t_shell *shell);
-// void	ft_catch_error(t_shell *shell);
-
 //	Init
 //	env_set
 t_list		*ft_env_set(char **envp);

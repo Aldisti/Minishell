@@ -76,17 +76,6 @@ int	main(int ac, char **av, char **envp)
 		shell.parsed = ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);
-		for (int i = 0; shell.parsed[i]; i++)
-			printf("%s\n", shell.parsed[i]);
-		for (int i = 0; i < shell.n_cmds; i++)
-		{
-			printf("fnin: %s\n", shell.red.infiles[i]);
-			printf("fnout: %s\n", shell.red.outfiles[i]);
-			printf("fna: %s\n", shell.red.afiles[i]);
-			printf("fdin: %i\n", shell.red.fdin[i]);
-			printf("fdout: %i\n", shell.red.fdout[i]);
-			printf("fda: %i\n", shell.red.fda[i]);
-		}
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
 		{
 			clear_history();

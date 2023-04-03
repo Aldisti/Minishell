@@ -40,6 +40,7 @@ YELLOW	= \033[1;33m
 BLUE	= \033[1;34m
 RESET	= \033[0;0m
 
+
 SRC_COUNT_TOT = $(shell expr $(shell echo -n $(SRC) $(PARSER_SRC) $(PIPEX_SRC) $(UTILS_SRC) $(COMM_SRC) $(INIT_SRC) \
 		 $(EXP_SRC) $(PAR_SRC) $(RED_SRC) | wc -w))
 SRC_COUNT = 0
