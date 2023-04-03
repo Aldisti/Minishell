@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:14 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 07:51:08 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/03 08:40:44 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 		if (ft_remove_quotes(&shell->red.outfiles[n_cmd / 2]))
 			return (1); // Error: memory error
 		ft_free((void **) shell->red.afiles[n_cmd / 2]);
-		fd = open(shell->red.outfiles[n_cmd / 2], OPEN_FLAGS, OPEN_MODE);
+		fd = open(shell->red.outfiles[n_cmd / 2],
+				O_CREAT | O_WRONLY | O_TRUNC,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		if (fd == -1)
 			return (1); // Error: memory error
 		close(fd);
@@ -71,8 +73,9 @@ int	ft_append_red(t_shell *shell, int n_cmd, int *ind)
 		if (ft_remove_quotes(&shell->red.afiles[n_cmd / 2]))
 			return (1); // Error: memory error
 		ft_free((void **) shell->red.outfiles[n_cmd / 2]);
-		fd = open(shell->red.afiles[n_cmd / 2], O_CREAT | O_WRONLY,
-				OPEN_MODE);
+		fd = open(shell->red.afiles[n_cmd / 2],
+				O_CREAT | O_WRONLY,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		if (fd == -1)
 			return (1); // Error: memory error
 		close(fd);
@@ -85,7 +88,9 @@ int	ft_here_doc(char *limiter)
 	char	*temp;
 	int		file;
 
-	file = open(".here_doc", OPEN_FLAGS, OPEN_MODE);
+	file = open(".here_doc",
+			O_CREAT | O_WRONLY | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 	if (file == -1)
 		return (1); // Error: memory error
 	while (42)

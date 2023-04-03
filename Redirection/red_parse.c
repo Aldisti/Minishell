@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:21 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 07:52:34 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/03 08:39:22 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type)
 {
 	int		i;
 	char	tmp;
-	
+
 	while (shell->parsed[n_cmd][*ind] == ' ')
 		(*ind)++;
 	i = *ind;
