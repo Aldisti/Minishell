@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/03/28 21:19:17 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/03 21:34:53 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,23 +93,20 @@ char	**get_cmd(t_pipex *pipex, char *str)
 	pipex->cmd_i = -1;
 	pipex->paths = ft_split(getenv("PATH"), ':');
 	command = line_filter(command_parser(str, " "));
-	if (is_built_in(command[0]) == 0)
+	while (pipex->paths[++pipex->cmd_i])
+		get_cmd_loop(pipex, temp, command);
+	temp = path_checker(pipex, command[0]);
+	ft_free((void **) &command[0]);
+	if (!temp)
+		command[0] = 0;
+	else
 	{
-		while (pipex->paths[++pipex->cmd_i])
-			get_cmd_loop(pipex, temp, command);
-		temp = path_checker(pipex, command[0]);
-		ft_free((void **) &command[0]);
-		if (!temp)
-			command[0] = 0;
-		else
-		{
-			command[0] = ft_strdup(temp);
-			if (!command[0])
-				return (0);
-			ft_free((void **) &temp);
-		}
-		ft_free_mat((void ***) &pipex->paths);
+		command[0] = ft_strdup(temp);
+		if (!command[0])
+			return (0);
+		ft_free((void **) &temp);
 	}
+	ft_free_mat((void ***) &pipex->paths);
 	return (command);
 }
 

@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/02 18:28:53 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/03 20:52:13 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int		pipex(t_shell *shell, char **argv);
 int		pipex_init(t_pipex *pipex, int argc, char **argv);
 int		child_proc(t_shell *shell, char **argv, int child_id);
 char	**list_convert(t_list *list);
+char	*get_cmd_no_path(char *str);
 //	pipex_utils
 void	my_dup(t_pipex *pipex, int id);
 void	execute_built_in(t_shell *shell, char **cmd, int lvl);

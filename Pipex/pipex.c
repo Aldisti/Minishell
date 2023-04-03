@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/02 18:29:19 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/03 21:35:26 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@ the stdin and stdout is modyfied as well with dup2 func
 int	child_proc(t_shell *shell, char **argv, int child_id)
 {
 	kill_zombie();
-	if (check_built_in(shell, argv[child_id], child_id) == 1)
-		return (0);
+	// if (check_built_in(shell, argv[child_id], child_id) == 1)
+	// 	return (0);
+	if (is_built_in(get_cmd_no_path(argv[child_id])))
+	{
+		execute_built_in(shell, ft_split(argv[child_id], ' '), 0);
+		return (1);
+	}
 	shell->pipex.pid[child_id] = fork();
 	if (shell->pipex.pid[child_id] < 0)
 		return (-1);
