@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   red.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 07:46:38 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/03 07:48:31 by gpanico          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	ft_redirection(t_shell *shell)
@@ -21,7 +33,7 @@ void	ft_redirection(t_shell *shell)
 		if (ret == 1)
 			exit(1); // ft_die(); Error: memory error
 		else if (ret == 2 && ++i)
-			continue;
+			continue ;
 		ft_replace_red(shell, i);
 		i++;
 	}

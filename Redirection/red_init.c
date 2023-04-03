@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   red_init.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 07:47:05 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/03 07:49:36 by gpanico          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	ft_set_rarray(t_shell *shell)
@@ -16,15 +28,15 @@ void	ft_set_rarray(t_shell *shell)
 int	ft_allocate_rarray(t_shell *shell)
 {
 	shell->red.infiles = (char **)ft_calloc(sizeof(char *),
-				shell->n_cmds + 1);
+			shell->n_cmds + 1);
 	if (!shell->red.infiles)
 		return (1); // ft_die(); Error: memory error
 	shell->red.outfiles = (char **)ft_calloc(sizeof(char *),
-				shell->n_cmds + 1);
+			shell->n_cmds + 1);
 	if (!shell->red.outfiles)
 		return (1); // ft_die(); Error: memory error
 	shell->red.afiles = (char **)ft_calloc(sizeof(char *),
-				shell->n_cmds + 1);
+			shell->n_cmds + 1);
 	if (!shell->red.afiles)
 		return (1); // ft_die(); Error: memory error
 	shell->red.fdin = (int *)ft_calloc(sizeof(int), shell->n_cmds);

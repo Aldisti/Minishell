@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 16:59:28 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/03 07:39:41 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-// extern void	rl_replace_line(char *, int);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *, int);
+extern void	rl_clear_history(void);
 
 #define OPEN_MODE  S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH
 #define OPEN_FLAGS  O_CREAT | O_WRONLY | O_TRUNC

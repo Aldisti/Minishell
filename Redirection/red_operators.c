@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   red_operators.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 07:47:14 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/03 07:51:08 by gpanico          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_input_red(t_shell *shell, int n_cmd, int *ind)
@@ -21,7 +33,7 @@ int	ft_input_red(t_shell *shell, int n_cmd, int *ind)
 
 int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 {
-	int fd;
+	int	fd;
 
 	if (shell->parsed[n_cmd][*ind] == '>'
 		&& !ft_in(shell->parsed[n_cmd][*ind + 1], "><"))
@@ -45,7 +57,7 @@ int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 
 int	ft_append_red(t_shell *shell, int n_cmd, int *ind)
 {
-	int fd;
+	int	fd;
 
 	if (shell->parsed[n_cmd][*ind] == '>'
 		&& shell->parsed[n_cmd][*ind + 1] == '>')
@@ -73,7 +85,7 @@ int	ft_here_doc(char *limiter)
 	char	*temp;
 	int		file;
 
-	file = open(".here_doc", OPEN_FLAGS , OPEN_MODE);
+	file = open(".here_doc", OPEN_FLAGS, OPEN_MODE);
 	if (file == -1)
 		return (1); // Error: memory error
 	while (42)

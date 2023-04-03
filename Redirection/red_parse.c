@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   red_parse.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 07:47:21 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/03 07:52:34 by gpanico          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_get_fd(t_shell *shell, int n_cmd, int ind, char type)
@@ -35,7 +47,7 @@ void	ft_put_filename(t_shell *shell, int n_cmd, char *dup, char type)
 
 int	ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type)
 {
-	int	i;
+	int		i;
 	char	tmp;
 	
 	while (shell->parsed[n_cmd][*ind] == ' ')
@@ -50,8 +62,8 @@ int	ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type)
 	}
 	tmp = shell->parsed[n_cmd][i];
 	shell->parsed[n_cmd][i] = 0;
-	ft_put_filename(shell, n_cmd, ft_strdup(&shell->parsed[n_cmd][*ind])
-			, type);
+	ft_put_filename(shell, n_cmd, ft_strdup(&shell->parsed[n_cmd][*ind]),
+		type);
 	if (ft_check_fn_status(shell, n_cmd, type))
 		return (1); // Error: memory error
 	shell->parsed[n_cmd][i] = tmp;
@@ -62,11 +74,11 @@ int	ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type)
 int	ft_remove_quotes(char **line)
 {
 	char	*new_line;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = ft_strlen_without(*line, "\'\"");
-	if ( i != ft_strlen(*line))
+	if (i != ft_strlen(*line))
 	{
 		new_line = (char *)ft_calloc(sizeof(char), i + 1);
 		if (!new_line)
@@ -92,7 +104,7 @@ int	ft_apply_red(t_shell *shell, int n_cmd)
 {
 	int	i;
 	int	ret;
-	
+
 	i = 0;
 	while (shell->parsed[n_cmd][i])
 	{

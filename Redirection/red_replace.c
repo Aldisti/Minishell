@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   red_replace.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 07:47:27 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/03 07:53:16 by gpanico          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	ft_replace_op(char *cmd, int *ind)
@@ -70,10 +82,10 @@ void	ft_replace_fn(char *cmd, int *ind)
 	(*ind)--;
 }
 
-void	ft_replace_red(t_shell *shell,int n_cmd)
+void	ft_replace_red(t_shell *shell, int n_cmd)
 {
 	int	i;
-	
+
 	i = 0;
 	while (shell->parsed[n_cmd][i])
 	{
@@ -87,4 +99,3 @@ void	ft_replace_red(t_shell *shell,int n_cmd)
 		i++;
 	}
 }
-
