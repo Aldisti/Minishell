@@ -99,11 +99,6 @@ typedef struct s_shell
 // int		ft_executor(t_shell *shell);
 // void	ft_catch_error(t_shell *shell);
 
-int	ft_lvls(t_shell *shell);
-void	ft_redirection(t_shell *shell);
-int	ft_atoi(const char *str);
-
-
 //	Init
 //	env_set
 t_list	*ft_env_set(char **envp);
@@ -142,6 +137,47 @@ int		ft_getquotes(char *str, int i);
 char	*ft_getname(char *str, int i);
 int		ft_getlvl(char *str, int i);
 
+//	Parentheses
+//	parentheses
+int		ft_lvls(t_shell *shell);
+int		ft_counts_cmds(char *line);
+int		ft_update_lvl(char c, int lvl, int *array);
+void	ft_set_lvls(char *line, int *lvls);
+void	ft_replace(char *line, char *old, char new);
+
+//	Redirection
+//	red
+void	ft_redirection(t_shell *shell);
+//	red_check
+int		ft_valid_red_op(char *line);
+int		ft_red_check(char *line);
+int		ft_check_space(char *line, int ind);
+int		ft_check_fn_status(t_shell *shell, int n_cmd, char type);
+//	red_init
+void	ft_set_rarray(t_shell *shell);
+int		ft_allocate_rarray(t_shell *shell);
+//	red_operators
+int		ft_input_red(t_shell *shell, int n_cmd, int *ind);
+int		ft_output_red(t_shell *shell, int n_cmd, int *ind);
+int		ft_append_red(t_shell *shell, int n_cmd, int *ind);
+int		ft_here_doc(char *limiter);
+int		ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
+//	red_parse
+int		ft_get_fd(t_shell *shell, int n_cmd, int ind, char type);
+void	ft_put_filename(t_shell *shell, int n_cmd, char *dup, char type);
+int		ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type);
+int		ft_remove_quotes(char **line);
+int		ft_apply_red(t_shell *shell, int n_cmd);
+//	red_replace
+void	ft_replace_op(char *cmd, int *ind);
+void	ft_replace_fd(char *cmd, int ind);
+void	ft_quotes_replace(char *str, int *ind, char sub);
+void	ft_replace_fn(char *cmd, int *ind);
+void	ft_replace_red(t_shell *shell, int n_cmd);
+//	red_utils
+int		ft_strlen_without(char *str, char *set);
+char	*ft_null_to_str(char *ptr);
+int		ft_fill_red(t_shell *shell);
 //	Commands
 //	cd
 int		get_oldpwd_i(char **envp);
@@ -210,6 +246,7 @@ char	*ft_strdup(const char *s1);
 size_t	ft_strlen(const char *str);
 char	*ft_joiner(char **tab, int n);
 char	*ft_strchr(const char *s, int c);
+int		ft_atoi(const char *str);
 char	**ft_split(char const *s, char c);
 void	*ft_calloc(size_t num, size_t dim);
 char	*ft_strrchr(const char *str, int c);
