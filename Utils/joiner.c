@@ -26,7 +26,7 @@ char	*ft_joiner(char **tab, int n)
 	{
 		tmp = ft_strjoin(out, tab[i]);
 		if (out)
-			free(out);
+			ft_free((void **)&out);
 		if (!tmp)
 			break ;
 		out = tmp;
@@ -35,9 +35,6 @@ char	*ft_joiner(char **tab, int n)
 		return (tmp);
 	i = -1;
 	while (tab[++i])
-	{
-		free(tab[i]);
-		tab[i] = 0;
-	}
+		ft_free((void **)&tab[i]);
 	return (tmp);
 }

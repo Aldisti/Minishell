@@ -73,9 +73,9 @@ typedef struct s_pipex
 
 typedef struct s_shell
 {
-	struct sigaction	action_nothing;
-	struct sigaction	action_int;
-	struct sigaction	action_quit;
+	struct sigaction	a_nothing;
+	struct sigaction	a_int;
+	struct sigaction	a_quit;
 	struct termios		tty_attrs;
 	char				**parsed;
 	char				**envp;
@@ -90,6 +90,8 @@ typedef struct s_shell
 }	t_shell;
 
 //	Init
+//	shell_set
+void	ft_shell_set(t_shell *shell);
 //	env_set
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);
@@ -113,11 +115,10 @@ int			ft_valid_operators(char **parsed);
 
 //	Expansions
 //	expansion
-char		*ft_expand_special(t_shell *shell, char *str, int i);
-char		*ft_expand_dollar(t_shell *shell, char *str, int i);
-char		*ft_expand_tilde(t_shell *shell, char *str, int i);
-char		*ft_expansion(t_shell *shell, char *str);
-char		**ft_expand_all(t_shell *shell);
+char	  *ft_expand_spec(t_shell *shell, char *str, int i);
+char	  *ft_expand_doll(t_shell *shell, char *str, int i);
+char	  *ft_expand_tilde(t_shell *shell, char *str, int i);
+void	  ft_expand_all(t_shell *shell);
 //	expansion_utils
 int			ft_getquotes(char *str, int i);
 char		*ft_getname(char *str, int i);

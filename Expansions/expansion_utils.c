@@ -38,6 +38,7 @@ int	ft_getlvl(char *str, int i)
 {
 	int	j;
 	int	brackets;
+	int	quotes;
 
 	if (!str || i < 0 || i > (int)ft_strlen(str))
 		return (0);
@@ -45,9 +46,10 @@ int	ft_getlvl(char *str, int i)
 	brackets = 0;
 	while (++j < i)
 	{
-		if (!ft_getquotes(str, j) && str[j] == '(')
+		quotes = ft_getquotes(str, j);
+		if (!quotes && str[j] == '(')
 			brackets++;
-		if (!ft_getquotes(str, j) && str[j] == ')')
+		if (!quotes && str[j] == ')')
 			brackets--;
 	}
 	return (brackets);

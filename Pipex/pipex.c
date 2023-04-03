@@ -27,8 +27,8 @@ int	child_proc(t_shell *shell, char **argv, int child_id)
 {
 	if (check_built_in(shell, argv[child_id], child_id) == 1)
 		return (0);
-	sigaction(SIGINT, &shell->action_nothing, 0);
-	sigaction(SIGQUIT, &shell->action_nothing, 0);
+	sigaction(SIGINT, &shell->a_nothing, 0);
+	sigaction(SIGQUIT, &shell->a_nothing, 0);
 	shell->pipex.pid[child_id] = fork();
 	if (shell->pipex.pid[child_id] < 0)
 		return (-1);
@@ -148,8 +148,8 @@ int	pipex(t_shell *shell, char **argv)
 			return (3);
 	close_pipes(&shell->pipex);
 	waitpid(shell->pipex.pid[shell->pipex.cmd_count - 1], 0, 0);
-	sigaction(SIGINT, &shell->action_int, 0);
-	sigaction(SIGQUIT, &shell->action_quit, 0);
+	sigaction(SIGINT, &shell->a_int, 0);
+	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
 	return (0);
