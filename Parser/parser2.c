@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	**ft_parser(t_shell *shell, char *set)
+char	**ft_parser(t_shell *shell, char *line, char *set)
 {
 	int		dim;
 	int		i;
@@ -24,16 +24,15 @@ char	**ft_parser(t_shell *shell, char *set)
 		exit(1); // return (ft_die(shell)); Error: memory error
 	dim = 1;
 	i = 0;
-	line = &shell->line[0];
-	while (shell->line[i])
+	while (line[i])
 	{
-		while (shell->line[i] && !ft_in(shell->line[i], set))
-			if (!ft_checks(shell->line, &i))
-				exit (2); // return (ft_die(shell)); Error: unclosed quotes/parenthesis
+		while (line[i] && !ft_in(line[i], set))
+			if (!ft_checks(line, &i))
+				exit (2); // ft_die() Error: unclosed quotes/parenthesis
 		if (!i)
-			while (shell->line[i] && ft_in(shell->line[i], set))
+			while (line[i] && ft_in(line[i], set))
 				i++;
-		parsed = ft_extract_word(parsed, &dim, &i, &shell->line);
+		parsed = ft_extract_word(parsed, &dim, &i, &line);
 		if (!parsed)
 			exit(1); // return (ft_die(shell)); Error: memory error
 	}
