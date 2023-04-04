@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/04 18:28:46 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/04 19:00:42 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,21 @@ int	ft_end_with(char *line, char end)
 	return (found);
 }
 
+char	*ft_read_again(char *prompt)
+{
+	char	*tmp;
+	char	*line;
+
+	tmp = readline("> ");
+	if (!tmp)
+		return (NULL);
+	line = ft_strjoin(" ", tmp);
+	ft_free((void **) &tmp);
+	if (!line)
+		return (NULL);
+	return (line);
+}
+
 char	*ft_readline(char *prompt)
 {
 	char	**lines;
@@ -78,7 +93,7 @@ char	*ft_readline(char *prompt)
 		if (!lines)
 			return (NULL); //ft_die(); Error: memory error
 		dim++;
-		lines[dim - 2]= readline("> ");
+		lines[dim - 2] = ft_read_again("> ");
 		if (!lines[dim - 2])
 			return (NULL); //ft_die(); Error: memory error
 	}
