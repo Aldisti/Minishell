@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/04 18:00:26 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/04 18:18:01 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 		if (!parsed)
 			exit(1); // return (ft_die(shell)); Error: memory error
 	}
-	shell->line = line;
 	return (parsed);
 }
 
