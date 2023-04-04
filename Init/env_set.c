@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:48:26 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 15:32:35 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/04 14:36:55 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_list	*ft_env_set(char **envp)
 		list_elem = ft_lstnew((void *)elem);
 		if (!list_elem)
 			exit(1); // ft_die(); Error: memory error
-		ft_lstadd_back(&list, list_elem);
+		ft_lst_insert(&list, list_elem);
 		i++;
 	}
 	return (list);
