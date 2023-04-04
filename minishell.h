@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/03 09:16:16 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/03 15:00:28 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+// extern void	rl_replace_line(char *text, int clear_undo);
+// extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -91,11 +91,11 @@ typedef struct s_shell
 
 //	Init
 //	shell_set
-void	ft_shell_set(t_shell *shell);
+void		ft_shell_set(t_shell *shell);
 //	env_set
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);
-char		*ft_get_value(const char *str);
+char		*ft_get_value(const char *str, const char *name);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
@@ -115,10 +115,10 @@ int			ft_valid_operators(char **parsed);
 
 //	Expansions
 //	expansion
-char	  *ft_expand_spec(t_shell *shell, char *str, int i);
-char	  *ft_expand_doll(t_shell *shell, char *str, int i);
-char	  *ft_expand_tilde(t_shell *shell, char *str, int i);
-void	  ft_expand_all(t_shell *shell);
+char		*ft_expand_spec(t_shell *shell, char *str, int i);
+char		*ft_expand_doll(t_shell *shell, char *str, int i);
+char		*ft_expand_tilde(t_shell *shell, char *str, int i);
+void		ft_expand_all(t_shell *shell);
 //	expansion_utils
 int			ft_getquotes(char *str, int i);
 char		*ft_getname(char *str, int i);
@@ -237,6 +237,7 @@ char		*ft_strrchr(const char *str, int c);
 int			ft_strlen_until(char *str, char *set);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 int			ft_strcmp(const char *s1, const char *s2);
+int			ft_die(t_shell *shell, int todo, int code);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
 int			ft_countn(const char *str, const char c, int n);
