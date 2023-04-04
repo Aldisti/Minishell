@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/03 15:07:15 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/04 11:15:40 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,22 @@ char	*ft_prompt(void)
 	return (strs[3]);
 }
 
+int	ft_export(t_shell *shell, char **cmd, int lvl);
+
 int	main(int ac, char **av, char **envp)
 {
-	char			*prompt;
-	t_shell			shell;
+	char	*prompt;
+	t_shell	shell;
+	char	*cmd[] = {"export", "HOME"};
 
 	if (ac != 1)
 		return (0);
 	(void)av;
 	shell.list = ft_env_set(envp);
 	ft_shell_set(&shell);
+	ft_export(&shell, cmd, 0);
+	ft_die(&shell, 0, 0);
+	exit(0);
 	while (42)
 	{
 		prompt = ft_prompt();
