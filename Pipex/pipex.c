@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/04 21:13:43 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/04 21:35:08 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,51 +34,27 @@ the comunication between process.
 the stdin and stdout is modyfied as well with dup2 func
 */
 
-int	child_proc(t_shell *shell, char **argv, int *child_id)
+int	child_proc(t_shell *shell, char **cmd, int *id)
 {
 	int	flag;
 
-	flag = 0;
 	kill_zombie();
-	if (is_built_in(get_cmd_no_path(argv[*child_id])) && argv[(*child_id) + 1] && !is_built_in(get_cmd_no_path(argv[(*child_id) + 1])))
-	{
-		flag = 1;
-		(*child_id) += 1;
-	}
-	else if (is_built_in(get_cmd_no_path(argv[*child_id])))
-	{
-		my_dup(&shell->pipex, *child_id);
-		execute_built_in(shell, ft_split(argv[(*child_id)], ' '), 0);
-		if (*child_id > 0)
-			close(shell->pipex.pipe[2 * (*child_id) - 2]);
-		else
-			close(shell->pipex.pipe[0]);
-		close(shell->pipex.pipe[2 * (*child_id) + 1]);
-		if (*child_id == shell->pipex.cmd_count - 1)
-			dup2(shell->pipex.original_stdin, 0);
+	flag = built_in_selector(shell, id, cmd);
+	if (flag < 0)
 		return (1);
-	}
-	shell->pipex.pid[*child_id] = fork();
-	if (shell->pipex.pid[*child_id] < 0)
+	shell->pipex.pid[*id] = fork();
+	if (shell->pipex.pid[*id] < 0)
 		return (-1);
-	if (shell->pipex.pid[*child_id] == 0)
+	if (shell->pipex.pid[*id] == 0)
 	{
-		if (child_id > 0)
-			waitpid(shell->pipex.pid[*child_id - 1], 0, 0);
-		my_dup(&shell->pipex, *child_id);
+		if (id > 0)
+			waitpid(shell->pipex.pid[*id - 1], 0, 0);
+		my_dup(&shell->pipex, *id);
 		close_pipes(&shell->pipex);
-		execute_cmd(shell, argv, *child_id);
+		execute_cmd(shell, cmd, *id);
 	}
 	if (flag)
-	{
-		my_dup(&shell->pipex, (*child_id) - 1);
-		execute_built_in(shell, ft_split(argv[(*child_id) - 1], ' '), 0);
-		close(shell->pipex.pipe[2 * ((*child_id)) - 2]);
-		close(shell->pipex.pipe[2 * ((*child_id)) + 1]);
-		close(shell->pipex.pipe[2 * ((*child_id) - 1) + 1]);
-		dup2(shell->pipex.original_stdout, 1);
-		dup2(shell->pipex.original_stdin, 0);
-	}
+		built_in_pipe_handler(shell, id, cmd);
 	return (1);
 }
 

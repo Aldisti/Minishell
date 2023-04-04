@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/03 21:35:45 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/04 21:33:34 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ this func just compare the string and check if the command is a builtin
 command if so 1 is returned
 */
 
-int	is_built_in(char *cmd)
+int	is_blt(char *cmd)
 {
 	int	flag;
 
@@ -77,7 +77,7 @@ int	is_built_in(char *cmd)
 	return (1);
 }
 
-char	*get_cmd_no_path(char *str)
+char	*gnp(char *str)
 {
 	int		i;
 	char	*ret;
@@ -95,30 +95,39 @@ char	*get_cmd_no_path(char *str)
 	return (ret);
 }
 
-/*
-int	check_built_in(t_shell *shell, char *str)
-char	*str: string that contain the command to execute
+int	built_in_selector(t_shell *shell, int *id, char **cmd)
+{
+	int	flag;
 
-this func controll the passed string and check if the
-command is a built in, if so it execute before the creation
-of the forked porcess
-*/
+	flag = 0;
+	if (is_blt(gnp(cmd[*id])) && cmd[(*id) + 1] && !is_blt(gnp(cmd[(*id) + 1])))
+	{
+		flag = 1;
+		(*id) += 1;
+	}
+	else if (is_blt(gnp(cmd[*id])))
+	{
+		my_dup(&shell->pipex, *id);
+		execute_built_in(shell, ft_split(cmd[(*id)], ' '), 0);
+		if (*id > 0)
+			close(shell->pipex.pipe[2 * (*id) - 2]);
+		else
+			close(shell->pipex.pipe[0]);
+		close(shell->pipex.pipe[2 * (*id) + 1]);
+		if (*id == shell->pipex.cmd_count - 1)
+			dup2(shell->pipex.original_stdin, 0);
+		return (-1);
+	}
+	return (flag);
+}
 
-// int	check_built_in(t_shell *shell, char *str, int child_id)
-// {
-// 	char	**temp;
-
-// 	shell->pipex.pid[child_id] = -1;
-// 	temp = ft_split(str, ' ');
-// 	if (!temp)
-// 		exit(6);//ft_die
-// 	if (is_built_in(temp[0]))
-// 		execute_built_in(shell, temp, 0);
-// 	else
-// 	{
-// 		ft_free_mat((void ***)&temp);
-// 		return (0);
-// 	}
-// 	ft_free_mat((void ***)&temp);
-// 	return (1);
-// }
+void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
+{
+	my_dup(&shell->pipex, (*id) - 1);
+	execute_built_in(shell, ft_split(cmd[(*id) - 1], ' '), 0);
+	close(shell->pipex.pipe[2 * ((*id)) - 2]);
+	close(shell->pipex.pipe[2 * ((*id)) + 1]);
+	close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
+	dup2(shell->pipex.original_stdout, 1);
+	dup2(shell->pipex.original_stdin, 0);
+}
