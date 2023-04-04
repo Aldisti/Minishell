@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 14:58:10 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/04 18:00:26 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 	int		i;
 	char	**parsed;
 
+	ft_replace(line, "\t\n", ' ');
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
 		exit(1); // return (ft_die(shell)); Error: memory error
