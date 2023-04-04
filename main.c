@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/28 15:29:01 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/04 21:08:20 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	main(int ac, char **av, char **envp)
 		ft_parser_checks(&shell);
 		shell.parsed = ft_expand_all(&shell);
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
-
 		{
 			clear_history();
 			ft_free_mat((void ***) &shell.parsed);
