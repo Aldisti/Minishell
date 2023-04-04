@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 09:43:03 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/28 21:20:34 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/04 15:18:34 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,4 @@ void	child_free(t_pipex *pipex, char **cmd)
 	pipex->pipe = 0;
 	pipex->pid = 0;
 	cmd = 0;
-	close(pipex->original_stdout);
 }

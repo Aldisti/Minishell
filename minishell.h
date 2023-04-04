@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/03 20:52:13 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/04 11:35:30 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_pipex
 	int		infile_fd;
 	int		outfile_fd;
 	int		original_stdout;
+	int		original_stdin;
 	pid_t	*pid;
 	int		cmd_i;
 	char	**paths;
@@ -126,7 +127,7 @@ char	**line_filter(char **strs);
 void	execute_cmd(t_shell *shell, char **argv, int child_id);
 int		pipex(t_shell *shell, char **argv);
 int		pipex_init(t_pipex *pipex, int argc, char **argv);
-int		child_proc(t_shell *shell, char **argv, int child_id);
+int		child_proc(t_shell *shell, char **argv, int *child_id);
 char	**list_convert(t_list *list);
 char	*get_cmd_no_path(char *str);
 //	pipex_utils

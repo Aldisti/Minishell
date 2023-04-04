@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/03 21:35:26 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/04 16:06:13 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,39 @@ the comunication between process.
 the stdin and stdout is modyfied as well with dup2 func
 */
 
-int	child_proc(t_shell *shell, char **argv, int child_id)
+int	child_proc(t_shell *shell, char **argv, int *child_id)
 {
+	int	flag;
+
+	flag = 0;
 	kill_zombie();
-	// if (check_built_in(shell, argv[child_id], child_id) == 1)
-	// 	return (0);
-	if (is_built_in(get_cmd_no_path(argv[child_id])))
+	if (is_built_in(get_cmd_no_path(argv[*child_id])) && argv[(*child_id) + 1] && !is_built_in(get_cmd_no_path(argv[(*child_id) + 1])))
 	{
-		execute_built_in(shell, ft_split(argv[child_id], ' '), 0);
+		flag = 1;
+		(*child_id) += 1;
+	}
+	else if (is_built_in(get_cmd_no_path(argv[*child_id])))
+	{
+		execute_built_in(shell, ft_split(argv[(*child_id)], ' '), 0);
 		return (1);
 	}
-	shell->pipex.pid[child_id] = fork();
-	if (shell->pipex.pid[child_id] < 0)
+	shell->pipex.pid[*child_id] = fork();
+	if (shell->pipex.pid[*child_id] < 0)
 		return (-1);
-	if (shell->pipex.pid[child_id] == 0)
+	if (shell->pipex.pid[*child_id] == 0)
 	{
 		if (child_id > 0)
-			waitpid(shell->pipex.pid[child_id - 1], 0, 0);
-		my_dup(&shell->pipex, child_id);
+			waitpid(shell->pipex.pid[*child_id - 1], 0, 0);
+		my_dup(&shell->pipex, *child_id);
 		close_pipes(&shell->pipex);
-		execute_cmd(shell, argv, child_id);
+		execute_cmd(shell, argv, *child_id);
+	}
+	if (flag)
+	{
+		my_dup(&shell->pipex, (*child_id) - 1);
+		execute_built_in(shell, ft_split(argv[(*child_id) - 1], ' '), 0);
+		close_pipes(&shell->pipex);
+		my_dup(&shell->pipex, (*child_id));
 	}
 	return (1);
 }
@@ -71,6 +84,7 @@ init all variables in pipex struct
 int	pipex_init(t_pipex *pipex, int argc, char **argv)
 {
 	pipex->original_stdout = dup(1);
+	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);
 	pipex->pipe_count = 2 * (pipex->cmd_count - 1);
 	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count + 2));
@@ -159,11 +173,11 @@ int	pipex(t_shell *shell, char **argv)
 		return (2);
 	while (++i < shell->pipex.cmd_count)
 	{
-		if (child_proc(shell, strs, i) < 0)
+		if (child_proc(shell, strs, &i) < 0)
 			return (3);
 	}
 	close_pipes(&shell->pipex);
-	waitpid(shell->pipex.pid[shell->pipex.cmd_count - 1], 0, 0);
+	waitpid(-1, 0, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
 	return (0);
