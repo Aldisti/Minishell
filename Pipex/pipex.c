@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/04 16:06:13 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:55:53 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	child_proc(t_shell *shell, char **argv, int *child_id)
 	}
 	else if (is_built_in(get_cmd_no_path(argv[*child_id])))
 	{
+		my_dup(&shell->pipex, *child_id);
 		execute_built_in(shell, ft_split(argv[(*child_id)], ' '), 0);
 		return (1);
 	}
@@ -65,8 +66,14 @@ int	child_proc(t_shell *shell, char **argv, int *child_id)
 	{
 		my_dup(&shell->pipex, (*child_id) - 1);
 		execute_built_in(shell, ft_split(argv[(*child_id) - 1], ' '), 0);
-		close_pipes(&shell->pipex);
-		my_dup(&shell->pipex, (*child_id));
+		close(shell->pipex.pipe[2 * ((*child_id)) - 2]);
+		close(shell->pipex.pipe[2 * ((*child_id)) + 1]);
+		close(shell->pipex.pipe[2 * ((*child_id) - 1) + 1]);
+		//close_pipes(&shell->pipex);
+		dup2(shell->pipex.original_stdout, 1);
+		dup2(shell->pipex.original_stdin, 0);
+		// fprintf(fdopen(shell->pipex.original_stdout, "w"), "%d\n", STD_FILENO);
+		//my_dup(&shell->pipex, (*child_id));
 	}
 	return (1);
 }
