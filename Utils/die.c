@@ -35,6 +35,22 @@ void	ft_free_list(t_list **list)
 	}
 }
 
+void ft_free_red(t_shell *shell)
+{
+	if (shell->red.infiles)
+		ft_free_mat((void ***)&(shell->red.infiles));
+	if (shell->red.outfiles)
+		ft_free_mat((void ***)&(shell->red.outfiles));
+	if (shell->red.afiles)
+		ft_free_mat((void ***)&(shell->red.afiles));
+	if (shell->red.fdin)
+		ft_free((void **)&(shell->red.fdin));
+	if (shell->red.fdout)
+		ft_free((void **)&(shell->red.fdout));
+	if (shell->red.fda)
+		ft_free((void **)&(shell->red.fda));
+}
+
 /*
 DESCRIPTION
 this function does the free of all the variables in the struct [shell]
@@ -59,20 +75,9 @@ void	ft_free_shell(t_shell *shell)
 		ft_free((void **)&(shell->pipex.pipe));
 	if (shell->envp)
 		ft_free_mat((void ***)&(shell->envp));
-	if (shell->red.infiles)
-		ft_free_mat((void ***)&(shell->red.infiles));
-	if (shell->red.outfiles)
-		ft_free_mat((void ***)&(shell->red.outfiles));
-	if (shell->red.afiles)
-		ft_free_mat((void ***)&(shell->red.afiles));
-	if (shell->red.fdin)
-		ft_free((void **)&(shell->red.fdin));
-	if (shell->red.fdout)
-		ft_free((void **)&(shell->red.fdout));
-	if (shell->red.fda)
-		ft_free((void **)&(shell->red.fda));
 	if (shell->list)
 		ft_free_list(&shell->list);
+	ft_free_red(shell);
 }
 
 /*

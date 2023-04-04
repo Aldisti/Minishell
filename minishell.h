@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/03 17:10:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/04 14:14:53 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,13 +224,14 @@ int			ft_isalnum(int n);
 int			ft_isalpha(int n);
 int			ft_isdigit(int n);
 int			ft_isspace(int c);
+int			ft_atoi(const char *str);
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
 char		*ft_strdup(const char *s1);
 size_t		ft_strlen(const char *str);
+void		ft_free_red(t_shell *shell);
 char		*ft_joiner(char **tab, int n);
 char		*ft_strchr(const char *s, int c);
-int			ft_atoi(const char *str);
 char		**ft_split(char const *s, char c);
 void		*ft_calloc(size_t num, size_t dim);
 char		*ft_strrchr(const char *str, int c);
