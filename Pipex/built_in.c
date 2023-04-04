@@ -6,52 +6,45 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/04 21:33:34 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/04 22:35:13 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
 /*
-void	execute_command(char **cmd)
+void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 char	**cmd: already properly setted variable that contain the complete
-				command retrived from the shell formatted as follow
-				{"path/command", "other option or flag", ...}
-this function compare the path/command string to different command and 
-based on the result execute our own command or senti it to exevec
+				builtin command retrived from the shell formatted as follow
+				{"command", "other option or flag", ...}
+this function compare the command[0] string to different command and if match
+it execute our own command
 */
-
 void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 {
 	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
 		print_pwd();
-	// else if (!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
-	// 	return (1);
+	else if (!ft_strncmp(cmd[0], "echo", 4) && ft_strlen(cmd[0]) == 4)
+		return ;
 	else if (!ft_strncmp(cmd[0], "cd", 2) && ft_strlen(cmd[0]) == 2)
 		cd(shell, cmd, lvl);
+	else if (!ft_strncmp(cmd[0], "export", 6) && ft_strlen(cmd[0]) == 6)
+		return ;
+	else if (!ft_strncmp(cmd[0], "unset", 5) && ft_strlen(cmd[0]) == 5)
+		return ;
+	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
+		return ;
+	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
+		return ;
 	ft_free_mat((void ***) &cmd);
-	// else if (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
-	// 	return (1);
-	// else if (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
-	// 	return (1);
-	// else if (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
-	// 	return (1);
-	// else if (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)
-	// 	return (1);
-	// else
-	// {
-	// 	trim_strs(cmd);
-	// 	execve(cmd[0], cmd, shell->envp);
-	// }
 }
 
 /*
-int	is_built_in(char *cmd)
+int	is_blt(char *cmd)
 
 this func just compare the string and check if the command is a builtin
 command if so 1 is returned
 */
-
 int	is_blt(char *cmd)
 {
 	int	flag;
@@ -77,6 +70,14 @@ int	is_blt(char *cmd)
 	return (1);
 }
 
+/*
+char	*gnp(char *str)
+
+this func return an allocate char *
+that is just the str passed as argument
+trimmed at the first blank space found so that 
+can be used to check if the command is a builtin
+*/
 char	*gnp(char *str)
 {
 	int		i;
@@ -95,6 +96,14 @@ char	*gnp(char *str)
 	return (ret);
 }
 
+/*
+int	built_in_selector(t_shell *shell, int *id, char **cmd)
+
+this func check if the current comman is a builtin and if
+the next is not, if so the order is switched and the non-builtin
+is executed first otherwise the builtin is execute normally not 
+in a sub process
+*/
 int	built_in_selector(t_shell *shell, int *id, char **cmd)
 {
 	int	flag;
@@ -121,6 +130,12 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	return (flag);
 }
 
+/*
+void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
+
+this func execute the builtin when the order is switched closing and
+dupping the fd properly but only the necessary one
+*/
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
 	my_dup(&shell->pipex, (*id) - 1);

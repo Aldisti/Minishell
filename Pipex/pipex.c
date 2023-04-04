@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/04 21:35:08 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/04 22:07:56 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,14 @@ t_pipex	*pipex: t_pipex	*pipex: a pointer to the struct pipex
 char **argv:	double pointer that rapresent the preparsed line 
 				coming from shell prompt that is already 
 				splitted on metacharacter and filtered for '|' or ' '
-				
-this function do fork for each command setting the pipe array alowing 
-the comunication between process.
-the stdin and stdout is modyfied as well with dup2 func
-*/
 
+this func first of all check if the command to execute is a built in
+if so set a flag and execute the next command in line, once finished 
+the built in command is executed.
+If the command is not a built in the pipe is setted properly and the
+command is executed in a subprocess every executed command is followed
+by the necessary close pipe
+*/
 int	child_proc(t_shell *shell, char **cmd, int *id)
 {
 	int	flag;
@@ -67,7 +69,6 @@ char **argv:	double pointer that rapresent the preparsed line coming from shell
 
 init all variables in pipex struct
 */
-
 int	pipex_init(t_pipex *pipex, int argc, char **argv)
 {
 	pipex->original_stdout = dup(1);
@@ -82,15 +83,6 @@ int	pipex_init(t_pipex *pipex, int argc, char **argv)
 		return (0);
 	if (create_pipes(pipex) == -1)
 		return (-1);
-	pipex->infile_fd = dup(0);
-	pipex->outfile_fd = dup(1);
-	if (pipex->infile_fd < 0)
-	{
-		printf("%s: %s: file o directory inesistente\n", argv[1], argv[2]);
-		close_pipes(pipex);
-		child_free(pipex, 0);
-		return (-1);
-	}
 	return (1);
 }
 
@@ -102,7 +94,6 @@ char **strs:	double pointer that rapresent the preparsed line coming from shell
 this function return a new allocated null terminated array that is a copy of strs
 but without '|' or ' ' as single string
 */
-
 char	**line_filter(char **strs)
 {
 	char	**ret;
@@ -142,7 +133,6 @@ the function basically first prepare the input then set the pipex
 struct and call as many child process as commands given by the shell
 linking them with pipe then wait all the created process e finish execution
 */
-
 int	pipex(t_shell *shell, char **argv)
 {
 	char	**strs;
