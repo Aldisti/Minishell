@@ -53,9 +53,9 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	shell.list = ft_env_set(envp);
 	ft_shell_set(&shell);
-	ft_export(&shell, cmd, 0);
-	ft_die(&shell, 0, 0);
-	exit(0);
+	//ft_export(&shell, cmd, 0);
+	//ft_die(&shell, 0, 0);
+	//exit(0);
 	while (42)
 	{
 		prompt = ft_prompt();
