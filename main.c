@@ -47,6 +47,35 @@ char	*ft_prompt(void)
 	return (temp);
 }
 
+char	*ft_readline(char *prompt)
+{
+	char	**lines;
+	char	*line;
+	int	dim;
+
+	lines = NULL;
+	dim = 2;
+	lines = (char **) ft_realloc(lines, sizeof(char *), 0, dim);
+	if (!lines)
+		return (NULL);
+	lines[dim - 2] = readline(prompt);
+	if (!lines[dim - 2])
+		return (NULL);
+	while (lines[dim - 2][ft_strlen(lines[dim - 2]) - 1] == '|')
+	{
+		lines = (char **) ft_realloc(lines, sizeof(char *), dim, dim + 1);
+		if (!lines)
+			return (NULL);
+		dim++;
+		lines[dim - 2]= readline("> ");
+		if (!lines[dim - 2])
+			return (NULL);
+	}
+	line = ft_joiner(lines, 1);
+	free(lines);
+	return (line);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char			*prompt;
@@ -64,7 +93,7 @@ int	main(int ac, char **av, char **envp)
 	while (42)
 	{
 		prompt = ft_prompt();
-		shell.line = readline(prompt);
+		shell.line = ft_readline(prompt);
 		if (!shell.line)
 			exit(169);
 		if (!shell.line[0])

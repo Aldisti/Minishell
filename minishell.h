@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+//extern void	rl_replace_line(char *text, int clear_undo);
+//extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -88,13 +88,6 @@ typedef struct s_shell
 	t_list				*list;
 	t_pipex				pipex;
 }	t_shell;
-
-// funzioni del main (devono essere cosi)
-// void	ft_init(t_shell *env, char **envp);
-// char	**ft_parser(t_shell *shell, char *set);
-// char	**ft_redirection(t_shell *shell);
-// int		ft_executor(t_shell *shell);
-// void	ft_catch_error(t_shell *shell);
 
 //	Init
 //	env_set
