@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/04 18:20:10 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/04 18:28:46 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,24 @@ char	*ft_prompt(void)
 	return (strs[3]);
 }
 
+int	ft_end_with(char *line, char end)
+{
+	int	i;
+	int	found;
+
+	i = 0;
+	found = 0;
+	while (line[i])
+	{
+		if (line[i] == '|' && !found)
+			found = 1;
+		else if (found && !ft_in(line[i], " \t\n"))
+			found  = 0;
+		i++;
+	}
+	return (found);
+}
+
 char	*ft_readline(char *prompt)
 {
 	char	**lines;
@@ -54,7 +72,7 @@ char	*ft_readline(char *prompt)
 	lines[dim - 2] = readline(prompt);
 	if (!lines[dim - 2])
 		return (NULL); //ft_die(); Error: memory error
-	while (lines[dim - 2][ft_strlen(lines[dim - 2]) - 1] == '|')
+	while (ft_end_with(lines[dim - 2], '|'))
 	{
 		lines = (char **) ft_realloc(lines, sizeof(char *), dim, dim + 1);
 		if (!lines)
