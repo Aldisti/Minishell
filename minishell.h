@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 12:10:08 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:03:21 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+//extern void	rl_replace_line(char *text, int clear_undo);
+//extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -195,7 +195,7 @@ int			child_proc(t_shell *shell, char **argv, int *child_id);
 char		**list_convert(t_list *list);
 char		*gnp(char *str);
 //	pipex_utils
-void		my_dup(t_pipex *pipex, int id);
+void		my_dup(t_shell *shell, int id);
 void		execute_built_in(t_shell *shell, char **cmd, int lvl);
 int			is_blt(char *cmd);
 int			create_pipes(t_pipex *pipex);
@@ -203,6 +203,7 @@ void		close_pipes(t_pipex *pipex);
 int			prepare_strs(char **strs);
 void		trim_strs(char **strs, const char *str);
 char		*get_next_line(int fd);
+void		red_output(t_shell *shell, int id);
 //	command
 char		**get_cmd(t_pipex *pipex, char *str);
 char		*path_checker(t_pipex *pipex, char *str);

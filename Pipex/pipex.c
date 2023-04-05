@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/05 12:13:34 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:38:05 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 		return (-1);
 	if (shell->pipex.pid[*id] == 0)
 	{
-		my_dup(&shell->pipex, *id);
+		my_dup(shell, *id);
 		close_pipes(&shell->pipex);
 		execute_cmd(shell, cmd, *id);
 	}

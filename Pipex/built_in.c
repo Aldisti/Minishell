@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/05 11:35:41 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 20:44:34 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,16 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	}
 	else if (is_blt(gnp(cmd[*id])))
 	{
-		my_dup(&shell->pipex, *id);
+		my_dup(shell, *id);
 		execute_built_in(shell, ft_split(cmd[(*id)], ' '), 0);
 		if (*id > 0)
 			close(shell->pipex.pipe[2 * (*id) - 2]);
 		else
 			close(shell->pipex.pipe[0]);
 		close(shell->pipex.pipe[2 * (*id) + 1]);
-		if (*id == shell->pipex.cmd_count - 1)
+		if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
 			dup2(shell->pipex.original_stdin, 0);
+		dup2(shell->pipex.original_stdout, 1);
 		return (-1);
 	}
 	return (flag);
@@ -138,7 +139,7 @@ dupping the fd properly but only the necessary one
 */
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
-	my_dup(&shell->pipex, (*id) - 1);
+	my_dup(shell, (*id) - 1);
 	execute_built_in(shell, ft_split(cmd[(*id) - 1], ' '), 0);
 	close(shell->pipex.pipe[2 * ((*id)) - 2]);
 	close(shell->pipex.pipe[2 * ((*id)) + 1]);

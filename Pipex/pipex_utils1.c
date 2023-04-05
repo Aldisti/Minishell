@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/04/05 11:36:08 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 17:02:01 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,31 @@ void	close_pipes(t_pipex *pipex)
 		close(pipex->pipe[i]);
 }
 
+void	red_output(t_shell *shell, int id)
+{
+	int	fd;
+
+	fd = open(shell->red.outfiles[id], O_RDWR);
+	dup2(fd, 1);
+	close(fd);
+}
+void	red_input(t_shell *shell, int id)
+{
+	int	fd;
+
+	fd = open(shell->red.infiles[id], O_RDWR);
+	dup2(fd, 0);
+	close(fd);
+}
+void	red_append(t_shell *shell, int id)
+{
+	int	fd;
+
+	fd = open(shell->red.afiles[id], O_WRONLY | O_APPEND | O_CREAT, 0644);
+	dup2(fd, 1);
+	close(fd);
+}
+
 /*
 void	my_dup(t_pipex *pipex, int id)
 
@@ -92,24 +117,55 @@ set the pipe accordingly so that each input and
 output is read/write either from/to a pipe or on the
 stdout/stdin
 */
-void	my_dup(t_pipex *pipex, int id)
+void	my_dup(t_shell *shell, int id)
 {
-	if (id == 0 && pipex->cmd_count != 1)
+	if (id == 0 && shell->pipex.cmd_count != 1)
 	{
-		dup2(pipex->original_stdin, 0);
-		dup2(pipex->pipe[2 * id + 1], 1);
+		if (shell->red.infiles[id][0] != 0)
+			red_input(shell, id);
+		else
+			red_input(shell, id);
+		if (shell->red.outfiles[id][0] == 0)
+			dup2(shell->pipex.pipe[2 * id + 1], 1);
+		else
+			red_output(shell, id);
+		if (shell->red.afiles[id][0] != 0)
+			red_append(shell, id);
 	}
-	else if ((id == pipex->cmd_count - 1) && id > 0)
+	else if ((id == shell->pipex.cmd_count - 1) && id > 0)
 	{
-		dup2(pipex->pipe[2 * id - 2], 0);
-		dup2(pipex->original_stdout, 1);
+		if (shell->red.infiles[id][0] == 0)
+			dup2(shell->pipex.pipe[2 * id - 2], 0);
+		else
+			red_input(shell, id);
+		if (shell->red.outfiles[id][0] == 0)
+			dup2(shell->pipex.original_stdout, 1);
+		else if (shell->red.outfiles[id][0] != 0)
+			red_output(shell, id);
+		else if (shell->red.afiles[id][0] != 0)
+			red_append(shell, id);
 	}
-	else if ((id == pipex->cmd_count - 1) && id == 0)
-		;
+	else if ((id == shell->pipex.cmd_count - 1) && id == 0)
+	{
+		if (shell->red.outfiles[id][0] != 0)
+			red_input(shell, id);
+		if (shell->red.outfiles[id][0] != 0)
+			red_output(shell, id);
+		else if (shell->red.afiles[id][0] != 0)
+			red_append(shell, id);
+	}
 	else
 	{
-		dup2(pipex->pipe[2 * id - 2], 0);
-		dup2(pipex->pipe[2 * id + 1], 1);
+		if (shell->red.outfiles[id][0] == 0)
+			dup2(shell->pipex.pipe[2 * id - 2], 0);
+		else
+			red_input(shell, id);
+		if (shell->red.outfiles[id][0] == 0)
+			dup2(shell->pipex.pipe[2 * id + 1], 1);
+		else
+			red_output(shell, id);
+		if (shell->red.afiles[id][0] != 0)
+			red_append(shell, id);
 	}
 }
 

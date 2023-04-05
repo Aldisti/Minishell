@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/04 22:38:00 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/05 14:14:43 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	execute_cmd(t_shell *shell, char **argv, int child_id)
 {
 	char	**cmd;
 
+	ft_replace(argv[child_id], "\31", ' ');
 	cmd = get_cmd(&shell->pipex, argv[child_id]);
 	if (!cmd)
 		exit(15);

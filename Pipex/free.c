@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 09:43:03 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/04 22:40:09 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/05 20:37:37 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	child_free(t_pipex *pipex, char **cmd)
 
 	i = -1;
 	close(pipex->original_stdin);
-	close(pipex->original_stdout);
+	//close(pipex->original_stdout);
 	while (cmd && cmd[++i])
 		ft_free((void **) &cmd[i]);
 	if (cmd)
