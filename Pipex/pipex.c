@@ -33,9 +33,8 @@ this function do fork for each command setting the pipe array alowing
 the comunication between process.
 the stdin and stdout is modyfied as well with dup2 func
 */
-int	child_proc(t_shell *shell, char **argv, int child_id)
+int	child_proc(t_shell *shell, char **cmd, int *id)
 {
-
 	int	flag;
 
 	kill_zombie();
@@ -44,8 +43,8 @@ int	child_proc(t_shell *shell, char **argv, int child_id)
 		return (1);
 	sigaction(SIGINT, &shell->a_nothing, 0);
 	sigaction(SIGQUIT, &shell->a_nothing, 0);
-	shell->pipex.pid[child_id] = fork();
-	if (shell->pipex.pid[child_id] < 0)
+	shell->pipex.pid[*id] = fork();
+	if (shell->pipex.pid[*id] < 0)
 		return (-1);
 	if (shell->pipex.pid[*id] == 0)
 	{
@@ -151,6 +150,7 @@ int	pipex(t_shell *shell, char **argv)
 	{
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
+	}
 	close_pipes(&shell->pipex);
 	waitpid(-1, 0, 0);
 	sigaction(SIGINT, &shell->a_int, 0);
