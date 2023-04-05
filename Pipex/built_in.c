@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/29 12:25:54 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:35:41 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*gnp(char *str)
 	i = -1;
 	while (str[++i] && str[i] != ' ')
 		ret[i] = str[i];
-	ret[++i] = 0;
+	ret[i] = 0;
 	return (ret);
 }
 

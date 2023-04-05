@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/04 14:38:36 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/05 12:10:08 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,28 +187,28 @@ void		ft_handle_int(int signum);
 
 //	Pipex
 //	pipex
-char	**line_filter(char **strs);
-void	execute_cmd(t_shell *shell, char **argv, int child_id);
-int		pipex(t_shell *shell, char **argv);
-int		pipex_init(t_pipex *pipex, int argc, char **argv);
-int		child_proc(t_shell *shell, char **argv, int *child_id);
-char	**list_convert(t_list *list);
-char	*gnp(char *str);
+char		**line_filter(char **strs);
+void		execute_cmd(t_shell *shell, char **argv, int child_id);
+int			pipex(t_shell *shell, char **argv);
+int			pipex_init(t_pipex *pipex, int argc, char **argv);
+int			child_proc(t_shell *shell, char **argv, int *child_id);
+char		**list_convert(t_list *list);
+char		*gnp(char *str);
 //	pipex_utils
-void	my_dup(t_pipex *pipex, int id);
-void	execute_built_in(t_shell *shell, char **cmd, int lvl);
-int		is_blt(char *cmd);
-int		create_pipes(t_pipex *pipex);
-void	close_pipes(t_pipex *pipex);
-int		prepare_strs(char **strs);
-void	trim_strs(char **strs, const char *str);
-char	*get_next_line(int fd);
+void		my_dup(t_pipex *pipex, int id);
+void		execute_built_in(t_shell *shell, char **cmd, int lvl);
+int			is_blt(char *cmd);
+int			create_pipes(t_pipex *pipex);
+void		close_pipes(t_pipex *pipex);
+int			prepare_strs(char **strs);
+void		trim_strs(char **strs, const char *str);
+char		*get_next_line(int fd);
 //	command
-char	**get_cmd(t_pipex *pipex, char *str);
-char	*path_checker(t_pipex *pipex, char *str);
-int		built_in_selector(t_shell *shell, int *id, char **cmd);
-void	get_cmd_loop(t_pipex *pipex, char *temp, char **command);
-void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
+char		**get_cmd(t_pipex *pipex, char *str);
+char		*path_checker(t_pipex *pipex, char *str);
+int			built_in_selector(t_shell *shell, int *id, char **cmd);
+void		get_cmd_loop(t_pipex *pipex, char *temp, char **command);
+void		built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
 //	command_parser
 char		**ft_extract_word_command(char **parsed, int *dim,
 				int *i, char **line);
@@ -236,6 +236,7 @@ char		**ft_split(char const *s, char c);
 void		*ft_calloc(size_t num, size_t dim);
 char		*ft_strrchr(const char *str, int c);
 int			ft_strlen_until(char *str, char *set);
+void		*ft_memset(void *b, int c, size_t len);
 void		ft_lst_insert(t_list **lst, t_list *new);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
 void		ft_lstadd_back(t_list **lst, t_list *new);

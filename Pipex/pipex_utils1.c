@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/04/04 22:40:25 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/05 11:36:08 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	my_dup(t_pipex *pipex, int id)
 {
 	if (id == 0 && pipex->cmd_count != 1)
 	{
-		dup2(pipex->infile_fd, 0);
+		dup2(pipex->original_stdin, 0);
 		dup2(pipex->pipe[2 * id + 1], 1);
 	}
 	else if ((id == pipex->cmd_count - 1) && id > 0)
