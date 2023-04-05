@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 17:03:21 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/05 22:21:44 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,11 @@ void		ft_set_lvls(char *line, int *lvls);
 void		ft_replace(char *line, char *old, char new);
 
 //	Redirection
+void		red_selector(t_shell *shell, int id, int mode);
+void		last_cmd_dup(t_shell *shell, int id);
+void		alone_cmd_dup(t_shell *shell, int id);
+void		middle_cmd_dup(t_shell *shell, int id);
+void		first_child_dup(t_shell *shell, int id);
 //	red
 void		ft_redirection(t_shell *shell);
 //	red_check
