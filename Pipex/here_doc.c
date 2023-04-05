@@ -21,7 +21,7 @@ int	here_doc(t_pipex *pipex, char *limiter)
 	while (42)
 	{
 		write(pipex->original_stdout, "heredoc> ", 9);
-		temp = get_next_line(pipex->infile_fd);
+		temp = get_next_line(pipex->original_stdin);
 		if (!temp || (!ft_strncmp(temp, limiter, ft_strlen(limiter))
 				&& ft_strlen(temp) == ft_strlen(limiter) + 1))
 			break ;
@@ -41,5 +41,4 @@ void	cat_here_doc(t_pipex *pipex, char *limiter)
 	i = here_doc(pipex, limiter);
 	dup2(0, i);
 	close(i);
-	//unlink(".here_doc");
 }
