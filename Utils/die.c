@@ -1,5 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   die.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/04/05 12:28:59 by adi-stef         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_free_env(t_env **env)
+{
+	ft_free((void **)&(*env)->name);
+	ft_free((void **)&(*env)->value);
+	ft_free((void **)env);
+	return (0);
+}
 
 /*
 DESCRIPTION
@@ -25,9 +44,10 @@ void	ft_free_list(t_list **list)
 		while ((*list)->content)
 		{
 			tmp_env = (*list)->content->next;
-			ft_free((void **)&((*list)->content->name));
-			ft_free((void **)&((*list)->content->value));
-			ft_free((void **)&(*list)->content);
+			// ft_free((void **)&((*list)->content->name));
+			// ft_free((void **)&((*list)->content->value));
+			// ft_free((void **)&(*list)->content);
+			ft_free_env(&((*list)->content));
 			(*list)->content = tmp_env;
 		}
 		ft_free((void **)&(*list));
@@ -35,8 +55,12 @@ void	ft_free_list(t_list **list)
 	}
 }
 
-void ft_free_red(t_shell *shell)
+void ft_free_routine(t_shell *shell)
 {
+	if (shell->line)
+		ft_free((void **)&(shell->line));
+	if (shell->parsed)
+		ft_free_mat((void ***)&shell->parsed);
 	if (shell->red.infiles)
 		ft_free_mat((void ***)&(shell->red.infiles));
 	if (shell->red.outfiles)
@@ -61,23 +85,18 @@ di alcune variabili e lasciare intoccate le altre)
 */
 void	ft_free_shell(t_shell *shell)
 {
-	if (shell->line)
-		ft_free((void **)&(shell->line));
 	if (shell->fd_input)
 		ft_free((void **)&(shell->fd_input));
 	if (shell->fd_output)
 		ft_free((void **)&(shell->fd_output));
 	if (shell->lvls)
 		ft_free((void **)&(shell->lvls));
-	if (shell->parsed)
-		ft_free_mat((void ***)&shell->parsed);
 	if (shell->pipex.pipe)
 		ft_free((void **)&(shell->pipex.pipe));
 	if (shell->envp)
 		ft_free_mat((void ***)&(shell->envp));
 	if (shell->list)
 		ft_free_list(&shell->list);
-	ft_free_red(shell);
 }
 
 /*
@@ -88,6 +107,7 @@ todo esce dal programma o ritorna un numero*
 int	ft_die(t_shell *shell, int todo, int code)
 {
 	ft_free_shell(shell);
+	ft_free_routine(shell);
 	rl_clear_history();
 	if (todo == 1)
 		exit(code);

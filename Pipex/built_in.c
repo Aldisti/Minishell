@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/29 12:25:54 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 15:13:42 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	check_built_in(t_shell *shell, char *str, int child_id)
 	if (!temp)
 		exit(6);//ft_die
 	if (is_built_in(temp[0]))
-		execute_built_in(shell, temp, 0);
+		execute_built_in(shell, temp, shell->lvls[child_id]);
 	else
 	{
 		ft_free_mat((void ***)&temp);
