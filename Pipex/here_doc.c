@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 22:49:01 by marco             #+#    #+#             */
-/*   Updated: 2023/04/04 22:16:13 by marco            ###   ########.fr       */
+/*   Updated: 2023/03/29 12:16:28 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	here_doc(t_pipex *pipex, char *limiter)
 void	cat_here_doc(t_pipex *pipex, char *limiter)
 {
 	int		i;
-	char	*temp;
 
 	i = here_doc(pipex, limiter);
 	dup2(0, i);

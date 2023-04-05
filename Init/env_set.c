@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:48:26 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/27 10:59:57 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/04/04 14:36:55 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,22 @@ char	*ft_get_name(const char *str)
 	return (name);
 }
 
-char	*ft_get_value(const char *str)
+char	*ft_get_value(const char *str, const char *name)
 {
 	int		i;
 	char	*value;
+	char	*tmp;
 
 	i = 0;
 	while (str[i] != '=')
 		i++;
 	value = ft_substr(str, i + 1, ft_strlen(str));
+	if (!ft_strncmp(name, "SHLVL=", 7))
+	{
+		tmp = value;
+		value = ft_itoa(ft_atoi(value) + 1);
+		ft_free((void **)&tmp);
+	}
 	return (value);
 }
 
@@ -53,13 +60,13 @@ t_list	*ft_env_set(char **envp)
 			exit(1); // ft_die(); Error: memory error
 		elem->set = 1;
 		elem->name = ft_get_name(envp[i]);
-		elem->value = ft_get_value(envp[i]);
+		elem->value = ft_get_value(envp[i], elem->name);
 		if (!elem->name || !elem->value)
 			exit(1); // ft_die(); Error: memory error
 		list_elem = ft_lstnew((void *)elem);
 		if (!list_elem)
 			exit(1); // ft_die(); Error: memory error
-		ft_lstadd_back(&list, list_elem);
+		ft_lst_insert(&list, list_elem);
 		i++;
 	}
 	return (list);

@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   substr.c                                           :+:      :+:    :+:   */
+/*   handle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 15:57:07 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/21 18:24:12 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/03/29 14:45:41 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/29 15:55:24 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+void	ft_does_nothing(int signum)
 {
-	int		i;
-	char	*ptr;
+	(void)signum;
+	return ;
+}
 
-	if (!s)
-		return (0);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s))
-		len = ft_strlen(s) - start;
-	ptr = (char *) malloc ((len + 1) * sizeof (char));
-	if (!ptr)
-		return (0);
-	i = 0;
-	while (len-- > 0 && s[start])
-		ptr[i++] = s[start++];
-	ptr[i] = 0;
-	return (ptr);
+void	ft_handle_int(int signum)
+{
+	if (signum != SIGINT)
+		return ;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay();
+}
+
+//	vado indietro di due, scrivo due spazi e torno di nuovo indietro di 2
+void	ft_handle_quit(int signum)
+{
+	if (signum != SIGQUIT)
+		return ;
+	rl_on_new_line();
+	rl_redisplay();
 }

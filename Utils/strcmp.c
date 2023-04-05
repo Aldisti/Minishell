@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_mat.c                                         :+:      :+:    :+:   */
+/*   strcmp.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 08:36:28 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/27 08:36:29 by gpanico          ###   ########.fr       */
+/*   Created: 2023/03/25 18:26:53 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/25 18:30:22 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+# include "../minishell.h"
 
-void	ft_free_mat(void ***mat_addr)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 
-	if (!(*mat_addr))
-		return ;
+	if (!s1 && !s2)
+		return (0);
+	if (!s1 || !s2)
+		return (1);
 	i = 0;
-	while ((*mat_addr)[i])
-	{
-		ft_free(&(*mat_addr)[i]);
+	while (s1[i] && s2[i] && (unsigned char)s1[i] == (unsigned char)s2[i])
 		i++;
-	}
-	ft_free((void **)mat_addr);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

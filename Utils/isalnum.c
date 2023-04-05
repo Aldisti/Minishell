@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_mat.c                                         :+:      :+:    :+:   */
+/*   isalnum.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 08:36:28 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/27 08:36:29 by gpanico          ###   ########.fr       */
+/*   Created: 2023/01/16 11:37:50 by adi-stef          #+#    #+#             */
+/*   Updated: 2023/03/25 17:19:37 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_free_mat(void ***mat_addr)
+int	ft_isalnum(int n)
 {
-	int	i;
-
-	if (!(*mat_addr))
-		return ;
-	i = 0;
-	while ((*mat_addr)[i])
-	{
-		ft_free(&(*mat_addr)[i]);
-		i++;
-	}
-	ft_free((void **)mat_addr);
+	if (ft_isalpha(n) || ft_isdigit(n))
+		return (1);
+	return (0);
 }

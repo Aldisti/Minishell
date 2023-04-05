@@ -1,28 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_mat.c                                         :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 08:36:28 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/27 08:36:29 by gpanico          ###   ########.fr       */
+/*   Created: 2023/01/17 14:24:12 by gpanico           #+#    #+#             */
+/*   Updated: 2023/01/18 16:38:50 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_free_mat(void ***mat_addr)
+static int	ft_isdgt(char c)
 {
-	int	i;
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
 
-	if (!(*mat_addr))
-		return ;
+int	ft_atoi(const char *str)
+{
+	int	num;
+	int	i;
+	int	sign;
+
 	i = 0;
-	while ((*mat_addr)[i])
+	sign = 1;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		ft_free(&(*mat_addr)[i]);
+		sign = '-' - str[i];
 		i++;
 	}
-	ft_free((void **)mat_addr);
+	num = 0;
+	while (ft_isdgt(str[i]))
+	{
+		num *= 10;
+		num -= (str[i] - '0');
+		i++;
+	}
+	if (sign)
+		num *= -1;
+	return (num);
 }

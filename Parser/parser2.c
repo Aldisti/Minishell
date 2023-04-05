@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_parser2.c                                       :+:      :+:    :+:   */
+/*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/29 11:32:06 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/04 18:18:01 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**ft_parser(t_shell *shell, char *set)
+char	**ft_parser(t_shell *shell, char *line, char *set)
 {
 	int		dim;
 	int		i;
 	char	**parsed;
 
+	ft_replace(line, "\t\n", ' ');
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
-		exit(1); // ft_die(); Error: memory error
+		exit(1); // return (ft_die(shell)); Error: memory error
 	dim = 1;
 	i = 0;
-	while (shell->line[i])
+	while (line[i])
 	{
-		while (shell->line[i] && !ft_in(shell->line[i], set))
-			if (!ft_checks(shell->line, &i))
+		while (line[i] && !ft_in(line[i], set))
+			if (!ft_checks(line, &i))
 				exit (2); // ft_die() Error: unclosed quotes/parenthesis
 		if (!i)
-			while (shell->line[i] && ft_in(shell->line[i], set))
+			while (line[i] && ft_in(line[i], set))
 				i++;
-		parsed = ft_extract_word(parsed, &dim, &i, &shell->line);
+		parsed = ft_extract_word(parsed, &dim, &i, &line);
 		if (!parsed)
-			exit(1); // ft_die(); Error: memory error
+			exit(1); // return (ft_die(shell)); Error: memory error
 	}
 	return (parsed);
 }
@@ -118,18 +119,18 @@ void	ft_parser_checks(t_shell *shell)
 	int	i;
 
 	if (ft_delete_spaces(shell))
-		exit(1); // ft_die; Error: memory error
+		exit(1); // return (ft_die(shell)); Error: memory error
 	if (!shell->parsed)
-		exit(1); // ft_die(); Error: memory error
+		exit(1); // return (ft_die(shell));; Error: memory error
 	if (ft_in(shell->parsed[0][0], "&|"))
-		exit(4); // ft_die(); Error: invalid command
+		exit(4); // return (ft_die(shell));; Error: invalid command
 	if (!ft_valid_operators(shell->parsed))
-		exit(5); // ft_die(); Error: invalid operator
+		exit(5); // return (ft_die(shell));; Error: invalid operator
 	i = 0;
 	while (shell->parsed[i])
 	{
 		if (ft_check_multi_par(shell->parsed[i]))
-			exit(4); // ft_die(); Error: invalid command
+			exit(4); // return (ft_die(shell));; Error: invalid command
 		i++;
 	}
 }

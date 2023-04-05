@@ -27,25 +27,25 @@ int	child_proc(t_pipex *pipex, char **argv, int child_id)
 t_pipex	*pipex: t_pipex	*pipex: a pointer to the struct pipex
 char **argv:	double pointer that rapresent the preparsed line 
 				coming from shell prompt that is already 
-				splitted on metacharacter and filtered for '|' or ' '
-
-this func first of all check if the command to execute is a built in
-if so set a flag and execute the next command in line, once finished 
-the built in command is executed.
-If the command is not a built in the pipe is setted properly and the
-command is executed in a subprocess every executed command is followed
-by the necessary close pipe
+				splitted on metacharacter and filtered for '|' or '
+				
+this function do fork for each command setting the pipe array alowing 
+the comunication between process.
+the stdin and stdout is modyfied as well with dup2 func
 */
-int	child_proc(t_shell *shell, char **cmd, int *id)
+int	child_proc(t_shell *shell, char **argv, int child_id)
 {
+
 	int	flag;
 
 	kill_zombie();
 	flag = built_in_selector(shell, id, cmd);
 	if (flag < 0)
 		return (1);
-	shell->pipex.pid[*id] = fork();
-	if (shell->pipex.pid[*id] < 0)
+	sigaction(SIGINT, &shell->a_nothing, 0);
+	sigaction(SIGQUIT, &shell->a_nothing, 0);
+	shell->pipex.pid[child_id] = fork();
+	if (shell->pipex.pid[child_id] < 0)
 		return (-1);
 	if (shell->pipex.pid[*id] == 0)
 	{
@@ -136,7 +136,6 @@ linking them with pipe then wait all the created process e finish execution
 int	pipex(t_shell *shell, char **argv)
 {
 	char	**strs;
-	char	*temp;
 	int		argc;
 	int		i;
 
@@ -152,9 +151,10 @@ int	pipex(t_shell *shell, char **argv)
 	{
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-	}
 	close_pipes(&shell->pipex);
 	waitpid(-1, 0, 0);
+	sigaction(SIGINT, &shell->a_int, 0);
+	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
 	return (0);
