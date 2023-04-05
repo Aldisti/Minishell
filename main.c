@@ -40,6 +40,39 @@ char	*ft_prompt(void)
 	return (strs[3]);
 }
 
+int	ft_end_with(char *line, char end)
+{
+	int	i;
+	int	found;
+
+	i = 0;
+	found = 0;
+	while (line[i])
+	{
+		if (line[i] == '|' && !found)
+			found = 1;
+		else if (found && !ft_in(line[i], " \t\n"))
+			found  = 0;
+		i++;
+	}
+	return (found);
+}
+
+char	*ft_read_again(char *prompt)
+{
+	char	*tmp;
+	char	*line;
+
+	tmp = readline("> ");
+	if (!tmp)
+		return (NULL);
+	line = ft_strjoin(" ", tmp);
+	ft_free((void **) &tmp);
+	if (!line)
+		return (NULL);
+	return (line);
+}
+
 char	*ft_readline(char *prompt)
 {
 	char	**lines;
@@ -54,13 +87,13 @@ char	*ft_readline(char *prompt)
 	lines[dim - 2] = readline(prompt);
 	if (!lines[dim - 2])
 		return (NULL); //ft_die(); Error: memory error
-	while (lines[dim - 2][ft_strlen(lines[dim - 2]) - 1] == '|')
+	while (ft_end_with(lines[dim - 2], '|'))
 	{
 		lines = (char **) ft_realloc(lines, sizeof(char *), dim, dim + 1);
 		if (!lines)
 			return (NULL); //ft_die(); Error: memory error
 		dim++;
-		lines[dim - 2]= readline("> ");
+		lines[dim - 2] = ft_read_again("> ");
 		if (!lines[dim - 2])
 			return (NULL); //ft_die(); Error: memory error
 	}
