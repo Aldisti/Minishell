@@ -12,6 +12,12 @@
 
 #include "../minishell.h"
 
+/*
+ * Description:	Get the name (i.e. first substring terminated by '=')
+ * 		from a string.
+ * Input:	a string.
+ * Output:	a substring ended with "=" or null byte terminated.
+*/
 char	*ft_get_name(const char *str)
 {
 	int		i;
@@ -25,9 +31,12 @@ char	*ft_get_name(const char *str)
 	return (name);
 }
 /*
-n: if n is not 0 this function will increment the subshell level
-so if you are using this in a function that is not [ft_env_set] then
-set n equals to 0
+ * Description: Get the value (i.e. the substring following the '=' character)
+ * 		from a string; if the name (see the previous function) 
+ * 		is 'SHLVL' the value is incremented by one.
+ * Input:	the string, the name (has to be in the string) and an integer n
+ * 		(if n is equal to zero SHLVL isn't incremented).
+ * Output:	the substring value.
 */
 char	*ft_get_value(const char *str, const char *name, int n)
 {
@@ -38,7 +47,8 @@ char	*ft_get_value(const char *str, const char *name, int n)
 	if (!str)
 		return (0);
 	i = 0;
-	while (str[i] != '=' && str[i])
+	while (str[i] && str[i] != '=')
+
 		i++;
 	value = ft_substr(str, i + 1, ft_strlen(str));
 	if (n && !ft_strncmp(name, "SHLVL=", 7))
@@ -49,7 +59,17 @@ char	*ft_get_value(const char *str, const char *name, int n)
 	}
 	return (value);
 }
-
+/*
+ * Description:	Allocate and initialize a structure (list of list)
+ * 		containg all the shell variables; each list node
+ * 		points to another list in order to preserver 
+ * 		the subshell level where each variable is defined 
+ * 		(at the begining all the variables are initiaze 
+ * 		at level zero).
+ * Input:	envp taken from main function.
+ * Output:	the structure previously described (see Input)
+ * 		with all shell variables in it.
+*/
 t_list	*ft_env_set(char **envp)
 {
 	int		i;
