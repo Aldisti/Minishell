@@ -104,8 +104,10 @@ char	*ft_readline(char *prompt)
 
 int	main(int ac, char **av, char **envp)
 {
-	char			*prompt;
-	t_shell			shell;
+	char	*prompt;
+	t_shell	shell;
+	char	**cmd;
+	int		i;
 
 	if (ac != 1)
 		return (0);
@@ -128,14 +130,17 @@ int	main(int ac, char **av, char **envp)
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);
-		// if (!ft_strncmp(shell.parsed[0], "exit", 4))
-		// 	return(ft_die(&shell, 0, 0));
-		pipex(&shell, shell.parsed);
-			
-		// ft_die(&shell, 0, 0);
-		ft_free_mat((void ***) &shell.parsed);
-		//shell_errno = ft_executor(&shell); 
-		//ft_catch_error(&shell);
+		if (!ft_strncmp(shell.parsed[0], "exit", 4))
+			return(ft_die(&shell, 0, 0));
+		else if (!ft_strncmp(shell.parsed[0], "export", 6))
+		{
+			cmd = ft_split(shell.parsed[0], 32);
+			g_shell_errno = ft_export(&shell, cmd, shell.lvls[0]);
+			ft_free_mat((void ***)&cmd);
+		}
+		else
+			pipex(&shell, shell.parsed);
+		ft_free_routine(&shell);
 	}
 	return (0);
 }
