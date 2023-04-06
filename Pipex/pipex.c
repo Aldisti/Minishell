@@ -53,7 +53,7 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 	{
 		my_dup(shell, *id);
 		close_pipes(&shell->pipex);
-		execute_cmd(shell, cmd, *id);
+		execute_cmd(shell, cmd, id);
 	}
 	if (flag)
 		built_in_pipe_handler(shell, id, cmd);
@@ -158,5 +158,6 @@ int	pipex(t_shell *shell, char **argv)
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
+	unlink(".here_doc");
 	return (0);
 }

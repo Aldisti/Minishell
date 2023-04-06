@@ -108,12 +108,30 @@ char	**get_cmd(t_pipex *pipex, char *str)
 	return (command);
 }
 
-void	execute_cmd(t_shell *shell, char **argv, int child_id)
+int	is_only_red(t_shell *shell, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != 31)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 {
 	char	**cmd;
 
-	ft_replace(argv[child_id], "\31", ' ');
-	cmd = get_cmd(&shell->pipex, argv[child_id]);
+	if (is_only_red(shell, argv[*child_id]))
+		exit(1);
+	ft_replace(argv[(*child_id)], "\37", ' ');
+	cmd = get_cmd(&shell->pipex, argv[(*child_id)]);
 	if (!cmd)
 		exit(15);
 	if (!cmd[0])

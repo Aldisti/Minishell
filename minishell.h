@@ -193,7 +193,7 @@ void		ft_handle_int(int signum);
 //	Pipex
 //	pipex
 char		**line_filter(char **strs);
-void		execute_cmd(t_shell *shell, char **argv, int child_id);
+void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc, char **argv);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
