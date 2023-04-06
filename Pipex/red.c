@@ -28,16 +28,22 @@ void	red_selector(t_shell *shell, int id, int mode)
 	if (mode == 0)
 	{
 		fd = open(shell->red.afiles[id], O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (shell->red.fda[id] != 1)
+			dup2(fd, shell->red.fda[id]);
 		dup2(fd, 1);
 	}
 	else if (mode == 1)
 	{
 		fd = open(shell->red.infiles[id], O_RDWR);
+		if (shell->red.fdin[id] != 0)
+			dup2(fd, shell->red.fdin[id]);
 		dup2(fd, 0);
 	}
 	else if (mode == 2)
 	{
 		fd = open(shell->red.outfiles[id], O_RDWR);
+		if (shell->red.fdout[id] != 1)
+			dup2(fd, shell->red.fdout[id]);
 		dup2(fd, 1);
 	}
 	close(fd);
@@ -59,7 +65,7 @@ void	last_cmd_dup(t_shell *shell, int id)
 		dup2(shell->pipex.original_stdout, 1);
 	else if (shell->red.outfiles[id][0] != 0)
 		red_selector(shell, id, 2);
-	else if (shell->red.afiles[id][0] != 0)
+	if (shell->red.afiles[id][0] != 0)
 		red_selector(shell, id, 0);
 }
 
@@ -75,7 +81,7 @@ void	alone_cmd_dup(t_shell *shell, int id)
 		red_selector(shell, id, 1);
 	if (shell->red.outfiles[id][0] != 0)
 		red_selector(shell, id, 2);
-	else if (shell->red.afiles[id][0] != 0)
+	if (shell->red.afiles[id][0] != 0)
 		red_selector(shell, id, 0);
 }
 
