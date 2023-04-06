@@ -34,10 +34,9 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 	int		i;
 	char	**parsed;
 
-	(void) shell;
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
-		exit(1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 1);
 	dim = 1;
 	i = 0;
 	while (line[i])
@@ -50,7 +49,7 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 				i++;
 		parsed = ft_extract_word(parsed, &dim, &i, &line);
 		if (!parsed)
-			exit(1); // ft_die(); Error: memory error
+			ft_die(shell, 1, 1);
 	}
 	return (parsed);
 }
@@ -171,9 +170,9 @@ void	ft_parser_checks(t_shell *shell)
 	int	i;
 
 	if (ft_delete_spaces(shell))
-		exit(1); // ft_die; Error: memory error
+		ft_die(shell, 1, 1);
 	if (!shell->parsed)
-		exit(1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 1);
 	if (ft_in(shell->parsed[0][0], "&|"))
 		exit(4); // ft_die(); Error: invalid command
 	if (!ft_valid_operators(shell->parsed))

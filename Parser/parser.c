@@ -56,13 +56,14 @@ char	**ft_extract_word(char **parsed, int *dim, int *i, char **line)
 {
 	if (*i)
 	{
-		parsed = (char **)ft_realloc(parsed, sizeof(char *), *dim, *(dim) + 1);
+		parsed = (char **)ft_realloc(parsed, sizeof(char *),
+				*dim, *(dim) + 1);
 		if (!parsed)
-			return (NULL); // ft_die(); Error: memory error
+			return (NULL);
 		*(dim) = *(dim) + 1;
 		parsed[*(dim) - 2] = ft_substr(*line, 0, *i);
 		if (!parsed[*(dim) - 2])
-			return (NULL); // ft_die(); Error: memory error
+			return (NULL);
 		*line = *line + *i;
 		*i = 0;
 		return (parsed);
