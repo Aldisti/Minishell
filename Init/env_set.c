@@ -14,9 +14,9 @@
 
 /*
  * Description:	Get the name (i.e. first substring terminated by '=')
- * 		from a string
- * Input:	a string with a '=' inside
- * Output:	a substring ended with "="
+ * 		from a string.
+ * Input:	a string with a '=' inside.
+ * Output:	a substring ended with "=".
 */
 char	*ft_get_name(const char *str)
 {
@@ -33,9 +33,9 @@ char	*ft_get_name(const char *str)
 /*
  * Description: Get the value (i.e. the substring following the '=' character)
  * 		from a string; if the name (see the previous function) 
- * 		is 'SHLVL' the value is incremented by one;
- * Input:	the string and the name (has to be in the string)
- * Output:	the substring value
+ * 		is 'SHLVL' the value is incremented by one.
+ * Input:	the string and the name (has to be in the string).
+ * Output:	the substring value.
 */
 char	*ft_get_value(const char *str, const char *name)
 {
@@ -61,10 +61,10 @@ char	*ft_get_value(const char *str, const char *name)
  * 		points to another list in order to preserver 
  * 		the subshell level where each variable is defined 
  * 		(at the begining all the variables are initiaze 
- * 		at level zero)
- * Input:	envp taken from main function
+ * 		at level zero).
+ * Input:	envp taken from main function.
  * Output:	the structure previously described (see Input)
- * 		with all shell variables in it
+ * 		with all shell variables in it.
 */
 t_list	*ft_env_set(char **envp)
 {
