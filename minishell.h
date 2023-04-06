@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 12:10:08 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:02:18 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,19 @@ typedef struct s_shell
 	t_pipex				pipex;
 }	t_shell;
 
+
+
 //	Init
 //	shell_set
 void		ft_shell_set(t_shell *shell);
 //	env_set
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);
-char		*ft_get_value(const char *str, const char *name);
+char	*ft_get_value(const char *str, const char *name, int n);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
+
+
 
 //	Parser
 //	parser
@@ -114,6 +118,8 @@ int			ft_check_multi_par(char *line);
 void		ft_parser_checks(t_shell *shell);
 int			ft_valid_operators(char **parsed);
 
+
+
 //	Expansions
 //	expansion
 char		*ft_expand_spec(t_shell *shell, char *str, int i);
@@ -125,6 +131,8 @@ int			ft_getquotes(char *str, int i);
 char		*ft_getname(char *str, int i);
 int			ft_getlvl(char *str, int i);
 
+
+
 //	Parentheses
 //	parentheses
 int			ft_lvls(t_shell *shell);
@@ -132,6 +140,8 @@ int			ft_counts_cmds(char *line);
 int			ft_update_lvl(char c, int lvl, int *array);
 void		ft_set_lvls(char *line, int *lvls);
 void		ft_replace(char *line, char *old, char new);
+
+
 
 //	Redirection
 //	red
@@ -166,6 +176,9 @@ void		ft_replace_red(t_shell *shell, int n_cmd);
 int			ft_strlen_without(char *str, char *set);
 char		*ft_null_to_str(char *ptr);
 int			ft_fill_red(t_shell *shell);
+
+
+
 //	Commands
 //	cd
 int			get_oldpwd_i(char **envp);
@@ -174,16 +187,23 @@ void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
 void		print_pwd(void);
 char		*pwd(void);
-// env
-void		env(t_shell	*shell);
+//	env
+void		env(t_shell	*shell, int lvl);
 //	echo
 void		echo(char **argv);
+//	export
+int			ft_print_export(t_shell *shell, int lvl);
+int   	ft_export(t_shell *shell, char **cmd, int lvl);
+
+
 
 //	Signals
 //	signals
 void		ft_does_nothing(int signum);
 void		ft_handle_quit(int signum);
 void		ft_handle_int(int signum);
+
+
 
 //	Pipex
 //	pipex
@@ -215,25 +235,28 @@ char		**ft_extract_word_command(char **parsed, int *dim,
 int			ft_quotes_check_command(char *line, int	*i);
 char		**command_parser(char *str, char *set);
 //	free
-void		ft_free(void **strs);
-void		ft_free_mat(void ***mat_addr);
 void		child_free(t_pipex *pipex, char **cmd);
 
+
+
 //	Utils
-char		*ft_itoa(int n);
+//	is
 int			ft_isalnum(int n);
 int			ft_isalpha(int n);
 int			ft_isdigit(int n);
 int			ft_isspace(int c);
-t_list		*ft_lstlast(t_list *lst);
-t_list		*ft_lstnew(void *content);
+//	free
+void		ft_free(void **strs);
+int			ft_free_env(t_env **env);
+void		ft_free_list(t_list **list);
+void		ft_free_mat(void ***mat_addr);
+void		ft_free_shell(t_shell *shell);
+void		ft_free_routine(t_shell *shell);
+int			ft_die(t_shell *shell, int todo, int code);
+//	str
 char		*ft_strdup(const char *s1);
 size_t		ft_strlen(const char *str);
-char		*ft_joiner(char **tab, int n);
 char		*ft_strchr(const char *s, int c);
-int			ft_atoi(const char *str);
-char		**ft_split(char const *s, char c);
-void		*ft_calloc(size_t num, size_t dim);
 char		*ft_strrchr(const char *str, int c);
 int			ft_strlen_until(char *str, char *set);
 void		*ft_memset(void *b, int c, size_t len);
@@ -245,11 +268,25 @@ void		ft_lstadd_front(t_list **lst, t_list *new);
 int			ft_die(t_shell *shell, int todo, int code);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
-int			ft_countn(const char *str, const char c, int n);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
-t_env		*ft_search_in_list(t_list *list, char *name, int lvl);
-void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
+//	lst
+t_list		*ft_lstlast(t_list *lst);
+t_list		*ft_lstnew(void *content);
+char		**list_convert(t_list *list, int lvl);
+void		ft_lst_insert(t_list **lst, t_list *new);
+t_list		*ft_lstfind_sort(t_list *lst, char *name);
+void		ft_lstadd_back(t_list **lst, t_list *new);
+void		ft_lstadd_front(t_list **lst, t_list *new);
+t_env		*ft_search_in_list(t_list *list, char *name, int lvl);
+//	other
+char		*ft_itoa(int n);
+int			ft_atoi(const char *str);
+char		*ft_joiner(char **tab, int n);
+char		**ft_split(char const *s, char c);
+void		*ft_calloc(size_t num, size_t dim);
+int			ft_countn(const char *str, const char c, int n);
+void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
 
 #endif

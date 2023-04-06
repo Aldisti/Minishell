@@ -20,7 +20,7 @@ void	ft_shell_set(t_shell *shell)
 	shell->red.fdout = 0;
 	shell->red.fda = 0;
 	ft_signals_set(shell);
-	shell->envp = list_convert(shell->list);
+	shell->envp = list_convert(shell->list, 0);
 	if (!shell->envp)
 		exit(1); //	ft_die(&shell);
 }
