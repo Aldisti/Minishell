@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/04 22:07:56 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/05 20:38:05 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void	kill_zombie(void)
 {
 	struct sigaction	sa;
+	sigset_t			set;
 
-	memset(&sa, 0, sizeof(sigaction));
+	ft_memset(&sa, 0, sizeof(sigaction));
+	sigemptyset(&set);
+	sa.sa_mask = set;
 	sa.sa_handler = SIG_DFL;
 	sa.sa_flags = SA_NOCLDWAIT;
 	sigaction(SIGCHLD, &sa, 0);
@@ -48,11 +51,9 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 		return (-1);
 	if (shell->pipex.pid[*id] == 0)
 	{
-		if (id > 0)
-			waitpid(shell->pipex.pid[*id - 1], 0, 0);
-		my_dup(&shell->pipex, *id);
+		my_dup(shell, *id);
 		close_pipes(&shell->pipex);
-		execute_cmd(shell, cmd, *id);
+		execute_cmd(shell, cmd, id);
 	}
 	if (flag)
 		built_in_pipe_handler(shell, id, cmd);
@@ -157,5 +158,6 @@ int	pipex(t_shell *shell, char **argv)
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
+	unlink(".here_doc");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/29 11:53:07 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/05 18:42:33 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,6 @@ char	*ft_expand_doll(t_shell *shell, char *str, int i)
 	char	*strs[4]; // se la faccio statica posso togliere 3 righe :)
 	t_env	*env;
 
-	strs[0] = 0;
-	strs[1] = 0;
-	strs[2] = 0;
 	strs[3] = ft_getname(str, i);
 	if (!strs[3])
 		exit(1); // ft_die(shell)

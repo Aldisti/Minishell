@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
-/*   Updated: 2023/03/27 11:12:30 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:33:34 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	env(t_shell	*shell)
+void	env(t_shell	*shell, int lvl)
 {
-	while (shell->list)
+	t_list	*lst;
+	t_env	*tmp;
+
+	lst = shell->list;
+	while (lst)
 	{
-		printf("%s", shell->list->content->name);
-		printf("%s\n", shell->list->content->value);
-		shell->list=shell->list->next;
+		tmp = ft_search_in_list(lst, lst->content->name, lvl);
+		if (tmp && tmp->name && tmp->value)
+			printf("%s%s\n", tmp->name, tmp->value);
+		lst = lst->next;
 	}
 }

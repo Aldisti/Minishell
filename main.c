@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/04 21:08:20 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/06 14:47:13 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	my_print(char **strs)
 		return ;
 	i = 0;
 	while(strs[i])
-		printf("%s\n", strs[i++]);
+		printf("-%s-\n", strs[i++]);
 }
 
 char	*ft_prompt(void)
@@ -104,8 +104,10 @@ char	*ft_readline(char *prompt)
 
 int	main(int ac, char **av, char **envp)
 {
-	char			*prompt;
-	t_shell			shell;
+	char	*prompt;
+	t_shell	shell;
+	char	**cmd;
+	int		i;
 
 	if (ac != 1)
 		return (0);
@@ -131,10 +133,7 @@ int	main(int ac, char **av, char **envp)
 			return(ft_die(&shell, 0, 0));
 		else
 			pipex(&shell, shell.parsed);
-		// ft_die(&shell, 0, 0);
-		ft_free_mat((void ***) &shell.parsed);
-		//shell_errno = ft_executor(&shell); 
-		//ft_catch_error(&shell);
+		ft_free_routine(&shell);
 	}
 	return (0);
 }

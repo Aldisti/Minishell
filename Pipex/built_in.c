@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/29 12:25:54 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:30:15 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
 		print_pwd();
 	else if (!ft_strncmp(cmd[0], "echo", 4) && ft_strlen(cmd[0]) == 4)
-		return ;
+		echo(cmd);
 	else if (!ft_strncmp(cmd[0], "cd", 2) && ft_strlen(cmd[0]) == 2)
 		cd(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "export", 6) && ft_strlen(cmd[0]) == 6)
-		return ;
+		ft_export(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "unset", 5) && ft_strlen(cmd[0]) == 5)
 		return ;
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
-		return ;
+		env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
 		return ;
 	ft_free_mat((void ***) &cmd);
@@ -92,7 +92,7 @@ char	*gnp(char *str)
 	i = -1;
 	while (str[++i] && str[i] != ' ')
 		ret[i] = str[i];
-	ret[++i] = 0;
+	ret[i] = 0;
 	return (ret);
 }
 
@@ -116,15 +116,16 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	}
 	else if (is_blt(gnp(cmd[*id])))
 	{
-		my_dup(&shell->pipex, *id);
+		my_dup(shell, *id);
 		execute_built_in(shell, ft_split(cmd[(*id)], ' '), 0);
 		if (*id > 0)
 			close(shell->pipex.pipe[2 * (*id) - 2]);
 		else
 			close(shell->pipex.pipe[0]);
 		close(shell->pipex.pipe[2 * (*id) + 1]);
-		if (*id == shell->pipex.cmd_count - 1)
+		if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
 			dup2(shell->pipex.original_stdin, 0);
+		dup2(shell->pipex.original_stdout, 1);
 		return (-1);
 	}
 	return (flag);
@@ -138,7 +139,7 @@ dupping the fd properly but only the necessary one
 */
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
-	my_dup(&shell->pipex, (*id) - 1);
+	my_dup(shell, (*id) - 1);
 	execute_built_in(shell, ft_split(cmd[(*id) - 1], ' '), 0);
 	close(shell->pipex.pipe[2 * ((*id)) - 2]);
 	close(shell->pipex.pipe[2 * ((*id)) + 1]);
