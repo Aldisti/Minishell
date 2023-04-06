@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 14:01:14 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/06 14:47:13 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,18 +126,11 @@ int	main(int ac, char **av, char **envp)
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, shell.line, "|&");
 		ft_parser_checks(&shell);
-		//my_print(shell.parsed);
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
 			return(ft_die(&shell, 0, 0));
-		else if (!ft_strncmp(shell.parsed[0], "export", 6))
-		{
-			cmd = ft_split(shell.parsed[0], 32);
-			g_shell_errno = ft_export(&shell, cmd, shell.lvls[0]);
-			ft_free_mat((void ***)&cmd);
-		}
 		else
 			pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);

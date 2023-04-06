@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/05 20:44:34 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/06 14:30:15 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
 		print_pwd();
 	else if (!ft_strncmp(cmd[0], "echo", 4) && ft_strlen(cmd[0]) == 4)
-		return ;
+		echo(cmd);
 	else if (!ft_strncmp(cmd[0], "cd", 2) && ft_strlen(cmd[0]) == 2)
 		cd(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "export", 6) && ft_strlen(cmd[0]) == 6)
-		return ;
+		ft_export(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "unset", 5) && ft_strlen(cmd[0]) == 5)
 		return ;
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
-		return ;
+		env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
 		return ;
 	ft_free_mat((void ***) &cmd);

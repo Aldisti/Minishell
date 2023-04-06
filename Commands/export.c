@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 14:01:07 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:42:12 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,9 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		}
 		ft_remove_quotes(&value);
 	}
-	// printf("value: |%s|\n", value);
 	list = shell->list;
 	while (list && ft_strcmp(list->content->name, name))
 		list = list->next;
-	// ft_print_list_node(list);
 	new_env = ft_env_new(name, value, lvl);
 	if (!new_env)
 	{
@@ -120,10 +118,7 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		return (1);
 	}
 	env = ft_search_in_list(list, name, lvl);
-	// printf("env->level: %d\n", env->level);
-
 	// modifico solo value
-	// printf("2\n");
 	if (env && env->level == lvl)
 	{
 		ft_free((void **)&(env->value));
@@ -135,28 +130,24 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		return (2);
 	}
 	// aggiungo alla fine
-	// printf("4\n");
-	if (env && env->level < lvl && !env->next)
+	else if (env && env->level < lvl && !env->next)
 	{
 		env->next = new_env;
 		return (4);
 	}
 	// aggiungo in mezzo
-	// printf("3\n");
-	if (env && env->level < lvl && env->next->level > lvl)
+	else if (env && env->level < lvl && env->next->level > lvl)
 	{
 		new_env->next = env->next;
 		env->next = new_env;
 		return (3);
 	}
 	// aggiungo all'inizio
-	// printf("5\n");
-	if (env && list->content->level > lvl)
+	else if (env && list->content->level > lvl)
 	{
 		new_env->next = list->content->next;
 		list->content->next = new_env;
 		return (5);
 	}
-	// printf("name: %s\nvalue: %s\n", list->content->name, list->content->value);
 	return (0);
 }

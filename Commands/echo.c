@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afraccal <afraccal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:25:57 by afraccal          #+#    #+#             */
-/*   Updated: 2023/03/28 17:00:18 by afraccal         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:31:44 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	echo(char **argv)
 
 	flag = 1;
 	i = 1;
-	cmd = ft_split(argv[0], ' ');
+	cmd = argv;
 	while(cmd[i])
 	{
 		while (!strncmp(cmd[i], "-n", 2))
