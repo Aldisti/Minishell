@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils1.c                                     :+:      :+:    :+:   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/04/05 11:36:08 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 22:19:08 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,35 +85,6 @@ void	close_pipes(t_pipex *pipex)
 }
 
 /*
-void	my_dup(t_pipex *pipex, int id)
-
-this is a core func and based on the command id
-set the pipe accordingly so that each input and
-output is read/write either from/to a pipe or on the
-stdout/stdin
-*/
-void	my_dup(t_pipex *pipex, int id)
-{
-	if (id == 0 && pipex->cmd_count != 1)
-	{
-		dup2(pipex->original_stdin, 0);
-		dup2(pipex->pipe[2 * id + 1], 1);
-	}
-	else if ((id == pipex->cmd_count - 1) && id > 0)
-	{
-		dup2(pipex->pipe[2 * id - 2], 0);
-		dup2(pipex->original_stdout, 1);
-	}
-	else if ((id == pipex->cmd_count - 1) && id == 0)
-		;
-	else
-	{
-		dup2(pipex->pipe[2 * id - 2], 0);
-		dup2(pipex->pipe[2 * id + 1], 1);
-	}
-}
-
-/*
 SELF EXPLANATORY
 */
 int	create_pipes(t_pipex *pipex)
@@ -127,4 +98,25 @@ int	create_pipes(t_pipex *pipex)
 			return (-1);
 	}
 	return (1);
+}
+
+/*
+void	my_dup(t_pipex *pipex, int id)
+
+this is a core func and based on the command id
+set the pipe accordingly so that each input and
+output is read/write either from/to a pipe or on the
+stdout/stdin it also set redirection based on the specific
+cases
+*/
+void	my_dup(t_shell *shell, int id)
+{
+	if (id == 0 && shell->pipex.cmd_count != 1)
+		first_child_dup(shell, id);
+	else if ((id == shell->pipex.cmd_count - 1) && id > 0)
+		last_cmd_dup(shell, id);
+	else if ((id == shell->pipex.cmd_count - 1) && id == 0)
+		alone_cmd_dup(shell, id);
+	else
+		middle_cmd_dup(shell, id);
 }

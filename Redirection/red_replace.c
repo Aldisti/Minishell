@@ -14,11 +14,11 @@
 
 void	ft_replace_op(char *cmd, int *ind)
 {
-	cmd[*ind] = '\31';
+	cmd[*ind] = 31;
 	if (ft_in(cmd[*ind + 1], "><"))
 	{
 		(*ind)++;
-		cmd[*ind] = '\31';
+		cmd[*ind] = 31;
 	}
 	(*ind)++;
 }
@@ -36,7 +36,7 @@ void	ft_replace_fd(char *cmd, int ind)
 			ind++;
 		while (!ft_in(cmd[ind], "><"))
 		{
-			cmd[ind] = '\31';
+			cmd[ind] = 31;
 			ind++;
 		}
 	}
@@ -70,13 +70,13 @@ void	ft_replace_fn(char *cmd, int *ind)
 {
 	while (cmd[*ind] == ' ')
 	{
-		cmd[*ind] = '\31';
+		cmd[*ind] = 31;
 		(*ind)++;
 	}
 	while (cmd[*ind] && cmd[*ind] != ' ')
 	{
-		ft_quotes_replace(cmd, ind, '\31');
-		cmd[*ind] = '\31';
+		ft_quotes_replace(cmd, ind, 31);
+		cmd[*ind] = 31;
 		(*ind)++;
 	}
 	(*ind)--;

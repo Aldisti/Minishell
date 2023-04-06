@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 14:03:20 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:01:14 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	my_print(char **strs)
 		return ;
 	i = 0;
 	while(strs[i])
-		printf("%s\n", strs[i++]);
+		printf("-%s-\n", strs[i++]);
 }
 
 char	*ft_prompt(void)
@@ -126,6 +126,7 @@ int	main(int ac, char **av, char **envp)
 		add_history(shell.line);
 		shell.parsed = ft_parser(&shell, shell.line, "|&");
 		ft_parser_checks(&shell);
+		//my_print(shell.parsed);
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);

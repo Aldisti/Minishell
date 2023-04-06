@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/04 22:38:00 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/05 14:14:43 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,30 @@ char	**get_cmd(t_pipex *pipex, char *str)
 	return (command);
 }
 
-void	execute_cmd(t_shell *shell, char **argv, int child_id)
+int	is_only_red(t_shell *shell, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != 31)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 {
 	char	**cmd;
 
-	cmd = get_cmd(&shell->pipex, argv[child_id]);
+	if (is_only_red(shell, argv[*child_id]))
+		exit(1);
+	ft_replace(argv[(*child_id)], "\37", ' ');
+	cmd = get_cmd(&shell->pipex, argv[(*child_id)]);
 	if (!cmd)
 		exit(15);
 	if (!cmd[0])

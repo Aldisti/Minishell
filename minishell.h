@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 14:02:18 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/05 22:21:44 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+//extern void	rl_replace_line(char *text, int clear_undo);
+//extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -144,6 +144,11 @@ void		ft_replace(char *line, char *old, char new);
 
 
 //	Redirection
+void		red_selector(t_shell *shell, int id, int mode);
+void		last_cmd_dup(t_shell *shell, int id);
+void		alone_cmd_dup(t_shell *shell, int id);
+void		middle_cmd_dup(t_shell *shell, int id);
+void		first_child_dup(t_shell *shell, int id);
 //	red
 void		ft_redirection(t_shell *shell);
 //	red_check
@@ -208,14 +213,14 @@ void		ft_handle_int(int signum);
 //	Pipex
 //	pipex
 char		**line_filter(char **strs);
-void		execute_cmd(t_shell *shell, char **argv, int child_id);
+void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc, char **argv);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
 char		**list_convert(t_list *list);
 char		*gnp(char *str);
 //	pipex_utils
-void		my_dup(t_pipex *pipex, int id);
+void		my_dup(t_shell *shell, int id);
 void		execute_built_in(t_shell *shell, char **cmd, int lvl);
 int			is_blt(char *cmd);
 int			create_pipes(t_pipex *pipex);
@@ -223,6 +228,7 @@ void		close_pipes(t_pipex *pipex);
 int			prepare_strs(char **strs);
 void		trim_strs(char **strs, const char *str);
 char		*get_next_line(int fd);
+void		red_output(t_shell *shell, int id);
 //	command
 char		**get_cmd(t_pipex *pipex, char *str);
 char		*path_checker(t_pipex *pipex, char *str);
