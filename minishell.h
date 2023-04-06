@@ -217,7 +217,7 @@ void		ft_handle_int(int signum);
 char		**line_filter(char **strs);
 void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 int			pipex(t_shell *shell, char **argv);
-int			pipex_init(t_pipex *pipex, int argc, char **argv);
+int			pipex_init(t_pipex *pipex, int argc);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
 char		*gnp(char *str);
 //	pipex_utils

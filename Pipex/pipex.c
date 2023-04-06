@@ -69,9 +69,8 @@ char **argv:	double pointer that rapresent the preparsed line coming from shell
 
 init all variables in pipex struct
 */
-int	pipex_init(t_pipex *pipex, int argc, char **argv)
+int	pipex_init(t_pipex *pipex, int argc)
 {
-	(void) argv;
 	pipex->original_stdout = dup(1);
 	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);
@@ -146,7 +145,7 @@ int	pipex(t_shell *shell, char **argv)
 		return (1);
 	argc = prepare_strs(strs);
 	i = -1;
-	if (pipex_init(&shell->pipex, argc, strs) == -1)
+	if (pipex_init(&shell->pipex, argc) == -1)
 		return (2);
 	while (++i < shell->pipex.cmd_count)
 	{
