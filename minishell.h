@@ -66,6 +66,7 @@ typedef struct s_pipex
 	int		infile_fd;
 	int		outfile_fd;
 	int		original_stdout;
+	int		original_stdin;
 	pid_t	*pid;
 	int		cmd_i;
 	char	**paths;
@@ -188,28 +189,28 @@ void		ft_handle_int(int signum);
 
 //	Pipex
 //	pipex
-char		**line_filter(char **strs);
-void		execute_cmd(t_shell *shell, char **argv, int child_id);
-int			pipex(t_shell *shell, char **argv);
-int			pipex_init(t_pipex *pipex, int argc, char **argv);
-int			child_proc(t_shell *shell, char **argv, int child_id);
-char		**list_convert(t_list *list);
+char	**line_filter(char **strs);
+void	execute_cmd(t_shell *shell, char **argv, int child_id);
+int		pipex(t_shell *shell, char **argv);
+int		pipex_init(t_pipex *pipex, int argc, char **argv);
+int		child_proc(t_shell *shell, char **argv, int *child_id);
+char	**list_convert(t_list *list);
+char	*gnp(char *str);
 //	pipex_utils
-void		my_dup(t_pipex *pipex, int id, int mode);
-void		execute_built_in(t_shell *shell, char **cmd, int lvl);
-int			is_built_in(char *cmd);
-int			create_pipes(t_pipex *pipex);
-void		close_pipes(t_pipex *pipex);
-int			prepare_strs(char **strs);
-void		trim_strs(char **strs, const char *str);
-void		cat_here_doc(t_pipex *pipex, char *limiter);
-int			here_doc(t_pipex *pipex, char *limiter);
-char		*get_next_line(int fd);
+void	my_dup(t_pipex *pipex, int id);
+void	execute_built_in(t_shell *shell, char **cmd, int lvl);
+int		is_blt(char *cmd);
+int		create_pipes(t_pipex *pipex);
+void	close_pipes(t_pipex *pipex);
+int		prepare_strs(char **strs);
+void	trim_strs(char **strs, const char *str);
+char	*get_next_line(int fd);
 //	command
-char		**get_cmd(t_pipex *pipex, char *str);
-char		*path_checker(t_pipex *pipex, char *str);
-int			check_built_in(t_shell *shell, char *str, int child_id);
-void		get_cmd_loop(t_pipex *pipex, char *temp, char **command);
+char	**get_cmd(t_pipex *pipex, char *str);
+char	*path_checker(t_pipex *pipex, char *str);
+int		built_in_selector(t_shell *shell, int *id, char **cmd);
+void	get_cmd_loop(t_pipex *pipex, char *temp, char **command);
+void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
 //	command_parser
 char		**ft_extract_word_command(char **parsed, int *dim,
 				int *i, char **line);
