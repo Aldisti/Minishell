@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 14:25:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:40:28 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-//extern void	rl_replace_line(char *text, int clear_undo);
-//extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {

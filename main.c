@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 14:47:13 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:41:41 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		prompt = ft_prompt();
 		shell.line = ft_readline(prompt);
+		ft_replace(shell.line, " \n\t", ' ');
 		ft_free((void **)&prompt);
 		if (!shell.line)
 			exit(169);
