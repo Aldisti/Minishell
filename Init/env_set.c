@@ -15,8 +15,8 @@
 /*
  * Description:	Get the name (i.e. first substring terminated by '=')
  * 		from a string.
- * Input:	a string with a '=' inside.
- * Output:	a substring ended with "=".
+ * Input:	a string.
+ * Output:	a substring ended with "=" or null byte terminated.
 */
 char	*ft_get_name(const char *str)
 {
@@ -24,7 +24,7 @@ char	*ft_get_name(const char *str)
 	char	*name;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=' && str[i] != ' ')
 		i++;
 	i++;
 	name = ft_substr(str, 0, i);
@@ -34,20 +34,21 @@ char	*ft_get_name(const char *str)
  * Description: Get the value (i.e. the substring following the '=' character)
  * 		from a string; if the name (see the previous function) 
  * 		is 'SHLVL' the value is incremented by one.
- * Input:	the string and the name (has to be in the string).
+ * Input:	the string, the name (has to be in the string) and an integer n
+ * 		(if n is equal to zero SHLVL isn't incremented).
  * Output:	the substring value.
 */
-char	*ft_get_value(const char *str, const char *name)
+char	*ft_get_value(const char *str, const char *name, int n)
 {
 	int		i;
 	char	*value;
 	char	*tmp;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
 	value = ft_substr(str, i + 1, ft_strlen(str));
-	if (!ft_strncmp(name, "SHLVL=", 7))
+	if (n && !ft_strncmp(name, "SHLVL=", 7))
 	{
 		tmp = value;
 		value = ft_itoa(ft_atoi(value) + 1);
@@ -82,7 +83,7 @@ t_list	*ft_env_set(char **envp)
 			exit(1); // ft_die(); Error: memory error
 		elem->set = 1;
 		elem->name = ft_get_name(envp[i]);
-		elem->value = ft_get_value(envp[i], elem->name);
+		elem->value = ft_get_value(envp[i], elem->name, 1);
 		if (!elem->name || !elem->value)
 			exit(1); // ft_die(); Error: memory error
 		list_elem = ft_lstnew((void *)elem);

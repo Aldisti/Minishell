@@ -1,5 +1,13 @@
 #include "../minishell.h"
 
+/*
+ * Description:	checks if the strings in parsed have
+ * 		invalid operators.
+ * Input:	the strings array.
+ * Output:	returns an integer:
+ * 			-0 if there are an invalid command;
+ * 			-1 if there are invalid command.
+*/
 int	ft_valid_command(char **parsed)
 {
 	int	i;

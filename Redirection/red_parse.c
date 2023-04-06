@@ -77,6 +77,8 @@ int	ft_remove_quotes(char **line)
 	int		i;
 	int		j;
 
+	if (!(*line))
+		return (0);
 	i = ft_strlen_without(*line, "\'\"");
 	if (i != ft_strlen(*line))
 	{
@@ -88,10 +90,7 @@ int	ft_remove_quotes(char **line)
 		while ((*line)[i])
 		{
 			if (!ft_in((*line)[i], "\'\""))
-			{
-				new_line[j] = (*line)[i];
-				j++;
-			}
+				new_line[j++] = (*line)[i];
 			i++;
 		}
 		ft_free((void **) line);
