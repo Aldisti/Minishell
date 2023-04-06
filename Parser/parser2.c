@@ -126,6 +126,8 @@ void	ft_parser_checks(t_shell *shell)
 		exit(4); // return (ft_die(shell));; Error: invalid command
 	if (!ft_valid_operators(shell->parsed))
 		exit(5); // return (ft_die(shell));; Error: invalid operator
+	if (!ft_valid_command(shell->parsed))
+		exit(5); // return (ft_die(shell));; Error: invalid command
 	i = 0;
 	while (shell->parsed[i])
 	{

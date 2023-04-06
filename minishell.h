@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+//extern void	rl_replace_line(char *text, int clear_undo);
+//extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -112,6 +112,8 @@ int			ft_delete_spaces(t_shell *shell);
 int			ft_check_multi_par(char *line);
 void		ft_parser_checks(t_shell *shell);
 int			ft_valid_operators(char **parsed);
+//	parser3
+int		ft_valid_command(char **parsed);
 
 //	Expansions
 //	expansion
