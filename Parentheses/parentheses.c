@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:54:04 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 15:34:24 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:58:19 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ void	ft_replace(char *line, char *old, char new)
 	while (line[i])
 	{
 		ft_quotes_check(line, &i);
+		if (!line[i])
+			return ;
 		if (ft_in(line[i], old))
 			line[i] = new;
 		i++;
