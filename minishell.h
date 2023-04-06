@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 22:21:44 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/06 14:25:23 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void		ft_shell_set(t_shell *shell);
 //	env_set
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);
-char	*ft_get_value(const char *str, const char *name, int n);
+char		*ft_get_value(const char *str, const char *name, int n);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
@@ -198,7 +198,7 @@ void		env(t_shell	*shell, int lvl);
 void		echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
-int   	ft_export(t_shell *shell, char **cmd, int lvl);
+int			ft_export(t_shell *shell, char **cmd, int lvl);
 
 
 
@@ -217,7 +217,6 @@ void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc, char **argv);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
-char		**list_convert(t_list *list);
 char		*gnp(char *str);
 //	pipex_utils
 void		my_dup(t_shell *shell, int id);
