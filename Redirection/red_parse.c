@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:21 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 09:19:29 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/06 11:24:20 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	ft_remove_quotes(char **line)
 	int		i;
 	int		j;
 
+	if (!(*line))
+		return (0);
 	i = ft_strlen_without(*line, "\'\"");
 	if (i != ft_strlen(*line))
 	{
@@ -88,10 +90,7 @@ int	ft_remove_quotes(char **line)
 		while ((*line)[i])
 		{
 			if (!ft_in((*line)[i], "\'\""))
-			{
-				new_line[j] = (*line)[i];
-				j++;
-			}
+				new_line[j++] = (*line)[i];
 			i++;
 		}
 		ft_free((void **) line);

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 18:42:12 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:01:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,23 @@ cerco il nodo della lista corrispondente al nome
 
 int	ft_print_export(t_shell *shell, int lvl)
 {
-	int	i;
+	t_list	*lst;
+	t_env	*tmp;
 
-	ft_free_mat((void ***)&(shell->envp));
-	shell->envp = list_convert(shell->list, lvl);
-	if (!shell->envp)
-		return (0);
-	i = 0;
-	while (shell->envp[i])
-		printf("declare -x %s\n", shell->envp[i++]);
+	lst = shell->list;
+	while (lst)
+	{
+		tmp = ft_search_in_list(lst, lst->content->name, lvl);
+		if (tmp && tmp->name && tmp->value)
+			printf("declare -x %s%s\n", tmp->name, tmp->value);
+		else if (tmp && tmp->name && !tmp->value)
+		{
+			tmp->name[ft_strlen(tmp->name) - 1] = 0;
+			printf("declare -x %s\n", tmp->name);
+			tmp->name[ft_strlen(tmp->name)] = '=';
+		}
+		lst = lst->next;
+	}
 	return (5);
 }
 
@@ -67,27 +75,42 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 	char	*name;
 	char	*value;
 
+	name = 0;
+	value = 0;
 	if (!cmd[1])
 		return (ft_print_export(shell, lvl));
 	name = ft_get_name(cmd[1]);
-	value = ft_get_value(cmd[1], name, 0);
-	if (!name || (!value && ft_strchr(cmd[1], '=')))
-	{
-		ft_free((void **)&name);
-		ft_free((void **)&value);
+	if (!name)
 		return (-1);
+	if (name[ft_strlen(name) - 1] != '=')
+	{
+		value = ft_strjoin(name, "=");
+		ft_free((void **)&name);
+		name = value;
+		value = 0;
 	}
+	else
+	{
+		value = ft_get_value(cmd[1], name, 0);
+		if (!value)
+		{
+			ft_free((void **)&name);
+			return (-1);
+		}
+		ft_remove_quotes(&value);
+	}
+	// printf("value: |%s|\n", value);
 	list = shell->list;
 	while (list && ft_strcmp(list->content->name, name))
 		list = list->next;
 	// ft_print_list_node(list);
+	new_env = ft_env_new(name, value, lvl);
 	if (!new_env)
 	{
 		ft_free((void **)&name);
 		ft_free((void **)&value);
 		return (-2);
 	}
-	new_env = ft_env_new(name, value, lvl);
 	if (!list)
 	{
 		new_lst = ft_lstnew(new_env);
@@ -98,24 +121,28 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 	}
 	env = ft_search_in_list(list, name, lvl);
 	// printf("env->level: %d\n", env->level);
+
 	// modifico solo value
-	printf("2\n");
+	// printf("2\n");
 	if (env && env->level == lvl)
 	{
 		ft_free((void **)&(env->value));
-		env->value = ft_strdup(value);
+		if (value)
+			env->value = ft_strdup(value);
+		else
+			env->value = 0;
 		ft_free_env(&new_env);
 		return (2);
 	}
 	// aggiungo alla fine
-	printf("4\n");
+	// printf("4\n");
 	if (env && env->level < lvl && !env->next)
 	{
 		env->next = new_env;
 		return (4);
 	}
 	// aggiungo in mezzo
-	printf("3\n");
+	// printf("3\n");
 	if (env && env->level < lvl && env->next->level > lvl)
 	{
 		new_env->next = env->next;
@@ -123,7 +150,7 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		return (3);
 	}
 	// aggiungo all'inizio
-	printf("5\n");
+	// printf("5\n");
 	if (env && list->content->level > lvl)
 	{
 		new_env->next = list->content->next;

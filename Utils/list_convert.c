@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 10:47:17 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/05 18:44:13 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 11:43:29 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*get_list_line(t_list *list, int lvl)
 		tmp = ft_search_in_list(list, list->content->name, lvl);
 		s1 = tmp->name;
 		s2 = tmp->value;
+		if (!s2)
+			s2 = "(null)";
 		ret = ft_strjoin(s1, s2);
 		if (!ret)
 			return (0);
@@ -50,6 +52,7 @@ char	*get_list_line(t_list *list, int lvl)
 char	**list_convert(t_list *list, int lvl)
 {
 	t_list	*temp;
+	t_env	*tmp;
 	char	**ret;
 	int		i;
 
@@ -60,9 +63,16 @@ char	**list_convert(t_list *list, int lvl)
 		return (0);
 	while (temp)
 	{
-		ret[++i] = get_list_line(temp, lvl);
-		if (!ret)
-			return (0);
+		if (temp && temp->content)
+		{
+			tmp = ft_search_in_list(temp, temp->content->name, lvl);
+			if (tmp && tmp->value)
+			{
+				ret[++i] = get_list_line(temp, lvl);
+				if (!ret)
+					return (0);
+			}
+		}
 		temp = temp->next;
 	}
 	ret[++i] = 0;

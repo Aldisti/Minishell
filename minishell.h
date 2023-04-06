@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 12:29:04 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:02:18 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void		update_oldpwd(t_shell *shell, char *str, int lvl);
 void		print_pwd(void);
 char		*pwd(void);
 //	env
-void		env(t_shell	*shell);
+void		env(t_shell	*shell, int lvl);
 //	echo
 void		echo(char **argv);
 //	export
@@ -234,6 +234,8 @@ int			ft_quotes_check_command(char *line, int	*i);
 char		**command_parser(char *str, char *set);
 //	free
 void		child_free(t_pipex *pipex, char **cmd);
+
+
 
 //	Utils
 //	is

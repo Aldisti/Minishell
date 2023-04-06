@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/05 15:13:42 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:33:02 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ char	**cmd: already properly setted variable that contain the complete
 this function compare the path/command string to different command and 
 based on the result execute our own command or senti it to exevec
 */
-
 void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 {
 	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
@@ -33,8 +32,8 @@ void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 	// 	return (1);
 	// else if (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
 	// 	return (1);
-	// else if (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
-	// 	return (1);
+	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
+		env(shell, lvl);
 	// else if (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)
 	// 	return (1);
 	// else
@@ -50,7 +49,6 @@ int	is_built_in(char *cmd)
 this func just compare the string and check if the command is a builtin
 command if so 1 is returned
 */
-
 int	is_built_in(char *cmd)
 {
 	if (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
@@ -78,7 +76,6 @@ this func controll the passed string and check if the
 command is a built in, if so it execute before the creation
 of the forked porcess
 */
-
 int	check_built_in(t_shell *shell, char *str, int child_id)
 {
 	char	**temp;

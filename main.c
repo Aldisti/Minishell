@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 15:52:08 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:03:20 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	shell.list = ft_env_set(envp);
 	ft_shell_set(&shell);
-	// my_print(shell.envp);
-	// printf("name: %s\nvalue: %s\n", shell.list->content->name, shell.list->content->value);
-	// exit(1);
 	while (42)
 	{
 		prompt = ft_prompt();
@@ -72,19 +69,6 @@ int	main(int ac, char **av, char **envp)
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);
-
-		// i = write(1, "lvls: ", 6) * 0;
-		// while (i < shell.n_cmds)
-		// 	printf("%d|", shell.lvls[i++]);
-		// printf("\n");
-		prompt = ft_strtrim(shell.parsed[0], " ");
-		ft_free((void **)&shell.parsed[0]);
-		shell.parsed[0] = prompt;
-		prompt = ft_strtrim(shell.parsed[1], " ");
-		ft_free((void **)&shell.parsed[1]);
-		shell.parsed[1] = prompt;
-		// printf("cmd: |%s|\n", shell.parsed[0]);
-	
 		if (!ft_strncmp(shell.parsed[0], "exit", 4))
 			return(ft_die(&shell, 0, 0));
 		else if (!ft_strncmp(shell.parsed[0], "export", 6))
@@ -96,8 +80,6 @@ int	main(int ac, char **av, char **envp)
 		else
 			pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);
-		//shell_errno = ft_executor(&shell); 
-		//ft_catch_error(&shell);
 	}
 	return (0);
 }

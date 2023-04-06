@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:48:26 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/05 15:21:54 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 11:22:40 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_get_name(const char *str)
 	char	*name;
 
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] && str[i] != '=' && str[i] != ' ')
 		i++;
 	i++;
 	name = ft_substr(str, 0, i);
@@ -35,8 +35,10 @@ char	*ft_get_value(const char *str, const char *name, int n)
 	char	*value;
 	char	*tmp;
 
+	if (!str)
+		return (0);
 	i = 0;
-	while (str[i] != '=')
+	while (str[i] != '=' && str[i])
 		i++;
 	value = ft_substr(str, i + 1, ft_strlen(str));
 	if (n && !ft_strncmp(name, "SHLVL=", 7))
