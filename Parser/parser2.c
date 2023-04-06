@@ -34,6 +34,7 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 	int		i;
 	char	**parsed;
 
+	(void) shell;
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
 		exit(1); // ft_die(); Error: memory error

@@ -71,6 +71,7 @@ init all variables in pipex struct
 */
 int	pipex_init(t_pipex *pipex, int argc, char **argv)
 {
+	(void) argv;
 	pipex->original_stdout = dup(1);
 	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);

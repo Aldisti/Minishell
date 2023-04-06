@@ -49,7 +49,7 @@ int	ft_end_with(char *line, char end)
 	found = 0;
 	while (line[i])
 	{
-		if (line[i] == '|' && !found)
+		if (line[i] == end && !found)
 			found = 1;
 		else if (found && !ft_in(line[i], " \t\n"))
 			found  = 0;
@@ -63,7 +63,7 @@ char	*ft_read_again(char *prompt)
 	char	*tmp;
 	char	*line;
 
-	tmp = readline("> ");
+	tmp = readline(prompt);
 	if (!tmp)
 		return (NULL);
 	line = ft_strjoin(" ", tmp);
@@ -106,8 +106,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*prompt;
 	t_shell	shell;
-	char	**cmd;
-	int		i;
 
 	if (ac != 1)
 		return (0);

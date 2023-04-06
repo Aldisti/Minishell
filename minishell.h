@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+//extern void	rl_replace_line(char *text, int clear_undo);
+//extern void	rl_clear_history(void);
 
 typedef struct s_red
 {

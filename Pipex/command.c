@@ -112,6 +112,7 @@ int	is_only_red(t_shell *shell, char *str)
 {
 	int	i;
 
+	(void) shell;
 	i = 0;
 	if (!str)
 		return (0);

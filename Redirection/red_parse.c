@@ -80,7 +80,7 @@ int	ft_remove_quotes(char **line)
 	if (!(*line))
 		return (0);
 	i = ft_strlen_without(*line, "\'\"");
-	if (i != ft_strlen(*line))
+	if (i != (int) ft_strlen(*line))
 	{
 		new_line = (char *)ft_calloc(sizeof(char), i + 1);
 		if (!new_line)
