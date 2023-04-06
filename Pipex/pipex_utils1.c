@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/03/29 10:26:00 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/05 11:36:08 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	**strs: already properly setted variable that contain the complete
 this function loop trought all the string contained in strs and trim
 the starting and trailing blank space
 */
-
 int	prepare_strs(char **strs)
 {
 	int		i;
@@ -32,11 +31,11 @@ int	prepare_strs(char **strs)
 	{
 		temp = ft_strtrim(strs[i], " ");
 		if (!temp)
-			exit(1);//ft_die
+			exit(1);
 		ft_free((void **) &strs[i]);
 		strs[i] = ft_strdup(temp);
 		if (!strs[i])
-			exit(1);//ft_die
+			exit(1);
 		ft_free((void **) &temp);
 	}
 	return (i);
@@ -51,7 +50,6 @@ char	**strs: already properly setted variable that contain the complete
 this function loop trought all the string contained in strs and trim
 the starting and trailing ["] or [']
 */
-
 void	trim_strs(char **strs, const char *set)
 {
 	char	*temp;
@@ -64,11 +62,11 @@ void	trim_strs(char **strs, const char *set)
 		{
 			temp = ft_strtrim(strs[i], set);
 			if (!temp)
-				exit(7);//ft_die
+				exit(7);
 			ft_free((void **) &strs[i]);
 			strs[i] = ft_strdup(temp);
 			if (!strs[i])
-				exit(8);//ft_die
+				exit(8);
 			ft_free((void **) &temp);
 		}
 	}
@@ -77,7 +75,6 @@ void	trim_strs(char **strs, const char *set)
 /*
 SELF EXPLANATORY
 */
-
 void	close_pipes(t_pipex *pipex)
 {
 	int	i;
@@ -88,22 +85,28 @@ void	close_pipes(t_pipex *pipex)
 }
 
 /*
-SELF EXPLANATORY
-*/
+void	my_dup(t_pipex *pipex, int id)
 
-void	my_dup(t_pipex *pipex, int id, int mode)
+this is a core func and based on the command id
+set the pipe accordingly so that each input and
+output is read/write either from/to a pipe or on the
+stdout/stdin
+*/
+void	my_dup(t_pipex *pipex, int id)
 {
-	if (mode == 0)
+	if (id == 0 && pipex->cmd_count != 1)
 	{
-		dup2(pipex->infile_fd, 0);
+		dup2(pipex->original_stdin, 0);
 		dup2(pipex->pipe[2 * id + 1], 1);
 	}
-	else if (mode == 1 && id > 0)
+	else if ((id == pipex->cmd_count - 1) && id > 0)
 	{
 		dup2(pipex->pipe[2 * id - 2], 0);
-		dup2(pipex->outfile_fd, 1);
+		dup2(pipex->original_stdout, 1);
 	}
-	else if (mode == 2)
+	else if ((id == pipex->cmd_count - 1) && id == 0)
+		;
+	else
 	{
 		dup2(pipex->pipe[2 * id - 2], 0);
 		dup2(pipex->pipe[2 * id + 1], 1);
@@ -113,7 +116,6 @@ void	my_dup(t_pipex *pipex, int id, int mode)
 /*
 SELF EXPLANATORY
 */
-
 int	create_pipes(t_pipex *pipex)
 {
 	int	i;

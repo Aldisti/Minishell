@@ -73,7 +73,7 @@ t_list	*ft_env_set(char **envp)
 		list_elem = ft_lstnew((void *)elem);
 		if (!list_elem)
 			exit(1); // ft_die(); Error: memory error
-		ft_lstadd_back(&list, list_elem);
+		ft_lst_insert(&list, list_elem);
 		i++;
 	}
 	return (list);

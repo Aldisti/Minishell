@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
 /*   Updated: 2023/04/06 14:02:18 by adi-stef         ###   ########.fr       */
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -66,6 +66,7 @@ typedef struct s_pipex
 	int		infile_fd;
 	int		outfile_fd;
 	int		original_stdout;
+	int		original_stdin;
 	pid_t	*pid;
 	int		cmd_i;
 	char	**paths;
@@ -192,7 +193,7 @@ void		env(t_shell	*shell, int lvl);
 void		echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
-int			ft_export(t_shell *shell, char **cmd, int lvl);
+int   	ft_export(t_shell *shell, char **cmd, int lvl);
 
 
 
@@ -210,23 +211,24 @@ char		**line_filter(char **strs);
 void		execute_cmd(t_shell *shell, char **argv, int child_id);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc, char **argv);
-int			child_proc(t_shell *shell, char **argv, int child_id);
+int			child_proc(t_shell *shell, char **argv, int *child_id);
+char		**list_convert(t_list *list);
+char		*gnp(char *str);
 //	pipex_utils
-void		my_dup(t_pipex *pipex, int id, int mode);
+void		my_dup(t_pipex *pipex, int id);
 void		execute_built_in(t_shell *shell, char **cmd, int lvl);
-int			is_built_in(char *cmd);
+int			is_blt(char *cmd);
 int			create_pipes(t_pipex *pipex);
 void		close_pipes(t_pipex *pipex);
 int			prepare_strs(char **strs);
 void		trim_strs(char **strs, const char *str);
-void		cat_here_doc(t_pipex *pipex, char *limiter);
-int			here_doc(t_pipex *pipex, char *limiter);
 char		*get_next_line(int fd);
 //	command
 char		**get_cmd(t_pipex *pipex, char *str);
 char		*path_checker(t_pipex *pipex, char *str);
-int			check_built_in(t_shell *shell, char *str, int child_id);
+int			built_in_selector(t_shell *shell, int *id, char **cmd);
 void		get_cmd_loop(t_pipex *pipex, char *temp, char **command);
+void		built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
 //	command_parser
 char		**ft_extract_word_command(char **parsed, int *dim,
 				int *i, char **line);
@@ -257,7 +259,13 @@ size_t		ft_strlen(const char *str);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *str, int c);
 int			ft_strlen_until(char *str, char *set);
+void		*ft_memset(void *b, int c, size_t len);
+void		ft_lst_insert(t_list **lst, t_list *new);
+t_list		*ft_lstfind_sort(t_list *lst, char *name);
+void		ft_lstadd_back(t_list **lst, t_list *new);
 int			ft_strcmp(const char *s1, const char *s2);
+void		ft_lstadd_front(t_list **lst, t_list *new);
+int			ft_die(t_shell *shell, int todo, int code);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);

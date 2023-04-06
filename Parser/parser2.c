@@ -18,6 +18,7 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 	int		i;
 	char	**parsed;
 
+	ft_replace(line, "\t\n", ' ');
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
 		exit(1); // return (ft_die(shell)); Error: memory error
