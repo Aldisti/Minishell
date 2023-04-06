@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 15:40:28 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/06 17:37:20 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+// extern void	rl_replace_line(char *text, int clear_undo);
+// extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -201,6 +201,11 @@ void		echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
 int			ft_export(t_shell *shell, char **cmd, int lvl);
+void		ft_set_name_value(char **name, char **value, char *cmd);
+//	export_utils
+int			ft_if1(t_list *list, t_env *new_env);
+t_env		*ft_env_new(char *name, char *value, int lvl);
+int			ft_if2(t_list *list, t_env *env, t_env *new_env, int lvl);
 
 
 

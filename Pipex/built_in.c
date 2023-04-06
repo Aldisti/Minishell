@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/06 14:30:15 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:00:02 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
 		env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
-		return ;
+		ft_die(shell, 1, 69);
 	ft_free_mat((void ***) &cmd);
 }
 

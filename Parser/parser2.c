@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_parser2.c                                       :+:      :+:    :+:   */
+/*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/29 11:32:06 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/06 16:10:50 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,16 +174,16 @@ void	ft_parser_checks(t_shell *shell)
 	if (!shell->parsed)
 		exit(1); // ft_die(); Error: memory error
 	if (ft_in(shell->parsed[0][0], "&|"))
-		exit(4); // ft_die(); Error: invalid command
+		exit(41); // ft_die(); Error: invalid command
 	if (!ft_valid_operators(shell->parsed))
 		exit(5); // ft_die(); Error: invalid operator
 	if (!ft_valid_command(shell->parsed))
-		exit(4); // ft_die(); Error: invalid command
+		exit(42); // ft_die(); Error: invalid command
 	i = 0;
 	while (shell->parsed[i])
 	{
 		if (ft_check_multi_par(shell->parsed[i]))
-			exit(4); // ft_die(); Error: invalid command
+			exit(43); // ft_die(); Error: invalid command
 		i++;
 	}
 }
