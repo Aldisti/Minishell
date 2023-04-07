@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/06 15:28:10 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 10:35:40 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
-		ft_die(shell, 1, 1);
+		ft_die(shell, 1, 12);
 	dim = 1;
 	i = 0;
 	while (line[i])
 	{
 		while (line[i] && !ft_in(line[i], set))
 			if (!ft_checks(line, &i))
-				exit (2); // ft_die() Error: unclosed quotes/parentheses
+				return (ft_die_parser(shell, parsed));
 		if (!i)
 			while (line[i] && ft_in(line[i], set))
 				i++;
 		parsed = ft_extract_word(parsed, &dim, &i, &line);
 		if (!parsed)
-			ft_die(shell, 1, 1);
+			ft_die(shell, 1, 12);
 	}
 	return (parsed);
 }
@@ -165,25 +165,29 @@ int	ft_valid_operators(char **parsed)
  * Input:	pointer to shell structure (see minishell.h).
  * Output:	na.
 */
-void	ft_parser_checks(t_shell *shell)
+char	**ft_parser_checks(t_shell *shell)
 {
 	int	i;
 
-	if (ft_delete_spaces(shell))
-		ft_die(shell, 1, 1);
-	if (!shell->parsed)
-		ft_die(shell, 1, 1);
-	if (ft_in(shell->parsed[0][0], "&|"))
-		exit(4); // ft_die(); Error: invalid command
-	if (!ft_valid_operators(shell->parsed))
-		exit(5); // ft_die(); Error: invalid operator
-	if (!ft_valid_command(shell->parsed))
-		exit(4); // ft_die(); Error: invalid command
 	i = 0;
+	if (!i && ft_delete_spaces(shell) && ++i)
+		ft_die(shell, 1, 12);
+	if (!i && ft_in(shell->parsed[0][0], "&|") && ++i)
+		printf("Bad Syntax: line starts with operator.\n");
+	if (!i && !ft_valid_operators(shell->parsed) && ++i)
+		printf("Bad Syntax: invalid operator.\n");
+	if (!i && !ft_valid_command(shell->parsed) && ++i)
+		printf("Bad Syntax: error near unexpected token.\n");
+	if (i)
+		return (ft_die_parser(shell, NULL));
 	while (shell->parsed[i])
 	{
 		if (ft_check_multi_par(shell->parsed[i]))
-			exit(4); // ft_die(); Error: invalid command
+		{
+			printf("Bad Syntax: unclosed parentheses.\n");
+			return (ft_die_parser(shell, NULL));
+		}
 		i++;
 	}
+	return (shell->parsed);
 }

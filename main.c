@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 08:05:06 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 10:16:56 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,28 @@ char	*ft_prompt(void)
 void	ft_line_set(t_shell *shell)
 {
 	char	*prompt;
+	char	*line;
 
+	line = NULL;
 	prompt = ft_prompt();
 	if (!prompt)
 		ft_die(shell, 1, 1);
-	shell->line = ft_readline(prompt);
-	ft_replace(shell->line, " \n\t", ' ');
+	line = ft_readline(prompt);
+	ft_replace(line, " \n\t", ' ');
+	shell->line = ft_strtrim(line, " ");
+	ft_free((void **) &line);
 	ft_free((void **) &prompt);
 	if (!shell->line)
 		ft_die(shell, 1, 1);
+}
+
+char	**ft_parsed_set(t_shell *shell)
+{
+	shell->parsed = ft_parser(shell, shell->line, "|&");
+	if (!shell->parsed)
+		return (NULL);
+	shell->parsed = ft_parser_checks(shell);
+	return (shell->parsed);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -71,8 +84,9 @@ int	main(int ac, char **av, char **envp)
 		if (!shell.line[0])
 			continue ;
 		add_history(shell.line);
-		shell.parsed = ft_parser(&shell, shell.line, "|&");
-		ft_parser_checks(&shell);
+		shell.parsed = ft_parsed_set(&shell);
+		if (!shell.parsed)
+			continue ;
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);

@@ -6,7 +6,7 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/04/03 17:10:20 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/04/07 10:30:34 by gpanico          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
-	@echo "\rMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
+	@echo "\r\033[KMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
 	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 	@echo "███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██      "
 	@echo "████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██      "
@@ -62,7 +62,7 @@ $(NAME): $(OBJ)
 	@echo "██  ██  ██ ██ ██  ██ ██ ██      ██ ██   ██ ██      ██      ██      "
 	@echo "██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████ "
 	@echo "\n$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
-	@echo "$(YELLOW)Made with love and bestemmie by Gpanico, Mpaterno, Adi-stef and Afraccal\n$(RESET)"
+	@echo "$(YELLOW)Made with love and bestemmie by Adi-stef, Afraccal, Gpanico, Mpaterno.\n$(RESET)"
 	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 
 all: $(NAME)

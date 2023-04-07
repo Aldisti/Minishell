@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 08:37:47 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/28 07:56:14 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 09:41:02 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,28 @@ int	ft_in(char c, char *set)
 */
 char	**ft_extract_word(char **parsed, int *dim, int *i, char **line)
 {
+	char	**tmp;
+
 	if (*i)
 	{
-		parsed = (char **)ft_realloc(parsed, sizeof(char *),
+		tmp = (char **)ft_realloc(parsed, sizeof(char *),
 				*dim, *(dim) + 1);
-		if (!parsed)
+		if (!tmp)
+		{
+			ft_free_mat((void ***) &parsed);
 			return (NULL);
+		}
+		parsed = tmp;
 		*(dim) = *(dim) + 1;
 		parsed[*(dim) - 2] = ft_substr(*line, 0, *i);
 		if (!parsed[*(dim) - 2])
+		{
+			ft_free_mat((void ***) &parsed);
 			return (NULL);
+		}
 		*line = *line + *i;
 		*i = 0;
-		return (parsed);
 	}
-	else
 		return (parsed);
 }
 
@@ -92,7 +99,7 @@ int	ft_quotes_check(char *line, int	*i)
 		while (line[*i] && line[*i] != '\'')
 			(*i)++;
 		if (!line[*i])
-			return (0); // ft_die(); Error: unclosed quotes
+			return (0);
 	}
 	else if (line[*i] == '\"')
 	{
@@ -100,7 +107,7 @@ int	ft_quotes_check(char *line, int	*i)
 		while (line[*i] && line[*i] != '\"')
 			(*i)++;
 		if (!line[*i])
-			return (0); // ft_die(); Error: unclosed quotes
+			return (0);
 	}
 	return (1);
 }
@@ -116,14 +123,14 @@ int	ft_quotes_check(char *line, int	*i)
  * Output:	returns an integer:
  * 			-0 if the founded parentheses aren't closed;
  * 			-1 if the parentheses are closed or if
- * 			there aren't found;
+ * 			there aren't;
 */
 int	ft_parenthesis_check(char *line, int *i)
 {
 	int	par_count;
 
 	if (line[*i] == ')')
-		return (0); // ft_die(); Error: unclosed parenthesis
+		return (0);
 	else if (line[*i] == '(')
 	{
 		par_count = 1;
@@ -135,11 +142,11 @@ int	ft_parenthesis_check(char *line, int *i)
 			else if (line[*i] == ')')
 				par_count--;
 			if (!ft_quotes_check(line, i))
-				return (0); // ft_die; Error: unclosed quotes
+				return (0);
 			(*i)++;
 		}
 		if (!line[*i] && par_count)
-			return (0); // ft_die(); Error: unclosed parenthesis
+			return (0);
 		(*i)--;
 	}
 	return (1);
@@ -160,9 +167,15 @@ int	ft_parenthesis_check(char *line, int *i)
 int	ft_checks(char *line, int *i)
 {
 	if (!ft_quotes_check(line, i))
-		return (0); // ft_die() Error: unclosed quotes
+	{
+		printf("Bad Syntax: unclosed quotes.\n");
+		return (0);
+	}
 	else if (!ft_parenthesis_check(line, i))
-		return (0); // ft_die() Error: unclosed parenthesis
+	{
+		printf("Bad Syntax: unclosed parentheses.\n");
+		return (0);
+	}
 	(*i)++;
 	return (1);
 }
