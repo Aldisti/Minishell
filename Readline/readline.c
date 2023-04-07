@@ -1,5 +1,19 @@
 #include "../minishell.h"
 
+void	*ft_die_readline(char **lines, int dim)
+{
+	int	i;
+
+	i = 0;
+	while (i < dim)
+	{
+		ft_free((void **) &lines[i]);
+		i++;
+	}
+	ft_free((void **) &lines);
+	return (NULL);
+}
+
 int	ft_end_with(char *line, char end)
 {
 	int	i;
@@ -43,19 +57,19 @@ char	*ft_readline(char *prompt)
 	dim = 2;
 	lines = (char **) ft_realloc(lines, sizeof(char *), 0, dim);
 	if (!lines)
-		return (NULL); //ft_die(); Error: memory error
+		return (ft_die_readline(lines, dim));
 	lines[dim - 2] = readline(prompt);
 	if (!lines[dim - 2])
-		return (NULL); //ft_die(); Error: memory error
+		return (ft_die_readline(lines, dim));
 	while (ft_end_with(lines[dim - 2], '|'))
 	{
 		lines = (char **) ft_realloc(lines, sizeof(char *), dim, dim + 1);
 		if (!lines)
-			return (NULL); //ft_die(); Error: memory error
+			return (ft_die_readline(lines, dim));
 		dim++;
 		lines[dim - 2] = ft_read_again("> ");
 		if (!lines[dim - 2])
-			return (NULL); //ft_die(); Error: memory error
+			return (ft_die_readline(lines, dim));
 	}
 	line = ft_joiner(lines, 1);
 	free(lines);
