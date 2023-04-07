@@ -16,6 +16,7 @@ void	update_oldpwd(t_shell *shell, char *str, int lvl)
 {
 	t_env	*env;
 
+	(void) lvl;
 	env = ft_search_in_list(shell->list, "OLDPWD", 0); //shell->lvls[lvl]
 	// printf("he%s\n", env->value);
 	free(env->value);
@@ -28,6 +29,7 @@ void	cd(t_shell *shell, char **cmd, int lvl)
 	t_env	*env;
 	char	*oldpwd;
 
+	(void) lvl;
 	oldpwd = pwd();
 	env = ft_search_in_list(shell->list, "HOME", 0);//shell->lvls[lvl]
 	if (!cmd[1])

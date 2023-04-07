@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 16:08:47 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:15:29 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ char	*ft_prompt(void)
 	char	*strs[4];
 
 	strs[3] = 0;
-	pwd_prompt = getcwd(0, 0);
+	pwd_prompt = getcwd(NULL, 0);
+	if (!pwd_prompt)
+		return (NULL);
 	strs[0] = "\033[1;36m";
 	strs[1] = ft_strrchr(pwd_prompt, '/') + 1;
 	strs[2] = "\033[0m\033[1;32m$> \033[0m";
@@ -40,74 +42,36 @@ char	*ft_prompt(void)
 	return (strs[3]);
 }
 
-int	ft_end_with(char *line, char end)
+void	ft_line_set(t_shell *shell)
 {
-	int	i;
-	int	found;
-
-	i = 0;
-	found = 0;
-	while (line[i])
-	{
-		if (line[i] == '|' && !found)
-			found = 1;
-		else if (found && !ft_in(line[i], " \t\n"))
-			found  = 0;
-		i++;
-	}
-	return (found);
-}
-
-char	*ft_read_again(char *prompt)
-{
-	char	*tmp;
+	char	*prompt;
 	char	*line;
 
-	tmp = readline("> ");
-	if (!tmp)
-		return (NULL);
-	line = ft_strjoin(" ", tmp);
-	ft_free((void **) &tmp);
-	if (!line)
-		return (NULL);
-	return (line);
+	line = NULL;
+	prompt = ft_prompt();
+	if (!prompt)
+		ft_die(shell, 1, 1);
+	line = ft_readline(prompt);
+	ft_replace(line, " \n\t", ' ');
+	shell->line = ft_strtrim(line, " ");
+	ft_free((void **) &line);
+	ft_free((void **) &prompt);
+	// if (!shell->line)
+	// 	ft_die(shell, 1, 0);
 }
 
-char	*ft_readline(char *prompt)
+char	**ft_parsed_set(t_shell *shell)
 {
-	char	**lines;
-	char	*line;
-	int	dim;
-
-	lines = NULL;
-	dim = 2;
-	lines = (char **) ft_realloc(lines, sizeof(char *), 0, dim);
-	if (!lines)
-		return (NULL); //ft_die(); Error: memory error
-	lines[dim - 2] = readline(prompt);
-	if (!lines[dim - 2])
-		return (NULL); //ft_die(); Error: memory error
-	while (ft_end_with(lines[dim - 2], '|'))
-	{
-		lines = (char **) ft_realloc(lines, sizeof(char *), dim, dim + 1);
-		if (!lines)
-			return (NULL); //ft_die(); Error: memory error
-		dim++;
-		lines[dim - 2] = ft_read_again("> ");
-		if (!lines[dim - 2])
-			return (NULL); //ft_die(); Error: memory error
-	}
-	line = ft_joiner(lines, 1);
-	free(lines);
-	return (line);
+	shell->parsed = ft_parser(shell, shell->line, "|&");
+	if (!shell->parsed)
+		return (NULL);
+	shell->parsed = ft_parser_checks(shell);
+	return (shell->parsed);
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	char	*prompt;
 	t_shell	shell;
-	char	**cmd;
-	int		i;
 
 	if (ac != 1)
 		return (0);
@@ -116,17 +80,15 @@ int	main(int ac, char **av, char **envp)
 	ft_shell_set(&shell);
 	while (42)
 	{
-		prompt = ft_prompt();
-		shell.line = ft_readline(prompt);
-		ft_replace(shell.line, " \n\t", ' ');
-		ft_free((void **)&prompt);
+		ft_line_set(&shell);
 		if (!shell.line)
-			exit(169);
+			return (ft_die(&shell, 1, 0));
 		if (!shell.line[0])
 			continue ;
 		add_history(shell.line);
-		shell.parsed = ft_parser(&shell, shell.line, "|&");
-		ft_parser_checks(&shell);
+		shell.parsed = ft_parsed_set(&shell);
+		if (!shell.parsed)
+			continue ;
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);

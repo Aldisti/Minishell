@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:21 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/06 11:24:20 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 07:44:01 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_remove_quotes(char **line)
 	if (!(*line))
 		return (0);
 	i = ft_strlen_without(*line, "\'\"");
-	if (i != ft_strlen(*line))
+	if (i != (int) ft_strlen(*line))
 	{
 		new_line = (char *)ft_calloc(sizeof(char), i + 1);
 		if (!new_line)

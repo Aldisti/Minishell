@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/05 14:14:43 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/07 15:02:27 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	**get_cmd(t_pipex *pipex, char *str)
 	return (command);
 }
 
-int	is_only_red(t_shell *shell, char *str)
+int	is_only_red(char *str)
 {
 	int	i;
 
@@ -128,7 +128,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 {
 	char	**cmd;
 
-	if (is_only_red(shell, argv[*child_id]))
+	if (is_only_red(argv[*child_id]))
 		exit(1);
 	ft_replace(argv[(*child_id)], "\37", ' ');
 	cmd = get_cmd(&shell->pipex, argv[(*child_id)]);

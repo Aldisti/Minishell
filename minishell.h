@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 17:37:20 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:13:58 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,12 @@ char		*ft_get_value(const char *str, const char *name, int n);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
-
+//	Readline
+//	readline
+char	*ft_readline(char *prompt);
+char	*ft_read_again(char *prompt);
+int		ft_end_with(char *line, char end);
+void	*ft_die_readline(char **lines, int dim);
 
 //	Parser
 //	parser
@@ -115,10 +120,11 @@ char		**ft_extract_word(char **parsed, int *dim, int *i, char **line);
 char		**ft_parser(t_shell *shell, char *line, char *set);
 int			ft_delete_spaces(t_shell *shell);
 int			ft_check_multi_par(char *line);
-void		ft_parser_checks(t_shell *shell);
+char		**ft_parser_checks(t_shell *shell);
 int			ft_valid_operators(char **parsed);
 //	parser3
 int		ft_valid_command(char **parsed);
+void	*ft_die_parser(t_shell *shell, char **parsed);
 
 
 
@@ -200,13 +206,16 @@ void		env(t_shell	*shell, int lvl);
 void		echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
-int			ft_export(t_shell *shell, char **cmd, int lvl);
-void		ft_set_name_value(char **name, char **value, char *cmd);
+int			ft_check_var(t_shell *shell, t_env *new_env, char *cmd);
+int			ft_export(t_shell *shell, t_env	*new_env, char **cmd, int lvl);
+void		ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd);
 //	export_utils
 int			ft_if1(t_list *list, t_env *new_env);
 t_env		*ft_env_new(char *name, char *value, int lvl);
+t_list		*ft_get_list_node(t_list *list, const char *name);
 int			ft_if2(t_list *list, t_env *env, t_env *new_env, int lvl);
-
+//	unset
+int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 
 //	Signals
@@ -222,7 +231,7 @@ void		ft_handle_int(int signum);
 char		**line_filter(char **strs);
 void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 int			pipex(t_shell *shell, char **argv);
-int			pipex_init(t_pipex *pipex, int argc, char **argv);
+int			pipex_init(t_pipex *pipex, int argc);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
 char		*gnp(char *str);
 //	pipex_utils
@@ -272,11 +281,7 @@ char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *str, int c);
 int			ft_strlen_until(char *str, char *set);
 void		*ft_memset(void *b, int c, size_t len);
-void		ft_lst_insert(t_list **lst, t_list *new);
-t_list		*ft_lstfind_sort(t_list *lst, char *name);
-void		ft_lstadd_back(t_list **lst, t_list *new);
 int			ft_strcmp(const char *s1, const char *s2);
-void		ft_lstadd_front(t_list **lst, t_list *new);
 int			ft_die(t_shell *shell, int todo, int code);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
@@ -286,11 +291,18 @@ char		*ft_substr(char const *s, unsigned int start, size_t len);
 //	lst
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
+t_env		*ft_get_env(t_list	*list, int lvl);
 char		**list_convert(t_list *list, int lvl);
+t_env		*ft_get_prev_env(t_list	*list, int lvl);
+void		ft_lst_insert(t_list **lst, t_list *new);
 void		ft_lst_insert(t_list **lst, t_list *new);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
 void		ft_lstadd_back(t_list **lst, t_list *new);
+t_list		*ft_lstfind_sort(t_list *lst, char *name);
+void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstadd_front(t_list **lst, t_list *new);
+void		ft_lstadd_front(t_list **lst, t_list *new);
+t_list		*ft_get_node(t_list *list, const char *name);
 t_env		*ft_search_in_list(t_list *list, char *name, int lvl);
 //	other
 char		*ft_itoa(int n);

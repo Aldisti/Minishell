@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:54:04 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/06 15:01:14 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 07:45:59 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	ft_replace(char *line, char *old, char new)
 {
 	int	i;
 
+	if (!line)
+		return ;
 	i = 0;
 	while (line[i])
 	{
