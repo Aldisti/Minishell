@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 15:22:25 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 07:41:05 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-//extern void	rl_replace_line(char *text, int clear_undo);
-//extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -106,7 +106,8 @@ void		ft_signals_set(t_shell *shell);
 //	readline
 char	*ft_readline(char *prompt);
 char	*ft_read_again(char *prompt);
-int	ft_end_with(char *line, char end);
+int		ft_end_with(char *line, char end);
+void	*ft_die_readline(char **lines, int dim);
 
 //	Parser
 //	parser
