@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 18:55:48 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 09:42:36 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -102,7 +102,12 @@ char		*ft_get_value(const char *str, const char *name, int n);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
-
+//	Readline
+//	readline
+char	*ft_readline(char *prompt);
+char	*ft_read_again(char *prompt);
+int		ft_end_with(char *line, char end);
+void	*ft_die_readline(char **lines, int dim);
 
 //	Parser
 //	parser
@@ -115,10 +120,11 @@ char		**ft_extract_word(char **parsed, int *dim, int *i, char **line);
 char		**ft_parser(t_shell *shell, char *line, char *set);
 int			ft_delete_spaces(t_shell *shell);
 int			ft_check_multi_par(char *line);
-void		ft_parser_checks(t_shell *shell);
+char		**ft_parser_checks(t_shell *shell);
 int			ft_valid_operators(char **parsed);
 //	parser3
 int		ft_valid_command(char **parsed);
+void	*ft_die_parser(t_shell *shell, char **parsed);
 
 
 
@@ -224,7 +230,7 @@ void		ft_handle_int(int signum);
 char		**line_filter(char **strs);
 void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 int			pipex(t_shell *shell, char **argv);
-int			pipex_init(t_pipex *pipex, int argc, char **argv);
+int			pipex_init(t_pipex *pipex, int argc);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
 char		*gnp(char *str);
 //	pipex_utils

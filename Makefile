@@ -6,7 +6,7 @@
 #    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/04/06 18:36:26 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/04/07 10:30:34 by gpanico          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC			= main.c
 PAR_SRC		= $(wildcard Parentheses/*.c)
 RED_SRC		= $(wildcard Redirection/*.c)
 EXP_SRC		= $(wildcard Expansions/*.c)
+READ_SRC	= $(wildcard Readline/*.c)
 COMM_SRC	= $(wildcard Commands/*.c)
 SIGN_SRC	= $(wildcard Signals/*.c)
 PARSER_SRC	= $(wildcard Parser/*.c)
@@ -26,7 +27,7 @@ INIT_SRC	= $(wildcard Init/*.c)
 OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
 			$(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)	\
 			$(EXP_SRC:%.c=%.o) $(SIGN_SRC:%.c=%.o) $(PAR_SRC:%.c=%.o) \
-			$(RED_SRC:%.c=%.o)
+			$(RED_SRC:%.c=%.o) ${READ_SRC:%.c=%.o}
 
 CC		= cc
 FLAGS	= -Wall -Wextra -Werror
@@ -42,18 +43,18 @@ RESET	= \033[0;0m
 
 
 SRC_COUNT_TOT = $(shell expr $(shell echo -n $(SRC) $(PARSER_SRC) $(PIPEX_SRC) $(UTILS_SRC) $(COMM_SRC) $(INIT_SRC) \
-		 $(EXP_SRC) $(PAR_SRC) $(RED_SRC) | wc -w))
+		 $(EXP_SRC) $(PAR_SRC) $(RED_SRC) ${READ_SRC} | wc -w))
 SRC_COUNT = 0
 SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 %.o : %.c
-	@$(CC) $(FLAG) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 	@$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
 	@printf "$(GREEN)\r%100s\r[%d/%d (%d%%)] $(GREEN)$<" "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
 
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
-	@echo "\rMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
+	@echo "\r\033[KMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
 	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 	@echo "███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██      "
 	@echo "████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██      "
@@ -61,7 +62,7 @@ $(NAME): $(OBJ)
 	@echo "██  ██  ██ ██ ██  ██ ██ ██      ██ ██   ██ ██      ██      ██      "
 	@echo "██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████ "
 	@echo "\n$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
-	@echo "$(YELLOW)Made with love and bestemmie by Gpanico, Mpaterno, Adi-stef and Afraccal\n$(RESET)"
+	@echo "$(YELLOW)Made with love and bestemmie by Adi-stef, Afraccal, Gpanico, Mpaterno.\n$(RESET)"
 	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 
 all: $(NAME)

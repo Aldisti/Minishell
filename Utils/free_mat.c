@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 08:36:28 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/27 09:32:35 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 09:27:29 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	ft_free_mat(void ***mat_addr)
 	int	i;
 
 	i = 0;
+	if (!mat_addr || !(*mat_addr))
+		return ;
 	while ((*mat_addr)[i])
 	{
 		ft_free(&(*mat_addr)[i]);

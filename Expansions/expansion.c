@@ -116,7 +116,7 @@ void	ft_expand_all(t_shell *shell)
 				shell->parsed[j] = ft_expand_doll(shell, shell->parsed[j], i);
 			else
 				continue ;
-			if (i >= ft_strlen(shell->parsed[j]))
+			if (i >= (int) ft_strlen(shell->parsed[j]))
 				i = ft_strlen(shell->parsed[j]) - 1;
 		}
 	}

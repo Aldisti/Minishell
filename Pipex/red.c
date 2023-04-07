@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 14:16:34 by marco             #+#    #+#             */
-/*   Updated: 2023/04/05 22:17:58 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/07 07:43:40 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	red_selector(t_shell *shell, int id, int mode)
 {
 	int	fd;
 
+	fd = 0;
 	if (mode == 0)
 	{
 		fd = open(shell->red.afiles[id], O_WRONLY | O_APPEND | O_CREAT, 0644);
