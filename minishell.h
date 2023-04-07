@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 17:37:20 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:55:48 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,10 +201,12 @@ void		echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
 int			ft_export(t_shell *shell, char **cmd, int lvl);
-void		ft_set_name_value(char **name, char **value, char *cmd);
+int			ft_check_var(t_shell *shell, t_env *new_env, char *cmd);
+void		ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd);
 //	export_utils
 int			ft_if1(t_list *list, t_env *new_env);
 t_env		*ft_env_new(char *name, char *value, int lvl);
+t_list		*ft_get_list_node(t_list *list, const char *name);
 int			ft_if2(t_list *list, t_env *env, t_env *new_env, int lvl);
 
 

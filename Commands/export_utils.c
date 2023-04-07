@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:30:42 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 17:31:12 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:46:19 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,11 @@ int	ft_if1(t_list *list, t_env *new_env)
 	}
 	else
 		return (ft_if2(list, env, new_env, new_env->level));
+}
+
+t_list	*ft_get_list_node(t_list *list, const char *name)
+{
+	while (list && ft_strcmp(list->content->name, name))
+			list = list->next;
+	return (list);
 }

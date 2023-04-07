@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 17:31:08 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:56:19 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,48 @@ int	ft_print_export(t_shell *shell, int lvl)
 	return (5);
 }
 
-void	ft_set_name_value(char **name, char **value, char *cmd)
+void	ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd)
 {
+	t_env	*env;
+
 	(*name) = ft_get_name(cmd);
 	if (!(*name))
 		return ;
-	if ((*name)[ft_strlen((*name)) - 1] != '=')
+	env = ft_search_in_list(shell->list, *name, 0);
+	if ((*name)[ft_strlen(*name) - 1] != '=')
 	{
-		(*value) = ft_strjoin((*name), "=");
-		ft_free((void **)&(*name));
+		(*value) = ft_strjoin(*name, "=");
+		ft_free((void **)name);
 		(*name) = (*value);
 		(*value) = 0;
+		if (env)
+			(*value) = ft_strdup("");
 	}
 	else
 	{
 		(*value) = ft_get_value(cmd, (*name), 0);
 		if (!(*value))
 		{
-			ft_free((void **)&(*name));
+			ft_free((void **)name);
 			return ;
 		}
-		ft_remove_quotes(&(*value));
+		ft_remove_quotes(value);
 	}
+}
+
+int	ft_check_var(t_shell *shell, t_env *new_env, char *cmd)
+{
+	t_env	*env;
+
+	if (ft_in('=', cmd))
+		return (1);
+	env = ft_search_in_list(shell->list, cmd, 0);
+	if (env)
+	{
+		ft_free_env(&new_env);
+		return (0);
+	}
+	return (1);
 }
 
 int	ft_export(t_shell *shell, char **cmd, int lvl)
@@ -85,13 +105,13 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		return (ft_print_export(shell, lvl));
 	while (++cmd && *cmd)
 	{
-		ft_set_name_value(&strs[0], &strs[1], *cmd);
-		list = shell->list;
-		while (list && ft_strcmp(list->content->name, strs[0]))
-			list = list->next;
+		ft_set_name_value(shell, &strs[0], &strs[1], *cmd);
+		list = ft_get_list_node(shell->list, strs[0]);
 		new_env = ft_env_new(strs[0], strs[1], lvl);
 		if (!new_env)
 			return (-2);
+		if (!ft_check_var(shell, new_env, *cmd))
+			continue ;
 		if (!list)
 		{
 			list = ft_lstnew(new_env);

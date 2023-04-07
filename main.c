@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 16:08:47 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/06 18:32:40 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,6 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*prompt;
 	t_shell	shell;
-	char	**cmd;
-	int		i;
 
 	if (ac != 1)
 		return (0);
