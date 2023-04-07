@@ -57,7 +57,7 @@ void	ft_line_set(t_shell *shell)
 	ft_free((void **) &line);
 	ft_free((void **) &prompt);
 	if (!shell->line)
-		ft_die(shell, 1, 1);
+		ft_die(shell, 1, 0);
 }
 
 char	**ft_parsed_set(t_shell *shell)
@@ -90,10 +90,7 @@ int	main(int ac, char **av, char **envp)
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
 		ft_redirection(&shell);
-		if (!ft_strncmp(shell.parsed[0], "exit", 4))
-			return(ft_die(&shell, 0, 0));
-		else
-			pipex(&shell, shell.parsed);
+		pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);
 	}
 	return (0);

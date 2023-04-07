@@ -1,9 +1,9 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_parser.c                                        :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 08:37:47 by gpanico           #+#    #+#             */
 /*   Updated: 2023/04/07 09:41:02 by gpanico          ###   ########.fr       */
@@ -111,6 +111,7 @@ int	ft_quotes_check(char *line, int	*i)
 	}
 	return (1);
 }
+
 /*
  * Description:	checks if the given string has parentheses at
  * 		index '*i', if an open one is found moves
