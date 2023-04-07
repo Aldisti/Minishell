@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 07:40:08 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 08:05:06 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ char	*ft_prompt(void)
 	char	*strs[4];
 
 	strs[3] = 0;
-	pwd_prompt = getcwd(0, 0);
+	pwd_prompt = getcwd(NULL, 0);
+	if (!pwd_prompt)
+		return (NULL);
 	strs[0] = "\033[1;36m";
 	strs[1] = ft_strrchr(pwd_prompt, '/') + 1;
 	strs[2] = "\033[0m\033[1;32m$> \033[0m";
@@ -40,9 +42,22 @@ char	*ft_prompt(void)
 	return (strs[3]);
 }
 
-int	main(int ac, char **av, char **envp)
+void	ft_line_set(t_shell *shell)
 {
 	char	*prompt;
+
+	prompt = ft_prompt();
+	if (!prompt)
+		ft_die(shell, 1, 1);
+	shell->line = ft_readline(prompt);
+	ft_replace(shell->line, " \n\t", ' ');
+	ft_free((void **) &prompt);
+	if (!shell->line)
+		ft_die(shell, 1, 1);
+}
+
+int	main(int ac, char **av, char **envp)
+{
 	t_shell	shell;
 
 	if (ac != 1)
@@ -52,12 +67,7 @@ int	main(int ac, char **av, char **envp)
 	ft_shell_set(&shell);
 	while (42)
 	{
-		prompt = ft_prompt();
-		shell.line = ft_readline(prompt);
-		ft_replace(shell.line, " \n\t", ' ');
-		ft_free((void **)&prompt);
-		if (!shell.line)
-			exit(169);
+		ft_line_set(&shell);
 		if (!shell.line[0])
 			continue ;
 		add_history(shell.line);
