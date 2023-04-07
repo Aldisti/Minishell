@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 09:42:36 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 12:41:26 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ int			ft_check_multi_par(char *line);
 char		**ft_parser_checks(t_shell *shell);
 int			ft_valid_operators(char **parsed);
 //	parser3
-int		ft_valid_command(char **parsed);
-void	*ft_die_parser(t_shell *shell, char **parsed);
+int			ft_valid_command(char **parsed);
+void		*ft_die_parser(t_shell *shell, char **parsed);
 
 
 

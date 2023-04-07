@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 18:56:19 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:40:04 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,5 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		else
 			ft_if1(list, new_env);
 	}
+	return (1);
 }
