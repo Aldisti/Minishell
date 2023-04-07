@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 12:40:04 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 15:18:37 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd)
 			ft_free((void **)name);
 			return ;
 		}
-		ft_remove_quotes(value);
+		ft_remove_quotes(shell, value);
 	}
 }
 

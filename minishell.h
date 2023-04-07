@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 12:41:26 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 16:05:43 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 # ifndef METACHARS
 #  define METACHARS " \n\t|&<>()"
+#  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
 # endif
 
 extern void	rl_replace_line(char *text, int clear_undo);
@@ -158,7 +159,7 @@ void		alone_cmd_dup(t_shell *shell, int id);
 void		middle_cmd_dup(t_shell *shell, int id);
 void		first_child_dup(t_shell *shell, int id);
 //	red
-void		ft_redirection(t_shell *shell);
+int			ft_redirection(t_shell *shell);
 //	red_check
 int			ft_valid_red_op(char *line);
 int			ft_red_check(char *line);
@@ -171,13 +172,13 @@ int			ft_allocate_rarray(t_shell *shell);
 int			ft_input_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_output_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_append_red(t_shell *shell, int n_cmd, int *ind);
-int			ft_here_doc(char *limiter);
+int			ft_here_doc(t_shell *shell, char *limiter);
 int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 //	red_parse
 int			ft_get_fd(t_shell *shell, int n_cmd, int ind, char type);
 void		ft_put_filename(t_shell *shell, int n_cmd, char *dup, char type);
 int			ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type);
-int			ft_remove_quotes(char **line);
+int			ft_remove_quotes(t_shell *shell, char **line);
 int			ft_apply_red(t_shell *shell, int n_cmd);
 //	red_replace
 void		ft_replace_op(char *cmd, int *ind);
