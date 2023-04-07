@@ -16,6 +16,7 @@ SRC			= main.c
 PAR_SRC		= $(wildcard Parentheses/*.c)
 RED_SRC		= $(wildcard Redirection/*.c)
 EXP_SRC		= $(wildcard Expansions/*.c)
+READ_SRC	= $(wildcard Readline/*.c)
 COMM_SRC	= $(wildcard Commands/*.c)
 SIGN_SRC	= $(wildcard Signals/*.c)
 PARSER_SRC	= $(wildcard Parser/*.c)
@@ -26,7 +27,7 @@ INIT_SRC	= $(wildcard Init/*.c)
 OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
 			$(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)	\
 			$(EXP_SRC:%.c=%.o) $(SIGN_SRC:%.c=%.o) $(PAR_SRC:%.c=%.o) \
-			$(RED_SRC:%.c=%.o)
+			$(RED_SRC:%.c=%.o) ${READ_SRC:%.c=%.o}
 
 CC		= cc
 FLAGS	= -Wall -Wextra -Werror
@@ -42,7 +43,7 @@ RESET	= \033[0;0m
 
 
 SRC_COUNT_TOT = $(shell expr $(shell echo -n $(SRC) $(PARSER_SRC) $(PIPEX_SRC) $(UTILS_SRC) $(COMM_SRC) $(INIT_SRC) \
-		 $(EXP_SRC) $(PAR_SRC) $(RED_SRC) | wc -w))
+		 $(EXP_SRC) $(PAR_SRC) $(RED_SRC) ${READ_SRC} | wc -w))
 SRC_COUNT = 0
 SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 

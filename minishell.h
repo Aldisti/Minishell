@@ -102,7 +102,11 @@ char		*ft_get_value(const char *str, const char *name, int n);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
-
+//	Readline
+//	readline
+char	*ft_readline(char *prompt);
+char	*ft_read_again(char *prompt);
+int	ft_end_with(char *line, char end);
 
 //	Parser
 //	parser
