@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 09:12:11 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 11:27:03 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:32:26 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_print_export(t_shell *shell, int lvl)
 {
 	t_list	*lst;
 	t_env	*tmp;
+	char	*str;
 
 	lst = shell->list;
 	while (lst)
@@ -27,8 +28,11 @@ int	ft_print_export(t_shell *shell, int lvl)
 		tmp = lst->content;
 		while (tmp && tmp->next && tmp->next->level <= lvl)
 			tmp = tmp->next;
+		str = ft_strtrim(tmp->value, "\"");
+		ft_free((void **)&(tmp->value));
+		tmp->value = str;
 		if (tmp && tmp->name && tmp->value && tmp->level <= lvl)
-			printf("declare -x %s%s\n", tmp->name, tmp->value);
+			printf("declare -x %s\"%s\"\n", tmp->name, tmp->value);
 		else if (tmp && tmp->name && !tmp->value && tmp->level <= lvl)
 		{
 			tmp->name[ft_strlen(tmp->name) - 1] = 0;
