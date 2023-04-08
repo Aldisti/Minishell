@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 09:12:11 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 09:59:04 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:04:16 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,11 @@ int	ft_export(t_shell *shell, t_env *new_env, char **cmd, int lvl)
 			while (env && env->next && env->level != lvl)
 				env = env->next;
 			if (!env || env->level != lvl)
-				perror("There is a problem\n");
+				write(2, "There is a problem\n", 19);
 			if (new_env->value)
 			{
 				ft_free((void **)&(env->value));
 				env->value = ft_strdup(new_env->value);
-				continue ;
 			}
 			ft_free_env(&new_env);
 		}

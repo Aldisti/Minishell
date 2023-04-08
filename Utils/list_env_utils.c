@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/07 15:12:52 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 09:52:53 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/04/07 15:12:52 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/08 11:00:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ void	ft_envadd_front(t_env **env, t_env *new)
 }
 
 /*
- * Description:	finds the right spot to place a new element of the list
- * 		in order to preserve the list sorted
- * 		(sorted by ASCII values).
- * Input:	the list where to insert an element and the name field
+ * Description:	finds the right spot to place a new element of the env
+ * 		in order to preserve the env sorted
+ * 		(sorted by level values).
+ * Input:	the env where to insert an element and the level field
  * 		of the new element (see env_set.c for further 
  * 		explanations of how works the structure used to store 
  * 		the ambient variables).
- * Output:	the list node after which has to be placed the new
- * 		elemtent; if the list hasn't nodes or the element
+ * Output:	the env node after which has to be placed the new
+ * 		elemtent; if the envs hasn't nodes or the element
  * 		has to be placed as the first node a NULL pointer is
  * 		returned.
 */
@@ -60,10 +60,10 @@ t_env	*ft_envfind_sort(t_env *env, int lvl)
 }
 
 /*
- * Description:	insert a new element in the given list
- * 		preserving the order of the other nodes in the list
- * 		(ASCII order has been chosen).
- * Input:	the address of the list first element pointer and the new
+ * Description:	insert a new element in the given env list
+ * 		preserving the order of the other nodes in the env list
+ * 		(number order has been chosen).
+ * Input:	the address of the envlist first element pointer and the new
  * 		element to place in the list.
  * Output:	na.
 */
