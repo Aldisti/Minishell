@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 12:21:04 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 15:40:44 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 19:27:38 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_clean_list(t_shell *shell)
 	{
 		if (list->next && !(list->next->content))
 		{
-			printf("ciao\n");
 			tmp = list->next;
 			list->next = tmp->next;
 			ft_free((void **)&tmp);
@@ -59,9 +58,7 @@ int	ft_unset(t_shell *shell, char **cmd, int lvl)
 		env = ft_get_env(lst, lvl);
 		if (!env)
 			continue ;
-		tmp = lst->content;
-		while (tmp && tmp->next && tmp->next->level <= lvl)
-			tmp = tmp->next;
+		tmp = ft_envfind_sort(lst->content, lvl);
 		if (lst->content->level == env->level)
 			lst->content = lst->content->next;
 		if (tmp->next && tmp->next->level == env->level)
