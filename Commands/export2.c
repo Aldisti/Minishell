@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/08 09:12:11 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 11:04:16 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:27:03 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,20 @@ void	ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd)
 	}
 }
 
+void	ft_print_env(t_list *lst)
+{
+	t_env	*env;
+
+	if (!lst || !lst->content)
+		return ;
+	env = lst->content;
+	while (env)
+	{
+		printf("ENV: |%s| - |%s| - %d\n", env->name, env->value, env->level);
+		env = env->next;
+	}
+}
+
 int	ft_export(t_shell *shell, t_env *new_env, char **cmd, int lvl)
 {
 	char	*name;
@@ -91,29 +105,28 @@ int	ft_export(t_shell *shell, t_env *new_env, char **cmd, int lvl)
 			if (!list)
 				ft_die(shell, ft_free_env(&new_env) + 1, 12);
 			ft_lst_insert(&(shell->list), list);
-			continue ;
 		}
-		if (list->content && list->content->level > lvl)
+		else if (list->content && list->content->level > lvl)
 		{
 			new_env->next = list->content;
 			list->content = new_env;
-			continue ;
 		}
-		env = ft_get_env(list, lvl);
-		if (!env)
-			ft_env_insert(&(list->content), new_env);
 		else
 		{
-			while (env && env->next && env->level != lvl)
-				env = env->next;
-			if (!env || env->level != lvl)
-				write(2, "There is a problem\n", 19);
-			if (new_env->value)
+			env = ft_get_env(list, lvl);
+			if (!env)
+				ft_env_insert(&(list->content), new_env);
+			else
 			{
-				ft_free((void **)&(env->value));
-				env->value = ft_strdup(new_env->value);
+				while (env && env->level != lvl)
+					env = env->next;
+				if (env && new_env->value && env->level == lvl)
+				{
+					ft_free((void **)&(env->value));
+					env->value = ft_strdup(new_env->value);
+				}
+				ft_free_env(&new_env);
 			}
-			ft_free_env(&new_env);
 		}
 	}
 	return (1);

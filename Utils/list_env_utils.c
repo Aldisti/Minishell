@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:12:52 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/08 11:00:07 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:24:31 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ t_env	*ft_envfind_sort(t_env *env, int lvl)
 {
 	if (!env)
 		return (NULL);
-	if (env->level == lvl)
+	if (env->level > lvl)
 		return (NULL);
 	while (env->next)
 	{
-		if (env->next->level == lvl)
+		if (env->next->level > lvl)
 			return (env);
 		env = env->next;
 	}
