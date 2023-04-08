@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 15:46:55 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 19:27:50 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,6 +278,8 @@ void		ft_free_list(t_list **list);
 void		ft_free_mat(void ***mat_addr);
 void		ft_free_shell(t_shell *shell);
 void		ft_free_routine(t_shell *shell);
+void		ft_clean_level(t_shell *shell, int lvl);
+void		ft_clean_from_lvl(t_shell *shell, int lvl);
 int			ft_die(t_shell *shell, int todo, int code);
 //	str
 char		*ft_strdup(const char *s1);
