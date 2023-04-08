@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 11:58:40 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 15:46:55 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,16 @@ char		*ft_get_value(const char *str, const char *name, int n);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
+
+
 //	Readline
 //	readline
 char	*ft_readline(char *prompt);
 char	*ft_read_again(char *prompt);
 int		ft_end_with(char *line, char end);
 void	*ft_die_readline(char **lines, int dim);
+
+
 
 //	Parser
 //	parser
@@ -117,11 +121,11 @@ int			ft_quotes_check(char *line, int *i);
 int			ft_parenthesis_check(char *line, int *i);
 char		**ft_extract_word(char **parsed, int *dim, int *i, char **line);
 //	parser2
-char		**ft_parser(t_shell *shell, char *line, char *set);
-int			ft_delete_spaces(t_shell *shell);
 int			ft_check_multi_par(char *line);
-char		**ft_parser_checks(t_shell *shell);
+int			ft_delete_spaces(t_shell *shell);
 int			ft_valid_operators(char **parsed);
+char		**ft_parser_checks(t_shell *shell);
+char		**ft_parser(t_shell *shell, char *line, char *set);
 //	parser3
 int		ft_valid_command(char **parsed);
 void	*ft_die_parser(t_shell *shell, char **parsed);
@@ -135,9 +139,9 @@ char		*ft_expand_doll(t_shell *shell, char *str, int i);
 char		*ft_expand_tilde(t_shell *shell, char *str, int i);
 void		ft_expand_all(t_shell *shell);
 //	expansion_utils
-int			ft_getquotes(char *str, int i);
-char		*ft_getname(char *str, int i);
 int			ft_getlvl(char *str, int i);
+char		*ft_getname(char *str, int i);
+int			ft_getquotes(char *str, int i);
 
 
 
@@ -145,50 +149,50 @@ int			ft_getlvl(char *str, int i);
 //	parentheses
 int			ft_lvls(t_shell *shell);
 int			ft_counts_cmds(char *line);
-int			ft_update_lvl(char c, int lvl, int *array);
 void		ft_set_lvls(char *line, int *lvls);
+int			ft_update_lvl(char c, int lvl, int *array);
 void		ft_replace(char *line, char *old, char new);
 
 
 
 //	Redirection
-void		red_selector(t_shell *shell, int id, int mode);
 void		last_cmd_dup(t_shell *shell, int id);
 void		alone_cmd_dup(t_shell *shell, int id);
 void		middle_cmd_dup(t_shell *shell, int id);
 void		first_child_dup(t_shell *shell, int id);
+void		red_selector(t_shell *shell, int id, int mode);
 //	red
 void		ft_redirection(t_shell *shell);
 //	red_check
-int			ft_valid_red_op(char *line);
 int			ft_red_check(char *line);
+int			ft_valid_red_op(char *line);
 int			ft_check_space(char *line, int ind);
 int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 //	red_init
 void		ft_set_rarray(t_shell *shell);
 int			ft_allocate_rarray(t_shell *shell);
 //	red_operators
+int			ft_here_doc(char *limiter);
+int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_input_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_output_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_append_red(t_shell *shell, int n_cmd, int *ind);
-int			ft_here_doc(char *limiter);
-int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 //	red_parse
-int			ft_get_fd(t_shell *shell, int n_cmd, int ind, char type);
-void		ft_put_filename(t_shell *shell, int n_cmd, char *dup, char type);
-int			ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type);
 int			ft_remove_quotes(char **line);
 int			ft_apply_red(t_shell *shell, int n_cmd);
+int			ft_get_fd(t_shell *shell, int n_cmd, int ind, char type);
+int			ft_get_filename(t_shell *shell, int n_cmd, int *ind, char type);
+void		ft_put_filename(t_shell *shell, int n_cmd, char *dup, char type);
 //	red_replace
-void		ft_replace_op(char *cmd, int *ind);
 void		ft_replace_fd(char *cmd, int ind);
-void		ft_quotes_replace(char *str, int *ind, char sub);
 void		ft_replace_fn(char *cmd, int *ind);
+void		ft_replace_op(char *cmd, int *ind);
 void		ft_replace_red(t_shell *shell, int n_cmd);
+void		ft_quotes_replace(char *str, int *ind, char sub);
 //	red_utils
-int			ft_strlen_without(char *str, char *set);
 char		*ft_null_to_str(char *ptr);
 int			ft_fill_red(t_shell *shell);
+int			ft_strlen_without(char *str, char *set);
 
 
 
@@ -198,8 +202,8 @@ int			get_oldpwd_i(char **envp);
 void		cd(t_shell *shell, char **cmd, int lvl);
 void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
-void		print_pwd(void);
 char		*pwd(void);
+void		print_pwd(void);
 //	env
 void		env(t_shell	*shell, int lvl);
 //	echo
@@ -214,36 +218,37 @@ void		ft_do_export2(t_list *list, t_env **new_env, int lvl);
 void		ft_do_export1(t_shell *shell, t_list *list, t_env **new_env, int lvl);
 void		ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd);
 //	unset
+void		ft_clean_list(t_shell *shell);
 int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 
 
 //	Signals
 //	signals
-void		ft_does_nothing(int signum);
-void		ft_handle_quit(int signum);
 void		ft_handle_int(int signum);
+void		ft_handle_quit(int signum);
+void		ft_does_nothing(int signum);
 
 
 
 //	Pipex
 //	pipex
 char		**line_filter(char **strs);
-void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
+void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 char		*gnp(char *str);
 //	pipex_utils
-void		my_dup(t_shell *shell, int id);
-void		execute_built_in(t_shell *shell, char **cmd, int lvl);
 int			is_blt(char *cmd);
-int			create_pipes(t_pipex *pipex);
-void		close_pipes(t_pipex *pipex);
-int			prepare_strs(char **strs);
-void		trim_strs(char **strs, const char *str);
 char		*get_next_line(int fd);
+int			prepare_strs(char **strs);
+void		close_pipes(t_pipex *pipex);
+int			create_pipes(t_pipex *pipex);
+void		my_dup(t_shell *shell, int id);
 void		red_output(t_shell *shell, int id);
+void		trim_strs(char **strs, const char *str);
+void		execute_built_in(t_shell *shell, char **cmd, int lvl);
 //	command
 char		**get_cmd(t_pipex *pipex, char *str);
 char		*path_checker(t_pipex *pipex, char *str);
@@ -251,10 +256,10 @@ int			built_in_selector(t_shell *shell, int *id, char **cmd);
 void		get_cmd_loop(t_pipex *pipex, char *temp, char **command);
 void		built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
 //	command_parser
+char		**command_parser(char *str, char *set);
+int			ft_quotes_check_command(char *line, int	*i);
 char		**ft_extract_word_command(char **parsed, int *dim,
 				int *i, char **line);
-int			ft_quotes_check_command(char *line, int	*i);
-char		**command_parser(char *str, char *set);
 //	free
 void		child_free(t_pipex *pipex, char **cmd);
 
