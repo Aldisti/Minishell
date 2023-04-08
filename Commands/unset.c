@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 12:21:04 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 16:44:41 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 12:35:52 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ int	ft_unset(t_shell *shell, char **cmd, int lvl)
 		if (tmp->next && tmp->next->level == env->level)
 			tmp->next = env->next;
 		ft_free_env(&env);
-		printf("11\n");
 		if (!lst->content)
 		{
 			lst = shell->list;
-			printf("12\n");
 			while (lst && lst->next && lst->next->content
 				&& ft_strncmp(lst->next->content->name, *cmd, ft_strlen(*cmd)))
 				lst = lst->next;

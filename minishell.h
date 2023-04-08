@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 09:46:57 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:58:40 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,16 +206,16 @@ void		env(t_shell	*shell, int lvl);
 void		echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
-int			ft_check_var(t_shell *shell, t_env *new_env, char *cmd);
-int			ft_export(t_shell *shell, t_env	*new_env, char **cmd, int lvl);
-void		ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd);
+int			ft_export(t_shell *shell, char **cmd, int lvl);
 //	export_utils
-int			ft_if1(t_list *list, t_env *new_env);
+void		ft_print_env(t_list *lst);
 t_env		*ft_env_new(char *name, char *value, int lvl);
-t_list		*ft_get_list_node(t_list *list, const char *name);
-int			ft_if2(t_list *list, t_env *env, t_env *new_env, int lvl);
+void		ft_do_export2(t_list *list, t_env **new_env, int lvl);
+void		ft_do_export1(t_shell *shell, t_list *list, t_env **new_env, int lvl);
+void		ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd);
 //	unset
 int			ft_unset(t_shell *shell, char **cmd, int lvl);
+
 
 
 //	Signals
@@ -293,14 +293,13 @@ t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstnew(void *content);
 t_env		*ft_get_env(t_list	*list, int lvl);
 char		**list_convert(t_list *list, int lvl);
-t_env		*ft_get_prev_env(t_list	*list, int lvl);
-void		ft_lst_insert(t_list **lst, t_list *new);
+t_env		*ft_envfind_sort(t_env *env, int lvl);
+void		ft_env_insert(t_env **env, t_env *new);
+void		ft_envadd_front(t_env **env, t_env *new);
 void		ft_lst_insert(t_list **lst, t_list *new);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
-void		ft_lstadd_back(t_list **lst, t_list *new);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
 void		ft_lstadd_back(t_list **lst, t_list *new);
-void		ft_lstadd_front(t_list **lst, t_list *new);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 t_list		*ft_get_node(t_list *list, const char *name);
 t_env		*ft_search_in_list(t_list *list, char *name, int lvl);
