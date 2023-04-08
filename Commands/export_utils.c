@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:30:42 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 15:14:27 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 09:32:23 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,3 +75,5 @@ int	ft_if1(t_list *list, t_env *new_env)
 	else
 		return (ft_if2(list, env, new_env, new_env->level));
 }
+
+
