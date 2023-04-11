@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/11 16:17:51 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 16:27:47 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 void		ft_set_rarray(t_shell *shell);
 int			ft_allocate_rarray(t_shell *shell);
 //	red_operators
-int			ft_here_doc(char *limiter);
+
 int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_input_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_output_red(t_shell *shell, int n_cmd, int *ind);

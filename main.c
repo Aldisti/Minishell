@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 12:40:59 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 16:28:08 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_line_set(t_shell *shell)
 {
 	char	*prompt;
 	char	*line;
-k
+
 	line = NULL;
 	prompt = ft_prompt();
 	if (!prompt)
