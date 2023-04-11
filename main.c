@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 11:44:24 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/08 12:40:59 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ int	main(int ac, char **av, char **envp)
 		ft_redirection(&shell);
 		pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);
+		// tmp{
+		ft_free_mat((void ***)&(shell.envp));
+		shell.envp = list_convert(shell.list, 0);
+		if (!shell.envp)
+			ft_die(&shell, 1, 12);
+		// tmp}
 	}
 	return (0);
 }

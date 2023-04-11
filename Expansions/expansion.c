@@ -6,13 +6,21 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 18:42:33 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 18:20:52 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 extern int	g_shell_errno;
+
+int	ft_free_a(char **elem, int n)
+{
+	if (elem)
+		free(elem);
+	elem = 0;
+	return (n);
+}
 
 char	*ft_expand_tilde(t_shell *shell, char *str, int i)
 {
@@ -29,34 +37,31 @@ char	*ft_expand_tilde(t_shell *shell, char *str, int i)
 		return (str);
 	strs[0] = ft_substr(str, 0, i);
 	if (!strs[0] && i > 0)
-		exit(1); // ft_die(shell)
+		ft_die(shell, 1, 12);
 	strs[2] = ft_substr(str, i + 1, ft_strlen(str));
 	if (!strs[2] && (ft_strlen(str) - i - 1))
-		exit(1); // ft_die(shell)
+		ft_die(shell, ft_free_a(&strs[0], 1), 12);
 	strs[1] = ft_strdup(env->value);
 	if (!strs[1] && ft_strlen(env->value))
-		exit(1); // ft_die(shell)
+		ft_die(shell, ft_free_a(&strs[2], 1), ft_free_a(&strs[0], 12));
 	tmp = ft_joiner(strs, 1);
 	if (!tmp)
-		exit(1); // ft_die(shell)
-	free(str);
+		ft_die(shell, 1, 12);
+	ft_free((void **)&str);
 	return (tmp);
 }
 
 char	*ft_expand_spec(t_shell *shell, char *str, int i)
 {
 	char	*strs[4];
-	
-	(void)shell;
+
 	if (!str[i + 1])
 		return (str);
 	strs[3] = 0;
 	strs[0] = ft_substr(str, 0, i);
-	if (!strs[0] && i > 0)
-		exit(1); // ft_die(shell)
 	strs[2] = ft_substr(str, i + 2, ft_strlen(str));
-	if (!strs[2] && str[i + 2])
-		exit(1); // ft_die(shell)
+	if (!strs[0] || !strs[2])
+		ft_die(shell, ft_free_a(&strs[0], 1), ft_free_a(&strs[2], 12));
 	if (str[i + 1] == '?')
 		strs[1] = ft_itoa(g_shell_errno);
 	else if (str[i + 1] == '$')
@@ -64,20 +69,22 @@ char	*ft_expand_spec(t_shell *shell, char *str, int i)
 	else
 		strs[1] = ft_strdup("");
 	if (!strs[1])
-		exit(1); // ft_die(shell)
+		ft_die(shell, ft_free_a(&strs[1], 1), 12);
 	strs[3] = ft_joiner(strs, 1);
-	free(str);
+	if (!strs[3])
+		ft_die(shell, 1, 12);
+	ft_free((void **)&str);
 	return (strs[3]);
 }
 
 char	*ft_expand_doll(t_shell *shell, char *str, int i)
 {
-	char	*strs[4]; // se la faccio statica posso togliere 3 righe :)
+	char	*strs[4];
 	t_env	*env;
 
 	strs[3] = ft_getname(str, i);
 	if (!strs[3])
-		exit(1); // ft_die(shell)
+		ft_die(shell, 1, 12);
 	env = ft_search_in_list(shell->list, strs[3], ft_getlvl(str, i));
 	if (!env)
 		strs[1] = ft_strdup("");
@@ -86,7 +93,8 @@ char	*ft_expand_doll(t_shell *shell, char *str, int i)
 	strs[0] = ft_substr(str, 0, i);
 	strs[2] = ft_substr(str, i + ft_strlen(strs[3]) + 1, ft_strlen(str));
 	if (!strs[0] || !strs[1] || !strs[2])
-		exit(1); // ft_die(shell)
+		ft_die(shell, ft_free_a(&strs[0], ft_free_a(&strs[1], 1)),
+			ft_free_a(&strs[2], 12));
 	ft_free((void **)&strs[3]);
 	strs[3] = ft_joiner(strs, 1);
 	ft_free((void **)&str);
@@ -118,6 +126,8 @@ void	ft_expand_all(t_shell *shell)
 				continue ;
 			if (i >= (int) ft_strlen(shell->parsed[j]))
 				i = ft_strlen(shell->parsed[j]) - 1;
+			if (!(shell->parsed[j][i] == '$' && !shell->parsed[j][i + 1]))
+				i--;
 		}
 	}
 }

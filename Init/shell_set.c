@@ -22,5 +22,5 @@ void	ft_shell_set(t_shell *shell)
 	ft_signals_set(shell);
 	shell->envp = list_convert(shell->list, 0);
 	if (!shell->envp)
-		exit(1); //	ft_die(&shell);
+		ft_die(shell, 1, 12);
 }
