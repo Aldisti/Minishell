@@ -6,23 +6,48 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/05 20:38:05 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/11 16:05:34 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-void	kill_zombie(void)
-{
-	struct sigaction	sa;
-	sigset_t			set;
+extern int g_shell_errno;
 
-	ft_memset(&sa, 0, sizeof(sigaction));
-	sigemptyset(&set);
-	sa.sa_mask = set;
-	sa.sa_handler = SIG_DFL;
-	sa.sa_flags = SA_NOCLDWAIT;
-	sigaction(SIGCHLD, &sa, 0);
+// void	kill_zombie(void)
+// {
+// 	struct sigaction	sa;
+// 	sigset_t			set;
+
+// 	ft_memset(&sa, 0, sizeof(sigaction));
+// 	sigemptyset(&set);
+// 	sa.sa_mask = set;
+// 	sa.sa_handler = SIG_DFL;
+// 	sa.sa_flags = SA_NOCLDWAIT;
+// 	sigaction(SIGCHLD, &sa, 0);
+// }
+
+int	wait_last_valid_pid(t_shell *shell)
+{
+	int	i;
+	int	val;
+	int	status;
+
+	i = 0;
+	val = -1;
+	while (i < shell->pipex.cmd_count)
+	{
+		if (shell->pipex.pid[i] != -1)
+			val = shell->pipex.pid[i];
+		i++;
+	}
+	if (val != -1)
+	{
+		waitpid(val, &status, 0);
+		if (WIFEXITED(status))
+			g_shell_errno = WEXITSTATUS(status);
+	}
+	return (val);
 }
 
 /*
@@ -40,7 +65,6 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 {
 	int	flag;
 
-	kill_zombie();
 	flag = built_in_selector(shell, id, cmd);
 	if (flag < 0)
 		return (1);
@@ -71,6 +95,9 @@ init all variables in pipex struct
 */
 int	pipex_init(t_pipex *pipex, int argc)
 {
+	int	i;
+
+	i = -1;
 	pipex->original_stdout = dup(1);
 	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);
@@ -81,6 +108,8 @@ int	pipex_init(t_pipex *pipex, int argc)
 	pipex->pid = (pid_t *) malloc(sizeof(pid_t) * pipex->cmd_count + 2);
 	if (!pipex->pid)
 		return (0);
+	while (++i < pipex->cmd_count)
+		pipex->pid[i] = -1;
 	if (create_pipes(pipex) == -1)
 		return (-1);
 	return (1);
@@ -148,12 +177,10 @@ int	pipex(t_shell *shell, char **argv)
 	if (pipex_init(&shell->pipex, argc) == -1)
 		return (2);
 	while (++i < shell->pipex.cmd_count)
-	{
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-	}
 	close_pipes(&shell->pipex);
-	waitpid(-1, 0, 0);
+	wait_last_valid_pid(shell);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);

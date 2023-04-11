@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 19:27:50 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 16:17:51 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+// extern void	rl_replace_line(char *text, int clear_undo);
+// extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -213,8 +213,7 @@ int			get_oldpwd_i(char **envp);
 void		cd(t_shell *shell, char **cmd, int lvl);
 void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
-char		*pwd(void);
-void		print_pwd(void);
+void		print_pwd(t_shell *shell);
 //	env
 void		env(t_shell	*shell, int lvl);
 //	echo
@@ -262,7 +261,7 @@ void		trim_strs(char **strs, const char *str);
 void		execute_built_in(t_shell *shell, char **cmd, int lvl);
 //	command
 char		**get_cmd(t_pipex *pipex, char *str);
-char		*path_checker(t_pipex *pipex, char *str);
+char		*path_checker(t_pipex *pipex, char **str, int i);
 int			built_in_selector(t_shell *shell, int *id, char **cmd);
 void		get_cmd_loop(t_pipex *pipex, char *temp, char **command);
 void		built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
