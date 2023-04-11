@@ -56,8 +56,8 @@ void	ft_line_set(t_shell *shell)
 	shell->line = ft_strtrim(line, " ");
 	ft_free((void **) &line);
 	ft_free((void **) &prompt);
-	// if (!shell->line)
-	// 	ft_die(shell, 1, 0);
+	if (!shell->line)
+		ft_die(shell, 1, 0);
 }
 
 char	**ft_parsed_set(t_shell *shell)
@@ -81,8 +81,6 @@ int	main(int ac, char **av, char **envp)
 	while (42)
 	{
 		ft_line_set(&shell);
-		if (!shell.line)
-			return (ft_die(&shell, 1, 0));
 		if (!shell.line[0])
 			continue ;
 		add_history(shell.line);

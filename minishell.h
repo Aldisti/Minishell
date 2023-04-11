@@ -30,8 +30,8 @@
 #  define METACHARS " \n\t|&<>()"
 # endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -102,7 +102,12 @@ char		*ft_get_value(const char *str, const char *name, int n);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
-
+//	Readline
+//	readline
+char	*ft_readline(char *prompt);
+char	*ft_read_again(char *prompt);
+int		ft_end_with(char *line, char end);
+void	*ft_die_readline(char **lines, int dim);
 
 //	Readline
 //	readline
@@ -122,7 +127,7 @@ int			ft_parenthesis_check(char *line, int *i);
 char		**ft_extract_word(char **parsed, int *dim, int *i, char **line);
 //	parser2
 int			ft_check_multi_par(char *line);
-int			ft_delete_spaces(t_shell *shell);
+char		**ft_parser_checks(t_shell *shell);
 int			ft_valid_operators(char **parsed);
 char		**ft_parser_checks(t_shell *shell);
 char		**ft_parser(t_shell *shell, char *line, char *set);
