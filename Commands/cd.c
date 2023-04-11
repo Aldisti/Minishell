@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/11 15:56:15 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/11 22:31:04 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 		if (chdir(env->value) == -1)
 		{
 			free(oldpwd);
-			return (-1);
+			return (3);
 		}
 	}
 	else if (cmd[1])
@@ -78,7 +78,7 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 		{
 			write(2, "cd: no such file or directory\n", 27);
 			free(oldpwd);
-			return (-1);
+			return (2);
 		}
 	}
 	return (1);
@@ -91,18 +91,21 @@ this function emulate the origina cd operator, first
 count the argument and if there are more than 2 return error
 then parse the input and accordingly select what to do
 */
-void	cd(t_shell *shell, char **cmd, int lvl)
+int	cd(t_shell *shell, char **cmd, int lvl)
 {
 	char	*oldpwd;
+	int		val;
 
 	if (args_count(cmd) > 2)
 	{
 		write(2, "cd: too many arguments\n", 24);
-		return ;
+		return (3);
 	}
 	oldpwd = getcwd(0, 0);
-	if (what_to_do(shell, oldpwd, lvl, cmd) == -1)
-		return ;
+	val = what_to_do(shell, oldpwd, lvl, cmd);
+	if (val > 0)
+		return (val);
 	update_oldpwd(shell, oldpwd, lvl);
 	free(oldpwd);
+	return (0);
 }

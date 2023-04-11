@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:25:57 by afraccal          #+#    #+#             */
-/*   Updated: 2023/04/06 14:31:44 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 22:32:36 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	echo(char **argv)
+int	echo(char **argv)
 {
 	char	**cmd;
 	int		i;
@@ -34,7 +34,8 @@ void	echo(char **argv)
 		i++;
 	}
 	if (flag == 0)
-		return ;
+		return (0);
 	else
 		printf("\n");
+	return (0);
 }

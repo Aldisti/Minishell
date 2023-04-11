@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/11 16:27:47 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 22:32:24 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,14 +210,14 @@ int			ft_strlen_without(char *str, char *set);
 //	Commands
 //	cd
 int			get_oldpwd_i(char **envp);
-void		cd(t_shell *shell, char **cmd, int lvl);
+int			cd(t_shell *shell, char **cmd, int lvl);
 void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
-void		print_pwd(t_shell *shell);
+int			print_pwd(t_shell *shell);
 //	env
-void		env(t_shell	*shell, int lvl);
+int			env(t_shell	*shell, int lvl);
 //	echo
-void		echo(char **argv);
+int			echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
 int			ft_export(t_shell *shell, char **cmd, int lvl);
