@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/07 11:44:26 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 16:07:11 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,18 +173,18 @@ char	**ft_parser_checks(t_shell *shell)
 	if (!i && ft_delete_spaces(shell) && ++i)
 		ft_die(shell, 1, 12);
 	if (!i && ft_in(shell->parsed[0][0], "&|") && ++i)
-		printf("Bad Syntax: line starts with operator.\n");
+		write(2, "\033[31mBad Syntax: line starts with operator.\n\033[0m", 48);
 	if (!i && !ft_valid_operators(shell->parsed) && ++i)
-		printf("Bad Syntax: invalid operator.\n");
+		write(2, "\033[31mBad Syntax: invalid operator.\n\033[0m", 39);
 	if (!i && !ft_valid_command(shell->parsed) && ++i)
-		printf("Bad Syntax: error near unexpected token.\n");
+		write(2, MSG_ERR, 53);
 	if (i)
 		return (ft_die_parser(shell, NULL));
 	while (shell->parsed[i])
 	{
 		if (ft_check_multi_par(shell->parsed[i]))
 		{
-			printf("Bad Syntax: unclosed parentheses.\n");
+			write(2, "\033[31mBad Syntax: unclosed parentheses.\n\033[0m", 43);
 			return (ft_die_parser(shell, NULL));
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 12:40:59 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 16:10:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_prompt(void)
 
 	strs[3] = 0;
 	pwd_prompt = getcwd(NULL, 0);
-	if (!pwd_prompt)
+	if (!pwd_prompt) 
 		return (NULL);
 	strs[0] = "\033[1;36m";
 	strs[1] = ft_strrchr(pwd_prompt, '/') + 1;
@@ -89,7 +89,8 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
-		ft_redirection(&shell);
+		if(ft_redirection(&shell))
+			continue ;
 		pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);
 		// tmp{

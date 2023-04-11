@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 08:37:47 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/07 09:41:02 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 16:04:08 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,12 +169,12 @@ int	ft_checks(char *line, int *i)
 {
 	if (!ft_quotes_check(line, i))
 	{
-		printf("Bad Syntax: unclosed quotes.\n");
+		write(2, "\033[31mBad Syntax: unclosed quotes.\n\033[0m", 38);
 		return (0);
 	}
 	else if (!ft_parenthesis_check(line, i))
 	{
-		printf("Bad Syntax: unclosed parentheses.\n");
+		write(2, "\033[31mBad Syntax: unclosed parentheses.\n\033[0m", 43);
 		return (0);
 	}
 	(*i)++;

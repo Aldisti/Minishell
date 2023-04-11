@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:54:04 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/07 07:45:59 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 15:45:17 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,18 @@ int	ft_lvls(t_shell *shell)
 
 	ft_free((void **) &shell->lvls);
 	line = ft_joiner(shell->parsed, 0);
-	if (!line)
-		return (1); // ft_die(); Error: memory error
 	ft_free_mat((void ***) &shell->parsed);
+	if (!line)
+		return (ft_die(shell, 1, 12));
 	shell->n_cmds = ft_count_cmds(line);
 	shell->lvls = (int *)ft_calloc(sizeof(int), shell->n_cmds);
 	if (!shell->lvls)
-		return (1); // ft_die(); Error: memory error
+		return (ft_die(shell, 1, 12));
 	ft_set_lvls(line, shell->lvls);
 	ft_replace(line, "()", ' ');
 	shell->parsed = ft_parser(shell, line, "|&");
-	if (!shell->parsed)
-		return (1); // ft_die(); Error: memory error
 	ft_free((void **) &line);
+	if (!shell->parsed)
+		return (ft_die(shell, 1, 12));
 	return (0);
 }
