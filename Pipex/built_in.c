@@ -6,11 +6,13 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/06 15:00:02 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 11:53:51 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
+
+extern int	g_shell_errno;
 
 /*
 void	execute_built_in(t_shell *shell, char **cmd, int lvl)
@@ -29,9 +31,9 @@ void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 	else if (!ft_strncmp(cmd[0], "cd", 2) && ft_strlen(cmd[0]) == 2)
 		cd(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "export", 6) && ft_strlen(cmd[0]) == 6)
-		ft_export(shell, cmd, lvl);
+		g_shell_errno = ft_export(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "unset", 5) && ft_strlen(cmd[0]) == 5)
-		return ;
+		g_shell_errno = ft_unset(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
 		env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
@@ -117,7 +119,7 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	else if (is_blt(gnp(cmd[*id])))
 	{
 		my_dup(shell, *id);
-		execute_built_in(shell, ft_split(cmd[(*id)], ' '), 0);
+		execute_built_in(shell, ft_split(cmd[(*id)], ' '), shell->lvls[*id]);
 		if (*id > 0)
 			close(shell->pipex.pipe[2 * (*id) - 2]);
 		else

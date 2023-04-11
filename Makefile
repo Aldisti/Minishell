@@ -13,16 +13,16 @@
 NAME	= minishell
 
 SRC			= main.c
-PAR_SRC		= $(wildcard Parentheses/*.c)
-RED_SRC		= $(wildcard Redirection/*.c)
-EXP_SRC		= $(wildcard Expansions/*.c)
+INIT_SRC	= $(wildcard Init/*.c)
+UTILS_SRC	= $(wildcard Utils/*.c)
+PIPEX_SRC	= $(wildcard Pipex/*.c)
+PARSER_SRC	= $(wildcard Parser/*.c)
+SIGN_SRC	= $(wildcard Signals/*.c)
 READ_SRC	= $(wildcard Readline/*.c)
 COMM_SRC	= $(wildcard Commands/*.c)
-SIGN_SRC	= $(wildcard Signals/*.c)
-PARSER_SRC	= $(wildcard Parser/*.c)
-PIPEX_SRC	= $(wildcard Pipex/*.c)
-UTILS_SRC	= $(wildcard Utils/*.c)
-INIT_SRC	= $(wildcard Init/*.c)
+EXP_SRC		= $(wildcard Expansions/*.c)
+RED_SRC		= $(wildcard Redirection/*.c)
+PAR_SRC		= $(wildcard Parentheses/*.c)
 
 OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
 			$(UTILS_SRC:%.c=%.o) $(COMM_SRC:%.c=%.o) $(INIT_SRC:%.c=%.o)	\

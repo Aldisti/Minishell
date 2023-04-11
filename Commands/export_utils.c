@@ -6,11 +6,31 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 17:30:42 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 18:46:19 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/08 12:10:25 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
+
+/*
+this function is only for debug!!!
+DESCRIPTION
+given a node of the list this function will print all the env connected to that
+node
+*/
+void	ft_print_env(t_list *lst)
+{
+	t_env	*env;
+
+	if (!lst || !lst->content)
+		return ;
+	env = lst->content;
+	while (env)
+	{
+		printf("ENV: |%s| - |%s| - %d\n", env->name, env->value, env->level);
+		env = env->next;
+	}
+}
 
 /*
 if the malloc fails this function does the free of name and value
@@ -27,58 +47,72 @@ t_env	*ft_env_new(char *name, char *value, int lvl)
 		return (0);
 	}
 	new->name = name;
-	new->level = lvl;
 	new->value = value;
+	new->level = lvl;
 	new->set = 1;
-	new->next = 0;
+	new->next = NULL;
 	return (new);
 }
 
-int	ft_if2(t_list *list, t_env *env, t_env *new_env, int lvl)
+void	ft_set_name_value(t_shell *shell, char **name, char **value, char *cmd)
 {
-	if (env && env->level < lvl && env->next->level > lvl)
+	(*name) = ft_get_name(cmd);
+	if (!(*name))
+		ft_die(shell, 1, 12);
+	if (!ft_in('=', cmd))
 	{
-		new_env->next = env->next;
-		env->next = new_env;
-		return (4);
-	}
-	else if (env && list->content->level > lvl)
-	{
-		new_env->next = list->content->next;
-		list->content->next = new_env;
-		return (5);
+		*value = ft_strjoin(*name, "=");
+		if (!(*value))
+			ft_die(shell, 1, 12);
+		ft_free((void **)name);
+		*name = *value;
+		*value = NULL;
 	}
 	else
-		return (0);
+	{
+		(*value) = ft_get_value(cmd, *name, 0);
+		if (!(*value))
+		{
+			ft_free((void **)name);
+			ft_die(shell, 1, 12);
+		}
+	}
 }
 
-int	ft_if1(t_list *list, t_env *new_env)
+void	ft_do_export1(t_shell *shell, t_list *list, t_env **new_env, int lvl)
+{
+	if (!list)
+	{
+		list = ft_lstnew(*new_env);
+		if (!list)
+			ft_die(shell, ft_free_env(new_env) + 1, 12);
+		ft_lst_insert(&(shell->list), list);
+	}
+	else if (list->content && list->content->level > lvl)
+	{
+		(*new_env)->next = list->content;
+		list->content = (*new_env);
+	}
+	else
+		ft_do_export2(list, new_env, lvl);
+}
+
+void	ft_do_export2(t_list *list, t_env **new_env, int lvl)
 {
 	t_env	*env;
 
-	env = ft_search_in_list(list, new_env->name, new_env->level);
-	if (env && env->level == new_env->level)
-	{
-		ft_free((void **)&(env->value));
-		if (new_env->value)
-			env->value = ft_strdup(new_env->value);
-		else
-			env->value = 0;
-		ft_free_env(&new_env);
-		return (2);
-	}
-	else if (env && env->level < new_env->level && !env->next)
-	{
-		env->next = new_env;
-		return (3);
-	}
+	env = ft_get_env(list, lvl);
+	if (!env)
+		ft_env_insert(&(list->content), (*new_env));
 	else
-		return (ft_if2(list, env, new_env, new_env->level));
-}
-
-t_list	*ft_get_list_node(t_list *list, const char *name)
-{
-	while (list && ft_strcmp(list->content->name, name))
-			list = list->next;
-	return (list);
+	{
+		while (env && env->level != lvl)
+			env = env->next;
+		if (env && (*new_env)->value && env->level == lvl)
+		{
+			ft_free((void **)&(env->value));
+			env->value = ft_strdup((*new_env)->value);
+		}
+		ft_free_env(new_env);
+	}
 }

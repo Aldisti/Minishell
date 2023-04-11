@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 09:04:02 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/08 13:11:12 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,6 @@ DESCRIPTION
 this function does the free of a list and it's content
 in this case the content is another list with some variables
 inside it
-UPGRADES
-(si potrebbe richiedere come argomento della funzione il puntatore
-ad una funzione che faccia il free del content, così da rendere questa
-funzione utilizzabile anche con altre liste, mi sa che abbiamo già fatto
-una cosa del genere in Libft)
 */
 void	ft_free_list(t_list **list)
 {
@@ -44,9 +39,6 @@ void	ft_free_list(t_list **list)
 		while ((*list)->content)
 		{
 			tmp_env = (*list)->content->next;
-			// ft_free((void **)&((*list)->content->name));
-			// ft_free((void **)&((*list)->content->value));
-			// ft_free((void **)&(*list)->content);
 			ft_free_env(&((*list)->content));
 			(*list)->content = tmp_env;
 		}
@@ -73,15 +65,14 @@ void ft_free_routine(t_shell *shell)
 		ft_free((void **)&(shell->red.fdout));
 	if (shell->red.fda)
 		ft_free((void **)&(shell->red.fda));
+	if (shell->lvls)
+		ft_free((void **)&(shell->lvls));
 }
 
 /*
 DESCRIPTION
 this function does the free of all the variables in the struct [shell]
 also the structs inside the [shell] like [pipex] and so on
-UPGRADES
-(si potrebbe aggiungere un parametro [n] ed in base a quello fare i free
-di alcune variabili e lasciare intoccate le altre)
 */
 void	ft_free_shell(t_shell *shell)
 {
@@ -89,14 +80,10 @@ void	ft_free_shell(t_shell *shell)
 		ft_free((void **)&(shell->fd_input));
 	if (shell->fd_output)
 		ft_free((void **)&(shell->fd_output));
-	if (shell->lvls)
-		ft_free((void **)&(shell->lvls));
 	if (shell->pipex.pipe)
 		ft_free((void **)&(shell->pipex.pipe));
 	if (shell->envp)
 		ft_free_mat((void ***)&(shell->envp));
-	if (shell->list)
-		ft_free_list(&shell->list);
 }
 
 /*
@@ -108,9 +95,13 @@ int	ft_die(t_shell *shell, int todo, int code)
 {
 	ft_free_shell(shell);
 	ft_free_routine(shell);
-	rl_clear_history();
 	if (todo == 1)
-		exit(code);
+	{
+		if (shell->list)
+			ft_free_list(&shell->list);
+		rl_clear_history();
+		return (code);
+	}
 	else
 		return (code);
 }
