@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/06 16:10:50 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:07:11 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,20 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 
 	parsed = (char **)ft_calloc(sizeof(char *), 1);
 	if (!parsed)
-		exit(1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
 	dim = 1;
 	i = 0;
 	while (line[i])
 	{
 		while (line[i] && !ft_in(line[i], set))
 			if (!ft_checks(line, &i))
-				exit (2); // ft_die() Error: unclosed quotes/parentheses
+				return (ft_die_parser(shell, parsed));
 		if (!i)
 			while (line[i] && ft_in(line[i], set))
 				i++;
 		parsed = ft_extract_word(parsed, &dim, &i, &line);
 		if (!parsed)
-			exit(1); // ft_die(); Error: memory error
+			ft_die(shell, 1, 12);
 	}
 	return (parsed);
 }
@@ -165,25 +165,29 @@ int	ft_valid_operators(char **parsed)
  * Input:	pointer to shell structure (see minishell.h).
  * Output:	na.
 */
-void	ft_parser_checks(t_shell *shell)
+char	**ft_parser_checks(t_shell *shell)
 {
 	int	i;
 
-	if (ft_delete_spaces(shell))
-		exit(1); // ft_die; Error: memory error
-	if (!shell->parsed)
-		exit(1); // ft_die(); Error: memory error
-	if (ft_in(shell->parsed[0][0], "&|"))
-		exit(41); // ft_die(); Error: invalid command
-	if (!ft_valid_operators(shell->parsed))
-		exit(5); // ft_die(); Error: invalid operator
-	if (!ft_valid_command(shell->parsed))
-		exit(42); // ft_die(); Error: invalid command
 	i = 0;
+	if (!i && ft_delete_spaces(shell) && ++i)
+		ft_die(shell, 1, 12);
+	if (!i && ft_in(shell->parsed[0][0], "&|") && ++i)
+		write(2, "\033[31mBad Syntax: line starts with operator.\n\033[0m", 48);
+	if (!i && !ft_valid_operators(shell->parsed) && ++i)
+		write(2, "\033[31mBad Syntax: invalid operator.\n\033[0m", 39);
+	if (!i && !ft_valid_command(shell->parsed) && ++i)
+		write(2, MSG_ERR, 53);
+	if (i)
+		return (ft_die_parser(shell, NULL));
 	while (shell->parsed[i])
 	{
 		if (ft_check_multi_par(shell->parsed[i]))
-			exit(43); // ft_die(); Error: invalid command
+		{
+			write(2, "\033[31mBad Syntax: unclosed parentheses.\n\033[0m", 43);
+			return (ft_die_parser(shell, NULL));
+		}
 		i++;
 	}
+	return (shell->parsed);
 }

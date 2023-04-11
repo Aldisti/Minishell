@@ -12,6 +12,8 @@
 
 #include "./../minishell.h"
 
+extern int	g_shell_errno;
+
 /*
 void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 char	**cmd: already properly setted variable that contain the complete
@@ -29,9 +31,9 @@ void	execute_built_in(t_shell *shell, char **cmd, int lvl)
 	else if (!ft_strncmp(cmd[0], "cd", 2) && ft_strlen(cmd[0]) == 2)
 		cd(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "export", 6) && ft_strlen(cmd[0]) == 6)
-		ft_export(shell, cmd, lvl);
+		g_shell_errno = ft_export(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "unset", 5) && ft_strlen(cmd[0]) == 5)
-		return ;
+		g_shell_errno = ft_unset(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
 		env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)

@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:46:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 07:46:57 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 16:06:50 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,17 @@ int	ft_red_check(char *line)
 		if (ft_in(line[i], "><"))
 		{
 			if (!ft_valid_red_op(&line[i]))
-				return (1); // Invalid operator
+			{
+				write(2, "\033[31mBad Syntax: invalid operator.\033[0m\n", 39);
+				return (1);
+			}
 			while (ft_in(line[i], ">< "))
 				i++;
 			if (!line[i] || ft_in(line[i], "><"))
-				return (1); // Unexpected token
+			{
+				write(2, MSG_ERR, 53);
+				return (1);
+			}
 		}
 		i++;
 	}

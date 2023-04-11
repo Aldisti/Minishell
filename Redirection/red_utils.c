@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:34 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/04 14:10:25 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:08:44 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int	ft_fill_red(t_shell *shell)
 	{
 		shell->red.infiles[i] = ft_null_to_str(shell->red.infiles[i]);
 		if (!shell->red.infiles[i])
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
 		shell->red.outfiles[i] = ft_null_to_str(shell->red.outfiles[i]);
 		if (!shell->red.outfiles[i])
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
 		shell->red.afiles[i] = ft_null_to_str(shell->red.afiles[i]);
 		if (!shell->red.afiles[i])
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
 		i++;
 	}
 	return (0);

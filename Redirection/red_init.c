@@ -6,7 +6,7 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:05 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 07:49:36 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 15:21:40 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,24 @@ int	ft_allocate_rarray(t_shell *shell)
 	shell->red.infiles = (char **)ft_calloc(sizeof(char *),
 			shell->n_cmds + 1);
 	if (!shell->red.infiles)
-		return (1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
 	shell->red.outfiles = (char **)ft_calloc(sizeof(char *),
 			shell->n_cmds + 1);
 	if (!shell->red.outfiles)
-		return (1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
 	shell->red.afiles = (char **)ft_calloc(sizeof(char *),
 			shell->n_cmds + 1);
 	if (!shell->red.afiles)
-		return (1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
 	shell->red.fdin = (int *)ft_calloc(sizeof(int), shell->n_cmds);
 	if (!shell->red.fdin)
-		return (1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
 	shell->red.fdout = (int *)ft_calloc(sizeof(int), shell->n_cmds);
 	if (!shell->red.fdout)
-		return (1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
 	shell->red.fda = (int *)ft_calloc(sizeof(int), shell->n_cmds);
 	if (!shell->red.fda)
-		return (1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
 	ft_set_rarray(shell);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:48:15 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 12:16:01 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:23:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ t_env	*ft_search_in_list(t_list *list, char *name, int lvl)
 	tmp = list->content;
 	while (tmp && tmp->next && tmp->level != lvl)
 		tmp = tmp->next;
+	if (tmp && tmp->level > lvl)
+		return (NULL);
 	return (tmp);
 }
