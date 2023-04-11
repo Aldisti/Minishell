@@ -89,7 +89,8 @@ int	main(int ac, char **av, char **envp)
 			continue ;
 		ft_expand_all(&shell);
 		ft_lvls(&shell);
-		ft_redirection(&shell);
+		if(ft_redirection(&shell))
+			continue ;
 		pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);
 		// tmp{

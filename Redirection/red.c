@@ -6,37 +6,35 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:46:38 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/06 15:29:29 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 16:19:39 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_redirection(t_shell *shell)
+int	ft_redirection(t_shell *shell)
 {
 	int	i;
 	int	ret;
 
 	if (ft_allocate_rarray(shell))
-		exit(1); // ft_die(); Error: memory error
-	i = 0;
-	while (shell->parsed[i])
-	{
+		ft_die(shell, 1, 12);
+	i = -1;
+	while (shell->parsed[++i])
 		if (ft_red_check(shell->parsed[i]))
-			exit(4); // ft_die(); Error: unexpected token/invalid operator
-		i++;
-	}
+			return (ft_die(shell, 0, 258));
 	i = 0;
 	while (shell->parsed[i])
 	{
 		ret = ft_apply_red(shell, i);
 		if (ret == 1)
-			exit(1); // ft_die(); Error: memory error
+			ft_die(shell, 1, 12);
 		else if (ret == 2 && ++i)
 			continue ;
 		ft_replace_red(shell, i);
 		i++;
 	}
 	if (ft_fill_red(shell))
-		exit(1); // ft_die(); Error: memory error
+		ft_die(shell, 1, 12);
+	return (0);
 }

@@ -6,11 +6,13 @@
 /*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:14 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/03 09:26:13 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/07 16:13:17 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_shell_errno;
 
 int	ft_input_red(t_shell *shell, int n_cmd, int *ind)
 {
@@ -22,11 +24,16 @@ int	ft_input_red(t_shell *shell, int n_cmd, int *ind)
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
 		if (ft_get_filename(shell, n_cmd, ind, 'i'))
-			return (1); // Error: memory error
-		if (ft_remove_quotes(&shell->red.infiles[n_cmd / 2]))
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
+		if (ft_remove_quotes(shell, &shell->red.infiles[n_cmd / 2]))
+			ft_die(shell, 1, 12);
 		if (access(shell->red.infiles[n_cmd / 2], F_OK | R_OK))
-			return (2); // file doesn't exist
+		{
+			perror("\033[31mMinishell:");
+			write(2, "\033[0m", 4);
+			g_shell_errno = 1;
+			return (2);
+		}
 	}
 	return (0);
 }
@@ -43,15 +50,15 @@ int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
 		if (ft_get_filename(shell, n_cmd, ind, 'o'))
-			return (1); // Error: memory error
-		if (ft_remove_quotes(&shell->red.outfiles[n_cmd / 2]))
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
+		if (ft_remove_quotes(shell, &shell->red.outfiles[n_cmd / 2]))
+			ft_die(shell, 1, 12);
 		ft_free((void **) &shell->red.afiles[n_cmd / 2]);
 		fd = open(shell->red.outfiles[n_cmd / 2],
 				O_CREAT | O_WRONLY | O_TRUNC,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		if (fd == -1)
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
 		close(fd);
 	}
 	return (0);
@@ -69,21 +76,21 @@ int	ft_append_red(t_shell *shell, int n_cmd, int *ind)
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
 		if (ft_get_filename(shell, n_cmd, ind, 'a'))
-			return (1); // Error: memory error
-		if (ft_remove_quotes(&shell->red.afiles[n_cmd / 2]))
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
+		if (ft_remove_quotes(shell, &shell->red.afiles[n_cmd / 2]))
+			ft_die(shell, 1, 12);
 		ft_free((void **) &shell->red.outfiles[n_cmd / 2]);
 		fd = open(shell->red.afiles[n_cmd / 2],
 				O_CREAT | O_WRONLY,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		if (fd == -1)
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
 		close(fd);
 	}
 	return (0);
 }
 
-int	ft_here_doc(char *limiter)
+int	ft_here_doc(t_shell *shell, char *limiter)
 {
 	char	*temp;
 	int		file;
@@ -92,7 +99,7 @@ int	ft_here_doc(char *limiter)
 			O_CREAT | O_WRONLY | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 	if (file == -1)
-		return (1); // Error: memory error
+		ft_die(shell, 1, 12);
 	while (42)
 	{
 		write(1, "heredoc> ", 9);
@@ -119,15 +126,15 @@ int	ft_hdoc_red(t_shell *shell, int n_cmd, int *ind)
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
 		if (ft_get_filename(shell, n_cmd, ind, 'h'))
-			return (1); // Error: memory error
-		if (ft_remove_quotes(&shell->red.infiles[n_cmd / 2]))
-			return (1); // Error: memory error
-		if (ft_here_doc(shell->red.infiles[n_cmd / 2]))
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
+		if (ft_remove_quotes(shell, &shell->red.infiles[n_cmd / 2]))
+			ft_die(shell, 1, 12);
+		if (ft_here_doc(shell, shell->red.infiles[n_cmd / 2]))
+			ft_die(shell, 1, 12);
 		ft_free((void **) &shell->red.infiles[n_cmd / 2]);
 		shell->red.infiles[n_cmd / 2] = ft_strdup(".here_doc");
 		if (!shell->red.infiles[n_cmd / 2])
-			return (1); // Error: memory error
+			ft_die(shell, 1, 12);
 	}
 	return (0);
 }
