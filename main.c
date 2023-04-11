@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/06 16:08:47 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 15:55:39 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	my_print(char **strs)
 	if (!strs)
 		return ;
 	i = 0;
-	while(strs[i])
+	while (strs[i])
 		printf("-%s-\n", strs[i++]);
 }
 
@@ -32,7 +32,10 @@ char	*ft_prompt(void)
 
 	strs[3] = 0;
 	pwd_prompt = getcwd(0, 0);
-	strs[0] = "\033[1;36m";
+	if (g_shell_errno)
+		strs[0] = "\033[1;31m";
+	else
+		strs[0] = "\033[1;36m";
 	strs[1] = ft_strrchr(pwd_prompt, '/') + 1;
 	strs[2] = "\033[0m\033[1;32m$> \033[0m";
 	strs[3] = ft_joiner(strs, 0);
@@ -52,7 +55,7 @@ int	ft_end_with(char *line, char end)
 		if (line[i] == '|' && !found)
 			found = 1;
 		else if (found && !ft_in(line[i], " \t\n"))
-			found  = 0;
+			found = 0;
 		i++;
 	}
 	return (found);

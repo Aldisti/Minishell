@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/07 14:59:27 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/11 15:56:15 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	cd(t_shell *shell, char **cmd, int lvl)
 		write(2, "cd: too many arguments\n", 24);
 		return ;
 	}
-	oldpwd = pwd();
+	oldpwd = getcwd(0, 0);
 	if (what_to_do(shell, oldpwd, lvl, cmd) == -1)
 		return ;
 	update_oldpwd(shell, oldpwd, lvl);

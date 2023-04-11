@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 17:39:44 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/11 15:53:53 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ int			get_oldpwd_i(char **envp);
 void		cd(t_shell *shell, char **cmd, int lvl);
 void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
-void		print_pwd(void);
+void		print_pwd(t_shell *shell);
 char		*pwd(void);
 //	env
 void		env(t_shell	*shell, int lvl);
