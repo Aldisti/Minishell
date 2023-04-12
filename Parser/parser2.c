@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/07 16:07:11 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/12 15:23:06 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	ft_check_multi_par(char *line)
 			par_count--;
 		i++;
 	}
-	if (count != 1 && count)
+	if  (count)
 		return (1);
 	return (0);
 }
@@ -154,6 +154,28 @@ int	ft_valid_operators(char **parsed)
 	return (1);
 }
 
+int	ft_check_outpar(char *line)
+{
+	int	i;
+	int	chr;
+	int	flag;
+
+	i = 0;
+	chr = 0;
+	flag = 0;
+	while (line[i])
+	{
+		if (!ft_in(line[i], " ()<>|") && !flag)
+			chr++;
+		if (ft_in(line[i], "(") && chr)
+			flag++;
+		i++;
+	}
+	if (flag)
+		return (1);
+	return (0);
+}
+
 /*
  * Description: checks if there are errors in the commands string
  * 		checks done:
@@ -182,7 +204,9 @@ char	**ft_parser_checks(t_shell *shell)
 		return (ft_die_parser(shell, NULL));
 	while (shell->parsed[i])
 	{
-		if (ft_check_multi_par(shell->parsed[i]))
+		printf("%s\n", shell->parsed[i]);
+		if (ft_check_multi_par(shell->parsed[i]) ||
+				ft_check_outpar(shell->parsed[i]))
 		{
 			write(2, "\033[31mBad Syntax: unclosed parentheses.\n\033[0m", 43);
 			return (ft_die_parser(shell, NULL));

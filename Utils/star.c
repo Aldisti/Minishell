@@ -74,27 +74,21 @@ char	**ft_get_files(DIR *dirp, struct dirent *dir, char **files)
 */
 char	**ft_readdir(char *path)
 {
-	DIR		*dirp;
+	DIR				*dirp;
 	struct dirent	*dir;
-	char		**files;
+	char			**files;
 	
 	dirp = opendir(path);
 	if (!dirp)
-	{
-		perror("Error");
 		return (NULL);
-	}
 	errno = 0;
 	dir = readdir(dirp);
 	if (errno && !dir)
-	{
-		perror("Error");
 		return (NULL);
-	}
+	files = NULL;
 	files = ft_get_files(dirp, dir, files);
 	if (closedir(dirp) == -1)
 	{
-		perror("Error");
 		ft_free_mat((void ***) &files);
 		return (NULL);
 	}
