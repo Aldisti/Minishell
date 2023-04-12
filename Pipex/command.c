@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/12 14:52:51 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 14:57:56 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 			ft_strrchr(pipex->paths[0], '/') + 1);
 	else
 		printf("%s: no such file or directory\n", str[1]);
-	ft_free_mat((void ***) &pipex->paths);
-	child_free(pipex, 0);
-	exit(1);
+	//ft_free_mat((void ***) &pipex->paths);
+	//child_free(pipex, 0);
+	return (0);
 }
 
 /*
@@ -139,7 +139,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	if (!cmd[0])
 	{
 		child_free(&shell->pipex, cmd);
-		exit(9);
+		exit(ft_die(shell, 0, 9));
 	}
 	trim_strs(cmd, "\'");
 	trim_strs(cmd, "\"");
