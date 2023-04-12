@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/11 16:28:08 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/12 15:43:24 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*ft_prompt(void)
 
 	strs[3] = 0;
 	pwd_prompt = getcwd(0, 0);
-  if (!pwd_prompt)
-	  return (NULL);
+	if (!pwd_prompt)
+		return (NULL);
 	if (g_shell_errno)
 		strs[0] = "\033[1;31m";
 	else
@@ -49,7 +49,7 @@ void	ft_line_set(t_shell *shell)
 {
 	char	*prompt;
 	char	*line;
-k
+
 	line = NULL;
 	prompt = ft_prompt();
 	if (!prompt)
