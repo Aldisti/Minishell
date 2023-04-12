@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/12 10:58:56 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:31:30 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,18 @@ the given command belong to one of that if so join the path with
 the actual command and try to execute that, otherwise it will
 print error message and exit
 */
-char	**get_cmd(t_pipex *pipex, char *str)
+char	**get_cmd(t_shell *shell, char *str)
 {
 	char	*temp;
 	char	**command;
 
 	temp = 0;
-	pipex->cmd_i = -1;
-	pipex->paths = ft_split(getenv("PATH"), ':');
-	command = line_filter(command_parser(str, " <"));
-	while (pipex->paths[++pipex->cmd_i])
-		get_cmd_loop(pipex, temp, command);
-	temp = path_checker(pipex, command, -1);
+	shell->pipex.cmd_i = -1;
+	shell->pipex.paths = ft_split(getenv("PATH"), ':');
+	command = line_filter(ft_parser(shell, str, " <"));
+	while (shell->pipex.paths[++shell->pipex.cmd_i])
+		get_cmd_loop(&shell->pipex, temp, command);
+	temp = path_checker(&shell->pipex, command, -1);
 	ft_free((void **) &command[0]);
 	if (!temp)
 		command[0] = 0;
@@ -103,7 +103,7 @@ char	**get_cmd(t_pipex *pipex, char *str)
 			return (0);
 		ft_free((void **) &temp);
 	}
-	ft_free_mat((void ***) &pipex->paths);
+	ft_free_mat((void ***) &shell->pipex.paths);
 	return (command);
 }
 
@@ -130,7 +130,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	if (is_only_red(argv[*child_id]))
 		exit(1);
 	ft_replace(argv[(*child_id)], "\37", ' ');
-	cmd = get_cmd(&shell->pipex, argv[(*child_id)]);
+	cmd = get_cmd(shell, argv[(*child_id)]);
 	if (!cmd)
 		exit(15);
 	if (!cmd[0])
