@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
-/*   Updated: 2023/04/08 12:37:58 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/11 22:32:32 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	env(t_shell	*shell, int lvl)
+int	env(t_shell	*shell, int lvl)
 {
 	t_list	*lst;
 	t_env	*tmp;
@@ -25,4 +25,5 @@ void	env(t_shell	*shell, int lvl)
 			printf("%s%s\n", tmp->name, tmp->value);
 		lst = lst->next;
 	}
+	return (0);
 }

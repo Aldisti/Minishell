@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 15:18:37 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/11 16:28:50 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		return (ft_print_export(shell, lvl));
 	while (++cmd && *cmd)
 	{
-		ft_remove_quotes(cmd);
+		ft_remove_quotes(shell, cmd);
 		ft_set_name_value(shell, &name, &value, *cmd);
 		new_env = ft_env_new(name, value, lvl);
 		if (!new_env)

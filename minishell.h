@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/11 16:17:51 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:31:50 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 void		ft_set_rarray(t_shell *shell);
 int			ft_allocate_rarray(t_shell *shell);
 //	red_operators
-int			ft_here_doc(char *limiter);
+
 int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_input_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_output_red(t_shell *shell, int n_cmd, int *ind);
@@ -210,14 +210,14 @@ int			ft_strlen_without(char *str, char *set);
 //	Commands
 //	cd
 int			get_oldpwd_i(char **envp);
-void		cd(t_shell *shell, char **cmd, int lvl);
+int			cd(t_shell *shell, char **cmd, int lvl);
 void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
-void		print_pwd(t_shell *shell);
+int			print_pwd(t_shell *shell);
 //	env
-void		env(t_shell	*shell, int lvl);
+int			env(t_shell	*shell, int lvl);
 //	echo
-void		echo(char **argv);
+int			echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
 int			ft_export(t_shell *shell, char **cmd, int lvl);
@@ -260,7 +260,7 @@ void		red_output(t_shell *shell, int id);
 void		trim_strs(char **strs, const char *str);
 void		execute_built_in(t_shell *shell, char **cmd, int lvl);
 //	command
-char		**get_cmd(t_pipex *pipex, char *str);
+char		**get_cmd(t_shell *shell, char *str);
 char		*path_checker(t_pipex *pipex, char **str, int i);
 int			built_in_selector(t_shell *shell, int *id, char **cmd);
 void		get_cmd_loop(t_pipex *pipex, char *temp, char **command);

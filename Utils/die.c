@@ -100,7 +100,7 @@ int	ft_die(t_shell *shell, int todo, int code)
 		if (shell->list)
 			ft_free_list(&shell->list);
 		rl_clear_history();
-		return (code);
+		exit(code);
 	}
 	else
 		return (code);
