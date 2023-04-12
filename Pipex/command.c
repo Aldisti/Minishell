@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/12 14:50:46 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 14:52:51 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	**get_cmd(t_shell *shell, char *str)
 	shell->pipex.paths = ft_split(getenv("PATH"), ':');
 	temp_parser = ft_parser(shell, str, " <");
 	command = line_filter(temp_parser);
-	ft_free_mat((void **) &command);
+	ft_free_mat((void ***) &command);
 	while (shell->pipex.paths[++shell->pipex.cmd_i])
 		get_cmd_loop(&shell->pipex, temp, command);
 	temp = path_checker(&shell->pipex, command, -1);
