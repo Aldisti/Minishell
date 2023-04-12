@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/12 14:57:56 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 15:04:46 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 			ft_strrchr(pipex->paths[0], '/') + 1);
 	else
 		printf("%s: no such file or directory\n", str[1]);
-	//ft_free_mat((void ***) &pipex->paths);
-	//child_free(pipex, 0);
 	return (0);
 }
 
@@ -92,7 +90,7 @@ char	**get_cmd(t_shell *shell, char *str)
 	shell->pipex.paths = ft_split(getenv("PATH"), ':');
 	temp_parser = ft_parser(shell, str, " <");
 	command = line_filter(temp_parser);
-	ft_free_mat((void ***) &command);
+	ft_free_mat((void ***) &temp_parser);
 	while (shell->pipex.paths[++shell->pipex.cmd_i])
 		get_cmd_loop(&shell->pipex, temp, command);
 	temp = path_checker(&shell->pipex, command, -1);
