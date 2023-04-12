@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:25:57 by afraccal          #+#    #+#             */
-/*   Updated: 2023/04/12 16:29:32 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 16:36:54 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	echo(char **argv)
 	{
 		flag = 0;
 		i++;
-		while (!ft_strncmp(cmd[i], "-n", 2))
+		while (cmd[i] && !ft_strncmp(cmd[i], "-n", 2))
 			i++;
 	}
 	else
