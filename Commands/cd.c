@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/11 22:31:04 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/12 16:25:52 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	update_oldpwd(t_shell *shell, char *str, int lvl)
 	t_env	*env;
 
 	env = ft_search_in_list(shell->list, "OLDPWD", lvl);
-	free(env->value);
+	ft_free((void **) &env->value);
 	env->value = ft_strdup(str);
 }
 
@@ -68,7 +68,7 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 		env = ft_search_in_list(shell->list, "OLDPWD", lvl);
 		if (chdir(env->value) == -1)
 		{
-			free(oldpwd);
+			ft_free((void **) &oldpwd);
 			return (3);
 		}
 	}
@@ -77,11 +77,11 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 		if (chdir(cmd[1]) == -1)
 		{
 			write(2, "cd: no such file or directory\n", 27);
-			free(oldpwd);
+			ft_free((void **) &oldpwd);
 			return (2);
 		}
 	}
-	return (1);
+	return (0);
 }
 
 /*
@@ -106,6 +106,6 @@ int	cd(t_shell *shell, char **cmd, int lvl)
 	if (val > 0)
 		return (val);
 	update_oldpwd(shell, oldpwd, lvl);
-	free(oldpwd);
+	ft_free((void **) &oldpwd);
 	return (0);
 }
