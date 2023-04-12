@@ -6,13 +6,13 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:25:57 by afraccal          #+#    #+#             */
-/*   Updated: 2023/04/12 11:27:47 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 16:29:32 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_arg(char **cmd, int i)
+void	print_arg(char **cmd, int i, int flag)
 {
 	while (cmd[i])
 	{
@@ -21,6 +21,10 @@ void	print_arg(char **cmd, int i)
 			printf(" ");
 		i++;
 	}
+	if (flag == 0)
+		return ;
+	else
+		printf("\n");
 }
 
 int	echo(char **argv)
@@ -40,13 +44,11 @@ int	echo(char **argv)
 	{
 		flag = 0;
 		i++;
+		while (!ft_strncmp(cmd[i], "-n", 2))
+			i++;
 	}
 	else
 		flag = 1;
-	print_arg(cmd, i);
-	if (flag == 0)
-		return (0);
-	else
-		printf("\n");
+	print_arg(cmd, i, flag);
 	return (0);
 }

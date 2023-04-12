@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/12 12:27:49 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 16:19:31 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,14 @@ char	**cmd: already properly setted variable that contain the complete
 this function compare the command[0] string to different command and if match
 it execute our own command
 */
-void	execute_built_in(t_shell *shell, char **cmd, int lvl)
+void	execute_built_in(t_shell *shell, char *str, int lvl)
 {
+	char	**temp;
+	char	**cmd;
+
+	temp = ft_parser(shell, str, " ");
+	cmd = line_filter(temp);
+	ft_free_mat((void ***) &temp);
 	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
 		g_shell_errno = print_pwd(shell);
 	else if (!ft_strncmp(cmd[0], "echo", 4) && ft_strlen(cmd[0]) == 4)
@@ -108,7 +114,7 @@ in a sub process
 */
 int	built_in_selector(t_shell *shell, int *id, char **cmd)
 {
-	int	flag;
+	int		flag;
 
 	flag = 0;
 	if (is_blt(gnp(cmd[*id])) && cmd[(*id) + 1] && !is_blt(gnp(cmd[(*id) + 1])))
@@ -120,8 +126,7 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	{
 		my_dup(shell, *id);
 		ft_replace(cmd[*id], "\37", ' ');
-		execute_built_in(shell, ft_parser(shell, cmd[*id], " "),
-			shell->lvls[*id]);
+		execute_built_in(shell, cmd[*id], shell->lvls[*id]);
 		if (*id > 0)
 			close(shell->pipex.pipe[2 * (*id) - 2]);
 		else
@@ -145,8 +150,7 @@ void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
 	my_dup(shell, (*id) - 1);
 	ft_replace(cmd[*id], "\37", ' ');
-	execute_built_in(shell, ft_parser(shell, cmd[(*id) - 1], " "),
-		shell->lvls[*id]);
+	execute_built_in(shell, cmd[*id], shell->lvls[*id]);
 	close(shell->pipex.pipe[2 * ((*id)) - 2]);
 	close(shell->pipex.pipe[2 * ((*id)) + 1]);
 	close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
