@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/11 16:05:34 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/12 11:34:55 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,14 +177,19 @@ int	pipex(t_shell *shell, char **argv)
 	if (pipex_init(&shell->pipex, argc) == -1)
 		return (2);
 	while (++i < shell->pipex.cmd_count)
+	{
+		// if (i > 0 && shell->lvls[i] < shell->lvls[i - 1])	
+		// 	ft_clean_level(shell, shell->lvls[i - 1]);
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
+	}
 	close_pipes(&shell->pipex);
 	wait_last_valid_pid(shell);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
+	// ft_clean_from_lvl(shell, 1);
 	unlink(".here_doc");
 	return (0);
 }

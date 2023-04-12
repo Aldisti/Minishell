@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/11 22:33:06 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/12 11:30:46 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	{
 		my_dup(shell, *id);
 		ft_replace(cmd[*id], "\37", ' ');
-		execute_built_in(shell, ft_split(cmd[(*id)], ' '), shell->lvls[*id]);
+		execute_built_in(shell, command_parser(cmd[*id], " "),
+			shell->lvls[*id]);
 		if (*id > 0)
 			close(shell->pipex.pipe[2 * (*id) - 2]);
 		else
@@ -144,7 +145,8 @@ void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
 	my_dup(shell, (*id) - 1);
 	ft_replace(cmd[*id], "\37", ' ');
-	execute_built_in(shell, ft_split(cmd[(*id) - 1], ' '), shell->lvls[*id]);
+	execute_built_in(shell, command_parser(cmd[(*id) - 1], " "),
+		shell->lvls[*id]);
 	close(shell->pipex.pipe[2 * ((*id)) - 2]);
 	close(shell->pipex.pipe[2 * ((*id)) + 1]);
 	close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
