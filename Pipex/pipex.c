@@ -182,7 +182,7 @@ int	pipex(t_shell *shell, char **argv)
 		// 	ft_clean_level(shell, shell->lvls[i - 1]);
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-	}
+  }
 	close_pipes(&shell->pipex);
 	wait_last_valid_pid(shell);
 	sigaction(SIGINT, &shell->a_int, 0);
