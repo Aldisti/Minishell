@@ -16,6 +16,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <dirent.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <string.h>
@@ -31,8 +32,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+// extern void	rl_replace_line(char *text, int clear_undo);
+// extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -178,7 +179,6 @@ int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 void		ft_set_rarray(t_shell *shell);
 int			ft_allocate_rarray(t_shell *shell);
 //	red_operators
-int			ft_here_doc(char *limiter);
 int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_input_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_output_red(t_shell *shell, int n_cmd, int *ind);

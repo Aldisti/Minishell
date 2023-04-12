@@ -51,7 +51,7 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 		return (ft_print_export(shell, lvl));
 	while (++cmd && *cmd)
 	{
-		ft_remove_quotes(cmd);
+		ft_remove_quotes(shell, cmd);
 		ft_set_name_value(shell, &name, &value, *cmd);
 		new_env = ft_env_new(name, value, lvl);
 		if (!new_env)
