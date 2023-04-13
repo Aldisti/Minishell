@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 09:05:07 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/07 13:03:01 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/13 12:05:26 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	ft_valid_command(char **parsed)
 	}
 	return (1);
 }
+
 /*
  * Syntax error:	invalid operator, unexpected token, 
  * 					unclosed quotes/parentheses.

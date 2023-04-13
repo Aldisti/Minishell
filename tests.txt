@@ -1,0 +1,6 @@
+unset HOME - cd -> KO
+echo -nnnnnnnm ciao -> KO
+echo -nnnnann ciao -n -> KO
+unset var - export $var=test -> KO
+export "" var=test -> KO
+echo ~ -> KO (expansions)
