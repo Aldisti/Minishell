@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/12 16:25:52 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:09:52 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 	t_env	*env;
 
 	env = ft_search_in_list(shell->list, "HOME", lvl);
+	if (!env)
+		return (write(2, "cd: HOME not set\n", 18) * 0);
 	if (!cmd[1])
 		chdir(env->value);
 	else if (!ft_strncmp("-", cmd[1], 1) && ft_strlen(cmd[1]) == 1)
@@ -76,9 +78,8 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 	{
 		if (chdir(cmd[1]) == -1)
 		{
-			write(2, "cd: no such file or directory\n", 27);
 			ft_free((void **) &oldpwd);
-			return (2);
+			return (write(2, "cd: no such file or directory\n", 31) * 0 + 2);
 		}
 	}
 	return (0);
