@@ -4,3 +4,7 @@ echo -nnnnann ciao -n -> KO
 unset var - export $var=test -> KO
 export "" var=test -> KO
 echo ~ -> KO (expansions)
+echo "bip | bip ; coyotte > <" -> KO (non deve stampare le double quotes)
+export var='$USER' - echo $USER$var$USER$varciao$USER -> KO ($varciao viene espanso)
+export | grep PATH -> KO
+env | grep PATH -> KO (forse le pipe non vanno)
