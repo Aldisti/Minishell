@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:48:26 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/06 16:15:32 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:10:38 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*ft_get_name(const char *str)
 	name = ft_substr(str, 0, i);
 	return (name);
 }
+
 /*
  * Description: Get the value (i.e. the substring following the '=' character)
  * 		from a string; if the name (see the previous function) 
@@ -48,7 +49,6 @@ char	*ft_get_value(const char *str, const char *name, int n)
 		return (0);
 	i = 0;
 	while (str[i] && str[i] != '=')
-
 		i++;
 	value = ft_substr(str, i + 1, ft_strlen(str));
 	if (n && !ft_strncmp(name, "SHLVL=", 7))
@@ -59,6 +59,7 @@ char	*ft_get_value(const char *str, const char *name, int n)
 	}
 	return (value);
 }
+
 /*
  * Description:	Allocate and initialize a structure (list of list)
  * 		containg all the shell variables; each list node

@@ -1,3 +1,4 @@
+
 #include "../minishell.h"
 
 void	*ft_die_readline(char **lines, int dim)
@@ -26,7 +27,7 @@ int	ft_end_with(char *line, char end)
 		if (line[i] == end && !found)
 			found = 1;
 		else if (found && !ft_in(line[i], " \t\n"))
-			found  = 0;
+			found = 0;
 		i++;
 	}
 	return (found);
@@ -51,7 +52,7 @@ char	*ft_readline(char *prompt)
 {
 	char	**lines;
 	char	*line;
-	int	dim;
+	int		dim;
 
 	lines = NULL;
 	dim = 2;

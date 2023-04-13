@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 13:11:12 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:14:22 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_free_list(t_list **list)
 	}
 }
 
-void ft_free_routine(t_shell *shell)
+void	ft_free_routine(t_shell *shell)
 {
 	if (shell->line)
 		ft_free((void **)&(shell->line));
@@ -100,7 +100,7 @@ int	ft_die(t_shell *shell, int todo, int code)
 		if (shell->list)
 			ft_free_list(&shell->list);
 		rl_clear_history();
-		return (code);
+		exit(code);
 	}
 	else
 		return (code);

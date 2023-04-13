@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/07 18:20:52 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:05:01 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	ft_free_a(char **elem, int n)
 	return (n);
 }
 
-char	*ft_expand_tilde(t_shell *shell, char *str, int i)
+char	*ft_exp_tilde(t_shell *shell, char *str, int i)
 {
 	char	*strs[4];
 	char	*tmp;
 	t_env	*env;
 
 	if ((str[i + 1] && !ft_in(str[i + 1], METACHARS) && str[i + 1] != '/')
-			|| (i > 0 && !ft_in(str[i - 1], METACHARS) && str[i - 1] != '/'))
+		|| (i > 0 && !ft_in(str[i - 1], METACHARS) && str[i - 1] != '/'))
 		return (str);
 	strs[3] = 0;
 	env = ft_search_in_list(shell->list, "HOME", ft_getlvl(str, i));
@@ -101,33 +101,31 @@ char	*ft_expand_doll(t_shell *shell, char *str, int i)
 	return (strs[3]);
 }
 
-void	ft_expand_all(t_shell *shell)
+void	ft_expand_all(t_shell *shell, char **parsed)
 {
-	int	i;
-	int	j;
-	int	quotes;
+	int	i[3];
 
-	j = -1;
-	while (shell->parsed[++j])
+	i[1] = -1;
+	while (parsed[++i[1]])
 	{
-		i = -1;
-		while (shell->parsed[j][++i])
+		i[0] = -1;
+		while (parsed[i[1]][++i[0]])
 		{
-			quotes = ft_getquotes(shell->parsed[j], i);
-			if (shell->parsed[j][i] == '~' && !quotes)
-				shell->parsed[j] = ft_expand_tilde(shell, shell->parsed[j], i);
-			else if (shell->parsed[j][i] == '$' && quotes != 1
-					&& (ft_in(shell->parsed[j][i + 1], "*@#?-$!0")
-					|| !shell->parsed[j][i + 1]))
-				shell->parsed[j] = ft_expand_spec(shell, shell->parsed[j], i);
-			else if (shell->parsed[j][i] == '$' && quotes != 1)
-				shell->parsed[j] = ft_expand_doll(shell, shell->parsed[j], i);
+			i[2] = ft_getquotes(parsed[i[1]], i[0]);
+			if (parsed[i[1]][i[0]] == '~' && !i[2])
+				parsed[i[1]] = ft_exp_tilde(shell, parsed[i[1]], i[0]);
+			else if (parsed[i[1]][i[0]] == '$' && i[2] != 1
+					&& (ft_in(parsed[i[1]][i[0] + 1], "*@#?-$!0")
+					|| !parsed[i[1]][i[0] + 1]))
+				parsed[i[1]] = ft_expand_spec(shell, parsed[i[1]], i[0]);
+			else if (parsed[i[1]][i[0]] == '$' && i[2] != 1)
+				parsed[i[1]] = ft_expand_doll(shell, parsed[i[1]], i[0]);
 			else
 				continue ;
-			if (i >= (int) ft_strlen(shell->parsed[j]))
-				i = ft_strlen(shell->parsed[j]) - 1;
-			if (!(shell->parsed[j][i] == '$' && !shell->parsed[j][i + 1]))
-				i--;
+			if (i[0] >= (int) ft_strlen(parsed[i[1]]))
+				i[0] = ft_strlen(parsed[i[1]]) - 1;
+			if (parsed[i[1]][i[0]] == '$' && !parsed[i[1]][i[0] + 1])
+				break ;
 		}
 	}
 }

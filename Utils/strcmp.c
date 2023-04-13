@@ -6,11 +6,11 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 18:26:53 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/03/25 18:30:22 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:12:38 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "./../minishell.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/11 16:28:08 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:17:53 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ char	*ft_prompt(void)
 
 	strs[3] = 0;
 	pwd_prompt = getcwd(0, 0);
-  if (!pwd_prompt)
-	  return (NULL);
+	if (!pwd_prompt)
+		return (NULL);
 	if (g_shell_errno)
 		strs[0] = "\033[1;31m";
 	else
@@ -90,18 +90,16 @@ int	main(int ac, char **av, char **envp)
 		shell.parsed = ft_parsed_set(&shell);
 		if (!shell.parsed)
 			continue ;
-		ft_expand_all(&shell);
+		ft_expand_all(&shell, shell.parsed);
 		ft_lvls(&shell);
-		if(ft_redirection(&shell))
+		if (ft_redirection(&shell))
 			continue ;
 		pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);
-		// tmp{
 		ft_free_mat((void ***)&(shell.envp));
 		shell.envp = list_convert(shell.list, 0);
 		if (!shell.envp)
 			ft_die(&shell, 1, 12);
-		// tmp}
 	}
 	return (0);
 }

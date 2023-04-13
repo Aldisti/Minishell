@@ -6,13 +6,13 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:24:37 by marco             #+#    #+#             */
-/*   Updated: 2023/04/11 15:54:02 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/11 22:32:45 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-void	print_pwd(t_shell *shell)
+int	print_pwd(t_shell *shell)
 {
 	char	*str;
 
@@ -21,4 +21,5 @@ void	print_pwd(t_shell *shell)
 		ft_die(shell, 1, 12);
 	printf("%s\n", str);
 	free(str);
+	return (0);
 }
