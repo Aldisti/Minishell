@@ -101,6 +101,7 @@ void		ft_shell_set(t_shell *shell);
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);
 char		*ft_get_value(const char *str, const char *name, int n);
+void		ft_die_env(t_list *list, t_list *list_elem, t_env *elem);
 //	signals_set
 void		ft_signals_set(t_shell *shell);
 
