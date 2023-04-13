@@ -3,26 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/05 20:38:05 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/13 11:48:38 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-void	kill_zombie(void)
-{
-	struct sigaction	sa;
-	sigset_t			set;
+extern int	g_shell_errno;
 
-	ft_memset(&sa, 0, sizeof(sigaction));
-	sigemptyset(&set);
-	sa.sa_mask = set;
-	sa.sa_handler = SIG_DFL;
-	sa.sa_flags = SA_NOCLDWAIT;
-	sigaction(SIGCHLD, &sa, 0);
+/*
+	int	wait_last_valid_pid(t_shell *shell)
+
+	this func loop trough the pid array and find 
+	the last valid pid so that pipex never wait
+	for an invalid process (build in)
+*/
+int	wait_last_valid_pid(t_shell *shell)
+{
+	int	i;
+	int	val;
+	int	status;
+
+	i = 0;
+	val = -1;
+	while (i < shell->pipex.cmd_count)
+	{
+		if (shell->pipex.pid[i] != -1)
+			val = shell->pipex.pid[i];
+		i++;
+	}
+	if (val != -1)
+	{
+		waitpid(val, &status, 0);
+		if (WIFEXITED(status))
+			g_shell_errno = WEXITSTATUS(status);
+	}
+	return (val);
 }
 
 /*
@@ -40,7 +59,6 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 {
 	int	flag;
 
-	kill_zombie();
 	flag = built_in_selector(shell, id, cmd);
 	if (flag < 0)
 		return (1);
@@ -52,7 +70,7 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 	if (shell->pipex.pid[*id] == 0)
 	{
 		my_dup(shell, *id);
-		close_pipes(&shell->pipex);
+		pipes(&shell->pipex, "close");
 		execute_cmd(shell, cmd, id);
 	}
 	if (flag)
@@ -71,6 +89,9 @@ init all variables in pipex struct
 */
 int	pipex_init(t_pipex *pipex, int argc)
 {
+	int	i;
+
+	i = -1;
 	pipex->original_stdout = dup(1);
 	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);
@@ -81,7 +102,9 @@ int	pipex_init(t_pipex *pipex, int argc)
 	pipex->pid = (pid_t *) malloc(sizeof(pid_t) * pipex->cmd_count + 2);
 	if (!pipex->pid)
 		return (0);
-	if (create_pipes(pipex) == -1)
+	while (++i < pipex->cmd_count)
+		pipex->pid[i] = -1;
+	if (pipes(pipex, "open") == -1)
 		return (-1);
 	return (1);
 }
@@ -139,25 +162,24 @@ int	pipex(t_shell *shell, char **argv)
 	int		argc;
 	int		i;
 
-	prepare_strs(argv);
+	prepare_strs(shell, argv);
 	strs = line_filter(argv);
 	if (!strs)
 		return (1);
-	argc = prepare_strs(strs);
+	argc = prepare_strs(shell, strs);
 	i = -1;
 	if (pipex_init(&shell->pipex, argc) == -1)
 		return (2);
 	while (++i < shell->pipex.cmd_count)
-	{
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-	}
-	close_pipes(&shell->pipex);
-	waitpid(-1, 0, 0);
+	pipes(&shell->pipex, "close");
+	wait_last_valid_pid(shell);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
+	// ft_clean_from_lvl(shell, 1);
 	unlink(".here_doc");
 	ft_clear_levels(shell, 1);
 	return (0);

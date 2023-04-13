@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/08 11:53:51 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 12:54:30 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,28 @@ char	**cmd: already properly setted variable that contain the complete
 this function compare the command[0] string to different command and if match
 it execute our own command
 */
-void	execute_built_in(t_shell *shell, char **cmd, int lvl)
+void	execute_built_in(t_shell *shell, char *str, int lvl)
 {
+	char	**temp;
+	char	**cmd;
+
+	temp = ft_parser(shell, str, " ");
+	cmd = line_filter(temp);
+	ft_free_mat((void ***) &temp);
 	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
-		print_pwd();
+		g_shell_errno = print_pwd(shell);
 	else if (!ft_strncmp(cmd[0], "echo", 4) && ft_strlen(cmd[0]) == 4)
-		echo(cmd);
+		g_shell_errno = echo(cmd);
 	else if (!ft_strncmp(cmd[0], "cd", 2) && ft_strlen(cmd[0]) == 2)
-		cd(shell, cmd, lvl);
+		g_shell_errno = cd(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "export", 6) && ft_strlen(cmd[0]) == 6)
 		g_shell_errno = ft_export(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "unset", 5) && ft_strlen(cmd[0]) == 5)
 		g_shell_errno = ft_unset(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
-		env(shell, lvl);
+		g_shell_errno = env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
-		ft_die(shell, 1, 69);
+		ft_die(shell, 1, g_shell_errno);
 	ft_free_mat((void ***) &cmd);
 }
 
@@ -80,7 +86,7 @@ that is just the str passed as argument
 trimmed at the first blank space found so that 
 can be used to check if the command is a builtin
 */
-char	*gnp(char *str)
+char	*gnp(t_shell *shell, char *str)
 {
 	int		i;
 	char	*ret;
@@ -90,7 +96,7 @@ char	*gnp(char *str)
 		;
 	ret = (char *)malloc(sizeof(char) * (i + 1));
 	if (!ret)
-		exit(20);
+		ft_die(shell, 1, 12);
 	i = -1;
 	while (str[++i] && str[i] != ' ')
 		ret[i] = str[i];
@@ -108,18 +114,20 @@ in a sub process
 */
 int	built_in_selector(t_shell *shell, int *id, char **cmd)
 {
-	int	flag;
+	int		flag;
 
 	flag = 0;
-	if (is_blt(gnp(cmd[*id])) && cmd[(*id) + 1] && !is_blt(gnp(cmd[(*id) + 1])))
+	if (is_blt(gnp(shell, cmd[*id])) && cmd[(*id) + 1]
+		&& !is_blt(gnp(shell, cmd[(*id) + 1])))
 	{
 		flag = 1;
 		(*id) += 1;
 	}
-	else if (is_blt(gnp(cmd[*id])))
+	else if (is_blt(gnp(shell, cmd[*id])))
 	{
 		my_dup(shell, *id);
-		execute_built_in(shell, ft_split(cmd[(*id)], ' '), shell->lvls[*id]);
+		ft_replace(cmd[*id], "\37", ' ');
+		execute_built_in(shell, cmd[*id], shell->lvls[*id]);
 		if (*id > 0)
 			close(shell->pipex.pipe[2 * (*id) - 2]);
 		else
@@ -142,7 +150,8 @@ dupping the fd properly but only the necessary one
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
 	my_dup(shell, (*id) - 1);
-	execute_built_in(shell, ft_split(cmd[(*id) - 1], ' '), 0);
+	ft_replace(cmd[*id], "\37", ' ');
+	execute_built_in(shell, cmd[(*id) - 1], shell->lvls[*id]);
 	close(shell->pipex.pipe[2 * ((*id)) - 2]);
 	close(shell->pipex.pipe[2 * ((*id)) + 1]);
 	close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);

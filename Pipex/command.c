@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/07 15:02:27 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 12:06:49 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ pipex->paths[i]	:all the possible combination of path/command
 this function check if pipex->paths[i] is a valid and existing dir if so return
 the string otherwise it print error message and exit
 */
-char	*path_checker(t_pipex *pipex, char *str)
+char	*path_checker(t_pipex *pipex, char **str, int i)
 {
 	int	flag;
-	int	i;
 
 	flag = 0;
-	i = -1;
 	while (pipex->paths[++i] != 0)
 	{
 		if (!access(pipex->paths[i], X_OK))
@@ -35,40 +33,39 @@ char	*path_checker(t_pipex *pipex, char *str)
 			break ;
 		}	
 	}
-	if (!flag)
-	{
-		if (!access(str, X_OK))
-			return (ft_strdup(str));
-		dup2(pipex->original_stdout, 1);
-		printf("%s: comando non trovato\n",
+	if (flag)
+		return (ft_strdup(pipex->paths[i]));
+	if (!access(str[0], X_OK))
+		return (ft_strdup(str[0]));
+	dup2(pipex->original_stdout, 1);
+	if (!ft_in('<', str[0]))
+		printf("%s: command not found\n",
 			ft_strrchr(pipex->paths[0], '/') + 1);
-		ft_free_mat((void ***) &pipex->paths);
-		child_free(pipex, 0);
-		exit(1);
-	}
-	return (ft_strdup(pipex->paths[i]));
+	else
+		printf("%s: no such file or directory\n", str[1]);
+	return (0);
 }
 
 /*
 simple extension for get_cmd()
 */
-void	get_cmd_loop(t_pipex *pipex, char *temp, char **command)
+void	get_cmd_loop(t_shell *shell, char *temp, char **command)
 {
-	temp = ft_strdup(pipex->paths[pipex->cmd_i]);
+	temp = ft_strdup(shell->pipex.paths[shell->pipex.cmd_i]);
 	if (!temp)
-		exit(10);
-	ft_free((void **) &pipex->paths[pipex->cmd_i]);
-	pipex->paths[pipex->cmd_i] = ft_strjoin(temp, "/");
-	if (!pipex->paths[pipex->cmd_i])
-		exit(11);
+		ft_die(shell, 1, 12);
+	ft_free((void **) &shell->pipex.paths[shell->pipex.cmd_i]);
+	shell->pipex.paths[shell->pipex.cmd_i] = ft_strjoin(temp, "/");
+	if (!shell->pipex.paths[shell->pipex.cmd_i])
+		ft_die(shell, 1, 12);
 	ft_free((void **) &temp);
-	temp = ft_strdup(pipex->paths[pipex->cmd_i]);
+	temp = ft_strdup(shell->pipex.paths[shell->pipex.cmd_i]);
 	if (!temp)
-		exit(12);
-	ft_free((void **) &pipex->paths[pipex->cmd_i]);
-	pipex->paths[pipex->cmd_i] = ft_strjoin(temp, command[0]);
-	if (!pipex->paths[pipex->cmd_i])
-		exit(13);
+		ft_die(shell, 1, 12);
+	ft_free((void **) &shell->pipex.paths[shell->pipex.cmd_i]);
+	shell->pipex.paths[shell->pipex.cmd_i] = ft_strjoin(temp, command[0]);
+	if (!shell->pipex.paths[shell->pipex.cmd_i])
+		ft_die(shell, 1, 12);
 	ft_free((void **) &temp);
 }
 
@@ -82,18 +79,21 @@ the given command belong to one of that if so join the path with
 the actual command and try to execute that, otherwise it will
 print error message and exit
 */
-char	**get_cmd(t_pipex *pipex, char *str)
+char	**get_cmd(t_shell *shell, char *str)
 {
 	char	*temp;
 	char	**command;
+	char	**temp_parser;
 
 	temp = 0;
-	pipex->cmd_i = -1;
-	pipex->paths = ft_split(getenv("PATH"), ':');
-	command = line_filter(command_parser(str, " "));
-	while (pipex->paths[++pipex->cmd_i])
-		get_cmd_loop(pipex, temp, command);
-	temp = path_checker(pipex, command[0]);
+	shell->pipex.cmd_i = -1;
+	shell->pipex.paths = ft_split(getenv("PATH"), ':');
+	temp_parser = ft_parser(shell, str, " <");
+	command = line_filter(temp_parser);
+	ft_free_mat((void ***) &temp_parser);
+	while (shell->pipex.paths[++shell->pipex.cmd_i])
+		get_cmd_loop(shell, temp, command);
+	temp = path_checker(&shell->pipex, command, -1);
 	ft_free((void **) &command[0]);
 	if (!temp)
 		command[0] = 0;
@@ -104,10 +104,16 @@ char	**get_cmd(t_pipex *pipex, char *str)
 			return (0);
 		ft_free((void **) &temp);
 	}
-	ft_free_mat((void ***) &pipex->paths);
+	ft_free_mat((void ***) &shell->pipex.paths);
 	return (command);
 }
 
+/*
+	int	is_only_red(char *str)
+
+	this func check if the command is composed only
+	' ' or '31' character if so return 1 else 0
+*/
 int	is_only_red(char *str)
 {
 	int	i;
@@ -124,6 +130,13 @@ int	is_only_red(char *str)
 	return (1);
 }
 
+/*
+	void	execute_cmd(t_shell *shell, char **argv, int *child_id)	
+ 
+	this func check if the command is compose of only redirection
+	if so exit otherwise it ask for the final command to get_cmd
+	and pass it to execve
+*/
 void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 {
 	char	**cmd;
@@ -131,15 +144,15 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	if (is_only_red(argv[*child_id]))
 		exit(1);
 	ft_replace(argv[(*child_id)], "\37", ' ');
-	cmd = get_cmd(&shell->pipex, argv[(*child_id)]);
+	cmd = get_cmd(shell, argv[(*child_id)]);
 	if (!cmd)
-		exit(15);
+		ft_die(shell, 1, 12);
 	if (!cmd[0])
 	{
-		child_free(&shell->pipex, cmd);
-		exit(9);
+		child_free(&shell->pipex, 0);
+		exit(ft_die(shell, 0, 9));
 	}
-	trim_strs(cmd, "\'");
-	trim_strs(cmd, "\"");
+	trim_strs(shell, cmd, "\'");
+	trim_strs(shell, cmd, "\"");
 	execve(cmd[0], cmd, shell->envp);
 }

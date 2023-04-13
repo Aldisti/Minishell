@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 07:48:26 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/06 16:15:32 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:10:38 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*ft_get_name(const char *str)
 	name = ft_substr(str, 0, i);
 	return (name);
 }
+
 /*
  * Description: Get the value (i.e. the substring following the '=' character)
  * 		from a string; if the name (see the previous function) 
@@ -113,10 +114,10 @@ t_list	*ft_env_set(char **envp)
 		elem->name = ft_get_name(envp[i]);
 		elem->value = ft_get_value(envp[i], elem->name, 1);
 		if (!elem->name || !elem->value)
-			ft_die_env(list, list_elem, elem); // ft_die(); Error: memory error
+			ft_die_env(list, list_elem, elem);
 		list_elem = ft_lstnew((void *)elem);
 		if (!list_elem)
-			ft_die_env(list, list_elem, elem); // ft_die(); Error: memory error
+			ft_die_env(list, list_elem, elem);
 		ft_lst_insert(&list, list_elem);
 		i++;
 	}

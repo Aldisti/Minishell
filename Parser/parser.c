@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 08:37:47 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/12 08:42:19 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/13 12:05:09 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	**ft_extract_word(char **parsed, int *dim, int *i, char **line)
 		*line = *line + *i;
 		*i = 0;
 	}
-		return (parsed);
+	return (parsed);
 }
 
 /*

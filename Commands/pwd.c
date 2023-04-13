@@ -6,42 +6,20 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 17:24:37 by marco             #+#    #+#             */
-/*   Updated: 2023/03/19 21:18:23 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/11 22:32:45 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-char	*pwd(void)
+int	print_pwd(t_shell *shell)
 {
 	char	*str;
-	size_t	size;
 
-	size = 20;
-	str = malloc(sizeof(char) * size);
+	str = getcwd(0, 0);
 	if (!str)
-		return (0);
-	while (getcwd(str, size) == 0)
-	{
-		if (errno == ERANGE)
-		{
-			free(str);
-			str = 0;
-			size *= 2;
-			str = malloc(sizeof(char) * size);
-			if (!str)
-				return (0);
-		}
-	}
-	return (str);
-}
-
-
-void    print_pwd()
-{   
-    char *str;
-
-    str = pwd();
-    printf("%s\n", str);
-    free(str);
+		ft_die(shell, 1, 12);
+	printf("%s\n", str);
+	free(str);
+	return (0);
 }

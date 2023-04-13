@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/08 12:40:59 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:39:31 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	my_print(char **strs)
 	if (!strs)
 		return ;
 	i = 0;
-	while(strs[i])
+	while (strs[i])
 		printf("-%s-\n", strs[i++]);
 }
 
@@ -31,10 +31,13 @@ char	*ft_prompt(void)
 	char	*strs[4];
 
 	strs[3] = 0;
-	pwd_prompt = getcwd(NULL, 0);
+	pwd_prompt = getcwd(0, 0);
 	if (!pwd_prompt)
 		return (NULL);
-	strs[0] = "\033[1;36m";
+	if (g_shell_errno)
+		strs[0] = "\033[1;31m";
+	else
+		strs[0] = "\033[1;36m";
 	strs[1] = ft_strrchr(pwd_prompt, '/') + 1;
 	strs[2] = "\033[0m\033[1;32m$> \033[0m";
 	strs[3] = ft_joiner(strs, 0);
@@ -87,18 +90,12 @@ int	main(int ac, char **av, char **envp)
 		shell.parsed = ft_parsed_set(&shell);
 		if (!shell.parsed)
 			continue ;
-		ft_expand_all(&shell);
+		ft_expand_all(&shell, shell.parsed);
 		ft_lvls(&shell);
-		if(ft_redirection(&shell))
+		if (ft_redirection(&shell))
 			continue ;
 		pipex(&shell, shell.parsed);
 		ft_free_routine(&shell);
-		// tmp{
-		ft_free_mat((void ***)&(shell.envp));
-		shell.envp = list_convert(shell.list, 0);
-		if (!shell.envp)
-			ft_die(&shell, 1, 12);
-		// tmp}
 	}
 	return (0);
 }

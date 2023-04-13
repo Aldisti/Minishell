@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/04/05 22:19:08 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/13 11:32:18 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**strs: already properly setted variable that contain the complete
 this function loop trought all the string contained in strs and trim
 the starting and trailing blank space
 */
-int	prepare_strs(char **strs)
+int	prepare_strs(t_shell *shell, char **strs)
 {
 	int		i;
 	char	*temp;
@@ -31,11 +31,11 @@ int	prepare_strs(char **strs)
 	{
 		temp = ft_strtrim(strs[i], " ");
 		if (!temp)
-			exit(1);
+			ft_die(shell, 1, 12);
 		ft_free((void **) &strs[i]);
 		strs[i] = ft_strdup(temp);
 		if (!strs[i])
-			exit(1);
+			ft_die(shell, 1, 12);
 		ft_free((void **) &temp);
 	}
 	return (i);
@@ -50,7 +50,7 @@ char	**strs: already properly setted variable that contain the complete
 this function loop trought all the string contained in strs and trim
 the starting and trailing ["] or [']
 */
-void	trim_strs(char **strs, const char *set)
+void	trim_strs(t_shell *shell, char **strs, const char *set)
 {
 	char	*temp;
 	int		i;
@@ -62,40 +62,66 @@ void	trim_strs(char **strs, const char *set)
 		{
 			temp = ft_strtrim(strs[i], set);
 			if (!temp)
-				exit(7);
+				ft_die(shell, 1, 12);
 			ft_free((void **) &strs[i]);
 			strs[i] = ft_strdup(temp);
 			if (!strs[i])
-				exit(8);
+				ft_die(shell, 1, 12);
 			ft_free((void **) &temp);
 		}
 	}
 }
 
 /*
-SELF EXPLANATORY
+void	child_free(t_pipex *pipex, char **cmd)
+t_pipex	*pipex: a pointer to pipex struct
+char	**cmd: the allocated command to free
+
+this function free and sett all the allocated variablesto 0
+and close all the fd including the original stdout
 */
-void	close_pipes(t_pipex *pipex)
+void	child_free(t_pipex *pipex, char **cmd)
 {
 	int	i;
 
 	i = -1;
-	while (++i < pipex->pipe_count)
-		close(pipex->pipe[i]);
+	close(pipex->original_stdin);
+	close(pipex->original_stdout);
+	while (cmd && cmd[++i])
+		ft_free((void **) &cmd[i]);
+	if (cmd)
+		ft_free((void **) &cmd);
+	ft_free((void **) &pipex->pipe);
+	ft_free((void **) &pipex->pid);
+	pipex->pipe = 0;
+	pipex->pid = 0;
+	cmd = 0;
 }
 
 /*
-SELF EXPLANATORY
+	int	pipes(t_pipex *pipex, const char *mode)
+
+	func that create or close pipes based on
+	the mode argument and return 1 if all is 
+	good
 */
-int	create_pipes(t_pipex *pipex)
+int	pipes(t_pipex *pipex, const char *mode)
 {
 	int	i;
 
 	i = -1;
-	while (++i < pipex->cmd_count)
+	if (!ft_strncmp(mode, "open", 4))
 	{
-		if (pipe(pipex->pipe + 2 * i) == -1)
-			return (-1);
+		while (++i < pipex->cmd_count)
+		{
+			if (pipe(pipex->pipe + 2 * i) == -1)
+				return (-1);
+		}
+	}
+	else
+	{
+		while (++i < pipex->pipe_count)
+			close(pipex->pipe[i]);
 	}
 	return (1);
 }
