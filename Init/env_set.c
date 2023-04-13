@@ -60,6 +60,30 @@ char	*ft_get_value(const char *str, const char *name, int n)
 	return (value);
 }
 
+void	ft_die_env(t_list *list, t_list *list_elem, t_env *elem)
+{
+	t_list	*tmp;
+
+	if (elem)
+	{
+		ft_free((void **) &(elem->name));
+		ft_free((void **) &(elem->value));
+		ft_free((void **) &elem);
+	}
+	if (list_elem)
+		ft_free((void **) &list_elem);
+	while (list)
+	{
+		ft_free((void **) &(list->content->name));
+		ft_free((void **) &(list->content->value));
+		ft_free((void **) &(list->content));
+		tmp = list;
+		list = list->next;
+		ft_free((void **) &(tmp));
+	}
+	exit(12);
+}
+
 /*
  * Description:	Allocate and initialize a structure (list of list)
  * 		containg all the shell variables; each list node
@@ -82,18 +106,18 @@ t_list	*ft_env_set(char **envp)
 	list = NULL;
 	while (envp[i])
 	{
+		list_elem = NULL;
 		elem = (t_env *)ft_calloc(sizeof(t_env), 1);
 		if (!elem)
-			exit(1); // ft_die(); Error: memory error
+			ft_die_env(list, list_elem, elem);
 		elem->set = 1;
 		elem->name = ft_get_name(envp[i]);
 		elem->value = ft_get_value(envp[i], elem->name, 1);
 		if (!elem->name || !elem->value)
-			exit(1); // ft_die(); Error: memory error
-		elem->level = 0;
+			ft_die_env(list, list_elem, elem);
 		list_elem = ft_lstnew((void *)elem);
 		if (!list_elem)
-			exit(1); // ft_die(); Error: memory error
+			ft_die_env(list, list_elem, elem);
 		ft_lst_insert(&list, list_elem);
 		i++;
 	}

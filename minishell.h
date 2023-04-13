@@ -16,6 +16,7 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <dirent.h>
 # include <signal.h>
 # include <stdlib.h>
 # include <string.h>
@@ -31,8 +32,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+//extern void	rl_replace_line(char *text, int clear_undo);
+//extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -98,6 +99,7 @@ void		ft_shell_set(t_shell *shell);
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);
 char		*ft_get_value(const char *str, const char *name, int n);
+void		ft_die_env(t_list *list, t_list *list_elem, t_env *elem);
 //	signals_set
 void		ft_handle_int(int signum);
 void		ft_handle_quit(int signum);
@@ -134,6 +136,7 @@ char		**ft_parser(t_shell *shell, char *line, char *set);
 //	parser3
 int			ft_valid_command(char **parsed);
 void		*ft_die_parser(t_shell *shell, char **parsed);
+int			ft_check_beforepar(char *line);
 
 //	Expansions
 //	expansion
@@ -171,7 +174,6 @@ int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 void		ft_set_rarray(t_shell *shell);
 int			ft_allocate_rarray(t_shell *shell);
 //	red_operators
-
 int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_input_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_output_red(t_shell *shell, int n_cmd, int *ind);
@@ -294,6 +296,7 @@ t_env		*ft_envfind_sort(t_env *env, int lvl);
 void		ft_env_insert(t_env **env, t_env *new);
 void		ft_envadd_front(t_env **env, t_env *new);
 void		ft_lst_insert(t_list **lst, t_list *new);
+void		ft_clear_levels(t_shell	*shell, int lvl);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
 void		ft_lstadd_back(t_list **lst, t_list *new);
