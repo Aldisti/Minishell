@@ -43,7 +43,7 @@ void	execute_built_in(t_shell *shell, char *str, int lvl)
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
 		g_shell_errno = env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
-		ft_die(shell, 1, 69);
+		ft_die(shell, 1, g_shell_errno);
 	ft_free_mat((void ***) &cmd);
 }
 

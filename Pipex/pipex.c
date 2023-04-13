@@ -179,6 +179,7 @@ int	pipex(t_shell *shell, char **argv)
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
+	// ft_clean_from_lvl(shell, 1);
 	unlink(".here_doc");
 	return (0);
 }

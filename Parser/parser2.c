@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/07 16:07:11 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/13 12:05:39 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 	}
 	return (parsed);
 }
-
 
 /*
  * Description:	deletes all spaces at the beginning and at the ending
