@@ -93,7 +93,6 @@ typedef struct s_shell
 }	t_shell;
 
 
-void	ft_clear_levels(t_shell	*shell, int lvl);
 
 //	Init
 //	shell_set
@@ -317,6 +316,7 @@ t_env		*ft_envfind_sort(t_env *env, int lvl);
 void		ft_env_insert(t_env **env, t_env *new);
 void		ft_envadd_front(t_env **env, t_env *new);
 void		ft_lst_insert(t_list **lst, t_list *new);
+void		ft_clear_levels(t_shell	*shell, int lvl);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
 void		ft_lstadd_back(t_list **lst, t_list *new);
