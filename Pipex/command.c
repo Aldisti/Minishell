@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/12 15:04:46 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:34:11 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 		exit(15);
 	if (!cmd[0])
 	{
-		child_free(&shell->pipex, cmd);
+		child_free(&shell->pipex, 0);
 		exit(ft_die(shell, 0, 9));
 	}
 	trim_strs(cmd, "\'");
