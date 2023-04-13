@@ -159,5 +159,6 @@ int	pipex(t_shell *shell, char **argv)
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
 	unlink(".here_doc");
+	ft_clear_levels(shell, 1);
 	return (0);
 }

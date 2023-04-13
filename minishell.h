@@ -93,6 +93,7 @@ typedef struct s_shell
 }	t_shell;
 
 
+void	ft_clear_levels(t_shell	*shell, int lvl);
 
 //	Init
 //	shell_set
