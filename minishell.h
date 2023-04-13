@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 11:18:53 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:15:19 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
 # endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -231,22 +231,21 @@ int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc);
 int			child_proc(t_shell *shell, char **argv, int *child_id);
 void		execute_cmd(t_shell *shell, char **argv, int *child_id);
-char		*gnp(char *str);
+char		*gnp(t_shell *shell, char *str);
 //	pipex_utils
 int			is_blt(char *cmd);
 char		*get_next_line(int fd);
-int			prepare_strs(char **strs);
-void		close_pipes(t_pipex *pipex);
-int			create_pipes(t_pipex *pipex);
+int			prepare_strs(t_shell *shell, char **strs);
+int			pipes(t_pipex *pipex, const char *mode);
 void		my_dup(t_shell *shell, int id);
 void		red_output(t_shell *shell, int id);
-void		trim_strs(char **strs, const char *str);
+void		trim_strs(t_shell *shell, char **strs, const char *str);
 void		execute_built_in(t_shell *shell, char *cmd, int lvl);
 //	command
 char		**get_cmd(t_shell *shell, char *str);
 char		*path_checker(t_pipex *pipex, char **str, int i);
 int			built_in_selector(t_shell *shell, int *id, char **cmd);
-void		get_cmd_loop(t_pipex *pipex, char *temp, char **command);
+void		get_cmd_loop(t_shell *shell, char *temp, char **command);
 void		built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
 //	command_parser
 char		**command_parser(char *str, char *set);
