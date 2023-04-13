@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 11:14:22 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:40:05 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,10 @@ void	ft_free_routine(t_shell *shell)
 		ft_free((void **)&(shell->red.fda));
 	if (shell->lvls)
 		ft_free((void **)&(shell->lvls));
+	ft_free_mat((void ***)&(shell->envp));
+	shell->envp = list_convert(shell->list, 0);
+	if (!shell->envp)
+		ft_die(shell, 1, 12);
 }
 
 /*
