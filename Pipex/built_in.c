@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/13 12:54:30 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:23:13 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	execute_built_in(t_shell *shell, char *str, int lvl)
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
 		g_shell_errno = env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
-		ft_die(shell, 1, g_shell_errno);
+		g_shell_errno = ft_exit(shell, cmd);
 	ft_free_mat((void ***) &cmd);
 }
 
