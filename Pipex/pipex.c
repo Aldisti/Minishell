@@ -6,27 +6,21 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/12 11:34:55 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/13 11:48:38 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-extern int g_shell_errno;
+extern int	g_shell_errno;
 
-// void	kill_zombie(void)
-// {
-// 	struct sigaction	sa;
-// 	sigset_t			set;
+/*
+	int	wait_last_valid_pid(t_shell *shell)
 
-// 	ft_memset(&sa, 0, sizeof(sigaction));
-// 	sigemptyset(&set);
-// 	sa.sa_mask = set;
-// 	sa.sa_handler = SIG_DFL;
-// 	sa.sa_flags = SA_NOCLDWAIT;
-// 	sigaction(SIGCHLD, &sa, 0);
-// }
-
+	this func loop trough the pid array and find 
+	the last valid pid so that pipex never wait
+	for an invalid process (build in)
+*/
 int	wait_last_valid_pid(t_shell *shell)
 {
 	int	i;
@@ -76,7 +70,7 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 	if (shell->pipex.pid[*id] == 0)
 	{
 		my_dup(shell, *id);
-		close_pipes(&shell->pipex);
+		pipes(&shell->pipex, "close");
 		execute_cmd(shell, cmd, id);
 	}
 	if (flag)
@@ -110,7 +104,7 @@ int	pipex_init(t_pipex *pipex, int argc)
 		return (0);
 	while (++i < pipex->cmd_count)
 		pipex->pid[i] = -1;
-	if (create_pipes(pipex) == -1)
+	if (pipes(pipex, "open") == -1)
 		return (-1);
 	return (1);
 }
@@ -168,28 +162,23 @@ int	pipex(t_shell *shell, char **argv)
 	int		argc;
 	int		i;
 
-	prepare_strs(argv);
+	prepare_strs(shell, argv);
 	strs = line_filter(argv);
 	if (!strs)
 		return (1);
-	argc = prepare_strs(strs);
+	argc = prepare_strs(shell, strs);
 	i = -1;
 	if (pipex_init(&shell->pipex, argc) == -1)
 		return (2);
 	while (++i < shell->pipex.cmd_count)
-	{
-		// if (i > 0 && shell->lvls[i] < shell->lvls[i - 1])	
-		// 	ft_clean_level(shell, shell->lvls[i - 1]);
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-  }
-	close_pipes(&shell->pipex);
+	pipes(&shell->pipex, "close");
 	wait_last_valid_pid(shell);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
-	// ft_clean_from_lvl(shell, 1);
 	unlink(".here_doc");
 	return (0);
 }
