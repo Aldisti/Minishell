@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 11:15:19 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:19:22 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,12 +206,16 @@ int			ft_intab(char *str, char **tab);
 //	cd
 int			get_oldpwd_i(char **envp);
 int			cd(t_shell *shell, char **cmd, int lvl);
+int			args_count(char **argv);
 void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
 int			print_pwd(t_shell *shell);
+// exit
+int			ft_exit(t_shell *shell, char **cmd);
 //	env
 int			env(t_shell	*shell, int lvl);
 //	echo
+void		print_cmd(char *cmd);
 int			echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);

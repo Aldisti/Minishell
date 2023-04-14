@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 11:05:40 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:15:55 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,18 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 
 	if (!cmd[1])
 		return (ft_print_export(shell, lvl));
+	if (shell->n_cmds != 1)
+		return (0);
 	while (++cmd && *cmd)
 	{
 		ft_remove_quotes(shell, cmd);
 		ft_set_name_value(shell, &name, &value, *cmd);
+		if (!name || !ft_strcmp(name, ""))
+		{
+			printf("export: `%s': not a valid identifier\n", value);
+			ft_free((void **)&name);
+			continue ;
+		}
 		new_env = ft_env_new(name, value, lvl);
 		if (!new_env)
 			ft_die(shell, 1, 12);

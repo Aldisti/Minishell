@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/13 14:09:52 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/13 14:44:22 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,23 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 {
 	t_env	*env;
 
-	env = ft_search_in_list(shell->list, "HOME", lvl);
-	if (!env)
-		return (write(2, "cd: HOME not set\n", 18) * 0);
 	if (!cmd[1])
+	{
+		env = ft_search_in_list(shell->list, "HOME", lvl);
+		if (!env)
+			return (write(2, "cd: HOME not set\n", 18) * 0);
 		chdir(env->value);
+	}
 	else if (!ft_strncmp("-", cmd[1], 1) && ft_strlen(cmd[1]) == 1)
 	{
 		env = ft_search_in_list(shell->list, "OLDPWD", lvl);
 		if (chdir(env->value) == -1)
-		{
-			ft_free((void **) &oldpwd);
-			return (3);
-		}
+			return (ft_free((void **) &oldpwd), 3);
 	}
 	else if (cmd[1])
-	{
 		if (chdir(cmd[1]) == -1)
-		{
-			ft_free((void **) &oldpwd);
-			return (write(2, "cd: no such file or directory\n", 31) * 0 + 2);
-		}
-	}
+			return (ft_free((void **) &oldpwd),
+				write(2, "cd: no such file or directory\n", 31) * 0 + 2);
 	return (0);
 }
 
