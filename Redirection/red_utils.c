@@ -55,3 +55,17 @@ int	ft_fill_red(t_shell *shell)
 	}
 	return (0);
 }
+
+int	ft_intab(char *str, char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+	{
+		if (!ft_strcmp(str, tab[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}

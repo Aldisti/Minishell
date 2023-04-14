@@ -68,6 +68,7 @@ void	ft_free_routine(t_shell *shell)
 	if (shell->lvls)
 		ft_free((void **)&(shell->lvls));
 	ft_free_mat((void ***)&(shell->envp));
+	ft_free_mat((void ***)&(shell->files));
 	shell->envp = list_convert(shell->list, 0);
 	if (!shell->envp)
 		ft_die(shell, 1, 12);

@@ -25,8 +25,11 @@ void	ft_set_rarray(t_shell *shell)
 	}
 }
 
-int	ft_allocate_rarray(t_shell *shell)
+void	ft_allocate_rarray(t_shell *shell)
 {
+	shell->files = ft_readdir("./");
+	if (!shell->files)
+		ft_die(shell, 1, 12);
 	shell->red.infiles = (char **)ft_calloc(sizeof(char *),
 			shell->n_cmds + 1);
 	if (!shell->red.infiles)
@@ -49,5 +52,4 @@ int	ft_allocate_rarray(t_shell *shell)
 	if (!shell->red.fda)
 		ft_die(shell, 1, 12);
 	ft_set_rarray(shell);
-	return (0);
 }
