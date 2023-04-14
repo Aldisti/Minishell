@@ -29,18 +29,18 @@ int	arg_check(char *str)
 void	print_cmd(char *cmd)
 {
 	int	i;
-	int	end;
 
 	i = 0;
-	end = ft_strlen(cmd);
-	if (ft_in(cmd[i], "\'\""))
+	while (cmd[i])
 	{
-		i++;
-		end--;
-	}
-	while (i < end)
-	{
-		printf("%c", cmd[i]);
+		if (cmd[i] == '\"')
+			while (cmd[++i] != '\"')
+				printf("%c", cmd[i]);
+		else if (cmd[i] == '\'')
+			while (cmd[++i] != '\'')
+				printf("%c", cmd[i]);
+		else
+			printf("%c", cmd[i]);
 		i++;
 	}
 }
