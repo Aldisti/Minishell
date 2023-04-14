@@ -1,12 +1,13 @@
-unset HOME - cd -> KO
-echo -nnnnnnnm ciao -> KO
-echo -nnnnann ciao -n -> KO
+unset HOME - cd -> OK
+echo -nnnnnnnm ciao -> OK
+echo -nnnnann ciao -n -> OK
 unset var - export $var=test -> KO
 export "" var=test -> KO
-echo ~ -> KO (expansions)
-echo "bip | bip ; coyotte > <" -> KO (non deve stampare le double quotes)
+echo ~ -> OK
+echo "bip | bip ; coyotte > <" -> OK
 export var='$USER' - echo $USER$var$USER$varciao$USER -> KO ($varciao viene espanso)
-export | grep PATH -> KO
-env | grep PATH -> KO (forse le pipe non vanno)
+export | grep PATH -> OK
+env | grep PATH -> OK
 (export a=ciao) | (export) -> KO (non resetta il livello)
 >prova ls | <prova cat -> OK
+ls <prova -> KO (se prova non esiste ls lo interpreta come paramtro e lo prova a leggere)
