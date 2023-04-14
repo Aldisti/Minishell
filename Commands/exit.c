@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:47:23 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/13 20:33:33 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/14 09:12:47 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,16 @@ int	ft_exit_single(t_shell *shell, char **cmd)
 		if (is_number(cmd[1]))
 		{
 			write(2, "exit\n", 5);
-			ft_die(shell, 1, ft_atoi(cmd[1]));
+			ft_die(shell, 1, (unsigned char) ft_atoi(cmd[1]));
 		}
 		else if (!is_number(cmd[1]))
 		{
 			write(2, "exit\nexit: numeric argument required\n", 38);
-			ft_die(shell, 1, ft_atoi(cmd[1]));
+			ft_die(shell, 1, (unsigned char) ft_atoi(cmd[1]));
 		}
 	}
 	return (0);
 }
-
 
 /*
 	int	ft_exit_pipes(char **cmd)
@@ -102,7 +101,6 @@ int	ft_exit_pipes(char **cmd)
 	return (0);
 }
 
-
 /*
 	int	ft_exit(t_shell *shell, char **cmd)
 
@@ -116,7 +114,7 @@ int	ft_exit_pipes(char **cmd)
 */
 int	ft_exit(t_shell *shell, char **cmd)
 {
-	int	val;
+	unsigned char	val;
 
 	val = 0;
 	if (args_count(cmd) == 1 && shell->pipex.cmd_count == 1)
@@ -127,5 +125,5 @@ int	ft_exit(t_shell *shell, char **cmd)
 		val = ft_exit_pipes(cmd);
 	else if (shell->pipex.cmd_count == 1)
 		val = ft_exit_single(shell, cmd);
-	return (val);
+	return ((int) val);
 }
