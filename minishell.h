@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 11:57:30 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:51:18 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_shell
 	struct termios		tty_attrs;
 	char				**parsed;
 	char				**envp;
+	char				**files;
 	char				*line;
 	int					*fd_input;
 	int					*fd_output;
@@ -173,7 +174,7 @@ int			ft_check_space(char *line, int ind);
 int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 //	red_init
 void		ft_set_rarray(t_shell *shell);
-int			ft_allocate_rarray(t_shell *shell);
+void		ft_allocate_rarray(t_shell *shell);
 //	red_operators
 int			ft_hdoc_red(t_shell *shell, int n_cmd, int *ind);
 int			ft_input_red(t_shell *shell, int n_cmd, int *ind);
@@ -200,6 +201,7 @@ void		ft_quotes_replace(char *str, int *ind, char sub);
 char		*ft_null_to_str(char *ptr);
 int			ft_fill_red(t_shell *shell);
 int			ft_strlen_without(char *str, char *set);
+int			ft_intab(char *str, char **tab);
 
 //	Commands
 //	cd
@@ -286,7 +288,6 @@ char		*ft_strrchr(const char *str, int c);
 int			ft_strlen_until(char *str, char *set);
 void		*ft_memset(void *b, int c, size_t len);
 int			ft_strcmp(const char *s1, const char *s2);
-int			ft_die(t_shell *shell, int todo, int code);
 char		*ft_strjoin(char const *s1, char const *s2);
 char		*ft_strtrim(char const *s1, char const *set);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
@@ -303,7 +304,6 @@ void		ft_envadd_front(t_env **env, t_env *new);
 void		ft_lst_insert(t_list **lst, t_list *new);
 void		ft_clear_levels(t_shell	*shell, int lvl);
 t_list		*ft_lstfind_sort(t_list *lst, char *name);
-t_list		*ft_lstfind_sort(t_list *lst, char *name);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 t_list		*ft_get_node(t_list *list, const char *name);
@@ -311,10 +311,13 @@ t_env		*ft_search_in_list(t_list *list, char *name, int lvl);
 //	other
 char		*ft_itoa(int n);
 int			ft_atoi(const char *str);
+int			ft_atoi_zero(const char *str);
 char		*ft_joiner(char **tab, int n);
 char		**ft_split(char const *s, char c);
 void		*ft_calloc(size_t num, size_t dim);
 int			ft_countn(const char *str, const char c, int n);
 void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
+char		**ft_readdir(char *path);
+int			ft_perror(const char *str, char *arg);
 
 #endif
