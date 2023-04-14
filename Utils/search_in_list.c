@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 14:48:15 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 13:44:24 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:08:25 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ t_env	*ft_search_in_list(t_list *list, char *name, int lvl)
 	t_env	*tmp;
 
 	if (!list || !list->content)
-		return (0);
-	while (list->next && ft_strncmp(list->content->name, name, ft_strlen(name)))
+		return (NULL);
+	while (list->next && (ft_strncmp(list->content->name, name, ft_strlen(name))
+			|| ft_strlen(name) != ft_strlen(list->content->name) - 1))
 		list = list->next;
-	if (ft_strncmp(list->content->name, name, ft_strlen(name)) && )
-		return (0);
+	if (ft_strncmp(list->content->name, name, ft_strlen(name))
+		|| ft_strlen(name) != ft_strlen(list->content->name) - 1)
+		return (NULL);
 	tmp = list->content;
 	while (tmp && tmp->next && tmp->level != lvl)
 		tmp = tmp->next;

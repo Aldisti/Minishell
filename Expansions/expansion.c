@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 11:56:51 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:08:06 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	ft_expand_all(t_shell *shell, char **parsed)
 			else
 				continue ;
 			if (i[0] >= (int) ft_strlen(parsed[i[1]]))
-				i[0] = ft_strlen(parsed[i[1]]) - 1;
+				break ;
 			if (parsed[i[1]][i[0]] == '$' && !parsed[i[1]][i[0] + 1])
 				break ;
 		}
