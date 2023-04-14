@@ -181,5 +181,6 @@ int	pipex(t_shell *shell, char **argv)
 	ft_free_mat((void ***) &strs);
 	// ft_clean_from_lvl(shell, 1);
 	unlink(".here_doc");
+	ft_clear_levels(shell, 1);
 	return (0);
 }

@@ -112,7 +112,7 @@ int	ft_check_multi_par(char *line)
 			par_count--;
 		i++;
 	}
-	if (count != 1 && count)
+	if  (count)
 		return (1);
 	return (0);
 }
@@ -181,7 +181,8 @@ char	**ft_parser_checks(t_shell *shell)
 		return (ft_die_parser(shell, NULL));
 	while (shell->parsed[i])
 	{
-		if (ft_check_multi_par(shell->parsed[i]))
+		if (ft_check_multi_par(shell->parsed[i]) ||
+				ft_check_beforepar(shell->parsed[i]))
 		{
 			write(2, "\033[31mBad Syntax: unclosed parentheses.\n\033[0m", 43);
 			return (ft_die_parser(shell, NULL));
