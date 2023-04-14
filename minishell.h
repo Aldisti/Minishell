@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 16:19:22 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:51:18 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
 # endif
 
-//extern void	rl_replace_line(char *text, int clear_undo);
-//extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -310,11 +310,13 @@ t_env		*ft_search_in_list(t_list *list, char *name, int lvl);
 //	other
 char		*ft_itoa(int n);
 int			ft_atoi(const char *str);
+int			ft_atoi_zero(const char *str);
 char		*ft_joiner(char **tab, int n);
 char		**ft_split(char const *s, char c);
 void		*ft_calloc(size_t num, size_t dim);
 int			ft_countn(const char *str, const char c, int n);
 void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char		**ft_readdir(char *path);
+int			ft_perror(const char *str, char *arg);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   atoi.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 14:24:12 by gpanico           #+#    #+#             */
-/*   Updated: 2023/01/18 16:38:50 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:27:12 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,26 @@ int	ft_atoi(const char *str)
 	if (sign)
 		num *= -1;
 	return (num);
+}
+
+int	ft_atoi_zero(const char *str)
+{
+	size_t	i;
+	size_t	res;
+	int		sign;
+
+	i = 0;
+	res = 0;
+	sign = 1;
+	while (str[i] == 32)
+		i++;
+	if (str[i] == 45)
+		sign = -1;
+	if (str[i] == 43 || str[i] == 45)
+		i++;
+	while (str[i] >= 48 && str[i] <= 57)
+		res = (res * 10) + (str[i++] - 48);
+	if (str[i] != 0)
+		return (0);
+	return (res * sign);
 }
