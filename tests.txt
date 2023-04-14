@@ -1,8 +1,8 @@
 unset HOME - cd -> OK
 echo -nnnnnnnm ciao -> OK
 echo -nnnnann ciao -n -> OK
-unset var - export $var=test -> KO
-export "" var=test -> KO
+unset var - export $var=test -> OK
+export "" var=test -> OK
 echo ~ -> OK
 echo "bip | bip ; coyotte > <" -> OK
 export var='$USER' - echo $USER$var$USER$varciao$USER -> KO ($varciao viene espanso)

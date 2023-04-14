@@ -15,6 +15,7 @@
 .vscode
 mlx
 mlx/*
+minishell
 
 # Prerequisites
 *.d

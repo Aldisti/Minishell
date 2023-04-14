@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/13 12:05:39 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:42:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_check_multi_par(char *line)
 			par_count--;
 		i++;
 	}
-	if  (count)
+	if (count)
 		return (1);
 	return (0);
 }
@@ -181,8 +181,8 @@ char	**ft_parser_checks(t_shell *shell)
 		return (ft_die_parser(shell, NULL));
 	while (shell->parsed[i])
 	{
-		if (ft_check_multi_par(shell->parsed[i]) ||
-				ft_check_beforepar(shell->parsed[i]))
+		if (ft_check_multi_par(shell->parsed[i])
+			|| ft_check_beforepar(shell->parsed[i]))
 		{
 			write(2, "\033[31mBad Syntax: unclosed parentheses.\n\033[0m", 43);
 			return (ft_die_parser(shell, NULL));
