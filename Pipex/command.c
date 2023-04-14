@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/13 12:06:49 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/14 15:04:11 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 		return (ft_strdup(str[0]));
 	dup2(pipex->original_stdout, 1);
 	if (!ft_in('<', str[0]))
-		printf("%s: command not found\n",
-			ft_strrchr(pipex->paths[0], '/') + 1);
+		ft_perror(": command not found\n", ft_strrchr(pipex->paths[0], '/') + 1);
 	else
-		printf("%s: no such file or directory\n", str[1]);
+		ft_perror(": no such file or direcotry", str[1]);
 	return (0);
 }
 
