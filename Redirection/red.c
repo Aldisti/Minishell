@@ -17,8 +17,7 @@ int	ft_redirection(t_shell *shell)
 	int	i;
 	int	ret;
 
-	if (ft_allocate_rarray(shell))
-		ft_die(shell, 1, 12);
+	ft_allocate_rarray(shell);
 	i = -1;
 	while (shell->parsed[++i])
 		if (ft_red_check(shell->parsed[i]))

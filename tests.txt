@@ -9,4 +9,5 @@ export var='$USER' - echo $USER$var$USER$varciao$USER -> KO ($varciao viene espa
 export | grep PATH -> OK
 env | grep PATH -> OK
 (export a=ciao) | (export) -> KO (non resetta il livello)
->prova ls | <prova cat -> KO (se prova non esiste il secondo comando non dovrebbe essere eseguito)
+>prova ls | <prova cat -> OK
+ls <prova -> KO (se prova non esiste ls lo interpreta come paramtro e lo prova a leggere)
