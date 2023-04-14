@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 16:15:55 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 12:44:05 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,26 @@ int	ft_print_export(t_shell *shell, int lvl)
 	return (0);
 }
 
+int	ft_check_input(char *cmd, char **name, char **value)
+{
+	if ((!(*name) || !ft_strcmp(*name, "=")) && !ft_in('=', cmd))
+	{
+		printf("export: `': not a valid identifier\n") * 0
+			+ ft_free_a(name, 1) + ft_free_a(value, 0);
+		return (1);
+	}
+	else if ((!(*name) || !ft_strcmp(*name, "=")) && ft_in('=', cmd))
+	{
+		printf("export: `%s%s': not a valid identifier\n", *name, *value) * 0
+			+ ft_free_a(name, 1) + ft_free_a(value, 0);
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_export(t_shell *shell, char **cmd, int lvl)
 {
 	t_env	*new_env;
-	t_list	*list;
 	char	*name;
 	char	*value;
 
@@ -55,17 +71,12 @@ int	ft_export(t_shell *shell, char **cmd, int lvl)
 	{
 		ft_remove_quotes(shell, cmd);
 		ft_set_name_value(shell, &name, &value, *cmd);
-		if (!name || !ft_strcmp(name, ""))
-		{
-			printf("export: `%s': not a valid identifier\n", value);
-			ft_free((void **)&name);
+		if (ft_check_input(*cmd, &name, &value))
 			continue ;
-		}
 		new_env = ft_env_new(name, value, lvl);
 		if (!new_env)
 			ft_die(shell, 1, 12);
-		list = ft_get_node(shell->list, name);
-		ft_do_export1(shell, list, &new_env, lvl);
+		ft_do_export1(shell, &new_env, name, lvl);
 	}
 	return (0);
 }

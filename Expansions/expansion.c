@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 11:05:01 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:56:51 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ extern int	g_shell_errno;
 
 int	ft_free_a(char **elem, int n)
 {
-	if (elem)
-		free(elem);
+	if (*elem)
+		ft_free((void **)elem);
 	elem = 0;
 	return (n);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 16:19:22 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:57:30 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,11 @@ int			ft_check_beforepar(char *line);
 
 //	Expansions
 //	expansion
-char		*ft_expand_spec(t_shell *shell, char *str, int i);
-char		*ft_expand_doll(t_shell *shell, char *str, int i);
-char		*ft_exp_tilde(t_shell *shell, char *str, int i);
+int			ft_free_a(char **elem, int n);
 void		ft_expand_all(t_shell *shell, char **parsed);
+char		*ft_exp_tilde(t_shell *shell, char *str, int i);
+char		*ft_expand_doll(t_shell *shell, char *str, int i);
+char		*ft_expand_spec(t_shell *shell, char *str, int i);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
 char		*ft_getname(char *str, int i);
@@ -222,8 +223,8 @@ int			ft_export(t_shell *shell, char **cmd, int lvl);
 void		ft_print_env(t_list *lst);
 t_env		*ft_env_new(char *name, char *value, int lvl);
 void		ft_do_export2(t_list *list, t_env **new_env, int lvl);
-void		ft_do_export1(t_shell *shell, t_list *list,
-				t_env **new_env, int lvl);
+void		ft_do_export1(t_shell *shell, t_env **new_env,
+				char *name, int lvl);
 void		ft_set_name_value(t_shell *shell, char **name,
 				char **value, char *cmd);
 //	unset
