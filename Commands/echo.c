@@ -26,11 +26,30 @@ int	arg_check(char *str)
 	return (1);
 }
 
+void	print_cmd(char *cmd)
+{
+	int	i;
+	int	end;
+
+	i = 0;
+	end = ft_strlen(cmd);
+	if (ft_in(cmd[i], "\'\""))
+	{
+		i++;
+		end--;
+	}
+	while (i < end)
+	{
+		printf("%c", cmd[i]);
+		i++;
+	}
+}
+
 void	print_arg(char **cmd, int i, int flag)
 {
 	while (cmd[i])
 	{
-		printf("%s", cmd[i]);
+		print_cmd(cmd[i]);
 		if (cmd[i + 1])
 			printf(" ");
 		i++;

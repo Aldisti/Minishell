@@ -32,8 +32,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+//extern void	rl_replace_line(char *text, int clear_undo);
+//extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
@@ -213,6 +213,7 @@ int			ft_exit(t_shell *shell, char **cmd);
 //	env
 int			env(t_shell	*shell, int lvl);
 //	echo
+void		print_cmd(char *cmd);
 int			echo(char **argv);
 //	export
 int			ft_print_export(t_shell *shell, int lvl);
