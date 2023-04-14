@@ -6,11 +6,13 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 12:44:05 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 13:50:33 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
+
+extern int	g_shell_errno;
 
 int	ft_print_export(t_shell *shell, int lvl)
 {
@@ -44,14 +46,17 @@ int	ft_check_input(char *cmd, char **name, char **value)
 {
 	if ((!(*name) || !ft_strcmp(*name, "=")) && !ft_in('=', cmd))
 	{
-		printf("export: `': not a valid identifier\n") * 0
-			+ ft_free_a(name, 1) + ft_free_a(value, 0);
+		write(2, "export: `': not a valid identifier\n", 35);
+		g_shell_errno = ft_free_a(name, 1) + ft_free_a(value, 0);
 		return (1);
 	}
 	else if ((!(*name) || !ft_strcmp(*name, "=")) && ft_in('=', cmd))
 	{
-		printf("export: `%s%s': not a valid identifier\n", *name, *value) * 0
-			+ ft_free_a(name, 1) + ft_free_a(value, 0);
+		write(2, "export: `", 9);
+		write(2, *name, ft_strlen(*name));
+		write(2, *value, ft_strlen(*value));
+		write(2, "': not a valid identifier\n", 26);
+		g_shell_errno = ft_free_a(name, 1) + ft_free_a(value, 0);
 		return (1);
 	}
 	return (0);
