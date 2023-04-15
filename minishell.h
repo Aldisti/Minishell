@@ -254,8 +254,10 @@ void		my_dup(t_shell *shell, int id);
 void		red_output(t_shell *shell, int id);
 void		trim_strs(t_shell *shell, char **strs, const char *str);
 void		execute_built_in(t_shell *shell, char *cmd, int lvl);
+//	pipex_utils2
+char		**ft_take_paths(t_shell *shell, int id);
 //	command
-char		**get_cmd(t_shell *shell, char *str);
+char		**get_cmd(t_shell *shell, char *str, int id);
 char		*path_checker(t_pipex *pipex, char **str, int i);
 int			built_in_selector(t_shell *shell, int *id, char **cmd);
 void		get_cmd_loop(t_shell *shell, char *temp, char **command);

@@ -11,7 +11,7 @@ env | grep PATH -> OK
 (export a=ciao) | (export) -> OK (non resetta il livello)
 >prova ls | <prova cat -> OK
 $ -> KO (non stampa l'errore)
-unset PATH - ls -> KO (ls funziona anche se PATH è stato eliminato)
+unset PATH - ls -> OK (ls funziona anche se PATH è stato eliminato)
 ls <prova -> OK (se prova non esiste ls lo interpreta come paramtro e lo prova a leggere)
 lss <prova -> OK (dovrebbe dare come errore "prova not found", invece l'errore dato e' "ls: command not found")
 lss - echo $? -> OK (l'exit status e' errato)

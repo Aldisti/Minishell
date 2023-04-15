@@ -75,7 +75,7 @@ the given command belong to one of that if so join the path with
 the actual command and try to execute that, otherwise it will
 print error message and exit
 */
-char	**get_cmd(t_shell *shell, char *str)
+char	**get_cmd(t_shell *shell, char *str, int id)
 {
 	char	*temp;
 	char	**command;
@@ -83,7 +83,7 @@ char	**get_cmd(t_shell *shell, char *str)
 
 	temp = 0;
 	shell->pipex.cmd_i = -1;
-	shell->pipex.paths = ft_split(getenv("PATH"), ':');
+	shell->pipex.paths = ft_take_paths(shell, id);
 	temp_parser = ft_parser(shell, str, " <");
 	command = line_filter(temp_parser);
 	ft_free_mat((void ***) &temp_parser);
@@ -146,7 +146,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 		exit(ft_die(shell, 0, 1));
 	}
 	ft_replace(argv[(*child_id)], "\37", ' ');
-	cmd = get_cmd(shell, argv[(*child_id)]);
+	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
 	if (!cmd)
 		ft_die(shell, 1, 12);
 	if (!cmd[0])
