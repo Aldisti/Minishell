@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 16:19:22 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:51:18 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,11 @@ int			ft_check_beforepar(char *line);
 
 //	Expansions
 //	expansion
-char		*ft_expand_spec(t_shell *shell, char *str, int i);
-char		*ft_expand_doll(t_shell *shell, char *str, int i);
-char		*ft_exp_tilde(t_shell *shell, char *str, int i);
+int			ft_free_a(char **elem, int n);
 void		ft_expand_all(t_shell *shell, char **parsed);
+char		*ft_exp_tilde(t_shell *shell, char *str, int i);
+char		*ft_expand_doll(t_shell *shell, char *str, int i);
+char		*ft_expand_spec(t_shell *shell, char *str, int i);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
 char		*ft_getname(char *str, int i);
@@ -224,8 +225,8 @@ int			ft_export(t_shell *shell, char **cmd, int lvl);
 void		ft_print_env(t_list *lst);
 t_env		*ft_env_new(char *name, char *value, int lvl);
 void		ft_do_export2(t_list *list, t_env **new_env, int lvl);
-void		ft_do_export1(t_shell *shell, t_list *list,
-				t_env **new_env, int lvl);
+void		ft_do_export1(t_shell *shell, t_env **new_env,
+				char *name, int lvl);
 void		ft_set_name_value(t_shell *shell, char **name,
 				char **value, char *cmd);
 //	unset
@@ -310,11 +311,13 @@ t_env		*ft_search_in_list(t_list *list, char *name, int lvl);
 //	other
 char		*ft_itoa(int n);
 int			ft_atoi(const char *str);
+int			ft_atoi_zero(const char *str);
 char		*ft_joiner(char **tab, int n);
 char		**ft_split(char const *s, char c);
 void		*ft_calloc(size_t num, size_t dim);
 int			ft_countn(const char *str, const char c, int n);
 void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char		**ft_readdir(char *path);
+int			ft_perror(const char *str, char *arg);
 
 #endif
