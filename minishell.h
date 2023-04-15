@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 14:51:18 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:17:16 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 
-# ifndef METACHARS
-#  define METACHARS " \n\t|&<>()"
-#  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator.\033[0m\n"
+# ifndef MC
+#  define MC " \n\t|&<>()"
+# endif
+# ifndef MSG_ERR
+#  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
 
 //extern void	rl_replace_line(char *text, int clear_undo);
@@ -93,6 +95,7 @@ typedef struct s_shell
 	t_pipex				pipex;
 }	t_shell;
 
+void		my_print(char **strs);
 //	Init
 //	shell_set
 void		ft_shell_set(t_shell *shell);
@@ -130,26 +133,27 @@ int			ft_parenthesis_check(char *line, int *i);
 char		**ft_extract_word(char **parsed, int *dim, int *i, char **line);
 //	parser2
 int			ft_check_multi_par(char *line);
-char		**ft_parser_checks(t_shell *shell);
 int			ft_valid_operators(char **parsed);
 char		**ft_parser_checks(t_shell *shell);
 char		**ft_parser(t_shell *shell, char *line, char *set);
 //	parser3
+int			ft_check_beforepar(char *line);
 int			ft_valid_command(char **parsed);
 void		*ft_die_parser(t_shell *shell, char **parsed);
-int			ft_check_beforepar(char *line);
 
 //	Expansions
 //	expansion
-int			ft_free_a(char **elem, int n);
+char		*ft_expand_spec(char *str);
 void		ft_expand_all(t_shell *shell, char **parsed);
-char		*ft_exp_tilde(t_shell *shell, char *str, int i);
-char		*ft_expand_doll(t_shell *shell, char *str, int i);
-char		*ft_expand_spec(t_shell *shell, char *str, int i);
+char		*ft_exp_tilde(t_shell *shell, char *str, int lvl);
+char		*ft_expand_doll(t_shell *shell, char *str, int lvl);
+char		**ft_split_expansions(t_shell *shell, char *str, int j, int k);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
+int			ft_free_a(char **elem, int n);
 char		*ft_getname(char *str, int i);
 int			ft_getquotes(char *str, int i);
+void		*ft_free_mat_a(void ***elem, int size);
 
 //	Parentheses
 //	parentheses
@@ -250,8 +254,10 @@ void		my_dup(t_shell *shell, int id);
 void		red_output(t_shell *shell, int id);
 void		trim_strs(t_shell *shell, char **strs, const char *str);
 void		execute_built_in(t_shell *shell, char *cmd, int lvl);
+//	pipex_utils2
+char		**ft_take_paths(t_shell *shell, int id);
 //	command
-char		**get_cmd(t_shell *shell, char *str);
+char		**get_cmd(t_shell *shell, char *str, int id);
 char		*path_checker(t_pipex *pipex, char **str, int i);
 int			built_in_selector(t_shell *shell, int *id, char **cmd);
 void		get_cmd_loop(t_shell *shell, char *temp, char **command);
