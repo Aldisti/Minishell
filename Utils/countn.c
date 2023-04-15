@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 12:13:10 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 11:13:18 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/15 10:19:48 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ int	ft_countn(const char *str, const char c, int n)
 	if (n == -1)
 		n = ft_strlen(str);
 	i = 0;
-	while (str++ && n > 0)
+	while (str && n > 0)
 	{
 		if (*str == c)
 			i++;
 		n--;
+		str++;
 	}
 	return (i);
 }

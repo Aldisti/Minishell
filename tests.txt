@@ -5,11 +5,13 @@ unset var - export $var=test -> OK
 export "" var=test -> OK
 echo ~ -> OK
 echo "bip | bip ; coyotte > <" -> OK
-export var='$USER' - echo $USER$var$USER$varciao$USER -> KO ($varciao viene espanso)
+export var='$USER' - echo $USER$var$USER$varciao$USER -> OK ($varciao viene espanso)
 export | grep PATH -> OK
 env | grep PATH -> OK
-(export a=ciao) | (export) -> KO (non resetta il livello)
+(export a=ciao) | (export) -> OK (non resetta il livello)
 >prova ls | <prova cat -> OK
+$ -> KO (non stampa l'errore)
+unset PATH - ls -> KO (ls funziona anche se PATH è stato eliminato)
 ls <prova -> OK (se prova non esiste ls lo interpreta come paramtro e lo prova a leggere)
 lss <prova -> OK (dovrebbe dare come errore "prova not found", invece l'errore dato e' "ls: command not found")
 lss - echo $? -> OK (l'exit status e' errato)

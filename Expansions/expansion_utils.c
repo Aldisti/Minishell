@@ -6,11 +6,33 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:10:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/05 15:51:38 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:14:53 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_free_a(char **elem, int n)
+{
+	if (*elem)
+		ft_free((void **)elem);
+	elem = 0;
+	return (n);
+}
+
+void	*ft_free_mat_a(void ***elem, int size)
+{
+	int	i;
+
+	if (size == -1)
+		while ((char **)(*elem)[++size])
+			;
+	i = -1;
+	while (++i < size)
+		ft_free((void **)&(*elem)[i]);
+	(*elem) = 0;
+	return (0);
+}
 
 //	RETURN: this functions returns all the letters, numbers and underscores
 //		right after the index [i] and before the first that's not a letter,
@@ -28,7 +50,7 @@ char	*ft_getname(char *str, int i)
 		j++;
 	if (str[j])
 		j--;
-	name = ft_substr(str, i + 1, j - i);
+	name = ft_substr(str, i, j - i + 1);
 	return (name);
 }
 
