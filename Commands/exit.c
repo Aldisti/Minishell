@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:47:23 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/15 09:12:47 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/15 14:28:39 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	ft_exit_pipes(char **cmd)
 	}
 	else if (args_count(cmd) > 1)
 	{
-		if (is_number(cmd[1]))
+		if (is_number(cmd[1]) || ft_atoi_zero(cmd[1]) != 0)
 			return (ft_atoi(cmd[1]));
 		else if (!is_number(cmd[1]))
 			return (fd_printf(2, "exit: %s: numeric argument required\n",
