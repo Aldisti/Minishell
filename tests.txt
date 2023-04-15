@@ -5,9 +5,9 @@ unset var - export $var=test -> OK
 export "" var=test -> OK
 echo ~ -> OK
 echo "bip | bip ; coyotte > <" -> OK
-export var='$USER' - echo $USER$var$USER$varciao$USER -> KO ($varciao viene espanso)
+export var='$USER' - echo $USER$var$USER$varciao$USER -> OK ($varciao viene espanso)
 export | grep PATH -> OK
 env | grep PATH -> OK
-(export a=ciao) | (export) -> KO (non resetta il livello)
+(export a=ciao) | (export) -> OK (non resetta il livello)
 >prova ls | <prova cat -> OK
 ls <prova -> KO (se prova non esiste ls lo interpreta come paramtro e lo prova a leggere)
