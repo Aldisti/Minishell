@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/15 09:13:18 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/15 14:23:04 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 	if (!access(str[0], X_OK))
 		return (ft_strdup(str[0]));
 	dup2(pipex->original_stdout, 1);
-	fd_printf(2, "%s: command not found\n", ft_strrchr(pipex->paths[0], '/') + 1);
+	fd_printf(2, "%s: command not found\n",
+		ft_strrchr(pipex->paths[0], '/') + 1);
 	return (0);
 }
 
@@ -141,7 +142,8 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 		exit(1);
 	if (ft_in('<', argv[*child_id]))
 	{
-		ft_perror(": no such file or direcotry\n", shell->red.infiles[*child_id]);
+		fd_printf(2, "%s: no such file or direcotry\n",
+			shell->red.infiles[*child_id]);
 		child_free(&shell->pipex, 0);
 		exit(ft_die(shell, 0, 1));
 	}
