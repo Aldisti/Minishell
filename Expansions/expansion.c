@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 14:08:06 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/15 12:14:24 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,118 +14,120 @@
 
 extern int	g_shell_errno;
 
-int	ft_free_a(char **elem, int n)
+char	*ft_expand_spec(char *str)
 {
-	if (*elem)
-		ft_free((void **)elem);
-	elem = 0;
-	return (n);
+	char	*value;
+
+	if (str[1] == '$')
+		value = ft_strdup("$");
+	else if (str[1] == '?')
+		value = ft_itoa(g_shell_errno);
+	else
+		value = ft_strdup("");
+	ft_free((void **)&str);
+	return (value);
 }
 
-char	*ft_exp_tilde(t_shell *shell, char *str, int i)
+char	*ft_expand_doll(t_shell *shell, char *str, int lvl)
 {
-	char	*strs[4];
-	char	*tmp;
+	char	*name;
+	char	*value;
 	t_env	*env;
 
-	if ((str[i + 1] && !ft_in(str[i + 1], METACHARS) && str[i + 1] != '/')
-		|| (i > 0 && !ft_in(str[i - 1], METACHARS) && str[i - 1] != '/'))
-		return (str);
-	strs[3] = 0;
-	env = ft_search_in_list(shell->list, "HOME", ft_getlvl(str, i));
+	name = str + 1;
+	env = ft_search_in_list(shell->list, name, lvl);
 	if (!env)
-		return (str);
-	strs[0] = ft_substr(str, 0, i);
-	if (!strs[0] && i > 0)
-		ft_die(shell, 1, 12);
-	strs[2] = ft_substr(str, i + 1, ft_strlen(str));
-	if (!strs[2] && (ft_strlen(str) - i - 1))
-		ft_die(shell, ft_free_a(&strs[0], 1), 12);
-	strs[1] = ft_strdup(env->value);
-	if (!strs[1] && ft_strlen(env->value))
-		ft_die(shell, ft_free_a(&strs[2], 1), ft_free_a(&strs[0], 12));
-	tmp = ft_joiner(strs, 1);
-	if (!tmp)
-		ft_die(shell, 1, 12);
+		value = ft_strdup("");
+	else
+		value = ft_strdup(env->value);
+	if (!value)
+		return (0);
 	ft_free((void **)&str);
-	return (tmp);
+	return (value);
 }
 
-char	*ft_expand_spec(t_shell *shell, char *str, int i)
+char	*ft_exp_tilde(t_shell *shell, char *str, int lvl)
 {
 	char	*strs[4];
+	int		i;
 
-	if (!str[i + 1])
-		return (str);
+	i = -1;
 	strs[3] = 0;
-	strs[0] = ft_substr(str, 0, i);
-	strs[2] = ft_substr(str, i + 2, ft_strlen(str));
-	if (!strs[0] || !strs[2])
-		ft_die(shell, ft_free_a(&strs[0], 1), ft_free_a(&strs[2], 12));
-	if (str[i + 1] == '?')
-		strs[1] = ft_itoa(g_shell_errno);
-	else if (str[i + 1] == '$')
-		strs[1] = ft_strdup("$");
-	else
-		strs[1] = ft_strdup("");
-	if (!strs[1])
-		ft_die(shell, ft_free_a(&strs[1], 1), 12);
-	strs[3] = ft_joiner(strs, 1);
-	if (!strs[3])
-		ft_die(shell, 1, 12);
-	ft_free((void **)&str);
-	return (strs[3]);
+	while (++i < (int)ft_strlen(str))
+	{
+		if (str[i] != '~' || (i == 0 && str[i + 1] && !ft_in(str[i + 1],
+					MC)) || (i > 0 && ((!ft_in(str[i + 1], MC) && str[i + 1])
+					|| (!ft_in(str[i - 1], MC) && str[i - 1]))))
+			continue ;
+		strs[0] = ft_substr(str, 0, i);
+		strs[1] = ft_expand_doll(shell, ft_strdup("$HOME"), lvl);
+		if (strs[1] && !ft_strncmp(strs[1], "", 1) && i++)
+			strs[1] = ft_strdup("~") + ft_free_a(&strs[1], 0);
+		strs[2] = ft_substr(str, i + 1, ft_strlen(str));
+		if (!strs[0] || !strs[1] || !strs[2])
+			return ((char *)ft_free_mat_a((void ***)&strs, 3));
+		i += ft_strlen(strs[1]) - 2;
+		ft_free((void **)&str);
+		str = ft_joiner(strs, 1);
+		if (!str)
+			return ((char *)ft_free_mat_a((void ***)&strs, 3));
+	}
+	return (str);
 }
 
-char	*ft_expand_doll(t_shell *shell, char *str, int i)
+char	**ft_split_expansions(t_shell *shell, char *str, int j, int k)
 {
-	char	*strs[4];
-	t_env	*env;
+	char	**split;
+	int		i[2];
 
-	strs[3] = ft_getname(str, i);
-	if (!strs[3])
+	split = (char **)ft_calloc(ft_countn(str, 36, -1) * 2 + 2, sizeof(char *));
+	if (!split)
 		ft_die(shell, 1, 12);
-	env = ft_search_in_list(shell->list, strs[3], ft_getlvl(str, i));
-	if (!env)
-		strs[1] = ft_strdup("");
-	else
-		strs[1] = ft_strdup(env->value);
-	strs[0] = ft_substr(str, 0, i);
-	strs[2] = ft_substr(str, i + ft_strlen(strs[3]) + 1, ft_strlen(str));
-	if (!strs[0] || !strs[1] || !strs[2])
-		ft_die(shell, ft_free_a(&strs[0], ft_free_a(&strs[1], 1)),
-			ft_free_a(&strs[2], 12));
-	ft_free((void **)&strs[3]);
-	strs[3] = ft_joiner(strs, 1);
-	ft_free((void **)&str);
-	return (strs[3]);
+	i[0] = 0;
+	while (++j <= (int)ft_strlen(str))
+	{
+		i[1] = ft_getquotes(str, j);
+		if (i[1] != 1 && str[j] == '$' && j - k > 0)
+			split[i[0]++] = ft_substr(str, k, j - k);
+		if (i[1] != 1 && str[j] == '$' && ft_in(str[j + 1], "*@#?-$!0"))
+			split[i[0]] = ft_substr(str, j, 2);
+		else if (i[1] != 1 && str[j] == '$')
+			split[i[0]] = ft_getname(str, j);
+		else
+			continue ;
+		if (!split[i[0]] || (i[0] > 0 && !split[i[0] - 1]))
+			return (ft_free_mat_a((void ***)&split, -1));
+		k = (j++) + ft_strlen(split[i[0]++]);
+	}
+	split[i[0]] = ft_substr(str, k, ft_strlen(str));
+	return (split);
 }
 
 void	ft_expand_all(t_shell *shell, char **parsed)
 {
-	int	i[3];
+	char	**split;
+	int		i;
+	int		j;
 
-	i[1] = -1;
-	while (parsed[++i[1]])
+	j = -1;
+	while (parsed[++j])
 	{
-		i[0] = -1;
-		while (parsed[i[1]][++i[0]])
+		if (!ft_in('$', parsed[j]) && !ft_in('~', parsed[j]))
+			continue ;
+		split = ft_split_expansions(shell, parsed[j], -1, 0);
+		if (!split)
+			ft_die(shell, 1, 12);
+		i = -1;
+		while (split[++i])
 		{
-			i[2] = ft_getquotes(parsed[i[1]], i[0]);
-			if (parsed[i[1]][i[0]] == '~' && !i[2])
-				parsed[i[1]] = ft_exp_tilde(shell, parsed[i[1]], i[0]);
-			else if (parsed[i[1]][i[0]] == '$' && i[2] != 1
-					&& (ft_in(parsed[i[1]][i[0] + 1], "*@#?-$!0")
-					|| !parsed[i[1]][i[0] + 1]))
-				parsed[i[1]] = ft_expand_spec(shell, parsed[i[1]], i[0]);
-			else if (parsed[i[1]][i[0]] == '$' && i[2] != 1)
-				parsed[i[1]] = ft_expand_doll(shell, parsed[i[1]], i[0]);
-			else
-				continue ;
-			if (i[0] >= (int) ft_strlen(parsed[i[1]]))
-				break ;
-			if (parsed[i[1]][i[0]] == '$' && !parsed[i[1]][i[0] + 1])
-				break ;
+			if (split[i][0] == '$' && ft_in(split[i][1], "*@#?-$!0"))
+				split[i] = ft_expand_spec(split[i]);
+			else if (split[i][0] == '$')
+				split[i] = ft_expand_doll(shell, split[i], shell->lvls[j]);
+			if (ft_countn(split[i], '~', -1))
+				split[i] = ft_exp_tilde(shell, split[i], shell->lvls[j]);
 		}
+		parsed[j] = ft_joiner(split, 1) + ft_free_a(&parsed[j], 0);
+		ft_free_mat((void ***)&split);
 	}
 }

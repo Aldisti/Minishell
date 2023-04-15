@@ -38,10 +38,7 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 	if (!access(str[0], X_OK))
 		return (ft_strdup(str[0]));
 	dup2(pipex->original_stdout, 1);
-	if (!ft_in('<', str[0]))
-		fd_printf(2, "%s: commands not found\n", str[0]);
-	else
-		fd_printf(2, "%s: no such file or direcotry\n", str[1]);
+	fd_printf(2, "%s: command not found\n", ft_strrchr(pipex->paths[0], '/') + 1);
 	return (0);
 }
 
@@ -78,7 +75,7 @@ the given command belong to one of that if so join the path with
 the actual command and try to execute that, otherwise it will
 print error message and exit
 */
-char	**get_cmd(t_shell *shell, char *str)
+char	**get_cmd(t_shell *shell, char *str, int id)
 {
 	char	*temp;
 	char	**command;
@@ -86,7 +83,7 @@ char	**get_cmd(t_shell *shell, char *str)
 
 	temp = 0;
 	shell->pipex.cmd_i = -1;
-	shell->pipex.paths = ft_split(getenv("PATH"), ':');
+	shell->pipex.paths = ft_take_paths(shell, id);
 	temp_parser = ft_parser(shell, str, " <");
 	command = line_filter(temp_parser);
 	ft_free_mat((void ***) &temp_parser);
@@ -142,14 +139,20 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 
 	if (is_only_red(argv[*child_id]))
 		exit(1);
+	if (ft_in('<', argv[*child_id]))
+	{
+		ft_perror(": no such file or direcotry\n", shell->red.infiles[*child_id]);
+		child_free(&shell->pipex, 0);
+		exit(ft_die(shell, 0, 1));
+	}
 	ft_replace(argv[(*child_id)], "\37", ' ');
-	cmd = get_cmd(shell, argv[(*child_id)]);
+	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
 	if (!cmd)
 		ft_die(shell, 1, 12);
 	if (!cmd[0])
 	{
 		child_free(&shell->pipex, 0);
-		exit(ft_die(shell, 0, 9));
+		exit(ft_die(shell, 0, 127));
 	}
 	trim_strs(shell, cmd, "\'");
 	trim_strs(shell, cmd, "\"");
