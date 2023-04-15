@@ -64,6 +64,7 @@ char	**ft_get_files(DIR *dirp, struct dirent *dir, char **files)
 	}
 	return (files);
 }
+
 /*
  * Description:	reads all files in a specified directory.
  * Input:		the relative or absolute directory path.
@@ -77,7 +78,7 @@ char	**ft_readdir(char *path)
 	DIR				*dirp;
 	struct dirent	*dir;
 	char			**files;
-	
+
 	dirp = opendir(path);
 	if (!dirp)
 		return (NULL);
