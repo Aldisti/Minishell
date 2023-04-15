@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/15 09:12:40 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/15 09:33:54 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	update_oldpwd(t_shell *shell, char *str, int lvl)
 	t_env	*env;
 
 	env = ft_search_in_list(shell->list, "OLDPWD", lvl);
+	if (!env)
+		return ;
 	ft_free((void **) &env->value);
 	env->value = ft_strdup(str);
 }
