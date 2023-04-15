@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:30:26 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/15 09:14:30 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/15 09:20:24 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	fd_printf(int fd, const char *str, ...)
 	len = 0;
 	va_start(args, str);
 	if (fd == 2)
-		write(2, "\e[1;31;41m", 11);
+		write(2, "\e[31m", 6);
 	while (str[i])
 	{
 		if (str[i] == '%')
