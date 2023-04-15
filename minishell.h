@@ -173,7 +173,7 @@ void		red_selector(t_shell *shell, int id, int mode);
 //	red
 int			ft_redirection(t_shell *shell);
 //	red_check
-int			ft_red_check(char *line);
+int			ft_red_check(t_shell *shell, char *line);
 int			ft_valid_red_op(char *line);
 int			ft_check_space(char *line, int ind);
 int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);

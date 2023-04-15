@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+extern int	g_shell_errno;
+
 int	ft_free_env(t_env **env)
 {
 	ft_free((void **)&(*env)->name);
@@ -100,6 +102,7 @@ int	ft_die(t_shell *shell, int todo, int code)
 {
 	ft_free_shell(shell);
 	ft_free_routine(shell);
+	g_shell_errno = code;
 	if (todo == 1)
 	{
 		if (shell->list)

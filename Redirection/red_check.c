@@ -24,7 +24,7 @@ int	ft_valid_red_op(char *line)
 		return (0);
 }
 
-int	ft_red_check(char *line)
+int	ft_red_check(t_shell *shell, char *line)
 {
 	int	i;
 
@@ -37,17 +37,18 @@ int	ft_red_check(char *line)
 			if (!ft_valid_red_op(&line[i]))
 			{
 				write(2, "\033[31mBad Syntax: invalid operator.\033[0m\n", 39);
-				return (1);
+				return (ft_die(shell, 0, 2));
 			}
-			while (ft_in(line[i], ">< "))
-				i++;
+			while (ft_in(line[++i], " "))
+				;
 			if (!line[i] || ft_in(line[i], "><"))
 			{
 				write(2, MSG_ERR, 53);
-				return (1);
+				return (ft_die(shell, 0, 2));
 			}
 		}
-		i++;
+		if (line[i])
+			i++;
 	}
 	return (0);
 }	

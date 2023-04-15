@@ -54,8 +54,7 @@ int	ft_valid_command(char **parsed)
 void	*ft_die_parser(t_shell *shell, char **parsed)
 {
 	ft_free_mat((void ***) &parsed);
-	ft_die(shell, 0, 258);
-	g_shell_errno = 258;
+	ft_die(shell, 0, 2);
 	return (NULL);
 }
 
