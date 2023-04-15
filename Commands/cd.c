@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/14 15:12:02 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:33:54 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	update_oldpwd(t_shell *shell, char *str, int lvl)
 	t_env	*env;
 
 	env = ft_search_in_list(shell->list, "OLDPWD", lvl);
+	if (!env)
+		return ;
 	ft_free((void **) &env->value);
 	env->value = ft_strdup(str);
 }
@@ -64,21 +66,22 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 	{
 		env = ft_search_in_list(shell->list, "HOME", lvl);
 		if (!env)
-			return (ft_perror("cd: HOME not set\n", 0) * 0 + 1);
+			return (fd_printf(2, "cd: HOME not set\n") * 0 + 1);
 		chdir(env->value);
 	}
 	else if (!ft_strncmp("-", cmd[1], 1) && ft_strlen(cmd[1]) == 1)
 	{
 		env = ft_search_in_list(shell->list, "OLDPWD", lvl);
 		if (!env)
-			return (ft_perror("cd: OLDPWD not set\n", 0) * 0 + 1);
+			return (fd_printf(2, "cd: OLDPWD not set\n") * 0 + 1);
 		if (chdir(env->value) == -1)
 			return (ft_free((void **) &oldpwd), 3);
 	}
 	else if (cmd[1])
 		if (chdir(cmd[1]) == -1)
 			return (ft_free((void **) &oldpwd),
-				ft_perror(": cd: no such file or directory\n", cmd[1]) * 0 + 1);
+				fd_printf(2, "cd: %s: no such file or directory\n", cmd[1])
+				* 0 + 1);
 	return (0);
 }
 
@@ -96,7 +99,7 @@ int	cd(t_shell *shell, char **cmd, int lvl)
 
 	if (args_count(cmd) > 2)
 	{
-		ft_perror("cd: too many arguments\n", 0);
+		fd_printf(2, "cd: too many arguments\n");
 		return (1);
 	}
 	oldpwd = getcwd(0, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/13 11:48:38 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:14:04 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 		return (1);
 	sigaction(SIGINT, &shell->a_nothing, 0);
 	sigaction(SIGQUIT, &shell->a_nothing, 0);
+	if (!ft_strncmp(cmd[*id], "./", 2)
+		&& access(ft_strchr(cmd[*id], '/') + 1, W_OK))
+		return (g_shell_errno = fd_printf(2, "%s: no such file or directory\n",
+				cmd[*id]) * 0 + 127);
 	shell->pipex.pid[*id] = fork();
 	if (shell->pipex.pid[*id] < 0)
 		return (-1);

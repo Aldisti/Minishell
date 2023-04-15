@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/14 15:04:11 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:13:18 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 	if (!access(str[0], X_OK))
 		return (ft_strdup(str[0]));
 	dup2(pipex->original_stdout, 1);
-	ft_perror(": command not found\n", ft_strrchr(pipex->paths[0], '/') + 1);
+	fd_printf(2, "%s: command not found\n", ft_strrchr(pipex->paths[0], '/') + 1);
 	return (0);
 }
 
