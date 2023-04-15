@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 17:16:39 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 14:45:42 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/14 16:37:29 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	ft_print_export(t_shell *shell, int lvl)
 
 void	ft_help_to_print(char *s1, char *s2, char *s3, char *s4)
 {
+	write(2, "\033[31m", 6);
 	if (s1)
 		write(2, s1, ft_strlen(s1));
 	if (s2)
@@ -52,6 +53,7 @@ void	ft_help_to_print(char *s1, char *s2, char *s3, char *s4)
 		write(2, s3, ft_strlen(s3));
 	if (s4)
 		write(2, s4, ft_strlen(s4));
+	write(2, "\033[0m", 5);
 }
 
 int	ft_check_input(char *cmd, char **name, char **value, int *error)
