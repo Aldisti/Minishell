@@ -6,11 +6,13 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/15 12:41:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/15 19:28:17 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_shell_errno;
 
 int	ft_free_env(t_env **env)
 {
@@ -67,7 +69,8 @@ void	ft_free_routine(t_shell *shell)
 		ft_free((void **)&(shell->red.fda));
 	if (shell->lvls)
 		ft_free((void **)&(shell->lvls));
-	ft_free_mat((void ***)&(shell->files));
+	if (shell->files)
+		ft_free_mat((void ***)&(shell->files));
 	ft_free_mat((void ***)&(shell->envp));
 	shell->envp = list_convert(shell->list, 0);
 	if (!shell->envp)
@@ -100,6 +103,7 @@ int	ft_die(t_shell *shell, int todo, int code)
 {
 	ft_free_shell(shell);
 	ft_free_routine(shell);
+	g_shell_errno = code;
 	if (todo == 1)
 	{
 		if (shell->list)

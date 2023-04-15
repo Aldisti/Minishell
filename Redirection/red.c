@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:46:38 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/12 08:10:01 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/15 19:36:33 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	ft_redirection(t_shell *shell)
 	ft_allocate_rarray(shell);
 	i = -1;
 	while (shell->parsed[++i])
-		if (ft_red_check(shell->parsed[i]))
-			return (ft_die(shell, 0, 258));
+		if (ft_red_check(shell, shell->parsed[i]))
+			return (1);
 	i = 0;
 	while (shell->parsed[i])
 	{
