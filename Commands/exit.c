@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 15:47:23 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/14 14:52:57 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:12:47 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,22 @@ int	ft_exit_single(t_shell *shell, char **cmd)
 	{
 		if (!is_number(cmd[1]))
 		{
-			ft_perror("exit\nexit: numeric argument required\n", 0);
+			fd_printf(2, "exit\nexit: %s: numeric argument required\n", cmd[1]);
 			ft_die(shell, 1, 255);
 		}
 		else if (is_number(cmd[1]))
-			return (ft_perror("exit: too many arguments\n", 0) * 0 + 1);
+			return (fd_printf(2, "exit: too many arguments\n") * 0 + 1);
 	}
 	else if (args_count(cmd) > 1)
 	{
 		if (is_number(cmd[1]) || ft_atoi_zero(cmd[1]) != 0)
 		{
-			ft_perror("exit\n", 0);
+			fd_printf(2, "exit\n");
 			ft_die(shell, 1, (unsigned char) ft_atoi(cmd[1]));
 		}
 		else if (!is_number(cmd[1]))
 		{
-			ft_perror("exit\nexit: numeric argument required\n", 0);
+			fd_printf(2, "exit\nexit: %s: numeric argument required\n", cmd[1]);
 			ft_die(shell, 1, 2);
 		}
 	}
@@ -87,16 +87,19 @@ int	ft_exit_pipes(char **cmd)
 	if (args_count(cmd) > 2)
 	{
 		if (!is_number(cmd[1]))
-			return (ft_perror("exit: numeric argument required\n", 0) * 0 + 255);
+			return (fd_printf(2, "exit: %s: numeric argument required\n",
+					cmd[1]) * 0 + 255);
 		else if (is_number(cmd[1]))
-			return (ft_perror("exit: too many arguments\n", 0) * 0 + 1);
+			return (fd_printf(2, "exit: %s: too many arguments\n", cmd[1])
+				* 0 + 1);
 	}
 	else if (args_count(cmd) > 1)
 	{
 		if (is_number(cmd[1]))
 			return (ft_atoi(cmd[1]));
 		else if (!is_number(cmd[1]))
-			return (ft_perror("exit: numeric argument required\n", 0) * 0 + 255);
+			return (fd_printf(2, "exit: %s: numeric argument required\n",
+					cmd[1]) * 0 + 255);
 	}
 	return (0);
 }

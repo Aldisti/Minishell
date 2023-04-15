@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/14 15:04:11 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:13:18 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 		return (ft_strdup(str[0]));
 	dup2(pipex->original_stdout, 1);
 	if (!ft_in('<', str[0]))
-		ft_perror(": command not found\n", ft_strrchr(pipex->paths[0], '/') + 1);
+		fd_printf(2, "%s: commands not found\n", str[0]);
 	else
-		ft_perror(": no such file or direcotry", str[1]);
+		fd_printf(2, "%s: no such file or direcotry\n", str[1]);
 	return (0);
 }
 

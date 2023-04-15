@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/14 14:51:18 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:12:54 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdarg.h>
 # include <termios.h>
 # include <sys/wait.h>
 # include <sys/types.h>
@@ -318,6 +319,7 @@ void		*ft_calloc(size_t num, size_t dim);
 int			ft_countn(const char *str, const char c, int n);
 void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char		**ft_readdir(char *path);
-int			ft_perror(const char *str, char *arg);
+int			fd_printf(int fd, const char *str, ...);
+void		check_execute(t_shell *shell, char *str, int *id);
 
 #endif
