@@ -90,6 +90,8 @@ void	ft_free_shell(t_shell *shell)
 		ft_free((void **)&(shell->fd_output));
 	if (shell->pipex.pipe)
 		ft_free((void **)&(shell->pipex.pipe));
+	if (shell->pipex.pid)
+		ft_free((void **)&(shell->pipex.pid));
 	if (shell->envp)
 		ft_free_mat((void ***)&(shell->envp));
 }
@@ -101,8 +103,8 @@ todo esce dal programma o ritorna un numero*
 */
 int	ft_die(t_shell *shell, int todo, int code)
 {
-	ft_free_shell(shell);
 	ft_free_routine(shell);
+	ft_free_shell(shell);
 	g_shell_errno = code;
 	if (todo == 1)
 	{

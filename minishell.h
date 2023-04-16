@@ -217,7 +217,7 @@ void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
 int			print_pwd(t_shell *shell);
 // exit
-int			ft_exit(t_shell *shell, char **cmd);
+int			ft_exit(t_shell *shell, char **strs, char **cmd);
 //	env
 int			env(t_shell	*shell, int lvl);
 //	echo
@@ -254,9 +254,10 @@ int			pipes(t_pipex *pipex, const char *mode);
 void		my_dup(t_shell *shell, int id);
 void		red_output(t_shell *shell, int id);
 void		trim_strs(t_shell *shell, char **strs, const char *str);
-void		execute_built_in(t_shell *shell, char *cmd, int lvl);
+void		execute_built_in(t_shell *shell, char **strs, int lvl, int id);
 //	pipex_utils2
 char		**ft_take_paths(t_shell *shell, int id);
+void		ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type);
 //	command
 char		**get_cmd(t_shell *shell, char *str, int id);
 char		*path_checker(t_pipex *pipex, char **str, int i);

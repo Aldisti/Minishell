@@ -138,25 +138,23 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 {
 	char	**cmd;
 
+	cmd = NULL;
 	if (is_only_red(argv[*child_id]))
-		exit(1);
+		ft_exit_exec(shell, argv, cmd, 0);
 	if (ft_in('<', argv[*child_id]))
 	{
 		fd_printf(2, "%s: no such file or direcotry\n",
 			shell->red.infiles[*child_id]);
-		child_free(&shell->pipex, 0);
-		exit(ft_die(shell, 0, 1));
+		ft_exit_exec(shell, argv, cmd, 1);
 	}
 	ft_replace(argv[(*child_id)], "\37", ' ');
 	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
 	if (!cmd)
-		ft_die(shell, 1, 12);
+		ft_exit_exec(shell, argv, cmd, 2);
 	if (!cmd[0])
-	{
-		child_free(&shell->pipex, 0);
-		exit(ft_die(shell, 0, 127));
-	}
+		ft_exit_exec(shell, argv, cmd, 3);
 	trim_strs(shell, cmd, "\'");
 	trim_strs(shell, cmd, "\"");
+	ft_free_mat((void ***) &argv);
 	execve(cmd[0], cmd, shell->envp);
 }
