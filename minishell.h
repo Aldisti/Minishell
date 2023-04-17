@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 15:33:22 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/17 22:22:15 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_exp
 {
@@ -256,6 +256,8 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 //	Pipex
 //	pipex
 char		**line_filter(char **strs);
+void		the_special_one1(t_shell *shell, int id, char **cmd);
+void		the_special_one2(t_shell *shell, char **cmd, int id);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc);
 int			child_proc(t_shell *shell, char **argv, int *child_id);

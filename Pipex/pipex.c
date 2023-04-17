@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/17 14:42:30 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/17 22:19:10 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 		pipes(&shell->pipex, "close");
 		execute_cmd(shell, cmd, id);
 	}
+	the_special_one1(shell, *id, cmd);
 	if (flag)
 		built_in_pipe_handler(shell, id, cmd);
 	return (1);

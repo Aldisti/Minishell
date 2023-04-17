@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/17 15:20:39 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/17 22:21:26 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,16 +142,12 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	if (is_only_red(argv[*child_id]))
 		ft_exit_exec(shell, argv, cmd, 0);
 	if (shell->red.infiles[*child_id][0] == '$')
-	{
-		fd_printf(2, "%s: ambiguous redirect\n", shell->red.infiles[*child_id]);
-		ft_exit_exec(shell, argv, cmd, 1);
-	}
+		ft_exit_exec(shell, argv, cmd, fd_printf(2,
+				"%s: ambiguous redirect\n", shell->red.infiles[*child_id]));
 	else if (ft_in('<', argv[*child_id]))
-	{
-		fd_printf(2, "%s: no such file or direcory\n",
-			shell->red.infiles[*child_id]);
-		ft_exit_exec(shell, argv, cmd, 1);
-	}
+		ft_exit_exec(shell, argv, cmd, fd_printf(2,
+				"%s: no such file or direcory\n",
+				shell->red.infiles[*child_id]));
 	ft_replace(argv[(*child_id)], "\37", ' ');
 	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
 	if (!cmd)
@@ -161,5 +157,6 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	trim_strs(shell, cmd, "\'");
 	trim_strs(shell, cmd, "\"");
 	ft_free_mat((void ***) &argv);
+	the_special_one2(shell, cmd, *child_id);
 	execve(cmd[0], cmd, shell->envp);
 }
