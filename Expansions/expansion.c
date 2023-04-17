@@ -14,6 +14,13 @@
 
 extern int	g_shell_errno;
 
+typedef struct s_exp
+{
+	char	**split;
+	char	**parsed;
+	char	*strs[4];
+}	t_exp;
+
 char	*ft_expand_spec(char *str)
 {
 	char	*value;
