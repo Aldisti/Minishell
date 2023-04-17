@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   red_operators.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:14 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/07 16:13:17 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/15 19:35:39 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_input_red(t_shell *shell, int n_cmd, int *ind)
 		if (ft_remove_quotes(shell, &shell->red.infiles[n_cmd / 2]))
 			ft_die(shell, 1, 12);
 		if (access(shell->red.infiles[n_cmd / 2], F_OK | R_OK)
-				|| !ft_intab(shell->red.infiles[n_cmd / 2],
+			|| !ft_intab(shell->red.infiles[n_cmd / 2],
 				shell->files))
 		{
 			g_shell_errno = 1;

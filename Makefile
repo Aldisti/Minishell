@@ -47,11 +47,6 @@ SRC_COUNT_TOT = $(shell expr $(shell echo -n $(SRC) $(PARSER_SRC) $(PIPEX_SRC) $
 SRC_COUNT = 0
 SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
-%.o : %.c
-	@$(CC) $(FLAGS) -c $< -o $@
-	@$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
-	@printf "$(GREEN)\r%100s\r[%d/%d (%d%%)] $(GREEN)$<" "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
-
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
 	@echo "\r\033[KMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
@@ -64,6 +59,11 @@ $(NAME): $(OBJ)
 	@echo "\n$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 	@echo "$(YELLOW)Made with love and bestemmie by Adi-stef, Afraccal, Gpanico, Mpaterno.\n$(RESET)"
 	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
+
+%.o : %.c
+	@$(CC) $(FLAGS) -c $< -o $@
+	@$(eval SRC_COUNT = $(shell expr $(SRC_COUNT) + 1))
+	@printf "$(GREEN)\r%100s\r[%d/%d (%d%%)] $(GREEN)$<" "" $(SRC_COUNT) $(SRC_COUNT_TOT) $(SRC_PCT)
 
 all: $(NAME)
 

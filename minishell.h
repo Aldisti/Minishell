@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/15 12:17:16 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/15 09:12:54 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdarg.h>
 # include <termios.h>
 # include <sys/wait.h>
 # include <sys/types.h>
@@ -172,7 +173,7 @@ void		red_selector(t_shell *shell, int id, int mode);
 //	red
 int			ft_redirection(t_shell *shell);
 //	red_check
-int			ft_red_check(char *line);
+int			ft_red_check(t_shell *shell, char *line);
 int			ft_valid_red_op(char *line);
 int			ft_check_space(char *line, int ind);
 int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
@@ -216,7 +217,7 @@ void		update_oldpwd(t_shell *shell, char *str, int lvl);
 //	pwd
 int			print_pwd(t_shell *shell);
 // exit
-int			ft_exit(t_shell *shell, char **cmd);
+int			ft_exit(t_shell *shell, char **strs, char **cmd);
 //	env
 int			env(t_shell	*shell, int lvl);
 //	echo
@@ -253,9 +254,10 @@ int			pipes(t_pipex *pipex, const char *mode);
 void		my_dup(t_shell *shell, int id);
 void		red_output(t_shell *shell, int id);
 void		trim_strs(t_shell *shell, char **strs, const char *str);
-void		execute_built_in(t_shell *shell, char *cmd, int lvl);
+void		execute_built_in(t_shell *shell, char **strs, int lvl, int id);
 //	pipex_utils2
 char		**ft_take_paths(t_shell *shell, int id);
+void		ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type);
 //	command
 char		**get_cmd(t_shell *shell, char *str, int id);
 char		*path_checker(t_pipex *pipex, char **str, int i);
@@ -324,6 +326,7 @@ void		*ft_calloc(size_t num, size_t dim);
 int			ft_countn(const char *str, const char c, int n);
 void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
 char		**ft_readdir(char *path);
-int			ft_perror(const char *str, char *arg);
+int			fd_printf(int fd, const char *str, ...);
+void		check_execute(t_shell *shell, char *str, int *id);
 
 #endif

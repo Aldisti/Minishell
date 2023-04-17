@@ -20,7 +20,7 @@ void	ft_first_node(t_list **list, int lvl)
 	t_env	*tmp_elem;
 	t_list	*tmp_node;
 
-	tmp_elem = (t_env *) (*list)->content;
+	tmp_elem = (t_env *)(*list)->content;
 	if (tmp_elem->level >= lvl)
 	{
 		ft_envdel(tmp_elem);
@@ -47,7 +47,7 @@ void	ft_in_node(t_list **node, t_list **prev_node, int lvl)
 	t_env	*previous;
 	t_env	*tmp_elem;
 
-	tmp_elem = (t_env *) (*node)->content;
+	tmp_elem = (t_env *)(*node)->content;
 	if (tmp_elem->level >= lvl)
 	{
 		ft_envdel(tmp_elem);

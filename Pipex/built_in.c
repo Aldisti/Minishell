@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/13 16:23:13 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/14 22:50:27 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ char	**cmd: already properly setted variable that contain the complete
 this function compare the command[0] string to different command and if match
 it execute our own command
 */
-void	execute_built_in(t_shell *shell, char *str, int lvl)
+void	execute_built_in(t_shell *shell, char **strs, int lvl, int id)
 {
 	char	**temp;
 	char	**cmd;
 
-	temp = ft_parser(shell, str, " ");
+	temp = ft_parser(shell, strs[id], " ");
 	cmd = line_filter(temp);
 	ft_free_mat((void ***) &temp);
 	if (!ft_strncmp(cmd[0], "pwd", 3) && ft_strlen(cmd[0]) == 3)
@@ -43,7 +43,7 @@ void	execute_built_in(t_shell *shell, char *str, int lvl)
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
 		g_shell_errno = env(shell, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
-		g_shell_errno = ft_exit(shell, cmd);
+		g_shell_errno = ft_exit(shell, strs, cmd);
 	ft_free_mat((void ***) &cmd);
 }
 
@@ -127,7 +127,7 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	{
 		my_dup(shell, *id);
 		ft_replace(cmd[*id], "\37", ' ');
-		execute_built_in(shell, cmd[*id], shell->lvls[*id]);
+		execute_built_in(shell, cmd, shell->lvls[*id], *id);
 		if (*id > 0)
 			close(shell->pipex.pipe[2 * (*id) - 2]);
 		else
@@ -151,7 +151,7 @@ void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
 	my_dup(shell, (*id) - 1);
 	ft_replace(cmd[*id], "\37", ' ');
-	execute_built_in(shell, cmd[(*id) - 1], shell->lvls[*id]);
+	execute_built_in(shell, cmd, shell->lvls[*id], *id - 1);
 	close(shell->pipex.pipe[2 * ((*id)) - 2]);
 	close(shell->pipex.pipe[2 * ((*id)) + 1]);
 	close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
