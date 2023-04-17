@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/15 09:14:04 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/17 10:03:07 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,25 @@ extern int	g_shell_errno;
 int	wait_last_valid_pid(t_shell *shell)
 {
 	int	i;
+	int	temp;
 	int	val;
 	int	status;
 
 	i = 0;
 	val = -1;
+	temp = 0;
 	while (i < shell->pipex.cmd_count)
 	{
 		if (shell->pipex.pid[i] != -1)
-			val = shell->pipex.pid[i];
+				val = shell->pipex.pid[i];
+		else
+			temp = 1;
 		i++;
 	}
 	if (val != -1)
 	{
 		waitpid(val, &status, 0);
-		if (WIFEXITED(status))
+		if (WIFEXITED(status) && temp != shell->n_cmds -1)
 			g_shell_errno = WEXITSTATUS(status);
 	}
 	return (val);
