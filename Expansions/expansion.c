@@ -6,20 +6,13 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 13:47:24 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:56:05 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 extern int	g_shell_errno;
-
-typedef struct s_exp
-{
-	char	**split;
-	char	**parsed;
-	char	*strs[4];
-}	t_exp;
 
 char	*ft_expand_spec(char *str)
 {
