@@ -78,9 +78,7 @@ void	ft_clear_levels(t_shell	*shell, int lvl)
 
 	if (!shell->list)
 		return ;
-	// primo nodo della lista
 	ft_first_node(&(shell->list), lvl);
-	// elementi centrali della lista
 	previous_node = shell->list;
 	tmp_node = shell->list->next;
 	while (tmp_node)

@@ -6,13 +6,20 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/15 12:14:24 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:26:51 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 extern int	g_shell_errno;
+
+typedef struct s_exp
+{
+	char	**split;
+	char	**parsed;
+	char	*strs[4];
+}	t_exp;
 
 char	*ft_expand_spec(char *str)
 {
@@ -26,6 +33,34 @@ char	*ft_expand_spec(char *str)
 		value = ft_strdup("");
 	ft_free((void **)&str);
 	return (value);
+}
+
+char	*ft_put_quotes(t_shell *shell, char *origin)
+{
+	char	**split;
+	char	*strs[4];
+	int		i;
+
+	split = ft_parser(shell, origin, ">|<");
+	if (!split)
+		return (0);
+	i = -1;
+	strs[3] = NULL + ft_free_a(&origin, 0);
+	while (split[++i])
+	{
+		if (ft_in(split[i][0], ">|<"))
+		{
+			strs[0] = "\"";
+			strs[2] = "\"";
+			strs[1] = split[i];
+			split[i] = ft_joiner(strs, 0);
+			ft_free((void **)&strs[1]);
+		}
+	}
+	origin = ft_joiner(split, 1);
+	if (!origin)
+		return (0);
+	return (origin + ft_free_a((char **)&split, 0));
 }
 
 char	*ft_expand_doll(t_shell *shell, char *str, int lvl)
@@ -43,6 +78,8 @@ char	*ft_expand_doll(t_shell *shell, char *str, int lvl)
 	if (!value)
 		return (0);
 	ft_free((void **)&str);
+	if (ft_in('>', value) || ft_in('|', value) || ft_in('<', value))
+		value = ft_put_quotes(shell, value);
 	return (value);
 }
 

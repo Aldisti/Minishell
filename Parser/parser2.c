@@ -139,11 +139,9 @@ int	ft_valid_operators(char **parsed)
 			ft_quotes_check(parsed[i], &j);
 			if (ft_in(parsed[i][j], "|&"))
 			{
-				if (ft_strlen_until(&parsed[i][j], " \n\t<>()") > 2)
+				if (ft_strlen_until(&parsed[i][j], " \n\t<>()") > 1)
 					return (0);
-				if (ft_strncmp(&parsed[i][j], "|", 1) &&
-					ft_strncmp(&parsed[i][j], "||", 2) &&
-					ft_strncmp(&parsed[i][j], "&&", 2))
+				if (ft_strncmp(&parsed[i][j], "|", 1))
 					return (0);
 			}
 			j++;
