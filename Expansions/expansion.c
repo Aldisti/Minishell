@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 11:57:42 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:01:25 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ char	*ft_expand_spec(char *str)
 
 char	*ft_put_quotes(t_shell *shell, char *origin)
 {
-	char	*strs[4];
 	int		i;
 
 	shell->exp.pd = ft_parser(shell, origin, ">|<");
 	if (!shell->exp.pd)
 		ft_die(shell, 1, 12);
 	i = -1;
-	strs[3] = NULL + ft_free_a(&origin, 0);
+	shell->exp.strs[3] = NULL + ft_free_a(&origin, 0);
 	while (shell->exp.pd[++i])
 	{
 		if (ft_in(shell->exp.pd[i][0], ">|<"))
 		{
-			strs[0] = "\"";
-			strs[2] = "\"";
-			strs[1] = shell->exp.pd[i];
-			shell->exp.pd[i] = ft_joiner(strs, 0);
-			ft_free((void **)&strs[1]);
+			shell->exp.strs[0] = "\"";
+			shell->exp.strs[2] = "\"";
+			shell->exp.strs[1] = shell->exp.pd[i];
+			shell->exp.pd[i] = ft_joiner(shell->exp.strs, 0);
+			if (!shell->exp.pd[i])
+				ft_die(shell, 1, 12);
+			ft_free((void **)&shell->exp.strs[1]);
 		}
 	}
 	origin = ft_joiner(shell->exp.pd, 1);
