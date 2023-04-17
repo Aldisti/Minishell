@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 12:21:04 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/13 15:01:25 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:59:51 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_unset(t_shell *shell, char **cmd, int lvl)
 		return (0);
 	while (++cmd && *cmd)
 	{
+		ft_remove_quotes(shell, cmd);
 		lst = ft_get_node(shell->list, *cmd);
 		if (!lst)
 			continue ;

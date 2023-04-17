@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/15 09:33:54 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/17 11:58:30 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	cd(t_shell *shell, char **cmd, int lvl)
 		fd_printf(2, "cd: too many arguments\n");
 		return (1);
 	}
+	ft_remove_quotes(shell, &cmd[1]);
 	oldpwd = getcwd(0, 0);
 	val = what_to_do(shell, oldpwd, lvl, cmd);
 	if (val > 0)

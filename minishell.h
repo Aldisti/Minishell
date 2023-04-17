@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/15 09:12:54 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/17 11:57:15 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
 
-//extern void	rl_replace_line(char *text, int clear_undo);
-//extern void	rl_clear_history(void);
+extern void	rl_replace_line(char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_red
 {
