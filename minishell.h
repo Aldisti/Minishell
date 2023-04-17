@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 13:55:57 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:33:22 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ void		red_selector(t_shell *shell, int id, int mode);
 int			ft_redirection(t_shell *shell);
 //	red_check
 int			ft_red_check(t_shell *shell, char *line);
-int			ft_valid_red_op(char *line);
+int			ft_valid_red_op(char *line, int *i);
 int			ft_check_space(char *line, int ind);
 int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 //	red_init

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 11:57:58 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:37:46 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void	ft_free_list(t_list **list)
 
 void	ft_free_routine(t_shell *shell)
 {
-	if (shell->line)
-		ft_free((void **)&(shell->line));
+	ft_free((void **)&(shell->line));
 	if (shell->parsed)
 		ft_free_mat((void ***)&shell->parsed);
 	if (shell->red.infiles)
