@@ -33,7 +33,7 @@ i leaks usando sempre come promp: "> ".
 leak prodotti dalla sola chiamata di readline (liberando la line ritornata) con prompt "> ": 224768 bytes in 231 blocks.
 
 Utilizzando ft_readline i leaks non aumentano, anche se si leggono piu' righe (i.e. il cmd termina con |):
-Anche add_history, a quanto pare produce leaks, in particolare: 4016 bytes in 1 block;
+Anche add_history, a quanto pare, produce leaks in particolare: 4016 bytes in 1 block;
 pertanto i leaks fissi per i comandi che vengono aggiunti alla history sono: 228784 bytes in 232 blocks.
 
 ^D:		224768 bytes in 231 blocks. -> OK
