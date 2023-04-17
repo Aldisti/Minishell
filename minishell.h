@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 11:57:47 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:41:03 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,16 @@ char		*ft_exp_dol(t_shell *shell, char *str, int lvl);
 void		ft_split_expansions(t_shell *shell, char *str, int j, int k);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
-int			ft_free_a(char **elem, int n);
 char		*ft_getname(char *str, int i);
+int			ft_check_for_space(char *str);
 int			ft_getquotes(char *str, int i);
+int			ft_find_in_array(char **tab, char *to_find);
+//	expansion_help
+void		*ft_free_exp(t_exp *exp);
+int			ft_free_a(char **elem, int n);
 void		*ft_free_mat_a(void ***elem, int size);
+int			ft_check_for_op(t_exp *exp, char *str);
+char		*ft_put_quotes(t_shell *shell, char *origin);
 
 //	Parentheses
 //	parentheses

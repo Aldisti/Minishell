@@ -6,24 +6,13 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 12:01:25 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:47:24 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 extern int	g_shell_errno;
-
-void	*ft_free_exp(t_exp *exp)
-{
-	if (exp->pd)
-		ft_free_mat((void ***)&exp->pd);
-	if (exp->sp)
-		ft_free_mat((void ***)&exp->sp);
-	if (exp->tmp)
-		ft_free_mat((void ***)&exp->tmp);
-	return (NULL);
-}
 
 char	*ft_expand_spec(char *str)
 {
@@ -39,34 +28,6 @@ char	*ft_expand_spec(char *str)
 	return (value);
 }
 
-char	*ft_put_quotes(t_shell *shell, char *origin)
-{
-	int		i;
-
-	shell->exp.pd = ft_parser(shell, origin, ">|<");
-	if (!shell->exp.pd)
-		ft_die(shell, 1, 12);
-	i = -1;
-	shell->exp.strs[3] = NULL + ft_free_a(&origin, 0);
-	while (shell->exp.pd[++i])
-	{
-		if (ft_in(shell->exp.pd[i][0], ">|<"))
-		{
-			shell->exp.strs[0] = "\"";
-			shell->exp.strs[2] = "\"";
-			shell->exp.strs[1] = shell->exp.pd[i];
-			shell->exp.pd[i] = ft_joiner(shell->exp.strs, 0);
-			if (!shell->exp.pd[i])
-				ft_die(shell, 1, 12);
-			ft_free((void **)&shell->exp.strs[1]);
-		}
-	}
-	origin = ft_joiner(shell->exp.pd, 1);
-	if (!origin)
-		ft_die(shell, 1, 12);
-	return (origin);
-}
-
 char	*ft_exp_dol(t_shell *shell, char *str, int lvl)
 {
 	char	*name;
@@ -79,6 +40,8 @@ char	*ft_exp_dol(t_shell *shell, char *str, int lvl)
 		value = ft_strdup("");
 	else
 		value = ft_strdup(env->value);
+	if (ft_check_for_space(value) && ft_check_for_op(&shell->exp, str))
+		return (str + ft_free_a(&value, 0));
 	if (!value)
 		return (0);
 	ft_free((void **)&str);
@@ -120,7 +83,8 @@ void	ft_split_expansions(t_shell *sh, char *str, int j, int k)
 {
 	int		i[2];
 
-	sh->exp.sp = (char **)ft_calloc(ft_countn(str, 36, -1) * 2 + 2, sizeof(char *));
+	sh->exp.sp = (char **)ft_calloc(ft_countn(str, 36, -1) * 2 + 2,
+			sizeof(char *));
 	if (!sh->exp.sp)
 		ft_die(sh, 1, 12);
 	i[0] = 0;
