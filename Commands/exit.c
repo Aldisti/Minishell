@@ -45,7 +45,7 @@ void	ft_die_exit(t_shell *shell, char **strs, char **cmd, int type)
 	}
 	else if (type == 1)
 	{
-		fd_printf(2, "exit\n");
+		fd_printf(1, "exit\n");
 		exit_s = ft_atoi(cmd[1]);
 		ft_free_mat((void ***) &strs);
 		ft_free_mat((void ***) &cmd);
@@ -140,7 +140,7 @@ int	ft_exit(t_shell *shell, char **strs, char **cmd)
 	val = 0;
 	if (args_count(cmd) == 1 && shell->pipex.cmd_count == 1)
 	{
-		fd_printf(2, "exit\n");
+		fd_printf(1, "exit\n");
 		ft_free_mat((void ***) &strs);
 		ft_free_mat((void ***) &cmd);
 		ft_die(shell, 1, 0);
