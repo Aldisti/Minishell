@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/17 10:46:12 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:42:30 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int	wait_last_valid_pid(t_shell *shell)
 		if (shell->pipex.pid[i] != -1)
 				val = shell->pipex.pid[i];
 		else
-			temp = 1;
+			temp = i;
 		i++;
 	}
 	if (val != -1)
 	{
 		waitpid(val, &status, 0);
-		if (WIFEXITED(status) && temp != shell->n_cmds -1)
+		if (WIFEXITED(status) && temp != shell->n_cmds)
 			g_shell_errno = WEXITSTATUS(status);
 	}
 	return (val);

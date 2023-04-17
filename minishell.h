@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 11:57:15 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/17 15:33:22 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,16 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
 
-extern void	rl_replace_line(char *text, int clear_undo);
-extern void	rl_clear_history(void);
+// extern void	rl_replace_line(char *text, int clear_undo);
+// extern void	rl_clear_history(void);
+
+typedef struct s_exp
+{
+	char	**sp;
+	char	**pd;
+	char	**tmp;
+	char	*strs[4];
+}	t_exp;
 
 typedef struct s_red
 {
@@ -92,6 +100,7 @@ typedef struct s_shell
 	int					*lvls;
 	int					n_cmds;
 	t_red				red;
+	t_exp				exp;
 	t_list				*list;
 	t_pipex				pipex;
 }	t_shell;
@@ -147,14 +156,20 @@ void		*ft_die_parser(t_shell *shell, char **parsed);
 char		*ft_expand_spec(char *str);
 void		ft_expand_all(t_shell *shell, char **parsed);
 char		*ft_exp_tilde(t_shell *shell, char *str, int lvl);
-char		*ft_expand_doll(t_shell *shell, char *str, int lvl);
-char		**ft_split_expansions(t_shell *shell, char *str, int j, int k);
+char		*ft_exp_dol(t_shell *shell, char *str, int lvl);
+void		ft_split_expansions(t_shell *shell, char *str, int j, int k);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
-int			ft_free_a(char **elem, int n);
 char		*ft_getname(char *str, int i);
+int			ft_check_for_space(char *str);
 int			ft_getquotes(char *str, int i);
+int			ft_find_in_array(char **tab, char *to_find);
+//	expansion_help
+void		*ft_free_exp(t_exp *exp);
+int			ft_free_a(char **elem, int n);
 void		*ft_free_mat_a(void ***elem, int size);
+int			ft_check_for_op(t_exp *exp, char *str);
+char		*ft_put_quotes(t_shell *shell, char *origin);
 
 //	Parentheses
 //	parentheses
@@ -174,7 +189,7 @@ void		red_selector(t_shell *shell, int id, int mode);
 int			ft_redirection(t_shell *shell);
 //	red_check
 int			ft_red_check(t_shell *shell, char *line);
-int			ft_valid_red_op(char *line);
+int			ft_valid_red_op(char *line, int *i);
 int			ft_check_space(char *line, int ind);
 int			ft_check_fn_status(t_shell *shell, int n_cmd, char type);
 //	red_init
@@ -280,6 +295,7 @@ int			ft_isdigit(int n);
 int			ft_isspace(int c);
 //	free
 void		ft_free(void **strs);
+void		*ft_free_exp(t_exp *exp);
 int			ft_free_env(t_env **env);
 void		ft_free_list(t_list **list);
 void		ft_free_mat(void ***mat_addr);

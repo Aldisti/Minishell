@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/15 14:23:04 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/17 15:20:39 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,14 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	cmd = NULL;
 	if (is_only_red(argv[*child_id]))
 		ft_exit_exec(shell, argv, cmd, 0);
-	if (ft_in('<', argv[*child_id]))
+	if (shell->red.infiles[*child_id][0] == '$')
 	{
-		fd_printf(2, "%s: no such file or direcotry\n",
+		fd_printf(2, "%s: ambiguous redirect\n", shell->red.infiles[*child_id]);
+		ft_exit_exec(shell, argv, cmd, 1);
+	}
+	else if (ft_in('<', argv[*child_id]))
+	{
+		fd_printf(2, "%s: no such file or direcory\n",
 			shell->red.infiles[*child_id]);
 		ft_exit_exec(shell, argv, cmd, 1);
 	}

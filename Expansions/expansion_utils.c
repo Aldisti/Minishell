@@ -6,33 +6,11 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/25 17:10:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/15 12:14:53 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:40:21 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_free_a(char **elem, int n)
-{
-	if (*elem)
-		ft_free((void **)elem);
-	elem = 0;
-	return (n);
-}
-
-void	*ft_free_mat_a(void ***elem, int size)
-{
-	int	i;
-
-	if (size == -1)
-		while ((char **)(*elem)[++size])
-			;
-	i = -1;
-	while (++i < size)
-		ft_free((void **)&(*elem)[i]);
-	(*elem) = 0;
-	return (0);
-}
 
 //	RETURN: this functions returns all the letters, numbers and underscores
 //		right after the index [i] and before the first that's not a letter,
@@ -104,4 +82,53 @@ int	ft_getquotes(char *str, int i)
 			quotes = 0;
 	}
 	return (quotes);
+}
+
+/*
+DESCRIPTION
+it's like strstr (see man strstr)
+this function searches the string [to_find] inside the strings array [tab]
+and if found returns it's index inside the array [tab]
+OUTPUT
+[-1] -> if [to_find] is not found
+*/
+int	ft_find_in_array(char **tab, char *to_find)
+{
+	int	i;
+
+	if (!tab || !to_find)
+		return (-1);
+	i = -1;
+	while (tab[++i])
+	{
+		if (!ft_strcmp(tab[i], to_find))
+			return (i);
+	}
+	return (-1);
+}
+
+/*
+OUTPUT
+[1] -> if there is something like: "echo ciao"
+[0] -> if there is something like: "   echo" "echo   "
+*/
+int	ft_check_for_space(char *str)
+{
+	char	*trim;
+	int		i;
+
+	trim = ft_strtrim(str, " \t\n\v");
+	if (!trim)
+		return (0);
+	i = -1;
+	while (trim[++i])
+	{
+		if (ft_in(trim[i], " \t\n\v"))
+		{
+			ft_free((void **)&trim);
+			return (1);
+		}
+	}
+	ft_free((void **)&trim);
+	return (0);
 }
