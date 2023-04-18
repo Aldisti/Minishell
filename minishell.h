@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 15:52:47 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 18:51:12 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
 //	pipex
+void		close_everything(t_shell *shell);
 char		**line_filter(char **strs);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc);

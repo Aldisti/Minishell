@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/18 15:51:33 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 18:51:57 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,12 @@ void	my_wait(t_shell *shell, int id, int process_id)
 	int		status;
 	char	*str;
 
-	while (shell->pipex.flag > 0)
-	{
-		str = get_next_line(shell->pipex.original_stdin);
-		free(str);
-		shell->pipex.flag--;
-	}
 	waitpid(process_id, &status, 0);
 	if ((id) > 0)
 		close(shell->pipex.pipe[2 * (id) - 2]);
 	close(shell->pipex.pipe[2 * (id) + 1]);
 	if (WIFEXITED(status))
 		g_shell_errno = WEXITSTATUS(status);
-}
-
-int	special_cat(t_shell *shell, char **cmd, int id)
-{
-	char	**temp;
-	char	**new_cmd;
-
-	temp = ft_parser(shell, cmd[id], " ");
-	new_cmd = line_filter(temp);
-	ft_free_mat((void ***) &temp);
-	if (new_cmd[1] || ft_strncmp(new_cmd[0], "cat", 3)
-		|| shell->red.outfiles[id][0]
-			|| shell->red.afiles[id][0] || shell->red.infiles[id][0])
-	{
-		shell->pipex.is_first = 0;
-		ft_free_mat((void ***) &new_cmd);
-		return (0);
-	}
-	if (id == 0)
-		shell->pipex.is_first = 1;
-	ft_free_mat((void ***) &new_cmd);
-	return (1);
 }
 
 /*
@@ -156,8 +128,7 @@ int	pipex(t_shell *shell, char **argv)
 	while (++i < shell->pipex.cmd_count)
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-	//pipes(&shell->pipex, "close");
-	//wait_last_valid_pid(shell);
+	close_everything(shell);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
