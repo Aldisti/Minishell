@@ -35,8 +35,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(const char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_exp
 {
@@ -275,7 +275,7 @@ char		**ft_take_paths(t_shell *shell, int id);
 void		ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type);
 //	command
 char		**get_cmd(t_shell *shell, char *str, int id);
-char		*path_checker(t_pipex *pipex, char **str, int i);
+char		*path_checker(t_shell *shell, t_pipex *pipex, char **str, int i);
 int			built_in_selector(t_shell *shell, int *id, char **cmd);
 void		get_cmd_loop(t_shell *shell, char *temp, char **command);
 void		built_in_pipe_handler(t_shell *shell, int *id, char **cmd);

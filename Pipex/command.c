@@ -20,7 +20,7 @@ pipex->paths[i]	:all the possible combination of path/command
 this function check if pipex->paths[i] is a valid and existing dir if so return
 the string otherwise it print error message and exit
 */
-char	*path_checker(t_pipex *pipex, char **str, int i)
+char	*path_checker(t_shell *shell, t_pipex *pipex, char **str, int i)
 {
 	int	flag;
 
@@ -35,11 +35,15 @@ char	*path_checker(t_pipex *pipex, char **str, int i)
 	}
 	if (flag)
 		return (ft_strdup(pipex->paths[i]));
-	if (!access(str[0], X_OK))
+	if (!access(str[0], X_OK) && ft_get_node(shell->list, "PATH")
+			&& ft_find_in_array(shell->files, str[0]) == -1)
+		return (ft_strdup(str[0]));
+	if (!access(str[0], X_OK) && !ft_get_node(shell->list, "PATH")
+			&& ft_find_in_array(shell->files, str[0]) != -1)
 		return (ft_strdup(str[0]));
 	dup2(pipex->original_stdout, 1);
 	fd_printf(2, "%s: command not found\n",
-		ft_strrchr(pipex->paths[0], '/') + 1);
+		str[0]);
 	return (0);
 }
 
@@ -90,7 +94,7 @@ char	**get_cmd(t_shell *shell, char *str, int id)
 	ft_free_mat((void ***) &temp_parser);
 	while (shell->pipex.paths[++shell->pipex.cmd_i])
 		get_cmd_loop(shell, temp, command);
-	temp = path_checker(&shell->pipex, command, -1);
+	temp = path_checker(shell, &shell->pipex, command, -1);
 	ft_free((void **) &command[0]);
 	if (!temp)
 		command[0] = 0;
