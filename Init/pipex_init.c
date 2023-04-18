@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 12:29:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/18 12:29:55 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 13:18:44 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ init all variables in pipex struct
 */
 int	pipex_init(t_pipex *pipex, int argc)
 {
-	int	i;
-
-	i = -1;
 	pipex->original_stdout = dup(1);
 	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);
@@ -33,11 +30,6 @@ int	pipex_init(t_pipex *pipex, int argc)
 	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count + 2));
 	if (!pipex->pipe)
 		return (0);
-	pipex->pid = (pid_t *) malloc(sizeof(pid_t) * pipex->cmd_count + 2);
-	if (!pipex->pid)
-		return (0);
-	while (++i < pipex->cmd_count)
-		pipex->pid[i] = -1;
 	if (pipes(pipex, "open") == -1)
 		return (-1);
 	return (1);

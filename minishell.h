@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 12:35:01 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 13:19:29 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,8 @@ typedef struct s_pipex
 	int		*pipe;
 	int		pipe_count;
 	int		cmd_count;
-	int		infile_fd;
-	int		outfile_fd;
 	int		original_stdout;
 	int		original_stdin;
-	pid_t	*pid;
 	int		cmd_i;
 	char	**paths;
 }	t_pipex;

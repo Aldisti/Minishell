@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/18 12:36:50 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 13:16:44 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 		pipes(&shell->pipex, "close");	
 		execute_cmd(shell, cmd, id);
 	}
+	if (flag)
+		built_in_pipe_handler(shell, id, cmd);
 	my_wait(shell, *id, val);
 	return (1);
 }
