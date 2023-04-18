@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/18 18:51:57 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 21:32:05 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ extern int	g_shell_errno;
 void	my_wait(t_shell *shell, int id, int process_id)
 {
 	int		status;
-	char	*str;
 
 	waitpid(process_id, &status, 0);
 	if ((id) > 0)
