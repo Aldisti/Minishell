@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/17 14:42:30 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/18 12:36:50 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,27 @@
 
 extern int	g_shell_errno;
 
-/*
-	int	wait_last_valid_pid(t_shell *shell)
-
-	this func loop trough the pid array and find 
-	the last valid pid so that pipex never wait
-	for an invalid process (build in)
-*/
-int	wait_last_valid_pid(t_shell *shell)
+void	my_wait(t_shell *shell, int id, int process_id)
 {
-	int	i;
-	int	temp;
-	int	val;
-	int	status;
+	int status;
+	
+	waitpid(process_id, &status, 0);
+	if ((id) > 0)
+		close(shell->pipex.pipe[2 * (id) - 2]);	
+	close(shell->pipex.pipe[2 * (id) + 1]);
+	if (WIFEXITED(status))
+		g_shell_errno = WEXITSTATUS(status);
+}
 
-	i = 0;
-	val = -1;
-	temp = 0;
-	while (i < shell->pipex.cmd_count)
-	{
-		if (shell->pipex.pid[i] != -1)
-				val = shell->pipex.pid[i];
-		else
-			temp = i;
-		i++;
-	}
-	if (val != -1)
-	{
-		waitpid(val, &status, 0);
-		if (WIFEXITED(status) && temp != shell->n_cmds)
-			g_shell_errno = WEXITSTATUS(status);
-	}
-	return (val);
+int	pre_check(t_shell *shell, char **cmd, int id)
+{
+	sigaction(SIGINT, &shell->a_nothing, 0);
+	sigaction(SIGQUIT, &shell->a_nothing, 0);
+	if (!ft_strncmp(cmd[id], "./", 2)
+		&& access(ft_strchr(cmd[id], '/') + 1, W_OK))
+		return (g_shell_errno = fd_printf(2, "%s: no such file or directory\n",
+				cmd[id]) * 0 + 127);
+	return (0);
 }
 
 /*
@@ -62,58 +51,24 @@ the stdin and stdout is modyfied as well with dup2 func
 int	child_proc(t_shell *shell, char **cmd, int *id)
 {
 	int	flag;
+	int	val;
 
 	flag = built_in_selector(shell, id, cmd);
 	if (flag < 0)
 		return (1);
-	sigaction(SIGINT, &shell->a_nothing, 0);
-	sigaction(SIGQUIT, &shell->a_nothing, 0);
-	if (!ft_strncmp(cmd[*id], "./", 2)
-		&& access(ft_strchr(cmd[*id], '/') + 1, W_OK))
-		return (g_shell_errno = fd_printf(2, "%s: no such file or directory\n",
-				cmd[*id]) * 0 + 127);
-	shell->pipex.pid[*id] = fork();
-	if (shell->pipex.pid[*id] < 0)
+	val = pre_check(shell, cmd, *id);
+	if (val > 0)
+		return (val);
+	val = fork();
+	if (val < 0)
 		return (-1);
-	if (shell->pipex.pid[*id] == 0)
+	if (val == 0)
 	{
 		my_dup(shell, *id);
-		pipes(&shell->pipex, "close");
+		pipes(&shell->pipex, "close");	
 		execute_cmd(shell, cmd, id);
 	}
-	if (flag)
-		built_in_pipe_handler(shell, id, cmd);
-	return (1);
-}
-
-/*
-int	pipex_init(t_pipex *pipex, int argc, char **argv)
-t_pipex	*pipex: a pointer to the struct pipex
-int		argc: the number of command given in shell
-char **argv:	double pointer that rapresent the preparsed line coming from shell
-				prompt that is already splitted on metacharacter and filtered for '|' or ' '
-
-init all variables in pipex struct
-*/
-int	pipex_init(t_pipex *pipex, int argc)
-{
-	int	i;
-
-	i = -1;
-	pipex->original_stdout = dup(1);
-	pipex->original_stdin = dup(0);
-	pipex->cmd_count = (argc);
-	pipex->pipe_count = 2 * (pipex->cmd_count - 1);
-	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count + 2));
-	if (!pipex->pipe)
-		return (0);
-	pipex->pid = (pid_t *) malloc(sizeof(pid_t) * pipex->cmd_count + 2);
-	if (!pipex->pid)
-		return (0);
-	while (++i < pipex->cmd_count)
-		pipex->pid[i] = -1;
-	if (pipes(pipex, "open") == -1)
-		return (-1);
+	my_wait(shell, *id, val);
 	return (1);
 }
 
@@ -181,8 +136,8 @@ int	pipex(t_shell *shell, char **argv)
 	while (++i < shell->pipex.cmd_count)
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-	pipes(&shell->pipex, "close");
-	wait_last_valid_pid(shell);
+	//pipes(&shell->pipex, "close");
+	//wait_last_valid_pid(shell);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
