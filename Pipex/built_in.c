@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/14 22:50:27 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 14:36:15 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ dupping the fd properly but only the necessary one
 */
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
+	get_next_line(shell->pipex.original_stdin);
 	my_dup(shell, (*id) - 1);
 	ft_replace(cmd[*id], "\37", ' ');
 	execute_built_in(shell, cmd, shell->lvls[*id], *id - 1);

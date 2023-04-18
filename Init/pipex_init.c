@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 12:29:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/18 13:18:44 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 15:42:03 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ init all variables in pipex struct
 int	pipex_init(t_pipex *pipex, int argc)
 {
 	pipex->original_stdout = dup(1);
+	pipex->flag = 0;
+	pipex->is_first = 0;
 	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);
 	pipex->pipe_count = 2 * (pipex->cmd_count - 1);

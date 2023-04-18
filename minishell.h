@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 13:19:29 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 15:52:47 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
 
-// extern void	rl_replace_line(const char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(const char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_exp
 {
@@ -74,6 +74,8 @@ typedef struct s_list
 typedef struct s_pipex
 {
 	int		*pipe;
+	int		flag;
+	int		is_first;
 	int		pipe_count;
 	int		cmd_count;
 	int		original_stdout;
@@ -259,6 +261,7 @@ int			child_proc(t_shell *shell, char **argv, int *child_id);
 void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 char		*gnp(t_shell *shell, char *str);
 //	pipex_utils
+int			pre_check(t_shell *shell, char **cmd, int *id);
 int			pipex_init(t_pipex *pipex, int argc);
 int			is_blt(char *cmd);
 char		*get_next_line(int fd);

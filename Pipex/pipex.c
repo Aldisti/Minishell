@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/18 13:16:44 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 15:51:33 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,43 @@ extern int	g_shell_errno;
 
 void	my_wait(t_shell *shell, int id, int process_id)
 {
-	int status;
-	
+	int		status;
+	char	*str;
+
+	while (shell->pipex.flag > 0)
+	{
+		str = get_next_line(shell->pipex.original_stdin);
+		free(str);
+		shell->pipex.flag--;
+	}
 	waitpid(process_id, &status, 0);
 	if ((id) > 0)
-		close(shell->pipex.pipe[2 * (id) - 2]);	
+		close(shell->pipex.pipe[2 * (id) - 2]);
 	close(shell->pipex.pipe[2 * (id) + 1]);
 	if (WIFEXITED(status))
 		g_shell_errno = WEXITSTATUS(status);
 }
 
-int	pre_check(t_shell *shell, char **cmd, int id)
+int	special_cat(t_shell *shell, char **cmd, int id)
 {
-	sigaction(SIGINT, &shell->a_nothing, 0);
-	sigaction(SIGQUIT, &shell->a_nothing, 0);
-	if (!ft_strncmp(cmd[id], "./", 2)
-		&& access(ft_strchr(cmd[id], '/') + 1, W_OK))
-		return (g_shell_errno = fd_printf(2, "%s: no such file or directory\n",
-				cmd[id]) * 0 + 127);
-	return (0);
+	char	**temp;
+	char	**new_cmd;
+
+	temp = ft_parser(shell, cmd[id], " ");
+	new_cmd = line_filter(temp);
+	ft_free_mat((void ***) &temp);
+	if (new_cmd[1] || ft_strncmp(new_cmd[0], "cat", 3)
+		|| shell->red.outfiles[id][0]
+			|| shell->red.afiles[id][0] || shell->red.infiles[id][0])
+	{
+		shell->pipex.is_first = 0;
+		ft_free_mat((void ***) &new_cmd);
+		return (0);
+	}
+	if (id == 0)
+		shell->pipex.is_first = 1;
+	ft_free_mat((void ***) &new_cmd);
+	return (1);
 }
 
 /*
@@ -56,7 +74,7 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 	flag = built_in_selector(shell, id, cmd);
 	if (flag < 0)
 		return (1);
-	val = pre_check(shell, cmd, *id);
+	val = pre_check(shell, cmd, id);
 	if (val > 0)
 		return (val);
 	val = fork();
@@ -65,7 +83,7 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 	if (val == 0)
 	{
 		my_dup(shell, *id);
-		pipes(&shell->pipex, "close");	
+		pipes(&shell->pipex, "close");
 		execute_cmd(shell, cmd, id);
 	}
 	if (flag)

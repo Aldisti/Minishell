@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:08:54 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 13:18:31 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/18 13:48:24 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_shell_set(t_shell *shell)
 	shell->files = 0;
 	shell->pipex.pipe = 0;
 	shell->pipex.paths = 0;
+	shell->pipex.flag = 0;
 	shell->red.infiles = 0;
 	shell->red.outfiles = 0;
 	shell->red.afiles = 0;
