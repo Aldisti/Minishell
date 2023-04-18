@@ -165,7 +165,7 @@ int			ft_getquotes(char *str, int i);
 int			ft_find_in_array(char **tab, char *to_find);
 //	expansion_help
 void		*ft_free_exp(t_exp *exp);
-int			ft_free_a(char **elem, int n);
+long		ft_free_a(char **elem, long n);
 void		*ft_free_mat_a(void ***elem, int size);
 int			ft_check_for_op(t_exp *exp, char *str);
 char		*ft_put_quotes(t_shell *shell, char *origin);
