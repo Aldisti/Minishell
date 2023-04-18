@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 13:54:07 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:48:51 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@
 # ifndef MSG_ERR
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(const char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_exp
 {

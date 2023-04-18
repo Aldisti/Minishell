@@ -5,127 +5,85 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 11:17:14 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/03/29 12:15:56 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/01/27 09:32:08 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/18 13:44:01 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-char	*print_remain(char	*str)
+int	ft_check_error(int r, char *str)
 {
-	char	*ret;
-	char	*new_buff;
-	int		i;
+	if (r < 0)
+	{
+		if (str)
+			free(str);
+		return (1);
+	}
+	return (0);
+}
 
-	new_buff = ft_strchr(str, '\n') + 1;
-	if (!str)
-		return (0);
+void	ft_movebuffer(char *buffer)
+{
+	int	i;
+
 	i = 0;
-	while (str[i] && str[i] != '\n')
+	while (i < BUFFER_SIZE - 1)
+	{
+		buffer[i] = buffer[i + 1];
+		if (!buffer[i])
+			break ;
 		i++;
-	ret = (char *) malloc((i + 2) * sizeof(char));
-	ft_strlcpy(ret, str, i + 2);
-	if (ft_strchr(str, '\n'))
-		ft_strlcpy(str, new_buff, ft_strlen(new_buff) + 1);
-	else
-	{
-		i = -1;
-		while (++i < 10)
-			str[i] = 0;
 	}
-	return (ret);
+	buffer[i] = 0;
 }
 
-char	*get_line(int fd)
+char	*ft_realloc_get(char *str, char *buffer)
 {
-	char	buff[10 + 1];
-	int		flag;
-	char	*ret;
-	int		i;
-
-	flag = 1;
-	ret = ft_strdup("");
-	buff[10] = 0;
-	while (ft_strchr(ret, '\n') == 0 && flag)
-	{
-		i = -1;
-		while (++i < 10)
-			buff[i] = 0;
-		flag = read(fd, buff, 10);
-		ret = ft_strjoin(ret, buff);
-		if (flag <= 0 && !*ret)
-		{
-			free(ret);
-			return (0);
-		}
-	}
-	return (ret);
-}
-
-char	**parser(char *str, int len0)
-{
-	char	**ret;
-	int		len1;
-	char	*chr;
+	char	*new;
 
 	if (!str)
-		return (0);
-	chr = ft_strchr(str, '\n');
-	len0 = 0;
-	while (str[len0] && str[len0] != '\n')
-		len0++;
-	len0++;
-	if (chr != 0)
-		len0 = ((chr + 1) - str) + 1;
-	if (chr == 0)
-		len1 = 0;
+	{
+		new = (char *) malloc(2 * sizeof(char));
+		if (!new)
+			return (NULL);
+		new[0] = buffer[0];
+		new[1] = 0;
+	}
 	else
-		len1 = ft_strlen(chr + 1) + 1;
-	ret = (char **) malloc(2 * sizeof(char *));
-	ret[0] = (char *)malloc((len0) * sizeof(char));
-	ret[1] = (char *)malloc((len1) * sizeof(char));
-	ft_strlcpy(ret[0], str, len0);
-	if (len1 > 0)
-		ft_strlcpy(ret[1], (chr + 1), len1);
-	free(str);
-	return (ret);
-}
-
-void	free_all(char **strs, char *str, char *buff)
-{
-	ft_strlcpy(buff, strs[1], ft_strlen(strs[1]) + 1);
-	free(strs[0]);
-	free(strs[1]);
-	free(strs);
-	free(str);
+	{
+		new = ft_strjoin(str, buffer);
+		if (str)
+			ft_free((void **)&str);
+	}
+	ft_movebuffer(buffer);
+	return (new);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	buff[10 + 1];
-	char		*full;
+	static char	buffer[BUFFER_SIZE];
 	char		*str;
-	char		**strs;
-	char		*ret;
+	int			r;
 
-	if (fd < 0 || 10 <= 0)
-		return (NULL);
-	if (ft_strchr(buff, '\n'))
-		return (print_remain(buff));
-	str = get_line(fd);
-	if (!str)
+	r = 1;
+	str = NULL;
+	while (r)
 	{
-		if (buff[0])
-			return (print_remain(buff));
-		return (0);
+		while (buffer[0] != '\n' && buffer[0])
+		{
+			str = ft_realloc_get(str, buffer);
+			if (!str)
+				return (NULL);
+		}
+		if (buffer[0] == '\n')
+		{
+			str = ft_realloc_get(str, buffer);
+			break ;
+		}
+		r = read(fd, buffer, BUFFER_SIZE);
+		if (ft_check_error(r, str))
+			return (NULL);
 	}
-	if (ft_strchr(str, '\n') == 0 && !buff[0])
-		return (str);
-	full = ft_strdup(buff);
-	full = ft_strjoin(full, str);
-	strs = parser(full, 0);
-	ret = ft_strdup(strs[0]);
-	free_all(strs, str, buff);
-	return (ret);
+	return (str);
 }
