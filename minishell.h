@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 15:33:22 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/18 10:04:29 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
 # endif
 
-// extern void	rl_replace_line(char *text, int clear_undo);
-// extern void	rl_clear_history(void);
+extern void	rl_replace_line(const char *text, int clear_undo);
+extern void	rl_clear_history(void);
 
 typedef struct s_exp
 {
@@ -166,7 +166,7 @@ int			ft_getquotes(char *str, int i);
 int			ft_find_in_array(char **tab, char *to_find);
 //	expansion_help
 void		*ft_free_exp(t_exp *exp);
-int			ft_free_a(char **elem, int n);
+long		ft_free_a(char **elem, long n);
 void		*ft_free_mat_a(void ***elem, int size);
 int			ft_check_for_op(t_exp *exp, char *str);
 char		*ft_put_quotes(t_shell *shell, char *origin);
