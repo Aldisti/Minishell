@@ -228,7 +228,11 @@ int			ft_intab(char *str, char **tab);
 int			get_oldpwd_i(char **envp);
 int			cd(t_shell *shell, char **cmd, int lvl);
 int			args_count(char **argv);
-void		update_oldpwd(t_shell *shell, char *str, int lvl);
+void		update_oldpwd(t_shell *shell, int lvl);
+//	cd_utils
+int			ft_die_cd(char *trueold, char *oldpwd, char *cmd, int ret);
+void		ft_update_error(t_shell *shell, char *cmd, int lvl);
+void		ft_update_pwd(t_shell *shell, char *cmd, int lvl);
 //	pwd
 int			print_pwd(t_shell *shell);
 // exit
