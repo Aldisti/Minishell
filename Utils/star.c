@@ -120,11 +120,13 @@ char	**ft_readdir_star(char c, const char *path)
 		return (0);
 	i = -1;
 	while (files[++i])
+	{
 		if (!ft_strcmp(files[i], "..") || !ft_strcmp(files[i], ".")
 			|| (c != '.' && files[i][0] == '.'))
 		{
 			ft_free((void **)&files[i]);
 			files[i] = ft_strdup("");
 		}
+	}
 	return (files);
 }
