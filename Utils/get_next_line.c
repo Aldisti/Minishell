@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 11:17:14 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/19 13:23:52 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 16:58:35 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_line(int fd)
 		while (++i < 10)
 			buff[i] = 0;
 		flag = read(fd, buff, 10);
-		ret = ft_strjoin(ret, buff);
+		ret = gnl_join(ret, buff);
 		if (flag <= 0 && !*ret)
 		{
 			free(ret);
@@ -123,7 +123,7 @@ char	*get_next_line(int fd)
 	if (ft_strchr(str, '\n') == 0 && !buff[0])
 		return (str);
 	full = ft_strdup(buff);
-	full = ft_strjoin(full, str);
+	full = gnl_join(full, str);
 	strs = parser(full, 0);
 	ret = ft_strdup(strs[0]);
 	free_all(strs, str, buff);

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:03:52 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 09:50:32 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:12:47 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,21 @@ int	ft_check_for_op(t_exp *exp, char *str)
 	int		i;
 	int		j;
 
+	if (!str || !str[0] || !exp->sp)
+		return (0);
 	j = ft_find_in_array(exp->sp, str);
 	if (j-- <= 0)
 		return (0);
 	i = ft_strlen(exp->sp[j]) - 1;
 	while (i >= 0 && ft_isspace(exp->sp[j][i]))
 		i--;
+	if (!exp->sp[j] || !exp->sp[j][0])
+		return (0);
 	if (ft_in(exp->sp[j][i], "><") && i == 0)
 		return (1);
 	if (ft_in(exp->sp[j][i], "><") && i > 0 && exp->sp[j][i - 1] == '<')
 		return (2);
-	else if (ft_in(exp->sp[j][i], "><") && i > 0 && exp->sp[j][i - 1] != '<')
+	if (ft_in(exp->sp[j][i], "><") && i > 0 && exp->sp[j][i - 1] != '<')
 		return (1);
 	return (0);
 }
