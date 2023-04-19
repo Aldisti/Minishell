@@ -6,13 +6,28 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:52:04 by marco             #+#    #+#             */
-/*   Updated: 2023/04/19 14:40:45 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 16:14:09 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
 extern int	g_shell_errno;
+
+void	built_in_check(t_shell *shell, int *id, char **cmd)
+{
+	my_dup(shell, *id);
+	ft_replace(cmd[*id], "\37", ' ');
+	execute_built_in(shell, cmd, shell->lvls[*id], *id);
+	if (*id > 0)
+		close(shell->pipex.pipe[2 * (*id) - 2]);
+	else
+		close(shell->pipex.pipe[0]);
+	close(shell->pipex.pipe[2 * (*id) + 1]);
+	if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
+		dup2(shell->pipex.original_stdin, 0);
+	dup2(shell->pipex.original_stdout, 1);
+}
 
 void	close_everything(t_shell *shell)
 {

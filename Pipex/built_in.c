@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/19 13:41:42 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 16:15:07 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,20 +125,12 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 		flag = 1;
 		(*id) += 1;
 	}
-	else if (!is_blt(gnp(shell, cmd[*id])) || ft_in('<', cmd[*id]))
-		return (flag);
-	my_dup(shell, *id);
-	ft_replace(cmd[*id], "\37", ' ');
-	execute_built_in(shell, cmd, shell->lvls[*id], *id);
-	if (*id > 0)
-		close(shell->pipex.pipe[2 * (*id) - 2]);
-	else
-		close(shell->pipex.pipe[0]);
-	close(shell->pipex.pipe[2 * (*id) + 1]);
-	if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
-		dup2(shell->pipex.original_stdin, 0);
-	dup2(shell->pipex.original_stdout, 1);
-	return (-1);
+	else if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
+	{
+		built_in_check(shell, id, cmd);
+		return (-1);
+	}
+	return (flag);
 }
 
 /*
@@ -149,6 +141,7 @@ dupping the fd properly but only the necessary one
 */
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
+	write(2, "hey\n", 2);
 	ambiguous_red_built(shell, (*id) - 1, cmd);
 	if (!ft_in('<', cmd[(*id) - 1]))
 	{

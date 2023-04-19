@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 15:24:30 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:13:24 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
 //	pipex
+void		built_in_check(t_shell *shell, int *id, char **cmd);
 int			is_only_red(char *str);
 void		ambiguous_red(t_shell *shell, int child_id,
 				char **cmd, char **argv);
