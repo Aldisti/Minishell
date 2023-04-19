@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 13:22:23 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 15:24:11 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	main(int ac, char **av, char **envp)
 		if (!shell.parsed)
 			continue ;
 		ft_lvls(&shell);
-		ft_expand_all(&shell, shell.parsed);
+		ft_expand_all(&shell, shell.parsed, -1);
 		if (!shell.parsed || !shell.parsed[0] || !shell.parsed[0][0]
 				|| ft_redirection(&shell))
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:46:38 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/17 15:24:33 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/19 15:19:59 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_check_dollars(t_shell *shell, int *i)
 		j++;
 	while (ft_in(shell->parsed[*i][j], " "))
 		j++;
-	if (shell->parsed[*i][j] == '$')
+	if (shell->parsed[*i][j] == '$' && shell->parsed[*i][j + 1])
 	{
 		ft_get_filename(shell, *i, &j, 'i');
 		(*i)++;

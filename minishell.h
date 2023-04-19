@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 13:28:13 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:24:30 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void		*ft_die_parser(t_shell *shell, char **parsed);
 //	Expansions
 //	expansion
 char		*ft_expand_spec(char *str);
-void		ft_expand_all(t_shell *shell, char **parsed);
+void		ft_expand_all(t_shell *shell, char **parsed, int j);
 char		*ft_exp_tilde(t_shell *shell, char *str, int lvl);
 char		*ft_exp_dol(t_shell *shell, char *str, int lvl);
 void		ft_split_expansions(t_shell *shell, char *str, int j, int k);

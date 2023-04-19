@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 13:43:53 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:24:15 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_expand_spec(char *str)
 {
 	char	*value;
 
-	if (str[1] == '$')
+	if (str[1] == '$' || !str[1])
 		value = ft_strdup("$");
 	else if (str[1] == '?')
 		value = ft_itoa(g_shell_errno);
@@ -110,12 +110,10 @@ void	ft_split_expansions(t_shell *sh, char *str, int j, int k)
 		ft_die(sh, 1, 12);
 }
 
-void	ft_expand_all(t_shell *sh, char **parsed)
+void	ft_expand_all(t_shell *sh, char **parsed, int j)
 {
 	int		i;
-	int		j;
 
-	j = -1;
 	while (parsed[++j])
 	{
 		if (!ft_in('$', parsed[j]) && !ft_in('~', parsed[j]))
@@ -126,7 +124,8 @@ void	ft_expand_all(t_shell *sh, char **parsed)
 		i = -1;
 		while (sh->exp.sp[++i])
 		{
-			if (sh->exp.sp[i][0] == '$' && ft_in(sh->exp.sp[i][1], "*@#?-$!0"))
+			if (sh->exp.sp[i][0] == '$' && (ft_in(sh->exp.sp[i][1],
+					"*@#?-$!0") || !sh->exp.sp[i][1]))
 				sh->exp.sp[i] = ft_expand_spec(sh->exp.sp[i]);
 			else if (sh->exp.sp[i][0] == '$')
 				sh->exp.sp[i] = ft_exp_dol(sh, sh->exp.sp[i], sh->lvls[j]);
