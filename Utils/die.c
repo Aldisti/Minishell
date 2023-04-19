@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   die.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 14:37:46 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/18 13:20:24 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ void	ft_free_shell(t_shell *shell)
 		ft_free((void **)&(shell->fd_output));
 	if (shell->pipex.pipe)
 		ft_free((void **)&(shell->pipex.pipe));
-	if (shell->pipex.pid)
-		ft_free((void **)&(shell->pipex.pid));
 	if (shell->envp)
 		ft_free_mat((void ***)&(shell->envp));
 }

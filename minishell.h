@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 15:33:22 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/18 21:44:57 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ typedef struct s_list
 typedef struct s_pipex
 {
 	int		*pipe;
+	int		flag;
+	int		is_first;
 	int		pipe_count;
 	int		cmd_count;
-	int		infile_fd;
-	int		outfile_fd;
 	int		original_stdout;
 	int		original_stdin;
-	pid_t	*pid;
 	int		cmd_i;
 	char	**paths;
 }	t_pipex;
@@ -166,7 +165,7 @@ int			ft_getquotes(char *str, int i);
 int			ft_find_in_array(char **tab, char *to_find);
 //	expansion_help
 void		*ft_free_exp(t_exp *exp);
-int			ft_free_a(char **elem, int n);
+long		ft_free_a(char **elem, long n);
 void		*ft_free_mat_a(void ***elem, int size);
 int			ft_check_for_op(t_exp *exp, char *str);
 char		*ft_put_quotes(t_shell *shell, char *origin);
@@ -259,6 +258,8 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
 //	pipex
+char		*gnl_join(char const *s1, char const *s2);
+void		close_everything(t_shell *shell);
 char		**line_filter(char **strs);
 int			pipex(t_shell *shell, char **argv);
 int			pipex_init(t_pipex *pipex, int argc);
@@ -266,6 +267,8 @@ int			child_proc(t_shell *shell, char **argv, int *child_id);
 void		execute_cmd(t_shell *shell, char **argv, int *child_id);
 char		*gnp(t_shell *shell, char *str);
 //	pipex_utils
+int			pre_check(t_shell *shell, char **cmd, int *id);
+int			pipex_init(t_pipex *pipex, int argc);
 int			is_blt(char *cmd);
 char		*get_next_line(int fd);
 int			prepare_strs(t_shell *shell, char **strs);
