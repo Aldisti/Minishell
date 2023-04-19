@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/27 09:32:08 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/18 13:44:01 by adi-stef         ###   ########.fr       */
+/*   Created: 2023/01/26 11:17:14 by mpaterno          #+#    #+#             */
+/*   Updated: 2023/04/18 21:45:25 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,16 @@ void	ft_movebuffer(char *buffer)
 	i = 0;
 	while (i < BUFFER_SIZE - 1)
 	{
-		buffer[i] = buffer[i + 1];
-		if (!buffer[i])
-			break ;
-		i++;
+		i = -1;
+		while (++i < 10)
+			buff[i] = 0;
+		flag = read(fd, buff, 10);
+		ret = gnl_join(ret, buff);
+		if (flag <= 0 && !*ret)
+		{
+			free(ret);
+			return (0);
+		}
 	}
 	buffer[i] = 0;
 }
@@ -85,5 +91,12 @@ char	*get_next_line(int fd)
 		if (ft_check_error(r, str))
 			return (NULL);
 	}
-	return (str);
+	if (ft_strchr(str, '\n') == 0 && !buff[0])
+		return (str);
+	full = ft_strdup(buff);
+	full = gnl_join(full, str);
+	strs = parser(full, 0);
+	ret = ft_strdup(strs[0]);
+	free_all(strs, str, buff);
+	return (ret);
 }

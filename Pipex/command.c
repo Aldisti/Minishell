@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/15 14:23:04 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 11:18:59 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,12 +141,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	cmd = NULL;
 	if (is_only_red(argv[*child_id]))
 		ft_exit_exec(shell, argv, cmd, 0);
-	if (ft_in('<', argv[*child_id]))
-	{
-		fd_printf(2, "%s: no such file or direcotry\n",
-			shell->red.infiles[*child_id]);
-		ft_exit_exec(shell, argv, cmd, 1);
-	}
+	ambiguous_red(shell, *child_id, cmd, argv);
 	ft_replace(argv[(*child_id)], "\37", ' ');
 	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
 	if (!cmd)

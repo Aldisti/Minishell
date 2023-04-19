@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/14 22:50:27 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 11:17:24 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,15 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 	int		flag;
 
 	flag = 0;
+	if (!ambiguous_red_built(shell, *id, cmd))
+		return (-1);
 	if (is_blt(gnp(shell, cmd[*id])) && cmd[(*id) + 1]
 		&& !is_blt(gnp(shell, cmd[(*id) + 1])))
 	{
 		flag = 1;
 		(*id) += 1;
 	}
-	else if (is_blt(gnp(shell, cmd[*id])))
+	else if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
 	{
 		my_dup(shell, *id);
 		ft_replace(cmd[*id], "\37", ' ');
@@ -149,12 +151,17 @@ dupping the fd properly but only the necessary one
 */
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
-	my_dup(shell, (*id) - 1);
-	ft_replace(cmd[*id], "\37", ' ');
-	execute_built_in(shell, cmd, shell->lvls[*id], *id - 1);
-	close(shell->pipex.pipe[2 * ((*id)) - 2]);
-	close(shell->pipex.pipe[2 * ((*id)) + 1]);
-	close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
-	dup2(shell->pipex.original_stdout, 1);
-	dup2(shell->pipex.original_stdin, 0);
+	ambiguous_red_built(shell, (*id) - 1, cmd);
+	if (!ft_in('<', cmd[(*id) - 1]))
+	{
+		my_dup(shell, (*id) - 1);
+		ft_replace(cmd[(*id) - 1], "\37", ' ');
+		execute_built_in(shell, cmd, shell->lvls[*id], *id - 1);
+		close(shell->pipex.pipe[2 * ((*id)) - 2]);
+		close(shell->pipex.pipe[2 * ((*id)) + 1]);
+		close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
+		dup2(shell->pipex.original_stdout, 1);
+		dup2(shell->pipex.original_stdin, 0);
+	}
+
 }

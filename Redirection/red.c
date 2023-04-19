@@ -6,11 +6,31 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:46:38 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/15 19:36:33 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:24:33 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	ft_check_dollars(t_shell *shell, int *i)
+{
+	int	j;
+
+	j = 0;
+	while (shell->parsed[*i][j] && !ft_in(shell->parsed[*i][j], "<>"))
+		j++;
+	while (shell->parsed[*i][j] && ft_in(shell->parsed[*i][j], "<>"))
+		j++;
+	while (ft_in(shell->parsed[*i][j], " "))
+		j++;
+	if (shell->parsed[*i][j] == '$')
+	{
+		ft_get_filename(shell, *i, &j, 'i');
+		(*i)++;
+		return (1);
+	}
+	return (0);
+}	
 
 int	ft_redirection(t_shell *shell)
 {
@@ -25,6 +45,8 @@ int	ft_redirection(t_shell *shell)
 	i = 0;
 	while (shell->parsed[i])
 	{
+		if (ft_check_dollars(shell, &i))
+			continue ;
 		ret = ft_apply_red(shell, i);
 		if (ret == 1)
 			ft_die(shell, 1, 12);

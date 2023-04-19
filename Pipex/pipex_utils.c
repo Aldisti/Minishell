@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/04/13 11:32:18 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/18 13:20:05 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,7 @@ void	child_free(t_pipex *pipex, char **cmd)
 	if (cmd)
 		ft_free((void **) &cmd);
 	ft_free((void **) &pipex->pipe);
-	ft_free((void **) &pipex->pid);
 	pipex->pipe = 0;
-	pipex->pid = 0;
 	cmd = 0;
 }
 

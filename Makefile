@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
+#    By: marco <marco@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/04/07 10:30:34 by gpanico          ###   ########.fr        #
+#    Updated: 2023/04/19 09:36:05 by marco            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,16 +49,16 @@ SRC_PCT = $(shell expr 100 \* $(SRC_COUNT) / $(SRC_COUNT_TOT))
 
 $(NAME): $(OBJ)
 	@$(CC) $(FLAGS) $(OBJ) $(RDLN_L) $(RDLN_M) -o $(NAME)
-	@echo "\r\033[KMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
-	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
-	@echo "███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██      "
-	@echo "████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██      "
-	@echo "██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██      "
-	@echo "██  ██  ██ ██ ██  ██ ██ ██      ██ ██   ██ ██      ██      ██      "
-	@echo "██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████ "
-	@echo "\n$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
-	@echo "$(YELLOW)Made with love and bestemmie by Adi-stef, Afraccal, Gpanico, Mpaterno.\n$(RESET)"
-	@echo "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
+	@printf "\r\033[KMINISHELL  CREATED  SUCCESSUFULLY\n$(RESET)"
+	@printf "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
+	@printf "███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██      \n"
+	@printf "████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██      \n"
+	@printf "██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██      \n"
+	@printf "██  ██  ██ ██ ██  ██ ██ ██      ██ ██   ██ ██      ██      ██      \n"
+	@printf "██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████ \n"
+	@printf "\n$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
+	@printf "$(YELLOW)Made with love and bestemmie by Adi-stef, Afraccal, Gpanico, Mpaterno.\n$(RESET)"
+	@printf "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 
 %.o : %.c
 	@$(CC) $(FLAGS) -c $< -o $@
@@ -72,15 +72,15 @@ linux: $(OBJ)
 
 clean:
 	@printf "$(RED)\nRemoving Object files...\n$(RESET)"
-	@echo "$(BLUE)-------------------------------------------------------------------------$(RESET)"
+	@printf "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 	@$(RM) $(OBJ)
-	@echo "$(RED)Object files removed\n$(RESET)"
+	@printf "$(RED)Object files removed\n$(RESET)"
 	
 fclean: clean
 	@printf "$(RED)\nRemoving program executable...\n$(RESET)"
-	@echo "$(BLUE)-------------------------------------------------------------------------$(RESET)"
+	@printf "$(BLUE)-------------------------------------------------------------------------\n$(RESET)"
 	@$(RM) $(NAME)
-	@echo "$(RED)MINISHELL REMOVED\n$(RESET)"
+	@printf "$(RED)MINISHELL REMOVED\n$(RESET)"
 	
 re: fclean all
 

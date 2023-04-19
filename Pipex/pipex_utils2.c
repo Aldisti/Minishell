@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/18 10:27:33 by gpanico           #+#    #+#             */
+/*   Updated: 2023/04/19 11:13:34 by marco            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
+
+extern int	g_shell_errno;
 
 char	**ft_take_paths(t_shell *shell, int id)
 {
@@ -40,3 +54,35 @@ void	ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type)
 		ft_die(shell, 1, 127);
 	}
 }
+
+void	ambiguous_red(t_shell *shell, int child_id, char **cmd, char **argv)
+{
+	if (shell->red.infiles[child_id][0] == '$')
+		ft_exit_exec(shell, argv, cmd, fd_printf(2, "%s: ambiguous2 redirect\n",
+				shell->red.infiles[child_id]) * 0 + 1);
+	else if (ft_in('<', argv[child_id]))
+		ft_exit_exec(shell, argv, cmd,
+			fd_printf(2, "%s: no such file or direcory\n",
+				shell->red.infiles[child_id]) * 0 + 3);	
+}
+
+int	ambiguous_red_built(t_shell *shell, int child_id,char **argv)
+{
+	if (shell->red.infiles[child_id][0] == '$')
+	{
+		fd_printf(2, "%s: ambiguous1 redirect\n",
+				shell->red.infiles[child_id]);
+		g_shell_errno = 1;
+		return (0);
+	}
+		
+	else if (ft_in('<', argv[child_id]))
+	{
+		fd_printf(2, "%s: no such file or direcory\n",
+				shell->red.infiles[child_id]);
+		g_shell_errno = 1;
+		return (0);
+	}
+	return (1);
+}
+

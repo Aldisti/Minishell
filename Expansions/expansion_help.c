@@ -12,7 +12,7 @@
 
 #include "./../minishell.h"
 
-int	ft_free_a(char **elem, int n)
+long	ft_free_a(char **elem, long n)
 {
 	if (*elem)
 		ft_free((void **)elem);
@@ -53,7 +53,7 @@ char	*ft_put_quotes(t_shell *shell, char *origin)
 	if (!shell->exp.pd)
 		ft_die(shell, 1, 12);
 	i = -1;
-	shell->exp.strs[3] = NULL + ft_free_a(&origin, 0);
+	shell->exp.strs[3] = (char *) ft_free_a(&origin, 0);
 	while (shell->exp.pd[++i])
 	{
 		if (ft_in(shell->exp.pd[i][0], ">|<"))
