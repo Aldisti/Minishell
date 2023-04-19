@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 12:18:46 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:30:27 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ void		ft_split_expansions(t_shell *shell, char *str, int j, int k);
 int			ft_check_star(char *str);
 void		ft_exp_star(t_shell *sh);
 int			ft_do_exp_star(char **str);
-void	 	ft_check_exp(char **str, char **file);
+void		ft_check_exp(char **str, char **file);
 char		*ft_joiner_sep(char **strs, const char *sep);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
@@ -264,7 +264,8 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 //	Pipex
 //	pipex
 int			is_only_red(char *str);
-void		ambiguous_red(t_shell *shell, int child_id, char **cmd, char **argv);
+void		ambiguous_red(t_shell *shell, int child_id,
+				char **cmd, char **argv);
 int			ambiguous_red_built(t_shell *shell, int child_id, char **argv);
 char		*gnl_join(char const *s1, char const *s2);
 void		close_everything(t_shell *shell);
