@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 21:44:57 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 10:48:50 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,9 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
 //	pipex
+int			is_only_red(char *str);
+void		ambiguous_red(t_shell *shell, int child_id, char **cmd, char **argv);
+int			ambiguous_red_built(t_shell *shell, int child_id, char **argv);
 char		*gnl_join(char const *s1, char const *s2);
 void		close_everything(t_shell *shell);
 char		**line_filter(char **strs);
