@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/19 11:17:24 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 13:41:42 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,22 +125,20 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd)
 		flag = 1;
 		(*id) += 1;
 	}
-	else if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
-	{
-		my_dup(shell, *id);
-		ft_replace(cmd[*id], "\37", ' ');
-		execute_built_in(shell, cmd, shell->lvls[*id], *id);
-		if (*id > 0)
-			close(shell->pipex.pipe[2 * (*id) - 2]);
-		else
-			close(shell->pipex.pipe[0]);
-		close(shell->pipex.pipe[2 * (*id) + 1]);
-		if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
-			dup2(shell->pipex.original_stdin, 0);
-		dup2(shell->pipex.original_stdout, 1);
-		return (-1);
-	}
-	return (flag);
+	else if (!is_blt(gnp(shell, cmd[*id])) || ft_in('<', cmd[*id]))
+		return (flag);
+	my_dup(shell, *id);
+	ft_replace(cmd[*id], "\37", ' ');
+	execute_built_in(shell, cmd, shell->lvls[*id], *id);
+	if (*id > 0)
+		close(shell->pipex.pipe[2 * (*id) - 2]);
+	else
+		close(shell->pipex.pipe[0]);
+	close(shell->pipex.pipe[2 * (*id) + 1]);
+	if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
+		dup2(shell->pipex.original_stdin, 0);
+	dup2(shell->pipex.original_stdout, 1);
+	return (-1);
 }
 
 /*
@@ -163,5 +161,4 @@ void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 		dup2(shell->pipex.original_stdout, 1);
 		dup2(shell->pipex.original_stdin, 0);
 	}
-
 }

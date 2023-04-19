@@ -19,15 +19,19 @@ function used tu update the enviroment variable OLDPWD
 that store the last known path before cd tha can be used 
 we calling "CD -"
 */
-void	update_oldpwd(t_shell *shell, char *str, int lvl)
+void	update_oldpwd(t_shell *shell, int lvl)
 {
-	t_env	*env;
+	t_env	*env1;
+	t_env	*env2;
 
-	env = ft_search_in_list(shell->list, "OLDPWD", lvl);
-	if (!env)
+	env1 = ft_search_in_list(shell->list, "OLDPWD", lvl);
+	if (!env1)
 		return ;
-	ft_free((void **) &env->value);
-	env->value = ft_strdup(str);
+	env2 = ft_search_in_list(shell->list, "PWD", lvl);
+	if (!env2)
+		return ;
+	ft_free((void **) &env1->value);
+	env1->value = ft_strdup(env2->value);
 }
 
 /*
@@ -75,13 +79,12 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 		if (!env)
 			return (fd_printf(2, "cd: OLDPWD not set\n") * 0 + 1);
 		if (chdir(env->value) == -1)
-			return (ft_free((void **) &oldpwd), 3);
+			return (ft_die_cd(env->value, oldpwd, cmd[1], 3));
+		printf("%s\n", env->value);
 	}
 	else if (cmd[1])
 		if (chdir(cmd[1]) == -1)
-			return (ft_free((void **) &oldpwd),
-				fd_printf(2, "cd: %s: no such file or directory\n", cmd[1])
-				* 0 + 1);
+			return (ft_die_cd(NULL, oldpwd, cmd[1], 1));
 	return (0);
 }
 
@@ -104,10 +107,12 @@ int	cd(t_shell *shell, char **cmd, int lvl)
 	}
 	ft_remove_quotes(shell, &cmd[1]);
 	oldpwd = getcwd(0, 0);
+	errno = 0;
 	val = what_to_do(shell, oldpwd, lvl, cmd);
 	if (val > 0)
 		return (val);
-	update_oldpwd(shell, oldpwd, lvl);
+	update_oldpwd(shell, lvl);
 	ft_free((void **) &oldpwd);
+	ft_update_pwd(shell, cmd[1], lvl);
 	return (0);
 }

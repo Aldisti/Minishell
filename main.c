@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 13:17:58 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:22:23 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,17 @@ void	my_print(char **strs)
 		printf("-%s-\n", strs[i++]);
 }
 
-char	*ft_prompt(void)
+char	*ft_prompt(t_shell *shell)
 {
 	char	*pwd_prompt;
 	char	*strs[4];
 
 	strs[3] = 0;
+	errno = 0;
 	pwd_prompt = getcwd(0, 0);
+	if (!pwd_prompt && errno == 2)
+		pwd_prompt = ft_strdup(ft_get_env(ft_get_node(shell->list,
+						"PWD"), 0)->value);
 	if (!pwd_prompt)
 		return (NULL);
 	if (g_shell_errno)
@@ -51,7 +55,7 @@ void	ft_line_set(t_shell *shell)
 	char	*line;
 
 	line = NULL;
-	prompt = ft_prompt();
+	prompt = ft_prompt(shell);
 	if (!prompt)
 		ft_die(shell, 1, 1);
 	line = ft_readline(prompt);
