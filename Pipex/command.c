@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/19 13:24:41 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 18:59:06 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	ambiguous_red(shell, *child_id, cmd, argv);
 	ft_replace(argv[(*child_id)], "\37", ' ');
 	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
-	my_print(cmd);
 	if (!cmd)
 		ft_exit_exec(shell, argv, cmd, 2);
 	if (!cmd[0])
