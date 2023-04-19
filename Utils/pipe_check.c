@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:52:04 by marco             #+#    #+#             */
-/*   Updated: 2023/04/19 18:55:39 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 22:34:33 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	special_cat(t_shell *shell, char **cmd, int id)
 	char	**temp;
 	char	**new_cmd;
 
-	if (shell->pipex.cmd_count == 1)
+	if (shell->pipex.cmd_count == 1 || id == shell->pipex.cmd_count - 1)
 		return (0);
 	temp = ft_parser(shell, cmd[id], " ");
 	new_cmd = line_filter(temp);
@@ -81,6 +81,7 @@ int	pre_check(t_shell *shell, char **cmd, int *id)
 		&& (shell->pipex.is_first || (*id) == 0))
 	{
 		shell->pipex.flag++;
+		close(shell->pipex.pipe[2 * (*id) + 1]);
 		(*id)++;
 	}
 	return (0);
