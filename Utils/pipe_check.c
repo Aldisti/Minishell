@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:52:04 by marco             #+#    #+#             */
-/*   Updated: 2023/04/18 18:50:44 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 14:40:45 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,13 @@ int	pre_check(t_shell *shell, char **cmd, int *id)
 	sigaction(SIGINT, &shell->a_nothing, 0);
 	sigaction(SIGQUIT, &shell->a_nothing, 0);
 	if (!ft_strncmp(cmd[*id], "./", 2)
-		&& access(ft_strchr(cmd[*id], '/') + 1, W_OK))
+		&& access(ft_strchr(cmd[*id], '/') + 1, F_OK))
 		return (g_shell_errno = fd_printf(2, "%s: no such file or directory\n",
 				cmd[*id]) * 0 + 127);
+	if (!ft_strncmp(cmd[*id], "./", 2)
+		&& access(ft_strchr(cmd[*id], '/') + 1, X_OK))
+		return (g_shell_errno = fd_printf(2, "%s: permission denied\n",
+				cmd[*id]) * 0 + 126);
 	while (special_cat(shell, cmd, *id)
 		&& (shell->pipex.is_first || (*id) == 0))
 	{
