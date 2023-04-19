@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/15 19:33:00 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:20:33 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_line_set(t_shell *shell)
 	if (!prompt)
 		ft_die(shell, 1, 1);
 	line = ft_readline(prompt);
-	ft_replace(line, " \n\t", ' ');
+	ft_replace(line, " \n\t\v", ' ');
 	shell->line = ft_strtrim(line, " ");
 	ft_free((void **) &line);
 	ft_free((void **) &prompt);

@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 14:37:38 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:18:46 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,11 @@ char		*ft_exp_tilde(t_shell *shell, char *str, int lvl);
 char		*ft_exp_dol(t_shell *shell, char *str, int lvl);
 void		ft_split_expansions(t_shell *shell, char *str, int j, int k);
 //	expand_star
-void		ft_exp_star(t_shell *shell);
+int			ft_check_star(char *str);
+void		ft_exp_star(t_shell *sh);
+int			ft_do_exp_star(char **str);
+void	 	ft_check_exp(char **str, char **file);
+char		*ft_joiner_sep(char **strs, const char *sep);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
 char		*ft_getname(char *str, int i);

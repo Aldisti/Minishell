@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 09:53:55 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:09:15 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,4 +136,5 @@ void	ft_expand_all(t_shell *sh, char **parsed)
 		parsed[j] = ft_joiner(sh->exp.sp, 1) + ft_free_a(&parsed[j], 0);
 		ft_free_exp(&sh->exp);
 	}
+	ft_exp_star(sh);
 }
