@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 13:20:24 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 13:45:48 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int	ft_die(t_shell *shell, int todo, int code)
 		if (shell->list)
 			ft_free_list(&shell->list);
 		rl_clear_history();
+		unlink(".heredoc");
 		exit(code);
 	}
 	else

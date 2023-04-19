@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 10:20:33 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:22:23 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_prompt(t_shell *shell)
 	pwd_prompt = getcwd(0, 0);
 	if (!pwd_prompt && errno == 2)
 		pwd_prompt = ft_strdup(ft_get_env(ft_get_node(shell->list,
-				"PWD"), 0)->value);
+						"PWD"), 0)->value);
 	if (!pwd_prompt)
 		return (NULL);
 	if (g_shell_errno)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/19 13:22:51 by marco             #+#    #+#             */
+/*   Updated: 2023/04/19 13:23:34 by marco            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	ft_die_cd(char *trueold, char *oldpwd, char *cmd, int ret)
@@ -16,7 +28,7 @@ int	ft_die_cd(char *trueold, char *oldpwd, char *cmd, int ret)
 void	ft_update_error(t_shell *shell, char *cmd, int lvl)
 {
 	t_env	*env;
-	char 	*tmp;
+	char	*tmp;
 
 	write(2, "\033[31m", 5);
 	write(2, "cd: error retrieving current directory:", 39);
