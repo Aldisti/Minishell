@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   star.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 10:28:14 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/18 10:28:17 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/19 13:27:58 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,26 @@ char	**ft_readdir(char *path)
 		ft_free_mat((void ***) &files);
 		return (NULL);
 	}
+	return (files);
+}
+
+char	**ft_readdir_star(char c, const char *path)
+{
+	char	**files;
+	int		i;
+
+	if (!c || ! path)
+		return (0);
+	files = ft_readdir((char *)path);
+	if (!files)
+		return (0);
+	i = -1;
+	while (files[++i])
+		if (!ft_strcmp(files[i], "..") || !ft_strcmp(files[i], ".")
+			|| (c != '.' && files[i][0] == '.'))
+		{
+			ft_free((void **)&files[i]);
+			files[i] = ft_strdup("");
+		}
 	return (files);
 }

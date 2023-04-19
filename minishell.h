@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 12:30:27 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:28:13 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,6 +306,7 @@ void		child_free(t_pipex *pipex, char **cmd);
 //	Utils
 //	star
 char		**ft_readdir(char *path);
+char		**ft_readdir_star(char c, const char *path);
 char		**ft_append(char **files, char *str, int *dim);
 char		**ft_get_files(DIR *dirp, struct dirent *dir, char **files);
 //	is
