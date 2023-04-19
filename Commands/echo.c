@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 15:25:57 by afraccal          #+#    #+#             */
-/*   Updated: 2023/04/13 15:37:28 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/19 16:15:48 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	echo(char **argv)
 	{
 		flag = 0;
 		i++;
-		while (cmd[i] && !ft_strncmp(cmd[i], "-n", 2))
+		while (cmd[i] && !ft_strncmp(cmd[i], "-n", 2) && arg_check(cmd[i]))
 			i++;
 	}
 	else
