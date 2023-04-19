@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:04:23 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 12:18:15 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:22:54 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_do_exp_star(char **str)
 	char	**fs;
 	int		j;
 
-	fs = ft_readdir(".");
+	fs = ft_readdir_star(*str[0], ".");
 	if (!fs)
 		return (0);
 	j = -1;

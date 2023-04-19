@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 12:09:15 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:43:53 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_exp_dol(t_shell *shell, char *str, int lvl)
 	else
 		value = ft_strdup(env->value);
 	op = ft_check_for_op(&shell->exp, str);
-	if ((ft_check_for_space(value) && op) || op == 2)
+	if (((ft_check_for_space(value) || !value[0]) && op) || op == 2)
 		return (str + ft_free_a(&value, 0));
 	if (!value)
 		return (0);
