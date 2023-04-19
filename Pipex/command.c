@@ -148,6 +148,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	ambiguous_red(shell, *child_id, cmd, argv);
 	ft_replace(argv[(*child_id)], "\37", ' ');
 	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
+	my_print(cmd);
 	if (!cmd)
 		ft_exit_exec(shell, argv, cmd, 2);
 	if (!cmd[0])

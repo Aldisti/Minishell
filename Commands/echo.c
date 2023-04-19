@@ -78,7 +78,7 @@ int	echo(char **argv)
 	{
 		flag = 0;
 		i++;
-		while (cmd[i] && !ft_strncmp(cmd[i], "-n", 2))
+		while (cmd[i] && !ft_strncmp(cmd[i], "-n", 2) && arg_check(cmd[i]))
 			i++;
 	}
 	else

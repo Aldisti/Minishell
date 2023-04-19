@@ -90,6 +90,8 @@ void	ft_free_shell(t_shell *shell)
 		ft_free((void **)&(shell->fd_output));
 	if (shell->pipex.pipe)
 		ft_free((void **)&(shell->pipex.pipe));
+	if (shell->pipex.paths)
+		ft_free_mat((void ***) &(shell->pipex.paths));
 	if (shell->envp)
 		ft_free_mat((void ***)&(shell->envp));
 }

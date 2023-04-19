@@ -37,7 +37,18 @@ char	**ft_take_paths(t_shell *shell, int id)
 
 void	ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type)
 {
+	int	i;
+
 	ft_free_mat((void ***) &argv);
+	if (type == 3)
+	{
+		i = 0;
+		while (cmd[++i])
+			ft_free((void **) &cmd[i]);
+		ft_free((void **) &cmd);
+		child_free(&shell->pipex, 0);
+		ft_die(shell, 1, 127);
+	}
 	ft_free_mat((void ***) &cmd);
 	if (type == 0)
 		ft_die(shell, 1, 0);
@@ -48,11 +59,6 @@ void	ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type)
 	}
 	else if (type == 2)
 		ft_die(shell, 1, 12);
-	else if (type == 3)
-	{
-		child_free(&shell->pipex, 0);
-		ft_die(shell, 1, 127);
-	}
 }
 
 void	ambiguous_red(t_shell *shell, int child_id, char **cmd, char **argv)
