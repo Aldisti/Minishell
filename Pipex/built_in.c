@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/19 16:15:07 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 16:19:32 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ dupping the fd properly but only the necessary one
 */
 void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
 {
-	write(2, "hey\n", 2);
 	ambiguous_red_built(shell, (*id) - 1, cmd);
 	if (!ft_in('<', cmd[(*id) - 1]))
 	{
