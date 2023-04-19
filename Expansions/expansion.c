@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 13:56:05 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:09:15 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	*ft_exp_dol(t_shell *shell, char *str, int lvl)
 	char	*name;
 	char	*value;
 	t_env	*env;
+	int		op;
 
 	name = str + 1;
 	env = ft_search_in_list(shell->list, name, lvl);
@@ -40,7 +41,8 @@ char	*ft_exp_dol(t_shell *shell, char *str, int lvl)
 		value = ft_strdup("");
 	else
 		value = ft_strdup(env->value);
-	if (ft_check_for_space(value) && ft_check_for_op(&shell->exp, str))
+	op = ft_check_for_op(&shell->exp, str);
+	if ((ft_check_for_space(value) && op) || op == 2)
 		return (str + ft_free_a(&value, 0));
 	if (!value)
 		return (0);
@@ -83,7 +85,7 @@ void	ft_split_expansions(t_shell *sh, char *str, int j, int k)
 {
 	int		i[2];
 
-	sh->exp.sp = (char **)ft_calloc(ft_countn(str, 36, -1) * 2 + 2,
+	sh->exp.sp = (char **)ft_calloc(ft_countn(str, '$', -1) * 2 + 2,
 			sizeof(char *));
 	if (!sh->exp.sp)
 		ft_die(sh, 1, 12);
@@ -134,4 +136,5 @@ void	ft_expand_all(t_shell *sh, char **parsed)
 		parsed[j] = ft_joiner(sh->exp.sp, 1) + ft_free_a(&parsed[j], 0);
 		ft_free_exp(&sh->exp);
 	}
+	ft_exp_star(sh);
 }

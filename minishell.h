@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 10:48:50 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/19 12:18:46 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 # endif
 # ifndef MSG_ERR
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
+# endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
 # endif
 
 extern void	rl_replace_line(const char *text, int clear_undo);
@@ -157,6 +160,12 @@ void		ft_expand_all(t_shell *shell, char **parsed);
 char		*ft_exp_tilde(t_shell *shell, char *str, int lvl);
 char		*ft_exp_dol(t_shell *shell, char *str, int lvl);
 void		ft_split_expansions(t_shell *shell, char *str, int j, int k);
+//	expand_star
+int			ft_check_star(char *str);
+void		ft_exp_star(t_shell *sh);
+int			ft_do_exp_star(char **str);
+void	 	ft_check_exp(char **str, char **file);
+char		*ft_joiner_sep(char **strs, const char *sep);
 //	expansion_utils
 int			ft_getlvl(char *str, int i);
 char		*ft_getname(char *str, int i);
@@ -294,6 +303,10 @@ char		**ft_extract_word_command(char **parsed, int *dim,
 void		child_free(t_pipex *pipex, char **cmd);
 
 //	Utils
+//	star
+char		**ft_readdir(char *path);
+char		**ft_append(char **files, char *str, int *dim);
+char		**ft_get_files(DIR *dirp, struct dirent *dir, char **files);
 //	is
 int			ft_isalnum(int n);
 int			ft_isalpha(int n);
@@ -347,7 +360,6 @@ char		**ft_split(char const *s, char c);
 void		*ft_calloc(size_t num, size_t dim);
 int			ft_countn(const char *str, const char c, int n);
 void		*ft_realloc(void *p, size_t size, int dim, int new_dim);
-char		**ft_readdir(char *path);
 int			fd_printf(int fd, const char *str, ...);
 void		check_execute(t_shell *shell, char *str, int *id);
 
