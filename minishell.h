@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/20 16:28:54 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:41:35 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <readline/readline.h>
 
 # ifndef MC
-#  define MC " \n\t|&<>()"
+#  define MC " \n\t|&<>()/"
 # endif
 # ifndef MSG_ERR
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
