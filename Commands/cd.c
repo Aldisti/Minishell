@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/17 11:58:30 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/20 20:55:52 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,10 @@ int	cd(t_shell *shell, char **cmd, int lvl)
 	errno = 0;
 	val = what_to_do(shell, oldpwd, lvl, cmd);
 	if (val > 0)
+	{
+		ft_free((void **) &oldpwd);
 		return (val);
+	}	
 	update_oldpwd(shell, lvl);
 	ft_free((void **) &oldpwd);
 	ft_update_pwd(shell, cmd[1], lvl);
