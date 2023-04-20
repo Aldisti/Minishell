@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/20 14:47:51 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:28:54 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ typedef struct s_list
 
 typedef struct s_pipex
 {
-	int		*pipe;
-	int		flag;
-	int		temp_flag;
+	int		pipe_fd;
 	int		is_first;
 	int		*pid;
 	int		pipe_count;
@@ -269,6 +267,9 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
 //	pipex
+void		red_sub_proc(t_shell *shell, int *id, int *fd);
+void		parent_stuff(t_shell *shell, int *id, int *fd);
+void		pipe_ending(t_shell *shell, char **strs);
 void		built_in_check(t_shell *shell, int *id, char **cmd, int *fd);
 int			is_only_red(char *str);
 void		ambiguous_red(t_shell *shell, int child_id,

@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/20 15:00:09 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:27:11 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void	ft_free_shell(t_shell *shell)
 		ft_free((void **)&(shell->fd_input));
 	if (shell->fd_output)
 		ft_free((void **)&(shell->fd_output));
-	if (shell->pipex.pipe)
-		ft_free((void **)&(shell->pipex.pipe));
 	if (shell->pipex.paths)
 		ft_free_mat((void ***) &(shell->pipex.paths));
 	if (shell->envp)

@@ -6,7 +6,7 @@
 /*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 12:29:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/20 14:52:00 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/20 16:29:29 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,13 @@ int	pipex_init(t_pipex *pipex, int argc)
 	int	i;
 
 	pipex->original_stdout = dup(1);
-	pipex->flag = 0;
 	pipex->is_first = 0;
 	pipex->original_stdin = dup(0);
 	pipex->cmd_count = (argc);
 	pipex->pipe_count = 2 * (pipex->cmd_count - 1);
-	pipex->pipe = (int *)malloc(sizeof(int) * (pipex->pipe_count + 2));
 	pipex->pid = (int *)malloc(sizeof(int) * pipex->cmd_count);
 	i = -1;
 	while (++i < pipex->cmd_count)
 		pipex->pid[i] = -1;
-	if (!pipex->pipe)
-		return (0);
-	if (pipes(pipex, "open") == -1)
-		return (-1);
 	return (1);
 }
