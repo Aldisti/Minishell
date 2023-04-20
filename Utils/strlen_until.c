@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strlen_until.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpanico <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 08:27:15 by gpanico           #+#    #+#             */
-/*   Updated: 2023/03/28 08:28:09 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/20 14:29:05 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ int	ft_strlen_until(char *str, char *set)
 
 	i = 0;
 	while (str[i] && !ft_in(str[i], set))
-			i++;
+		i++;
 	return (i);
 }

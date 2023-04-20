@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/20 14:10:16 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/20 15:10:10 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,30 @@ void	red_sub_proc(t_shell *shell, int *id, int *fd)
 	close(fd[0]);
 }
 
+void	parent_stuff(t_shell *shell, int *id, int *fd)
+{
+	int	status;
+
+	if ((*id) != shell->pipex.cmd_count - 1)
+	{
+		close(shell->pipex.temp_flag);
+		close(fd[1]);
+		shell->pipex.temp_flag = fd[0];
+	}
+	else if ((*id) == shell->pipex.cmd_count - 1)
+	{
+		close(shell->pipex.temp_flag);
+		while (waitpid(-1, &status, WUNTRACED) != -1)
+			;
+		if (WIFEXITED(status))
+			g_shell_errno = WEXITSTATUS(status);
+		shell->pipex.temp_flag = dup(0);
+	}
+}
+
 int	child_proc(t_shell *shell, char **cmd, int *id)
 {
 	int	fd[2];
-	int	pid;
 	int	temp;
 
 	if (pipe(fd) == -1)
@@ -90,25 +110,14 @@ int	child_proc(t_shell *shell, char **cmd, int *id)
 		return (temp);
 	if (built_in_selector(shell, id, cmd, fd) == -1)
 		return (1);
-	pid = fork();
-	if (pid == 0)
+	shell->pipex.pid[*id] = fork();
+	if (shell->pipex.pid[*id] == 0)
 	{
 		red_sub_proc(shell, id, fd);
 		execute_cmd(shell, cmd, id);
 	}
-	if ((*id) != shell->pipex.cmd_count - 1)
-	{
-		close(shell->pipex.temp_flag);
-		close(fd[1]);
-		shell->pipex.temp_flag = fd[0];	
-	}
-	else if ((*id) == shell->pipex.cmd_count - 1)
-	{
-		close(shell->pipex.temp_flag);
-		while (waitpid(-1, NULL, WUNTRACED) != -1)
-			;
-		shell->pipex.temp_flag = dup(0);
-	}
+	else
+		parent_stuff(shell, id, fd);
 	return (1);
 }
 
@@ -170,15 +179,18 @@ int	pipex(t_shell *shell, char **argv)
 	if (!strs)
 		return (1);
 	argc = prepare_strs(shell, strs);
-	i = -1;
 	if (pipex_init(&shell->pipex, argc) == -1)
 		return (2);
 	shell->pipex.temp_flag = dup(0);
+	i = -1;
 	while (++i < shell->pipex.cmd_count)
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
 	close(shell->pipex.temp_flag);
-	//waitpid(-1, &status, WUNTRACED);
+	i = shell->pipex.cmd_count - 1;
+	while (i > 0 && shell->pipex.pid[i] != -1)
+		i--;
+	waitpid(shell->pipex.pid[i], 0, WUNTRACED);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);
