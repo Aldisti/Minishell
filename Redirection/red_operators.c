@@ -30,10 +30,7 @@ int	ft_input_red(t_shell *shell, int n_cmd, int *ind)
 		if (access(shell->red.infiles[n_cmd / 2], F_OK | R_OK)
 			|| !ft_intab(shell->red.infiles[n_cmd / 2],
 				shell->files))
-		{
-			g_shell_errno = 1;
 			return (2);
-		}
 	}
 	return (0);
 }
@@ -58,7 +55,7 @@ int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 				O_CREAT | O_WRONLY | O_TRUNC,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		if (fd == -1)
-			ft_die(shell, 1, 12);
+			return (2);
 		close(fd);
 	}
 	return (0);

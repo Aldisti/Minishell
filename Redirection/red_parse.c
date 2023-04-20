@@ -111,16 +111,13 @@ int	ft_apply_red(t_shell *shell, int n_cmd)
 		if (ft_in(shell->parsed[n_cmd][i], "><"))
 		{
 			ret = ft_input_red(shell, n_cmd, &i);
-			if (ret == 1)
-				ft_die(shell, 1, 12);
-			else if (ret == 2)
+			if (ret == 2)
 				return (2);
-			else if (ft_output_red(shell, n_cmd, &i))
-				ft_die(shell, 1, 12);
-			else if (ft_append_red(shell, n_cmd, &i))
-				ft_die(shell, 1, 12);
-			else if (ft_hdoc_red(shell, n_cmd, &i))
-				ft_die(shell, 1, 12);
+			ret = ft_output_red(shell, n_cmd, &i);
+			if (ret == 2)
+				return (2);
+			ft_append_red(shell, n_cmd, &i);
+			ft_hdoc_red(shell, n_cmd, &i);
 		}
 		i++;
 	}
