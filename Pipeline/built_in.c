@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/20 11:00:22 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/20 16:22:00 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,26 @@ char	*gnp(t_shell *shell, char *str)
 	return (ret);
 }
 
+void	built_in_check(t_shell *shell, int *id, char **cmd, int *fd)
+{
+	dup2(shell->pipex.pipe_fd, 0);
+	close(shell->pipex.pipe_fd);
+	if ((*id) != shell->pipex.cmd_count - 1)
+		dup2(fd[1], 1);
+	if (shell->red.outfiles[*id][0])
+		red_selector(shell, *id, 2);
+	if (shell->red.afiles[*id][0])
+		red_selector(shell, *id, 0);
+	if (shell->red.infiles[*id][0])
+		red_selector(shell, *id, 1);
+	close(fd[1]);
+	ft_replace(cmd[*id], "\37", ' ');
+	execute_built_in(shell, cmd, shell->lvls[*id], *id);
+	shell->pipex.pipe_fd = fd[0];
+	dup2(shell->pipex.original_stdout, 1);
+	dup2(shell->pipex.original_stdin, 0);
+}
+
 /*
 int	built_in_selector(t_shell *shell, int *id, char **cmd)
 
@@ -125,26 +145,4 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd, int *fd)
 		return (-1);
 	}
 	return (flag);
-}
-
-/*
-void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
-
-this func execute the builtin when the order is switched closing and
-dupping the fd properly but only the necessary one
-*/
-void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
-{
-	ambiguous_red_built(shell, (*id) - 1, cmd);
-	if (!ft_in('<', cmd[(*id) - 1]))
-	{
-		my_dup(shell, (*id) - 1);
-		ft_replace(cmd[(*id) - 1], "\37", ' ');
-		execute_built_in(shell, cmd, shell->lvls[*id], *id - 1);
-		close(shell->pipex.pipe[2 * ((*id)) - 2]);
-		close(shell->pipex.pipe[2 * ((*id)) + 1]);
-		close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
-		dup2(shell->pipex.original_stdout, 1);
-		dup2(shell->pipex.original_stdin, 0);
-	}
 }

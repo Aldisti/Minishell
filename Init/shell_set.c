@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:08:54 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/18 13:48:24 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/20 16:22:23 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ void	ft_shell_set(t_shell *shell)
 	shell->lvls = 0;
 	shell->n_cmds = 0;
 	shell->files = 0;
-	shell->pipex.pipe = 0;
 	shell->pipex.paths = 0;
-	shell->pipex.flag = 0;
 	shell->red.infiles = 0;
 	shell->red.outfiles = 0;
+	shell->pipex.pid = 0;
 	shell->red.afiles = 0;
 	shell->red.fdin = 0;
 	shell->red.fdout = 0;
