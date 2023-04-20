@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 09:31:08 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/19 13:39:54 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/20 14:10:16 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,78 @@ this function do fork for each command setting the pipe array alowing
 the comunication between process.
 the stdin and stdout is modyfied as well with dup2 func
 */
+// int	child_proc(t_shell *shell, char **cmd, int *id)
+// {
+// 	int	flag;
+// 	int	val;
+
+// 	flag = built_in_selector(shell, id, cmd);
+// 	if (flag < 0)
+// 		return (1);
+// 	val = pre_check(shell, cmd, id);
+// 	if (val > 0)
+// 		return (val);
+// 	val = fork();
+// 	if (val < 0)
+// 		return (-1);
+// 	if (val == 0)
+// 	{
+// 		my_dup(shell, *id);
+// 		pipes(&shell->pipex, "close");
+// 		execute_cmd(shell, cmd, id);
+// 	}
+// 	my_wait(shell, *id, val);
+// 	return (1);
+// }
+
+void	red_sub_proc(t_shell *shell, int *id, int *fd)
+{
+	dup2(shell->pipex.temp_flag, 0);
+	close(shell->pipex.temp_flag);
+	if ((*id) != shell->pipex.cmd_count - 1)
+		dup2(fd[1], 1);
+	if (shell->red.outfiles[*id][0])
+		red_selector(shell, *id, 2);
+	if (shell->red.afiles[*id][0])
+		red_selector(shell, *id, 0);
+	if (shell->red.infiles[*id][0])
+		red_selector(shell, *id, 1);
+	close(fd[1]);
+	close(fd[0]);
+}
+
 int	child_proc(t_shell *shell, char **cmd, int *id)
 {
-	int	flag;
-	int	val;
+	int	fd[2];
+	int	pid;
+	int	temp;
 
-	flag = built_in_selector(shell, id, cmd);
-	if (flag < 0)
-		return (1);
-	val = pre_check(shell, cmd, id);
-	if (val > 0)
-		return (val);
-	val = fork();
-	if (val < 0)
+	if (pipe(fd) == -1)
 		return (-1);
-	if (val == 0)
+	temp = pre_check(shell, cmd, id);
+	if (temp > 0)
+		return (temp);
+	if (built_in_selector(shell, id, cmd, fd) == -1)
+		return (1);
+	pid = fork();
+	if (pid == 0)
 	{
-		my_dup(shell, *id);
-		pipes(&shell->pipex, "close");
+		red_sub_proc(shell, id, fd);
 		execute_cmd(shell, cmd, id);
 	}
-	if (flag)
-		built_in_pipe_handler(shell, id, cmd);
-	my_wait(shell, *id, val);
+	if ((*id) != shell->pipex.cmd_count - 1)
+	{
+		close(shell->pipex.temp_flag);
+		close(fd[1]);
+		shell->pipex.temp_flag = fd[0];	
+	}
+	else if ((*id) == shell->pipex.cmd_count - 1)
+	{
+		close(shell->pipex.temp_flag);
+		while (waitpid(-1, NULL, WUNTRACED) != -1)
+			;
+		shell->pipex.temp_flag = dup(0);
+	}
 	return (1);
 }
 
@@ -124,10 +173,12 @@ int	pipex(t_shell *shell, char **argv)
 	i = -1;
 	if (pipex_init(&shell->pipex, argc) == -1)
 		return (2);
+	shell->pipex.temp_flag = dup(0);
 	while (++i < shell->pipex.cmd_count)
 		if (child_proc(shell, strs, &i) < 0)
 			return (3);
-	close_everything(shell);
+	close(shell->pipex.temp_flag);
+	//waitpid(-1, &status, WUNTRACED);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	child_free(&shell->pipex, 0);

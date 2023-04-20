@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:52:04 by marco             #+#    #+#             */
-/*   Updated: 2023/04/19 22:34:33 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/20 14:09:46 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 extern int	g_shell_errno;
 
-void	built_in_check(t_shell *shell, int *id, char **cmd)
+void	built_in_check(t_shell *shell, int *id, char **cmd, int *fd)
 {
-	my_dup(shell, *id);
+	dup2(shell->pipex.temp_flag, 0);
+	close(shell->pipex.temp_flag);
+	if ((*id) != shell->pipex.cmd_count - 1)
+		dup2(fd[1], 1);
+	if (shell->red.outfiles[*id][0])
+		red_selector(shell, *id, 2);
+	if (shell->red.afiles[*id][0])
+		red_selector(shell, *id, 0);
+	if (shell->red.infiles[*id][0])
+		red_selector(shell, *id, 1);
+	close(fd[1]);
 	ft_replace(cmd[*id], "\37", ' ');
 	execute_built_in(shell, cmd, shell->lvls[*id], *id);
-	if (*id > 0)
-		close(shell->pipex.pipe[2 * (*id) - 2]);
-	else
-		close(shell->pipex.pipe[0]);
-	close(shell->pipex.pipe[2 * (*id) + 1]);
-	if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
-		dup2(shell->pipex.original_stdin, 0);
+	shell->pipex.temp_flag = fd[0];
 	dup2(shell->pipex.original_stdout, 1);
+	dup2(shell->pipex.original_stdin, 0);
 }
 
 void	close_everything(t_shell *shell)
@@ -77,12 +82,5 @@ int	pre_check(t_shell *shell, char **cmd, int *id)
 		&& access(ft_strchr(cmd[*id], '/') + 1, X_OK))
 		return (g_shell_errno = fd_printf(2, "%s: permission denied\n",
 				cmd[*id]) * 0 + 126);
-	while (special_cat(shell, cmd, *id)
-		&& (shell->pipex.is_first || (*id) == 0))
-	{
-		shell->pipex.flag++;
-		close(shell->pipex.pipe[2 * (*id) + 1]);
-		(*id)++;
-	}
 	return (0);
 }

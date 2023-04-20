@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/19 16:19:32 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:00:22 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,22 +112,16 @@ the next is not, if so the order is switched and the non-builtin
 is executed first otherwise the builtin is execute normally not 
 in a sub process
 */
-int	built_in_selector(t_shell *shell, int *id, char **cmd)
+int	built_in_selector(t_shell *shell, int *id, char **cmd, int *fd)
 {
 	int		flag;
 
 	flag = 0;
 	if (!ambiguous_red_built(shell, *id, cmd))
 		return (-1);
-	if (is_blt(gnp(shell, cmd[*id])) && cmd[(*id) + 1]
-		&& !is_blt(gnp(shell, cmd[(*id) + 1])))
+	if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
 	{
-		flag = 1;
-		(*id) += 1;
-	}
-	else if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
-	{
-		built_in_check(shell, id, cmd);
+		built_in_check(shell, id, cmd, fd);
 		return (-1);
 	}
 	return (flag);
