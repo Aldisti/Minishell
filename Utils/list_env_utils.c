@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:12:52 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/08 11:24:31 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 11:11:23 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_list	*ft_get_node(t_list *list, const char *name)
 		return (NULL);
 	while (list)
 	{
-		if (list->content
+		if (list->content && ft_strlen(list->content->name) - 1 == ft_strlen(name)
 			&& !ft_strncmp(list->content->name, name, ft_strlen(name)))
 			break ;
 		list = list->next;
