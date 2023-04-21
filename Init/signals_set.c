@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:45:46 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/15 14:46:53 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:55:48 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	ft_handle_int(int signum)
 	g_shell_errno = 130;
 }
 
+// rl_on_new_line();
+// rl_redisplay();
 void	ft_handle_quit(int signum)
 {
 	if (signum != SIGQUIT)
 		return ;
-	rl_on_new_line();
-	rl_redisplay();
 }
 
 void	ft_signals_set(t_shell *shell)

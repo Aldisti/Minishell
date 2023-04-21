@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/21 12:03:29 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:51:18 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void		my_print(char **strs);
 //	Init
 //	shell_set
 void		ft_shell_set(t_shell *shell);
+int			ft_continue(t_shell *shell, int n);
 //	env_set
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);

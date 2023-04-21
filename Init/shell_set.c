@@ -3,14 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   shell_set.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:08:54 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/20 16:22:23 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:44:24 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+extern int	g_shell_errno;
+
+int	ft_continue(t_shell *shell, int n)
+{
+	if (n == 1 && !shell->line[0])
+	{
+		g_shell_errno = 0;
+		return (1);
+	}
+	else if (n == 2 && !shell->parsed)
+	{
+		g_shell_errno = 0;
+		return (2);
+	}
+	else if (n == 3 && (!shell->parsed || !shell->parsed[0]
+			|| !shell->parsed[0][0]))
+	{
+		g_shell_errno = 0;
+		return (3);
+	}
+	return (0);
+}
 
 void	ft_shell_set(t_shell *shell)
 {

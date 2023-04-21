@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:56:40 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 15:24:11 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:43:49 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,16 +89,15 @@ int	main(int ac, char **av, char **envp)
 	{
 		ft_free_routine(&shell);
 		ft_line_set(&shell);
-		if (!shell.line[0])
+		if (ft_continue(&shell, 1))
 			continue ;
 		add_history(shell.line);
 		shell.parsed = ft_parsed_set(&shell);
-		if (!shell.parsed)
+		if (ft_continue(&shell, 2))
 			continue ;
 		ft_lvls(&shell);
 		ft_expand_all(&shell, shell.parsed, -1);
-		if (!shell.parsed || !shell.parsed[0] || !shell.parsed[0][0]
-				|| ft_redirection(&shell))
+		if (ft_continue(&shell, 3) || ft_redirection(&shell))
 			continue ;
 		pipex(&shell, shell.parsed);
 	}
