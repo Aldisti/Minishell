@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/20 20:55:52 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/21 18:26:46 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,17 @@ void	update_oldpwd(t_shell *shell, int lvl)
 {
 	t_env	*env1;
 	t_env	*env2;
+	t_list	*new_lst;
+	t_env	*new_env;
 
 	env1 = ft_search_in_list(shell->list, "OLDPWD", lvl);
 	if (!env1)
-		return ;
+	{
+		new_env = ft_env_new(ft_strdup("OLDPWD="), ft_strdup(""), lvl);
+		new_lst = ft_lstnew(new_env);
+		ft_lst_insert(&shell->list, new_lst);
+		env1 = new_env;
+	}
 	env2 = ft_search_in_list(shell->list, "PWD", lvl);
 	if (!env2)
 		return ;
