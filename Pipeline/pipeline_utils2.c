@@ -60,7 +60,7 @@ void	ambiguous_red(t_shell *shell, int child_id, char **cmd, char **argv)
 	if (shell->red.infiles[child_id][0] == '$')
 		ft_exit_exec(shell, argv, cmd, fd_printf(2, "%s: ambiguous redirect\n",
 				shell->red.infiles[child_id]) * 0 + 1);
-	else if (ft_in('<', argv[child_id]))
+	else if (ft_in2('<', argv[child_id]))
 		ft_exit_exec(shell, argv, cmd,
 			fd_printf(2, "%s: no such file or direcory\n",
 				shell->red.infiles[child_id]) * 0 + 3);
@@ -68,6 +68,8 @@ void	ambiguous_red(t_shell *shell, int child_id, char **cmd, char **argv)
 
 int	ambiguous_red_built(t_shell *shell, int child_id, char **argv)
 {
+	int	i;
+
 	if (shell->red.infiles[child_id][0] == '$')
 	{
 		fd_printf(2, "%s: ambiguous redirect\n",
@@ -75,12 +77,19 @@ int	ambiguous_red_built(t_shell *shell, int child_id, char **argv)
 		g_shell_errno = 1;
 		return (0);
 	}
-	else if (ft_in('<', argv[child_id]))
+	i = 0;
+	while (argv[child_id][i])
 	{
-		fd_printf(2, "%s: no such file or direcory\n",
-			shell->red.infiles[child_id]);
-		g_shell_errno = 1;
-		return (0);
+		ft_quotes_check(argv[child_id], &i);
+		if (argv[child_id][i] == '<')
+		{
+			fd_printf(2, "%s: no such file or direcory\n",
+				shell->red.infiles[child_id]);
+			g_shell_errno = 1;
+			return (0);
+		}
+		if (argv[child_id][i])
+			i++;
 	}
 	return (1);
 }

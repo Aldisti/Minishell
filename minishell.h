@@ -299,6 +299,7 @@ void		execute_built_in(t_shell *shell, char **strs, int lvl, int id);
 //	pipex_utils2
 char		**ft_take_paths(t_shell *shell, int id);
 void		ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type);
+int			ft_in2(char c, char *str);
 //	command
 char		**get_cmd(t_shell *shell, char *str, int id);
 char		*path_checker(t_shell *shell, t_pipex *pipex, char **str, int i);

@@ -146,7 +146,7 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd, int *fd)
 	flag = 0;
 	if (!ambiguous_red_built(shell, *id, cmd))
 		return (-1);
-	if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
+	if (is_blt(gnp(shell, cmd[*id])) && !ft_in2('<', cmd[*id]))
 	{
 		built_in_check(shell, id, cmd, fd);
 		return (-1);

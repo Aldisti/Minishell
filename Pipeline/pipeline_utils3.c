@@ -123,3 +123,19 @@ void	pipe_ending(t_shell *shell, char **strs)
 	unlink(".here_doc");
 	ft_clear_levels(shell, 1);
 }
+
+int	ft_in2(char c, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		ft_quotes_check(str, &i);
+		if (str[i] == c)
+			return (1);
+		if (str[i])
+			i++;
+	}
+	return (0);
+}
