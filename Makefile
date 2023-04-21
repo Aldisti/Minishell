@@ -29,7 +29,7 @@ OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
 			$(EXP_SRC:%.c=%.o) $(SIGN_SRC:%.c=%.o) $(PAR_SRC:%.c=%.o) \
 			$(RED_SRC:%.c=%.o) ${READ_SRC:%.c=%.o}
 
-CC		= cc
+CC		= gcc
 FLAGS	= -Wall -Wextra -Werror
 RDLN_M	= -L$(HOME)/.brew/opt/readline/lib -I$(HOME)/.brew/opt/readline/include
 RDLN_L	= -lreadline

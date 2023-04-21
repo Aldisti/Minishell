@@ -46,13 +46,17 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 */
 t_list	*ft_lstfind_sort(t_list *lst, char *name)
 {
+	size_t	len;
+
 	if (!lst)
 		return (NULL);
 	if (ft_strcmp(name, lst->content->name) < 0)
 		return (NULL);
 	while (lst->next)
 	{
-		if (ft_strcmp(name, lst->next->content->name) < 0)
+		len = ft_strlen(name);
+		if (ft_strncmp(name, lst->next->content->name, len) < 0
+				&& ft_strlen(lst->next->content->name) - 1 == len)
 			return (lst);
 		lst = lst->next;
 	}
