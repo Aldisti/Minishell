@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 15:12:52 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/21 11:11:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 11:57:15 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,17 @@ then will return a NULL pointer
 */
 t_list	*ft_get_node(t_list *list, const char *name)
 {
+	size_t	len;
+
 	if (!list || !name)
 		return (NULL);
+	len = ft_strlen(name);
+	if (name[len - 1] == '=')
+		len--;
 	while (list)
 	{
-		if (list->content && ft_strlen(list->content->name) - 1 == ft_strlen(name)
-			&& !ft_strncmp(list->content->name, name, ft_strlen(name)))
+		if (list->content && ft_strlen(list->content->name) - 1 == len
+			&& !ft_strncmp(list->content->name, name, len))
 			break ;
 		list = list->next;
 	}
