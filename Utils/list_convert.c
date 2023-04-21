@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 10:47:17 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/13 10:40:23 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 18:27:53 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ char	**list_convert(t_list *list, int lvl)
 		return (0);
 	while (temp)
 	{
-		if (temp && temp->content && temp->content->level <= lvl)
+		if (temp && temp->content && temp->content->level <= lvl
+			&& temp->content->value)
 		{
 			ret[++i] = get_list_line(temp, lvl);
 			if (!ret[i])
