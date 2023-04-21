@@ -78,7 +78,7 @@ int	ft_exit_single(t_shell *shell, char **strs, char **cmd)
 		if (is_number(cmd[1]) || ft_atoi_zero(cmd[1]) != 0)
 			return (fd_printf(2, "exit: too many arguments\n") * 0 + 1);
 		else if (!is_number(cmd[1]))
-			ft_die_exit(shell, strs, cmd, 0);
+			ft_die_exit(shell, strs, cmd, 2);
 	}
 	else if (args_count(cmd) > 1)
 	{

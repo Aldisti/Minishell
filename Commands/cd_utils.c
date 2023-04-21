@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_die_cd(char *trueold, char *oldpwd, char *cmd, int ret)
+int	ft_die_cd(char *trueold, char *cmd, int ret)
 {
 	if (trueold)
 		fd_printf(2, "Minishell: cd: %s: ", trueold);
@@ -21,7 +21,6 @@ int	ft_die_cd(char *trueold, char *oldpwd, char *cmd, int ret)
 	write(2, "\033[31m", 5);
 	perror("");
 	write(2, "\033[0m", 4);
-	ft_free((void **) &oldpwd);
 	return (ret);
 }
 

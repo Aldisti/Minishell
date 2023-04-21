@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/19 13:41:42 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/21 12:07:10 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	execute_built_in(t_shell *shell, char **strs, int lvl, int id)
 	else if (!ft_strncmp(cmd[0], "unset", 5) && ft_strlen(cmd[0]) == 5)
 		g_shell_errno = ft_unset(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "env", 3) && ft_strlen(cmd[0]) == 3)
-		g_shell_errno = env(shell, lvl);
+		g_shell_errno = env(shell, cmd, lvl);
 	else if (!ft_strncmp(cmd[0], "exit", 4) && ft_strlen(cmd[0]) == 4)
 		g_shell_errno = ft_exit(shell, strs, cmd);
 	ft_free_mat((void ***) &cmd);
@@ -104,6 +104,33 @@ char	*gnp(t_shell *shell, char *str)
 	return (ret);
 }
 
+void	built_in_check(t_shell *shell, int *id, char **cmd, int *fd)
+{
+	dup2(shell->pipex.pipe_fd, 0);
+	close(shell->pipex.pipe_fd);
+	if ((*id) != shell->pipex.cmd_count - 1)
+		dup2(fd[1], 1);
+	if (shell->red.outfiles[*id][0])
+		red_selector(shell, *id, 2);
+	if (shell->red.afiles[*id][0])
+		red_selector(shell, *id, 0);
+	if (shell->red.infiles[*id][0])
+		red_selector(shell, *id, 1);
+	close(fd[1]);
+	ft_replace(cmd[*id], "\37", ' ');
+	if (ft_in('>', cmd[*id]))
+	{
+		fd_printf(2, "%s: no such file or directory\n",
+			ft_strchr(cmd[*id], '>') + 1);
+		g_shell_errno = 1;
+		return ;
+	}
+	execute_built_in(shell, cmd, shell->lvls[*id], *id);
+	shell->pipex.pipe_fd = fd[0];
+	dup2(shell->pipex.original_stdout, 1);
+	dup2(shell->pipex.original_stdin, 0);
+}
+
 /*
 int	built_in_selector(t_shell *shell, int *id, char **cmd)
 
@@ -112,53 +139,17 @@ the next is not, if so the order is switched and the non-builtin
 is executed first otherwise the builtin is execute normally not 
 in a sub process
 */
-int	built_in_selector(t_shell *shell, int *id, char **cmd)
+int	built_in_selector(t_shell *shell, int *id, char **cmd, int *fd)
 {
 	int		flag;
 
 	flag = 0;
 	if (!ambiguous_red_built(shell, *id, cmd))
 		return (-1);
-	if (is_blt(gnp(shell, cmd[*id])) && cmd[(*id) + 1]
-		&& !is_blt(gnp(shell, cmd[(*id) + 1])))
+	if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
 	{
-		flag = 1;
-		(*id) += 1;
+		built_in_check(shell, id, cmd, fd);
+		return (-1);
 	}
-	else if (!is_blt(gnp(shell, cmd[*id])) || ft_in('<', cmd[*id]))
-		return (flag);
-	my_dup(shell, *id);
-	ft_replace(cmd[*id], "\37", ' ');
-	execute_built_in(shell, cmd, shell->lvls[*id], *id);
-	if (*id > 0)
-		close(shell->pipex.pipe[2 * (*id) - 2]);
-	else
-		close(shell->pipex.pipe[0]);
-	close(shell->pipex.pipe[2 * (*id) + 1]);
-	if (*id == shell->pipex.cmd_count - 1 && (*id) > 0)
-		dup2(shell->pipex.original_stdin, 0);
-	dup2(shell->pipex.original_stdout, 1);
-	return (-1);
-}
-
-/*
-void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
-
-this func execute the builtin when the order is switched closing and
-dupping the fd properly but only the necessary one
-*/
-void	built_in_pipe_handler(t_shell *shell, int *id, char **cmd)
-{
-	ambiguous_red_built(shell, (*id) - 1, cmd);
-	if (!ft_in('<', cmd[(*id) - 1]))
-	{
-		my_dup(shell, (*id) - 1);
-		ft_replace(cmd[(*id) - 1], "\37", ' ');
-		execute_built_in(shell, cmd, shell->lvls[*id], *id - 1);
-		close(shell->pipex.pipe[2 * ((*id)) - 2]);
-		close(shell->pipex.pipe[2 * ((*id)) + 1]);
-		close(shell->pipex.pipe[2 * ((*id) - 1) + 1]);
-		dup2(shell->pipex.original_stdout, 1);
-		dup2(shell->pipex.original_stdin, 0);
-	}
+	return (flag);
 }

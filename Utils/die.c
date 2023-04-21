@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   die.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 13:45:48 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/20 16:27:11 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	ft_free_list(t_list **list)
 void	ft_free_routine(t_shell *shell)
 {
 	ft_free((void **)&(shell->line));
-	if (shell->parsed)
-		ft_free_mat((void ***)&shell->parsed);
+	ft_free_mat((void ***)&shell->parsed);
 	if (shell->red.infiles)
 		ft_free_mat((void ***)&(shell->red.infiles));
 	if (shell->red.outfiles)
@@ -70,6 +69,8 @@ void	ft_free_routine(t_shell *shell)
 		ft_free((void **)&(shell->lvls));
 	if (shell->files)
 		ft_free_mat((void ***)&(shell->files));
+	if (shell->pipex.pid)
+		ft_free((void **) &shell->pipex.pid);
 	ft_free_exp(&shell->exp);
 	ft_free_mat((void ***)&(shell->envp));
 	shell->envp = list_convert(shell->list, 0);
@@ -88,8 +89,8 @@ void	ft_free_shell(t_shell *shell)
 		ft_free((void **)&(shell->fd_input));
 	if (shell->fd_output)
 		ft_free((void **)&(shell->fd_output));
-	if (shell->pipex.pipe)
-		ft_free((void **)&(shell->pipex.pipe));
+	if (shell->pipex.paths)
+		ft_free_mat((void ***) &(shell->pipex.paths));
 	if (shell->envp)
 		ft_free_mat((void ***)&(shell->envp));
 }

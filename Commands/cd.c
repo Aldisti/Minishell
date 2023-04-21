@@ -6,7 +6,7 @@
 /*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 21:20:02 by marco             #+#    #+#             */
-/*   Updated: 2023/04/17 11:58:30 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/20 20:55:52 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ this version of cd can handle:
 3. cd (no argument)
 4. cd invalid path
 */
-int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
+int	what_to_do(t_shell *shell, int lvl, char **cmd)
 {
 	t_env	*env;
 
@@ -79,12 +79,12 @@ int	what_to_do(t_shell *shell, char *oldpwd, int lvl, char **cmd)
 		if (!env)
 			return (fd_printf(2, "cd: OLDPWD not set\n") * 0 + 1);
 		if (chdir(env->value) == -1)
-			return (ft_die_cd(env->value, oldpwd, cmd[1], 3));
+			return (ft_die_cd(env->value, cmd[1], 3));
 		printf("%s\n", env->value);
 	}
 	else if (cmd[1])
 		if (chdir(cmd[1]) == -1)
-			return (ft_die_cd(NULL, oldpwd, cmd[1], 1));
+			return (ft_die_cd(NULL, cmd[1], 1));
 	return (0);
 }
 
@@ -108,9 +108,12 @@ int	cd(t_shell *shell, char **cmd, int lvl)
 	ft_remove_quotes(shell, &cmd[1]);
 	oldpwd = getcwd(0, 0);
 	errno = 0;
-	val = what_to_do(shell, oldpwd, lvl, cmd);
+	val = what_to_do(shell, lvl, cmd);
 	if (val > 0)
+	{
+		ft_free((void **) &oldpwd);
 		return (val);
+	}	
 	update_oldpwd(shell, lvl);
 	ft_free((void **) &oldpwd);
 	ft_update_pwd(shell, cmd[1], lvl);

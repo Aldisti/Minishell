@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+         #
+#    By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/21 18:28:42 by adi-stef          #+#    #+#              #
-#    Updated: 2023/04/19 13:17:48 by adi-stef         ###   ########.fr        #
+#    Updated: 2023/04/20 15:41:08 by mpaterno         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	= minishell
 SRC			= main.c
 INIT_SRC	= $(wildcard Init/*.c)
 UTILS_SRC	= $(wildcard Utils/*.c)
-PIPEX_SRC	= $(wildcard Pipex/*.c)
+PIPEX_SRC	= $(wildcard Pipeline/*.c)
 PARSER_SRC	= $(wildcard Parser/*.c)
 SIGN_SRC	= $(wildcard Signals/*.c)
 READ_SRC	= $(wildcard Readline/*.c)
@@ -29,7 +29,7 @@ OBJ		= $(SRC:%.c=%.o) $(PARSER_SRC:%.c=%.o) $(PIPEX_SRC:%.c=%.o)	\
 			$(EXP_SRC:%.c=%.o) $(SIGN_SRC:%.c=%.o) $(PAR_SRC:%.c=%.o) \
 			$(RED_SRC:%.c=%.o) ${READ_SRC:%.c=%.o}
 
-CC		= cc
+CC		= gcc
 FLAGS	= -Wall -Wextra -Werror
 RDLN_M	= -L$(HOME)/.brew/opt/readline/lib -I$(HOME)/.brew/opt/readline/include
 RDLN_L	= -lreadline

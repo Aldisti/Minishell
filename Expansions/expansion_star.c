@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 10:04:23 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 13:22:54 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:20:25 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ char	*ft_joiner_sep(char **strs, const char *sep)
 		if (tmp)
 			str = tmp;
 	}
-	return (str);
+	tmp = ft_strtrim(str, " ");
+	ft_free((void **)&str);
+	return (tmp);
 }
 
 void	ft_check_exp(char **str, char **file)

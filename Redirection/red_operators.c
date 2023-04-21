@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:14 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/15 19:35:39 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:23:28 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ int	ft_input_red(t_shell *shell, int n_cmd, int *ind)
 		if (access(shell->red.infiles[n_cmd / 2], F_OK | R_OK)
 			|| !ft_intab(shell->red.infiles[n_cmd / 2],
 				shell->files))
-		{
-			g_shell_errno = 1;
 			return (2);
-		}
 	}
 	return (0);
 }
@@ -49,6 +46,7 @@ int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 				*ind, 'o');
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
+		ft_free((void **) &shell->red.outfiles[n_cmd / 2]);
 		if (ft_get_filename(shell, n_cmd, ind, 'o'))
 			ft_die(shell, 1, 12);
 		if (ft_remove_quotes(shell, &shell->red.outfiles[n_cmd / 2]))
@@ -58,7 +56,7 @@ int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 				O_CREAT | O_WRONLY | O_TRUNC,
 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
 		if (fd == -1)
-			ft_die(shell, 1, 12);
+			return (2);
 		close(fd);
 	}
 	return (0);
@@ -75,6 +73,7 @@ int	ft_append_red(t_shell *shell, int n_cmd, int *ind)
 				*ind, 'a');
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
+		ft_free((void **) &shell->red.afiles[n_cmd / 2]);
 		if (ft_get_filename(shell, n_cmd, ind, 'a'))
 			ft_die(shell, 1, 12);
 		if (ft_remove_quotes(shell, &shell->red.afiles[n_cmd / 2]))
@@ -111,8 +110,9 @@ int	ft_here_doc(t_shell *shell, char *limiter)
 		free(temp);
 	}
 	close(file);
-	if (temp)
-		free(temp);
+	if (!temp)
+		fd_printf(2, "\nWarning: here-document delimited by end-of-file\n");
+	ft_free((void **) &temp);
 	return (0);
 }
 

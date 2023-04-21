@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:03:52 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 09:50:32 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/20 18:42:00 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,21 @@ int	ft_check_for_op(t_exp *exp, char *str)
 	int		i;
 	int		j;
 
+	if (!str || !str[0] || !exp->sp)
+		return (0);
 	j = ft_find_in_array(exp->sp, str);
 	if (j-- <= 0)
 		return (0);
 	i = ft_strlen(exp->sp[j]) - 1;
 	while (i >= 0 && ft_isspace(exp->sp[j][i]))
 		i--;
-	if (ft_in(exp->sp[j][i], "><") && i == 0)
+	if (!exp->sp[j] || !exp->sp[j][0])
+		return (0);
+	if (i == 0 && ft_in(exp->sp[j][i], "><"))
 		return (1);
-	if (ft_in(exp->sp[j][i], "><") && i > 0 && exp->sp[j][i - 1] == '<')
+	if (i > 0 && ft_in(exp->sp[j][i], "><") && exp->sp[j][i - 1] == '<')
 		return (2);
-	else if (ft_in(exp->sp[j][i], "><") && i > 0 && exp->sp[j][i - 1] != '<')
+	if (i > 0 && ft_in(exp->sp[j][i], "><") && exp->sp[j][i - 1] != '<')
 		return (1);
 	return (0);
 }

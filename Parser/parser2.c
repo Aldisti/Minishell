@@ -12,6 +12,8 @@
 
 #include "../minishell.h"
 
+extern int	g_shell_errno;
+
 /*
  * Description:	parses the given string line creating an array
  * 		of strings divided by the characters in set; this 
@@ -39,6 +41,8 @@ char	**ft_parser(t_shell *shell, char *line, char *set)
 		ft_die(shell, 1, 12);
 	dim = 1;
 	i = 0;
+	if (ft_end_op(line, parsed))
+		return (NULL);
 	while (line[i])
 	{
 		while (line[i] && !ft_in(line[i], set))

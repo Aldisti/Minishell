@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   pipeline_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:37:43 by marco             #+#    #+#             */
-/*   Updated: 2023/04/18 13:20:05 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/20 16:29:12 by mpaterno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
+
+extern int	g_shell_errno;
 
 /*
 int	prepare_strs(char **strs)
@@ -73,74 +75,66 @@ void	trim_strs(t_shell *shell, char **strs, const char *set)
 }
 
 /*
-void	child_free(t_pipex *pipex, char **cmd)
-t_pipex	*pipex: a pointer to pipex struct
-char	**cmd: the allocated command to free
+	int	pre_check(t_shell *shell, char **cmd, int *id)
 
-this function free and sett all the allocated variablesto 0
-and close all the fd including the original stdout
+	simple function that check if the executable and if 
+	you have the permission to execute
 */
-void	child_free(t_pipex *pipex, char **cmd)
+int	pre_check(t_shell *shell, char **cmd, int *id)
 {
-	int	i;
-
-	i = -1;
-	close(pipex->original_stdin);
-	close(pipex->original_stdout);
-	while (cmd && cmd[++i])
-		ft_free((void **) &cmd[i]);
-	if (cmd)
-		ft_free((void **) &cmd);
-	ft_free((void **) &pipex->pipe);
-	pipex->pipe = 0;
-	cmd = 0;
+	sigaction(SIGINT, &shell->a_nothing, 0);
+	sigaction(SIGQUIT, &shell->a_nothing, 0);
+	if (!ft_strncmp(cmd[*id], "./", 2)
+		&& access(ft_strchr(cmd[*id], '/') + 1, F_OK))
+		return (g_shell_errno = fd_printf(2, "%s: no such file or directory\n",
+				cmd[*id]) * 0 + 127);
+	if (!ft_strncmp(cmd[*id], "./", 2)
+		&& access(ft_strchr(cmd[*id], '/') + 1, X_OK))
+		return (g_shell_errno = fd_printf(2, "%s: permission denied\n",
+				cmd[*id]) * 0 + 126);
+	if (!ft_strncmp(cmd[*id], "..", 2) && ft_strlen(cmd[*id]) == 2)
+		return (g_shell_errno = fd_printf(2, "..:command not found\n",
+				cmd[*id]) * 0 + 127);
+	if (!ft_strncmp(cmd[*id], ".", 1) && ft_strlen(cmd[*id]) == 1)
+		return (g_shell_errno = fd_printf(2, ".: filename argument required\n",
+				cmd[*id]) * 0 + 2);
+	return (0);
 }
 
 /*
-	int	pipes(t_pipex *pipex, const char *mode)
+	void	red_selector(t_shell *shell, int id, int mode)
 
-	func that create or close pipes based on
-	the mode argument and return 1 if all is 
-	good
+	this function open the file target of redirection
+	e dup the fd accordingly.
+	based on the mode parameter the file is opened in RDWR
+	or APPEND, and always based on the mode the output or 
+	input is dupped
 */
-int	pipes(t_pipex *pipex, const char *mode)
+void	red_selector(t_shell *shell, int id, int mode)
 {
-	int	i;
+	int	fd;
 
-	i = -1;
-	if (!ft_strncmp(mode, "open", 4))
+	fd = 0;
+	if (mode == 0)
 	{
-		while (++i < pipex->cmd_count)
-		{
-			if (pipe(pipex->pipe + 2 * i) == -1)
-				return (-1);
-		}
+		fd = open(shell->red.afiles[id], O_WRONLY | O_APPEND | O_CREAT, 0644);
+		if (shell->red.fda[id] != 1)
+			dup2(fd, shell->red.fda[id]);
+		dup2(fd, 1);
 	}
-	else
+	else if (mode == 1)
 	{
-		while (++i < pipex->pipe_count)
-			close(pipex->pipe[i]);
+		fd = open(shell->red.infiles[id], O_RDWR);
+		if (shell->red.fdin[id] != 0)
+			dup2(fd, shell->red.fdin[id]);
+		dup2(fd, 0);
 	}
-	return (1);
-}
-
-/*
-void	my_dup(t_pipex *pipex, int id)
-
-this is a core func and based on the command id
-set the pipe accordingly so that each input and
-output is read/write either from/to a pipe or on the
-stdout/stdin it also set redirection based on the specific
-cases
-*/
-void	my_dup(t_shell *shell, int id)
-{
-	if (id == 0 && shell->pipex.cmd_count != 1)
-		first_child_dup(shell, id);
-	else if ((id == shell->pipex.cmd_count - 1) && id > 0)
-		last_cmd_dup(shell, id);
-	else if ((id == shell->pipex.cmd_count - 1) && id == 0)
-		alone_cmd_dup(shell, id);
-	else
-		middle_cmd_dup(shell, id);
+	else if (mode == 2)
+	{
+		fd = open(shell->red.outfiles[id], O_RDWR);
+		if (shell->red.fdout[id] != 1)
+			dup2(fd, shell->red.fdout[id]);
+		dup2(fd, 1);
+	}
+	close(fd);
 }

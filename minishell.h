@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/19 13:28:13 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:51:18 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <readline/readline.h>
 
 # ifndef MC
-#  define MC " \n\t|&<>()"
+#  define MC " \n\t|&<>()/"
 # endif
 # ifndef MSG_ERR
 #  define MSG_ERR "\033[31mBad Syntax: error near unexpected operator\033[0m\n"
@@ -76,9 +76,9 @@ typedef struct s_list
 
 typedef struct s_pipex
 {
-	int		*pipe;
-	int		flag;
+	int		pipe_fd;
 	int		is_first;
+	int		*pid;
 	int		pipe_count;
 	int		cmd_count;
 	int		original_stdout;
@@ -111,6 +111,7 @@ void		my_print(char **strs);
 //	Init
 //	shell_set
 void		ft_shell_set(t_shell *shell);
+int			ft_continue(t_shell *shell, int n);
 //	env_set
 t_list		*ft_env_set(char **envp);
 char		*ft_get_name(const char *str);
@@ -152,11 +153,12 @@ char		**ft_parser(t_shell *shell, char *line, char *set);
 int			ft_check_beforepar(char *line);
 int			ft_valid_command(char **parsed);
 void		*ft_die_parser(t_shell *shell, char **parsed);
+int			ft_end_op(char *line, char **parsed);
 
 //	Expansions
 //	expansion
 char		*ft_expand_spec(char *str);
-void		ft_expand_all(t_shell *shell, char **parsed);
+void		ft_expand_all(t_shell *shell, char **parsed, int j);
 char		*ft_exp_tilde(t_shell *shell, char *str, int lvl);
 char		*ft_exp_dol(t_shell *shell, char *str, int lvl);
 void		ft_split_expansions(t_shell *shell, char *str, int j, int k);
@@ -238,7 +240,7 @@ int			cd(t_shell *shell, char **cmd, int lvl);
 int			args_count(char **argv);
 void		update_oldpwd(t_shell *shell, int lvl);
 //	cd_utils
-int			ft_die_cd(char *trueold, char *oldpwd, char *cmd, int ret);
+int			ft_die_cd(char *trueold, char *cmd, int ret);
 void		ft_update_error(t_shell *shell, char *cmd, int lvl);
 void		ft_update_pwd(t_shell *shell, char *cmd, int lvl);
 //	pwd
@@ -246,7 +248,7 @@ int			print_pwd(t_shell *shell);
 // exit
 int			ft_exit(t_shell *shell, char **strs, char **cmd);
 //	env
-int			env(t_shell	*shell, int lvl);
+int			env(t_shell	*shell, char **cmd, int lvl);
 //	echo
 void		print_cmd(char *cmd);
 int			echo(char **argv);
@@ -267,6 +269,10 @@ int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
 //	pipex
+void		red_sub_proc(t_shell *shell, int *id, int *fd);
+void		parent_stuff(t_shell *shell, int *id, int *fd);
+void		pipe_ending(t_shell *shell, char **strs);
+void		built_in_check(t_shell *shell, int *id, char **cmd, int *fd);
 int			is_only_red(char *str);
 void		ambiguous_red(t_shell *shell, int child_id,
 				char **cmd, char **argv);
@@ -296,7 +302,7 @@ void		ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type);
 //	command
 char		**get_cmd(t_shell *shell, char *str, int id);
 char		*path_checker(t_shell *shell, t_pipex *pipex, char **str, int i);
-int			built_in_selector(t_shell *shell, int *id, char **cmd);
+int			built_in_selector(t_shell *shell, int *id, char **cmd, int *fd);
 void		get_cmd_loop(t_shell *shell, char *temp, char **command);
 void		built_in_pipe_handler(t_shell *shell, int *id, char **cmd);
 //	command_parser
