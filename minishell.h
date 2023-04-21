@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/21 12:51:18 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 15:28:56 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_shell
 	t_pipex				pipex;
 }	t_shell;
 
+void		ft_while(t_shell *shell);
 void		my_print(char **strs);
 //	Init
 //	shell_set

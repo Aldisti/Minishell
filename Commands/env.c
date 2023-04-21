@@ -6,19 +6,21 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
-/*   Updated: 2023/04/21 12:10:01 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:36:50 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// t_list	*lst;
-// t_env	*tmp;
-// char	*name;
-
-// lst = shell->list;
-// while (lst)
+// int	env(t_shell	*shell, char **cmd, int lvl)
 // {
+// 	t_list	*lst;
+// 	t_env	*tmp;
+// 	char	*name;
+
+// 	lst = shell->list;
+// 	while (lst)
+// 	{
 // 	name = ft_strdup(lst->content->name);
 // 	if (!name)
 // 		ft_die(shell, 1, 12);

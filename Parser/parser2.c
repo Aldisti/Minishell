@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 09:05:56 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/14 14:42:07 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 15:24:12 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,12 @@ int	ft_valid_operators(char **parsed)
 			ft_quotes_check(parsed[i], &j);
 			if (ft_in(parsed[i][j], "|&"))
 			{
-				if (ft_strlen_until(&parsed[i][j], " \n\t<>()") > 1)
+				if (ft_strlen_until(&parsed[i][j], " \n\t<>()") > 2)
 					return (0);
-				if (ft_strncmp(&parsed[i][j], "|", 1))
+				if (ft_strncmp(&parsed[i][j], "&&", 2) && ft_strncmp(&parsed[i][j], "|", 1) && ft_strncmp(&parsed[i][j], "||", 2))
 					return (0);
+				if (!ft_strncmp(&parsed[i][j], "&&", 2) || !ft_strncmp(&parsed[i][j], "||", 2))
+					j++;
 			}
 			j++;
 		}
