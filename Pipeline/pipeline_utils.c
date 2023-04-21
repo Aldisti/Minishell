@@ -114,6 +114,12 @@ int	pre_check(t_shell *shell, char **cmd, int *id)
 		&& access(ft_strchr(cmd[*id], '/') + 1, X_OK))
 		return (g_shell_errno = fd_printf(2, "%s: permission denied\n",
 				cmd[*id]) * 0 + 126);
+	if (!ft_strncmp(cmd[*id], "..", 2) && ft_strlen(cmd[*id]) == 2)
+		return (g_shell_errno = fd_printf(2, "..:command not found\n",
+				cmd[*id]) * 0 + 127);
+	if (!ft_strncmp(cmd[*id], ".", 1) && ft_strlen(cmd[*id]) == 1)
+		return (g_shell_errno = fd_printf(2, ".: filename argument required\n",
+				cmd[*id]) * 0 + 2);
 	return (0);
 }
 
