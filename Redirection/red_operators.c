@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 07:47:14 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/15 19:35:39 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:23:28 by gpanico          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,9 @@ int	ft_here_doc(t_shell *shell, char *limiter)
 		free(temp);
 	}
 	close(file);
-	if (temp)
-		free(temp);
+	if (!temp)
+		fd_printf(2, "\nWarning: here-document delimited by end-of-file\n");
+	ft_free((void **) &temp);
 	return (0);
 }
 
