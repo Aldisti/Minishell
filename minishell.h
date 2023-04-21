@@ -152,6 +152,7 @@ char		**ft_parser(t_shell *shell, char *line, char *set);
 int			ft_check_beforepar(char *line);
 int			ft_valid_command(char **parsed);
 void		*ft_die_parser(t_shell *shell, char **parsed);
+int			ft_end_op(char *line, char **parsed);
 
 //	Expansions
 //	expansion

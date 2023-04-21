@@ -46,6 +46,7 @@ int	ft_output_red(t_shell *shell, int n_cmd, int *ind)
 				*ind, 'o');
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
+		ft_free((void **) &shell->red.outfiles[n_cmd / 2]);
 		if (ft_get_filename(shell, n_cmd, ind, 'o'))
 			ft_die(shell, 1, 12);
 		if (ft_remove_quotes(shell, &shell->red.outfiles[n_cmd / 2]))
@@ -72,6 +73,7 @@ int	ft_append_red(t_shell *shell, int n_cmd, int *ind)
 				*ind, 'a');
 		while (ft_in(shell->parsed[n_cmd][*ind], "><"))
 			(*ind)++;
+		ft_free((void **) &shell->red.afiles[n_cmd / 2]);
 		if (ft_get_filename(shell, n_cmd, ind, 'a'))
 			ft_die(shell, 1, 12);
 		if (ft_remove_quotes(shell, &shell->red.afiles[n_cmd / 2]))

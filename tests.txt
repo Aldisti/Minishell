@@ -26,10 +26,9 @@ export test="file1 file2" - >"$test" -> OK (nelle redirection e ci sono anche le
 echo bonjour > > out -> OK (esegue anziche dare errore)
 echo bonjour >>> file -> OK (setta l'exit status a 1 anziche 2)
 
-47
 48
-64
-68
+102
+116
 
 
 LEAKS:

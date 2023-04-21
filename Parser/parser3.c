@@ -86,3 +86,28 @@ int	ft_check_beforepar(char *line)
 		return (1);
 	return (0);
 }
+
+int	ft_end_op(char *line, char **parsed)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '|')
+		{
+			i++;
+			while (ft_in(line[i], " "))
+				i++;
+			if (!line[i])
+			{
+				fd_printf(2, "Bad Syntax: end with operator.\n");
+				g_shell_errno = 2;
+				ft_free_mat((void ***) &parsed);
+				return (1);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
