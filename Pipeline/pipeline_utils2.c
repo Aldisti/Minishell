@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils2.c                                     :+:      :+:    :+:   */
+/*   pipeline_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 10:27:33 by gpanico           #+#    #+#             */
-/*   Updated: 2023/04/19 13:42:38 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/21 18:43:47 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,10 @@ extern int	g_shell_errno;
 
 char	**ft_take_paths(t_shell *shell, int id)
 {
-	t_list	*node;
 	t_env	*elem;
 	char	**paths;
 
-	node = ft_get_node(shell->list, "PATH=");
-	elem = ft_get_env(node, shell->lvls[id]);
+	elem = ft_search_in_list(shell->list, "PATH", shell->lvls[id]);
 	if (!elem || !elem->value || elem->value[0] == 0)
 	{
 		paths = ft_split("/", ':');
