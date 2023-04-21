@@ -55,6 +55,8 @@ t_list	*ft_lstfind_sort(t_list *lst, char *name)
 	while (lst->next)
 	{
 		len = ft_strlen(name);
+		if (name[len - 1] == '=')
+			len -= 1;
 		if (ft_strncmp(name, lst->next->content->name, len) < 0
 				&& ft_strlen(lst->next->content->name) - 1 == len)
 			return (lst);
