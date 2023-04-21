@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/20 18:41:35 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:03:29 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ int			print_pwd(t_shell *shell);
 // exit
 int			ft_exit(t_shell *shell, char **strs, char **cmd);
 //	env
-int			env(t_shell	*shell, int lvl);
+int			env(t_shell	*shell, char **cmd, int lvl);
 //	echo
 void		print_cmd(char *cmd);
 int			echo(char **argv);

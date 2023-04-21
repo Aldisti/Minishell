@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:18:10 by afraccal          #+#    #+#             */
-/*   Updated: 2023/04/21 11:51:34 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:10:01 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,15 @@
 // 		printf("%s%s\n", tmp->name, tmp->value);
 // 	lst = lst->next;
 // }
-int	env(t_shell	*shell, int lvl)
+int	env(t_shell	*shell, char **cmd, int lvl)
 {
 	int	i;
 
+	if (cmd[1])
+	{
+		fd_printf(2, "Bad Syntax: env: too many arguments\n");
+		return (2);
+	}
 	ft_free_mat((void ***)&(shell->envp));
 	shell->envp = list_convert(shell->list, lvl);
 	if (!shell->envp)
