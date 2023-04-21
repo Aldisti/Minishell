@@ -118,7 +118,7 @@ void	built_in_check(t_shell *shell, int *id, char **cmd, int *fd)
 		red_selector(shell, *id, 1);
 	close(fd[1]);
 	ft_replace(cmd[*id], "\37", ' ');
-	if (ft_in('>', cmd[*id]))
+	if (ft_in('>', cmd[*id]) && shell->red.outfiles[*id][0])
 	{
 		fd_printf(2, "%s: no such file or directory\n",
 			ft_strchr(cmd[*id], '>') + 1);
