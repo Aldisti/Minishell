@@ -46,17 +46,13 @@ void	ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type)
 		while (cmd[++i])
 			ft_free((void **) &cmd[i]);
 		ft_free((void **) &cmd);
-		child_free(&shell->pipex, 0);
 		ft_die(shell, 1, 127);
 	}
 	ft_free_mat((void ***) &cmd);
 	if (type == 0)
 		ft_die(shell, 1, 0);
 	else if (type == 1)
-	{
-		child_free(&shell->pipex, 0);
 		ft_die(shell, 1, 1);
-	}
 	else if (type == 2)
 		ft_die(shell, 1, 12);
 }

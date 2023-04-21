@@ -118,6 +118,13 @@ void	built_in_check(t_shell *shell, int *id, char **cmd, int *fd)
 		red_selector(shell, *id, 1);
 	close(fd[1]);
 	ft_replace(cmd[*id], "\37", ' ');
+	if (ft_in('>', cmd[*id]))
+	{
+		fd_printf(2, "%s: no such file or directory\n",
+			ft_strchr(cmd[*id], '>') + 1);
+		g_shell_errno = 1;
+		return ;
+	}
 	execute_built_in(shell, cmd, shell->lvls[*id], *id);
 	shell->pipex.pipe_fd = fd[0];
 	dup2(shell->pipex.original_stdout, 1);

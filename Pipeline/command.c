@@ -147,6 +147,9 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 		ft_exit_exec(shell, argv, cmd, 0);
 	ambiguous_red(shell, *child_id, cmd, argv);
 	ft_replace(argv[(*child_id)], "\37", ' ');
+	if (ft_in('>', argv[*child_id]))
+		ft_die(shell, 1, fd_printf(2, "%s: no such file or directory\n",
+				ft_strchr(argv[*child_id], '>') + 1) * 0 + 1);
 	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
 	if (!cmd)
 		ft_exit_exec(shell, argv, cmd, 2);

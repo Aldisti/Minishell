@@ -119,7 +119,6 @@ void	pipe_ending(t_shell *shell, char **strs)
 	waitpid(shell->pipex.pid[i], 0, WUNTRACED);
 	sigaction(SIGINT, &shell->a_int, 0);
 	sigaction(SIGQUIT, &shell->a_quit, 0);
-	child_free(&shell->pipex, 0);
 	ft_free_mat((void ***) &strs);
 	unlink(".here_doc");
 	ft_clear_levels(shell, 1);

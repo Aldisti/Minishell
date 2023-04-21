@@ -75,28 +75,6 @@ void	trim_strs(t_shell *shell, char **strs, const char *set)
 }
 
 /*
-void	child_free(t_pipex *pipex, char **cmd)
-t_pipex	*pipex: a pointer to pipex struct
-char	**cmd: the allocated command to free
-
-this function free and sett all the allocated variablesto 0
-and close all the fd including the original stdout
-*/
-void	child_free(t_pipex *pipex, char **cmd)
-{
-	int	i;
-
-	i = -1;
-	close(pipex->original_stdin);
-	close(pipex->original_stdout);
-	while (cmd && cmd[++i])
-		ft_free((void **) &cmd[i]);
-	if (cmd)
-		ft_free((void **) &cmd);
-	cmd = 0;
-}
-
-/*
 	int	pre_check(t_shell *shell, char **cmd, int *id)
 
 	simple function that check if the executable and if 
