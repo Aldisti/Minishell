@@ -107,6 +107,9 @@ typedef struct s_shell
 	t_pipex				pipex;
 }	t_shell;
 
+void	ft_while(t_shell *shell);
+
+
 void		my_print(char **strs);
 //	Init
 //	shell_set
@@ -154,6 +157,7 @@ int			ft_check_beforepar(char *line);
 int			ft_valid_command(char **parsed);
 void		*ft_die_parser(t_shell *shell, char **parsed);
 int			ft_end_op(char *line, char **parsed);
+int		ft_is_op(char *parsed, int *j);
 
 //	Expansions
 //	expansion

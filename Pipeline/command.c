@@ -158,5 +158,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	trim_strs(shell, cmd, "\'");
 	trim_strs(shell, cmd, "\"");
 	ft_free_mat((void ***) &argv);
+	ft_free_mat((void ***) &shell->envp);
+	shell->envp = list_convert(shell->list, shell->lvls[*child_id]);
 	execve(cmd[0], cmd, shell->envp);
 }
