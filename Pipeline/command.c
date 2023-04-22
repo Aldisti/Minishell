@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/20 11:40:14 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/21 18:44:10 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 		ft_exit_exec(shell, argv, cmd, 0);
 	ambiguous_red(shell, *child_id, cmd, argv);
 	ft_replace(argv[(*child_id)], "\37", ' ');
-	if (ft_in('>', argv[*child_id]))
+	if (ft_in('>', argv[*child_id]) && shell->red.outfiles[*child_id][0])
 		ft_die(shell, 1, fd_printf(2, "%s: no such file or directory\n",
 				ft_strchr(argv[*child_id], '>') + 1) * 0 + 1);
 	cmd = get_cmd(shell, argv[(*child_id)], *child_id);
@@ -158,5 +158,7 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	trim_strs(shell, cmd, "\'");
 	trim_strs(shell, cmd, "\"");
 	ft_free_mat((void ***) &argv);
+	ft_free_mat((void ***) &shell->envp);
+	shell->envp = list_convert(shell->list, shell->lvls[*child_id]);
 	execve(cmd[0], cmd, shell->envp);
 }
