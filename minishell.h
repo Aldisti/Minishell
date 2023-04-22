@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/21 12:51:18 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/22 10:00:44 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,11 @@ typedef struct s_shell
 	char				**parsed;
 	char				**envp;
 	char				**files;
+	char				**tmp;
 	char				*line;
 	int					*fd_input;
 	int					*fd_output;
+	int					*tmp_lvls;
 	int					*lvls;
 	int					n_cmds;
 	t_red				red;
