@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   die.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpaterno <mpaterno@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:48:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/20 16:27:11 by mpaterno         ###   ########.fr       */
+/*   Updated: 2023/04/22 10:12:54 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	ft_free_routine(t_shell *shell)
 		ft_free((void **)&(shell->lvls));
 	if (shell->files)
 		ft_free_mat((void ***)&(shell->files));
-	if (shell->pipex.pid)
-		ft_free((void **) &shell->pipex.pid);
+	ft_free((void **) &shell->pipex.pid);
 	ft_free_exp(&shell->exp);
 	ft_free_mat((void ***)&(shell->envp));
+	ft_free_mat((void ***)&shell->tmp);
 	shell->envp = list_convert(shell->list, 0);
 	if (!shell->envp)
 		ft_die(shell, 1, 12);

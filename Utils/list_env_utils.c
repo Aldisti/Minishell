@@ -52,7 +52,7 @@ t_env	*ft_envfind_sort(t_env *env, int lvl)
 		return (NULL);
 	while (env->next)
 	{
-		if (env->next->level > lvl)
+		if (env->next->level >= lvl)
 			return (env);
 		env = env->next;
 	}
