@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/22 10:16:07 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/22 15:44:29 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int			ft_check_beforepar(char *line);
 int			ft_valid_command(char **parsed);
 void		*ft_die_parser(t_shell *shell, char **parsed);
 int			ft_end_op(char *line, char **parsed);
-int		ft_is_op(char *parsed, int *j);
+int			ft_is_op(char *parsed, int *j);
 
 //	Expansions
 //	expansion

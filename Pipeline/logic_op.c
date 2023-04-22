@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:25:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/22 10:14:24 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/22 15:49:12 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,23 @@ int	*ft_get_lvls(t_shell *shell, int *tmp_lvls, int start, int end)
 	return (lvls);
 }
 
+void	ft_execute(t_shell *shell, int i, int *j)
+{
+	shell->tmp = ft_subtab(shell->parsed, *j, i);
+	if (!shell->tmp)
+		ft_die(shell, 1, 12);
+	shell->lvls = ft_get_lvls(shell, shell->tmp_lvls, *j, i);
+	if (!(*j) || (!g_shell_errno && (*j)
+			&& !ft_strcmp(shell->parsed[(*j) - 1], "&&")))
+		pipex(shell, shell->tmp);
+	else if (g_shell_errno && !ft_strcmp(shell->parsed[(*j) - 1], "||"))
+		pipex(shell, shell->tmp);
+	*j = i + 1;
+	ft_free((void **)&shell->lvls);
+	ft_free_mat((void ***)&shell->tmp);
+	ft_free((void **) &shell->pipex.pid);
+}
+
 void	ft_while(t_shell *shell)
 {
 	int		tmp_n_cmds;
@@ -80,20 +97,7 @@ void	ft_while(t_shell *shell)
 	{
 		if (!shell->parsed[i] || !ft_strcmp(shell->parsed[i], "&&")
 			|| !ft_strcmp(shell->parsed[i], "||"))
-		{
-			shell->tmp = ft_subtab(shell->parsed, j, i);
-			if (!shell->tmp)
-				ft_die(shell, 1, 12);
-			shell->lvls = ft_get_lvls(shell, shell->tmp_lvls, j, i);
-			if ((!g_shell_errno && j && !ft_strcmp(shell->parsed[j - 1], "&&")) || !j)
-				pipex(shell, shell->tmp);
-			else if (g_shell_errno && !ft_strcmp(shell->parsed[j - 1], "||"))
-				pipex(shell, shell->tmp);
-			j = i + 1;
-			ft_free((void **)&shell->lvls);
-			ft_free_mat((void ***)&shell->tmp);
-			ft_free((void **) &shell->pipex.pid);
-		}
+			ft_execute(shell, i, &j);
 		i++;
 	}
 	ft_clear_levels(shell, 1);
