@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/22 10:00:44 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/22 10:16:07 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,6 @@ typedef struct s_shell
 	t_list				*list;
 	t_pipex				pipex;
 }	t_shell;
-
-void	ft_while(t_shell *shell);
-
 
 void		my_print(char **strs);
 //	Init
@@ -274,6 +271,10 @@ void		ft_clean_list(t_shell *shell);
 int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
+//	logic_op
+void		ft_while(t_shell *shell);
+char		**ft_subtab(char **tab, int start, int end);
+int			*ft_get_lvls(t_shell *shell, int *tmp_lvls, int start, int end);
 //	pipex
 void		red_sub_proc(t_shell *shell, int *id, int *fd);
 void		parent_stuff(t_shell *shell, int *id, int *fd);

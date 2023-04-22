@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 11:08:54 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/21 12:44:24 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/22 10:10:03 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	ft_shell_set(t_shell *shell)
 	shell->exp.pd = 0;
 	shell->exp.sp = 0;
 	shell->exp.tmp = 0;
+	shell->tmp = 0;
+	shell->tmp_lvls = 0;
 	ft_signals_set(shell);
 	shell->envp = list_convert(shell->list, 0);
 	if (!shell->envp)

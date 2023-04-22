@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:25:48 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/22 10:01:48 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/22 10:14:24 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,17 @@ char	**ft_subtab(char **tab, int start, int end)
 	int		i;
 
 	new = (char **)ft_calloc(end - start + 1, sizeof(char **));
+	if (!new)
+		return (0);
 	i = -1;
 	while (tab[++i] && start < end)
 	{
 		new[i] = ft_strdup(tab[start]);
+		if (!new[i])
+		{
+			ft_free_mat((void ***)&new);
+			return (NULL);
+		}
 		start++;
 	}
 	return (new);
@@ -44,6 +51,8 @@ int	*ft_get_lvls(t_shell *shell, int *tmp_lvls, int start, int end)
 	(void) shell;
 	shell->n_cmds = end - start + 1;
 	lvls = (int *)malloc(sizeof(int) * (end - start + 1));
+	if (!lvls)
+		ft_die(shell, 1, 12);
 	i = 0;
 	while (start + i <= end)
 	{
@@ -56,9 +65,9 @@ int	*ft_get_lvls(t_shell *shell, int *tmp_lvls, int start, int end)
 void	ft_while(t_shell *shell)
 {
 	int		tmp_n_cmds;
+	int		len;
 	int		i;
 	int		j;
-	int		len;
 
 	i = 0;
 	j = 0;
@@ -73,6 +82,8 @@ void	ft_while(t_shell *shell)
 			|| !ft_strcmp(shell->parsed[i], "||"))
 		{
 			shell->tmp = ft_subtab(shell->parsed, j, i);
+			if (!shell->tmp)
+				ft_die(shell, 1, 12);
 			shell->lvls = ft_get_lvls(shell, shell->tmp_lvls, j, i);
 			if ((!g_shell_errno && j && !ft_strcmp(shell->parsed[j - 1], "&&")) || !j)
 				pipex(shell, shell->tmp);
