@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 12:21:04 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/17 11:59:51 by gpanico          ###   ########.fr       */
+/*   Updated: 2023/04/22 15:34:43 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_unset(t_shell *shell, char **cmd, int lvl)
 	t_env	*env;
 	t_env	*tmp;
 
-	if (!cmd[1] || shell->n_cmds != 1)
+	if (!(*cmd) || !cmd[1] || shell->n_cmds > 1)
 		return (0);
 	while (++cmd && *cmd)
 	{
