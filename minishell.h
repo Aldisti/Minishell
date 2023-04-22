@@ -109,6 +109,9 @@ typedef struct s_shell
 	t_pipex				pipex;
 }	t_shell;
 
+void	ft_while(t_shell *shell);
+
+
 void		my_print(char **strs);
 //	Init
 //	shell_set
