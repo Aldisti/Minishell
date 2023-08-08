@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 19:41:00 by marco             #+#    #+#             */
-/*   Updated: 2023/04/21 18:44:10 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:40:14 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,5 @@ void	execute_cmd(t_shell *shell, char **argv, int *child_id)
 	trim_strs(shell, cmd, "\'");
 	trim_strs(shell, cmd, "\"");
 	ft_free_mat((void ***) &argv);
-	ft_free_mat((void ***) &shell->envp);
-	shell->envp = list_convert(shell->list, shell->lvls[*child_id]);
 	execve(cmd[0], cmd, shell->envp);
 }

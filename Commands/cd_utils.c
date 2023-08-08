@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 13:22:51 by marco             #+#    #+#             */
-/*   Updated: 2023/04/21 18:22:36 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:23:34 by marco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	ft_update_pwd(t_shell *shell, char *cmd, int lvl)
 {
 	char	*pwd;
 	t_env	*env;
-	t_env	*new;
-	t_list	*node;
 
 	errno = 0;
 	pwd = getcwd(0, 0);
@@ -62,13 +60,6 @@ void	ft_update_pwd(t_shell *shell, char *cmd, int lvl)
 	else if (!pwd)
 		ft_die(shell, 1, 12);
 	env = ft_get_env(ft_get_node(shell->list, "PWD"), lvl);
-	if (!env)
-	{
-		new = ft_env_new(ft_strdup("PWD="), pwd, lvl);
-		node = ft_lstnew(new);
-		ft_lst_insert(&shell->list, node);
-		return ;
-	}
 	ft_free((void **) &env->value);
 	env->value = pwd;
 }

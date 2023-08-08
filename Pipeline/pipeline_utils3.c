@@ -121,20 +121,5 @@ void	pipe_ending(t_shell *shell, char **strs)
 	sigaction(SIGQUIT, &shell->a_quit, 0);
 	ft_free_mat((void ***) &strs);
 	unlink(".here_doc");
-}
-
-int	ft_in2(char c, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		ft_quotes_check(str, &i);
-		if (str[i] == c)
-			return (1);
-		if (str[i])
-			i++;
-	}
-	return (0);
+	ft_clear_levels(shell, 1);
 }

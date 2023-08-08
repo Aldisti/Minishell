@@ -6,7 +6,7 @@
 /*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 10:34:49 by adi-stef          #+#    #+#             */
-/*   Updated: 2023/04/22 15:44:29 by adi-stef         ###   ########.fr       */
+/*   Updated: 2023/04/21 12:51:18 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,9 @@ typedef struct s_shell
 	char				**parsed;
 	char				**envp;
 	char				**files;
-	char				**tmp;
 	char				*line;
 	int					*fd_input;
 	int					*fd_output;
-	int					*tmp_lvls;
 	int					*lvls;
 	int					n_cmds;
 	t_red				red;
@@ -108,9 +106,6 @@ typedef struct s_shell
 	t_list				*list;
 	t_pipex				pipex;
 }	t_shell;
-
-void	ft_while(t_shell *shell);
-
 
 void		my_print(char **strs);
 //	Init
@@ -159,7 +154,6 @@ int			ft_check_beforepar(char *line);
 int			ft_valid_command(char **parsed);
 void		*ft_die_parser(t_shell *shell, char **parsed);
 int			ft_end_op(char *line, char **parsed);
-int			ft_is_op(char *parsed, int *j);
 
 //	Expansions
 //	expansion
@@ -274,10 +268,6 @@ void		ft_clean_list(t_shell *shell);
 int			ft_unset(t_shell *shell, char **cmd, int lvl);
 
 //	Pipex
-//	logic_op
-void		ft_while(t_shell *shell);
-char		**ft_subtab(char **tab, int start, int end);
-int			*ft_get_lvls(t_shell *shell, int *tmp_lvls, int start, int end);
 //	pipex
 void		red_sub_proc(t_shell *shell, int *id, int *fd);
 void		parent_stuff(t_shell *shell, int *id, int *fd);
@@ -309,7 +299,6 @@ void		execute_built_in(t_shell *shell, char **strs, int lvl, int id);
 //	pipex_utils2
 char		**ft_take_paths(t_shell *shell, int id);
 void		ft_exit_exec(t_shell *shell, char **argv, char **cmd, int type);
-int			ft_in2(char c, char *str);
 //	command
 char		**get_cmd(t_shell *shell, char *str, int id);
 char		*path_checker(t_shell *shell, t_pipex *pipex, char **str, int i);

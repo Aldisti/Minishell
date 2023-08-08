@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marco <marco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: adi-stef <adi-stef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 16:38:07 by mpaterno          #+#    #+#             */
-/*   Updated: 2023/04/21 20:51:07 by marco            ###   ########.fr       */
+/*   Updated: 2023/04/21 12:07:10 by adi-stef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,8 @@ int	built_in_selector(t_shell *shell, int *id, char **cmd, int *fd)
 	flag = 0;
 	if (!ambiguous_red_built(shell, *id, cmd))
 		return (-1);
-	if (is_blt(gnp(shell, cmd[*id])))
+	if (is_blt(gnp(shell, cmd[*id])) && !ft_in('<', cmd[*id]))
 	{
-		if ((!ft_in2('<', cmd[*id]) && shell->red.infiles[*id][0]))
-			return (0);
 		built_in_check(shell, id, cmd, fd);
 		return (-1);
 	}

@@ -111,19 +111,3 @@ int	ft_end_op(char *line, char **parsed)
 	}
 	return (0);
 }
-
-int	ft_is_op(char *parsed, int *j)
-{
-	if (ft_strlen_until(&parsed[*j], " \n\t<>()") > 2)
-		return (1);
-	if (!ft_strncmp(&parsed[*j], "&", 1)
-		&& parsed[*j + 1] != '&')
-		return (1);
-	if (ft_in(parsed[*j + 1], "|&")
-		&& parsed[*j] != parsed[*j + 1])
-		return (1);
-	if (ft_in(parsed[*j + 1], "|&")
-		&& parsed[*j] == parsed[*j + 1])
-		(*j)++;
-	return (0);
-}

@@ -12,23 +12,32 @@
 
 #include "../minishell.h"
 
-// t_list	*lst;
-// t_env	*tmp;
-// char	*name;
-
-// lst = shell->list;
-// while (lst)
+// int	env(t_shell	*shell, char **cmd, int lvl)
 // {
-// 	name = ft_strdup(lst->content->name);
-// 	if (!name)
-// 		ft_die(shell, 1, 12);
-// 	if (name[ft_strlen(name) - 1] == '=')
-// 		name[ft_strlen(name) - 1] = 0;
-// 	tmp = ft_search_in_list(lst, name, lvl);
-// 	ft_free((void **)&name);
-// 	if (tmp && tmp->name && tmp->value)
-// 		printf("%s%s\n", tmp->name, tmp->value);
-// 	lst = lst->next;
+// 	t_list	*lst;
+// 	t_env	*tmp;
+// 	char	*name;
+
+// 	if (cmd[1])
+// 	{
+// 		fd_printf(2, "Bad Syntax: env: too many arguments\n");
+// 		return (2);
+// 	}
+// 	lst = shell->list;
+// 	while (lst)
+// 	{
+// 		name = ft_strdup(lst->content->name);
+// 		if (!name)
+// 			ft_die(shell, 1, 12);
+// 		if (name[ft_strlen(name) - 1] == '=')
+// 			name[ft_strlen(name) - 1] = 0;
+// 		tmp = ft_search_in_list(lst, name, lvl);
+// 		ft_free((void **)&name);
+// 		if (tmp && tmp->name && tmp->value)
+// 			printf("%s%s\n", tmp->name, tmp->value);
+// 		lst = lst->next;
+// 	}
+// 	return (0);
 // }
 int	env(t_shell	*shell, char **cmd, int lvl)
 {
